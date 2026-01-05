@@ -11,26 +11,50 @@
           "name": "Bartender",
           "type": "npc",
           "x": 80, "y": 270, "w": 40, "h": 60,
-          "dialogId": "bartender_intro"
+          "dialogId": "bartender_intro",
+          "examineText": "En storvuxen man med imponerande mustasch. Han torkar glas med en trasa som sett bättre dagar.",
+          "funnyFails": [
+            "Jag tror inte han vill bli puttad på.",
+            "Att stjäla hans mustasch vore nog olämpligt.",
+            "Han ser ut som han kan krossa mig med blotta blicken."
+          ]
         },
         {
           "id": "drunk_patron",
           "name": "Drunk Patron",
           "type": "npc",
           "x": 200, "y": 280, "w": 35, "h": 55,
-          "dialogId": "drunk_hints"
+          "dialogId": "drunk_hints",
+          "examineText": "En man som uppenbarligen har haft en lång kväll. Han mumlar något om 'skatten'.",
+          "funnyFails": [
+            "Jag vill inte röra honom. Han ser klibbig ut.",
+            "Att väcka en full man brukar sällan sluta väl.",
+            "Hans andedräkt kunde fälla en häst på tio meters avstånd."
+          ]
         },
         {
           "id": "chest",
           "name": "Old Chest",
           "type": "item",
-          "x": 400, "y": 300, "w": 40, "h": 40
+          "x": 400, "y": 300, "w": 40, "h": 40,
+          "examineText": "En gammal träkista med rostiga gångjärn. Den ser ut att ha varit här i årtionden.",
+          "funnyFails": [
+            "Att slicka på kistan verkade som en dålig idé.",
+            "Jag försökte sjunga för den, men den öppnade sig inte.",
+            "Sparkar på gamla kistor är dåligt för tårna."
+          ]
         },
         {
           "id": "fireplace",
           "name": "Fireplace",
           "type": "examine",
-          "x": 500, "y": 270, "w": 60, "h": 70
+          "x": 500, "y": 270, "w": 60, "h": 70,
+          "examineText": "En varm brasa sprakar mysigt. Perfekt för kalla kvällar.",
+          "funnyFails": [
+            "Att sticka in handen i elden vore korkat. Även för mig.",
+            "Jag har inget att grilla just nu.",
+            "Brasan är varm. Överraskande, jag vet."
+          ]
         },
         {
           "id": "door_street",

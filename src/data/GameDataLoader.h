@@ -135,7 +135,8 @@ private:
                 if (type == HotspotType::Exit) {
                     room->addExit(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, hs.targetRoom);
                 } else {
-                    room->addHotspot(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, type, hs.dialogId);
+                    room->addHotspot(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, type, 
+                                     hs.dialogId, hs.examineText, hs.funnyFails);
                 }
             }
             

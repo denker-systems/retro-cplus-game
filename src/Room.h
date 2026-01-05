@@ -33,6 +33,16 @@ struct Hotspot {
     std::string targetRoom; // För exits - vilken rum att gå till
     std::string dialogId;   // För NPCs - dialog att starta
     bool active = true;     // Om hotspot är synlig/interaktiv
+    
+    // Reaktivitet (LucasArts-inspirerat)
+    std::string examineText;              // "Titta på" beskrivning
+    std::vector<std::string> funnyFails;  // Roliga svar på dumma försök
+    
+    /** @brief Hämta slumpmässigt funny fail-svar */
+    std::string getRandomFunnyFail() const {
+        if (funnyFails.empty()) return "";
+        return funnyFails[rand() % funnyFails.size()];
+    }
 };
 
 /**
@@ -59,7 +69,9 @@ public:
     /** @brief Lägg till hotspot */
     void addHotspot(const std::string& id, const std::string& name, 
                     int x, int y, int w, int h, HotspotType type,
-                    const std::string& dialogId = "");
+                    const std::string& dialogId = "",
+                    const std::string& examineText = "",
+                    const std::vector<std::string>& funnyFails = {});
     
     /** @brief Lägg till exit-hotspot med målrum */
     void addExit(const std::string& id, const std::string& name,

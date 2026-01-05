@@ -135,10 +135,12 @@ struct HotspotData {
     int x, y, w, h;
     std::string targetRoom;     // För exits
     std::string dialogId;       // För NPCs
+    std::string examineText;    // "Titta på" beskrivning
+    std::vector<std::string> funnyFails;  // Roliga svar på dumma försök
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(HotspotData,
-    id, name, type, x, y, w, h, targetRoom, dialogId)
+    id, name, type, x, y, w, h, targetRoom, dialogId, examineText, funnyFails)
 
 struct WalkAreaData {
     int minX, maxX, minY, maxY;
