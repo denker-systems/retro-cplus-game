@@ -21,8 +21,9 @@ Ett skalbart point-and-click adventure-spel byggt med modern C++17 och SDL2.
 
 ```
 src/
-├── Game.cpp/h            # Huvudloop, SDL init, state koordinering ✅
-├── Input.cpp/h           # Tangentbordshantering ✅
+├── Game.cpp/h            # Huvudloop, SDL init, state koordinering
+├── Input.cpp/h           # Tangentbordshantering
+├── Room.cpp/h            # Rum med hotspots och NPCs
 │
 ├── states/               # Game states (State Pattern) 
 │   ├── StateManager.cpp/h  # Push/pop/change (deferred) 
@@ -30,21 +31,43 @@ src/
 │   ├── MenuState.cpp/h     # Huvudmeny 
 │   ├── PlayState.cpp/h     # Gameplay 
 │   ├── PauseState.cpp/h    # Pausmeny (overlay) 
-│   └── OptionsState.cpp/h  # Inställningar 
+│   ├── OptionsState.cpp/h  # Inställningar
+│   ├── DialogState.cpp/h   # Dialog overlay
+│   ├── InventoryState.cpp/h # Inventory overlay
+│   └── QuestLogState.cpp/h # Quest log overlay
+│
+├── systems/              # Spelsystem (singletons)
+│   ├── RoomManager.cpp/h    # Rumhantering och transitions
+│   ├── DialogSystem.cpp/h   # Dialog-träd och val
+│   ├── InventorySystem.cpp/h # Items och kombination
+│   ├── QuestSystem.cpp/h    # Quests och objectives
+│   ├── AISystem.cpp/h       # NPC-beteenden och scheman
+│   ├── SaveSystem.cpp/h     # JSON save/load
+│   └── CutsceneSystem.cpp/h # Scripted sequences
+│
+├── data/                 # Data-laddning
+│   ├── GameData.h           # Datastrukturer med JSON-makron
+│   ├── DataLoader.cpp/h     # JSON-filläsning
+│   └── GameDataLoader.h     # Integration med spelsystem
 │
 ├── graphics/             # Grafiksystem 
 │   ├── TextureManager.cpp/h  # Singleton, texture caching 
 │   ├── SpriteSheet.cpp/h     # Frame-baserad rendering 
-│   ├── Animation.cpp/h       # Tidsbaserad animation 
-│   └── FontManager.cpp/h     # SDL_ttf text rendering 
+│   ├── Animation.cpp/h       # Tidsbaserad animation
+│   ├── FontManager.cpp/h     # SDL_ttf text rendering
+│   └── Transition.cpp/h      # Fade transitions
 │
 ├── audio/                # Ljudsystem 
 │   └── AudioManager.cpp/h    # Music, SFX, volume 
 │
-└── entities/             # Entity hierarki (OOP) 
-    ├── Entity.cpp/h          # Abstract base 
-    ├── Character.cpp/h       # Character base 
-    └── PlayerCharacter.cpp/h # Spelaren 
+├── entities/             # Entity hierarki (OOP) 
+│   ├── Entity.cpp/h          # Abstract base 
+│   ├── Character.cpp/h       # Character base 
+│   ├── PlayerCharacter.cpp/h # Spelaren
+│   └── NPC.cpp/h             # Non-player characters
+│
+└── ui/                   # Widget-system
+    └── Widget.cpp/h          # Label, Button, Panel, ProgressBar
 ```
 
 ### Planerat (ny OOP-struktur)
