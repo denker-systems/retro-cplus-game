@@ -8,6 +8,13 @@
       "combinable": false
     },
     {
+      "id": "cellar_key",
+      "name": "Cellar Key",
+      "description": "A heavy iron key with 'CELLAR' engraved on it.",
+      "icon": "key_iron",
+      "combinable": false
+    },
+    {
       "id": "gold_coin",
       "name": "Gold Coin",
       "description": "A shiny gold coin.",
@@ -15,10 +22,24 @@
       "combinable": false
     },
     {
+      "id": "silver_coin",
+      "name": "Silver Coin",
+      "description": "A worn silver coin from a distant land.",
+      "icon": "coin_silver",
+      "combinable": false
+    },
+    {
       "id": "old_letter",
       "name": "Old Letter",
       "description": "A faded letter with barely readable text.",
       "icon": "letter",
+      "combinable": false
+    },
+    {
+      "id": "mysterious_note",
+      "name": "Mysterious Note",
+      "description": "A cryptic note: 'The answer lies beneath the ancient oak.'",
+      "icon": "note",
       "combinable": false
     },
     {
@@ -44,6 +65,102 @@
       "name": "Lit Lantern",
       "description": "A glowing lantern that illuminates the darkness.",
       "icon": "lantern_lit",
+      "combinable": false
+    },
+    {
+      "id": "rope",
+      "name": "Rope",
+      "description": "A sturdy hemp rope. About 10 meters long.",
+      "icon": "rope",
+      "combinable": true,
+      "combinesWith": "hook",
+      "combineResult": "grappling_hook"
+    },
+    {
+      "id": "hook",
+      "name": "Iron Hook",
+      "description": "A heavy iron hook.",
+      "icon": "hook",
+      "combinable": true,
+      "combinesWith": "rope",
+      "combineResult": "grappling_hook"
+    },
+    {
+      "id": "grappling_hook",
+      "name": "Grappling Hook",
+      "description": "A rope with an iron hook attached. Useful for climbing.",
+      "icon": "grappling",
+      "combinable": false
+    },
+    {
+      "id": "mushroom",
+      "name": "Strange Mushroom",
+      "description": "A glowing blue mushroom. Probably magical.",
+      "icon": "mushroom",
+      "combinable": true,
+      "combinesWith": "empty_bottle",
+      "combineResult": "potion"
+    },
+    {
+      "id": "empty_bottle",
+      "name": "Empty Bottle",
+      "description": "A small glass bottle.",
+      "icon": "bottle",
+      "combinable": true,
+      "combinesWith": "mushroom",
+      "combineResult": "potion"
+    },
+    {
+      "id": "potion",
+      "name": "Magic Potion",
+      "description": "A glowing blue potion. Who knows what it does?",
+      "icon": "potion",
+      "combinable": false
+    },
+    {
+      "id": "ancient_book",
+      "name": "Ancient Book",
+      "description": "A leather-bound book with strange symbols on the cover.",
+      "icon": "book",
+      "combinable": false
+    },
+    {
+      "id": "crystal",
+      "name": "Glowing Crystal",
+      "description": "A crystal that pulses with inner light.",
+      "icon": "crystal",
+      "combinable": false
+    },
+    {
+      "id": "map_piece_1",
+      "name": "Map Piece (Corner)",
+      "description": "A torn piece of an old map.",
+      "icon": "map_piece",
+      "combinable": true,
+      "combinesWith": "map_piece_2",
+      "combineResult": "treasure_map"
+    },
+    {
+      "id": "map_piece_2",
+      "name": "Map Piece (Center)",
+      "description": "Another piece of the old map.",
+      "icon": "map_piece",
+      "combinable": true,
+      "combinesWith": "map_piece_1",
+      "combineResult": "treasure_map"
+    },
+    {
+      "id": "treasure_map",
+      "name": "Treasure Map",
+      "description": "A complete map showing the location of hidden treasure!",
+      "icon": "map",
+      "combinable": false
+    },
+    {
+      "id": "gemstone",
+      "name": "Ruby Gemstone",
+      "description": "A beautiful red gemstone. Very valuable.",
+      "icon": "gem",
       "combinable": false
     }
   ]

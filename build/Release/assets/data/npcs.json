@@ -13,6 +13,19 @@
       "canMove": false
     },
     {
+      "id": "drunk_patron",
+      "name": "Drunk Patron",
+      "description": "A friendly drunk who mumbles cryptic hints.",
+      "sprite": "drunk",
+      "dialogId": "drunk_hints",
+      "room": "tavern",
+      "x": 210,
+      "y": 290,
+      "canTalk": true,
+      "canMove": true,
+      "moveSpeed": 15.0
+    },
+    {
       "id": "shopkeeper",
       "name": "Shopkeeper",
       "description": "An elderly merchant with a keen eye for value.",
@@ -32,10 +45,10 @@
       "dialogId": "stranger_intro",
       "room": "street",
       "x": 200,
-      "y": 300,
+      "y": 310,
       "canTalk": true,
       "canMove": true,
-      "moveSpeed": 30.0
+      "moveSpeed": 25.0
     },
     {
       "id": "town_guard",
@@ -45,9 +58,48 @@
       "dialogId": "guard_intro",
       "room": "street",
       "x": 550,
-      "y": 290,
+      "y": 300,
+      "canTalk": true,
+      "canMove": true,
+      "moveSpeed": 40.0
+    },
+    {
+      "id": "librarian",
+      "name": "Old Librarian",
+      "description": "A wise old woman surrounded by dusty books.",
+      "sprite": "librarian",
+      "dialogId": "librarian_intro",
+      "room": "library",
+      "x": 310,
+      "y": 280,
       "canTalk": true,
       "canMove": false
+    },
+    {
+      "id": "hermit",
+      "name": "Forest Hermit",
+      "description": "A strange man who lives alone in the forest.",
+      "sprite": "hermit",
+      "dialogId": "hermit_intro",
+      "room": "forest",
+      "x": 410,
+      "y": 300,
+      "canTalk": true,
+      "canMove": true,
+      "moveSpeed": 20.0
+    },
+    {
+      "id": "cat",
+      "name": "Mysterious Cat",
+      "description": "A black cat that seems to follow you around.",
+      "sprite": "cat",
+      "dialogId": "cat_meow",
+      "room": "street",
+      "x": 350,
+      "y": 330,
+      "canTalk": false,
+      "canMove": true,
+      "moveSpeed": 60.0
     }
   ]
 }
