@@ -60,6 +60,10 @@ set(SOURCES
     src/editor/DebugEditor.cpp
     src/editor/EditorCore.cpp
     src/editor/EditorContext.cpp
+    src/editor/VisualRoomEditor.cpp
+    src/editor/RoomDataManager.cpp
+    src/editor/EditorTabRenderer.cpp
+    src/editor/TiledIntegration.cpp
     src/editor/widgets/Widget.cpp
     src/editor/widgets/Button.cpp
     src/editor/widgets/ListView.cpp

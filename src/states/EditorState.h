@@ -8,9 +8,15 @@
 
 #include "IState.h"
 #include "../data/GameData.h"
+#include "../editor/VisualRoomEditor.h"
+#include "../editor/EditorTabRenderer.h"
 #include <SDL.h>
 #include <string>
 #include <vector>
+#include <memory>
+
+// Forward declaration
+struct RoomNode;
 
 /**
  * @brief Editor tabs/modes
@@ -89,11 +95,6 @@ private:
     std::string m_selectedItem;
     
     // Room flowchart positions (beräknade)
-    struct RoomNode {
-        std::string id;
-        int x, y;
-        int width, height;
-    };
     std::vector<RoomNode> m_roomNodes;
     
     // Mouse state
@@ -110,36 +111,10 @@ private:
     bool m_editingText = false;  // Om vi redigerar text just nu
     std::string m_textBuffer;  // Buffer för text-input
     
-    // Visual editor state
-    int m_selectedHotspot = -1;  // Index av vald hotspot
-    bool m_draggingHotspot = false;
-    bool m_resizingHotspot = false;
-    int m_resizeHandle = -1;  // 0-3 = hörn (TL, TR, BL, BR)
-    int m_dragStartX = 0;
-    int m_dragStartY = 0;
-    int m_hotspotOrigX = 0;  // Original position för drag
-    int m_hotspotOrigY = 0;
-    int m_hotspotOrigW = 0;  // Original storlek för resize
-    int m_hotspotOrigH = 0;
-    SDL_Texture* m_roomPreviewTexture = nullptr;  // Cached room texture
+    // Visual editor
+    std::unique_ptr<VisualRoomEditor> m_visualRoomEditor;
+    SDL_Texture* m_roomPreviewTexture = nullptr;
     
-    // Walk area editing
-    bool m_editingWalkArea = false;
-    int m_walkAreaHandle = -1;  // 0-3 = sidor (top, bottom, left, right)
-    
-    // Player spawn editing
-    bool m_editingPlayerSpawn = false;
-    
-    // Edit room data (kopierad från DataLoader)
-    struct EditRoomData {
-        std::string id;
-        std::string name;
-        std::string background;
-        std::vector<LayerData> layers;
-        WalkAreaData walkArea;
-        std::vector<HotspotData> hotspots;
-        float playerSpawnX = 320.0f;
-        float playerSpawnY = 300.0f;
-    };
-    EditRoomData m_editRoomData;
+    // Edit room data
+    RoomData m_editRoomData;
 };
