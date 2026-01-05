@@ -1,0 +1,146 @@
+{
+  "height": 400,
+  "layers": [
+    {
+      "image": "library_bg",
+      "name": "background",
+      "opacity": 1,
+      "type": "imagelayer",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "hotspots",
+      "objects": [
+        {
+          "height": 60,
+          "id": 1,
+          "name": "Old Librarian",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "librarian"
+            },
+            {
+              "name": "dialogId",
+              "type": "string",
+              "value": "librarian_intro"
+            }
+          ],
+          "type": "npc",
+          "visible": true,
+          "width": 40,
+          "x": 300,
+          "y": 270
+        },
+        {
+          "height": 80,
+          "id": 2,
+          "name": "History Books",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "bookshelf_history"
+            }
+          ],
+          "type": "examine",
+          "visible": true,
+          "width": 60,
+          "x": 100,
+          "y": 260
+        },
+        {
+          "height": 80,
+          "id": 3,
+          "name": "Magic Books",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "bookshelf_magic"
+            }
+          ],
+          "type": "examine",
+          "visible": true,
+          "width": 60,
+          "x": 200,
+          "y": 260
+        },
+        {
+          "height": 40,
+          "id": 4,
+          "name": "Reading Desk",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "desk"
+            }
+          ],
+          "type": "item",
+          "visible": true,
+          "width": 70,
+          "x": 450,
+          "y": 290
+        },
+        {
+          "height": 90,
+          "id": 5,
+          "name": "Exit to Street",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "door_street"
+            },
+            {
+              "name": "targetRoom",
+              "type": "string",
+              "value": "street"
+            }
+          ],
+          "type": "exit",
+          "visible": true,
+          "width": 50,
+          "x": 20,
+          "y": 260
+        }
+      ],
+      "type": "objectgroup"
+    },
+    {
+      "name": "walkarea",
+      "objects": [
+        {
+          "height": 90,
+          "id": 6,
+          "name": "walkarea",
+          "type": "walkarea",
+          "visible": true,
+          "width": 640,
+          "x": 0,
+          "y": 260
+        }
+      ],
+      "type": "objectgroup"
+    }
+  ],
+  "orientation": "orthogonal",
+  "properties": [
+    {
+      "name": "roomName",
+      "type": "string",
+      "value": "Town Library"
+    }
+  ],
+  "renderorder": "right-down",
+  "tiledversion": "1.10.0",
+  "tileheight": 1,
+  "tilewidth": 1,
+  "type": "map",
+  "version": "1.10",
+  "width": 640
+}

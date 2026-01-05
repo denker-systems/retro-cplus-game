@@ -56,6 +56,17 @@ struct WalkArea {
 /**
  * @brief Ett spelrum med bakgrund och hotspots
  */
+/**
+ * @brief Layer för multi-layer rendering
+ */
+struct RoomLayer {
+    SDL_Texture* texture = nullptr;
+    int zIndex = 0;             // Negativa = bakom spelare, positiva = framför
+    float parallaxX = 1.0f;
+    float parallaxY = 1.0f;
+    float opacity = 1.0f;
+};
+
 class Room {
 public:
     Room(const std::string& id, const std::string& name);
@@ -63,8 +74,15 @@ public:
 
     void render(SDL_Renderer* renderer);
     
-    /** @brief Ladda bakgrundstextur */
+    /** @brief Ladda bakgrundstextur (legacy) */
     bool loadBackground(SDL_Renderer* renderer, const std::string& path);
+    
+    /** @brief Ladda layer från LayerData */
+    bool loadLayer(SDL_Renderer* renderer, const std::string& imagePath, int zIndex, 
+                   float parallaxX = 1.0f, float parallaxY = 1.0f, float opacity = 1.0f);
+    
+    /** @brief Rendera layers baserat på zIndex och spelarposition */
+    void renderLayers(SDL_Renderer* renderer, int playerY, bool renderBehind);
     
     /** @brief Lägg till hotspot */
     void addHotspot(const std::string& id, const std::string& name, 
@@ -104,7 +122,8 @@ public:
 private:
     std::string m_id;
     std::string m_name;
-    SDL_Texture* m_background = nullptr;
+    SDL_Texture* m_background = nullptr;  // Legacy
+    std::vector<RoomLayer> m_layers;      // Multi-layer rendering
     std::vector<Hotspot> m_hotspots;
     std::vector<std::unique_ptr<NPC>> m_npcs;
     WalkArea m_walkArea = {0, 640, 260, 350};

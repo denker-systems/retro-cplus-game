@@ -1,0 +1,129 @@
+{
+  "height": 400,
+  "layers": [
+    {
+      "image": "shop_bg",
+      "name": "background",
+      "opacity": 1,
+      "type": "imagelayer",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "hotspots",
+      "objects": [
+        {
+          "height": 60,
+          "id": 1,
+          "name": "Shopkeeper",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "shopkeeper"
+            },
+            {
+              "name": "dialogId",
+              "type": "string",
+              "value": "shopkeeper_intro"
+            }
+          ],
+          "type": "npc",
+          "visible": true,
+          "width": 40,
+          "x": 400,
+          "y": 270
+        },
+        {
+          "height": 60,
+          "id": 2,
+          "name": "Store Shelf",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "shelf_items"
+            }
+          ],
+          "type": "examine",
+          "visible": true,
+          "width": 80,
+          "x": 500,
+          "y": 270
+        },
+        {
+          "height": 30,
+          "id": 3,
+          "name": "Shop Counter",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "counter"
+            }
+          ],
+          "type": "item",
+          "visible": true,
+          "width": 60,
+          "x": 350,
+          "y": 300
+        },
+        {
+          "height": 90,
+          "id": 4,
+          "name": "Exit to Street",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "door_street"
+            },
+            {
+              "name": "targetRoom",
+              "type": "string",
+              "value": "street"
+            }
+          ],
+          "type": "exit",
+          "visible": true,
+          "width": 50,
+          "x": 20,
+          "y": 260
+        }
+      ],
+      "type": "objectgroup"
+    },
+    {
+      "name": "walkarea",
+      "objects": [
+        {
+          "height": 90,
+          "id": 5,
+          "name": "walkarea",
+          "type": "walkarea",
+          "visible": true,
+          "width": 640,
+          "x": 0,
+          "y": 260
+        }
+      ],
+      "type": "objectgroup"
+    }
+  ],
+  "orientation": "orthogonal",
+  "properties": [
+    {
+      "name": "roomName",
+      "type": "string",
+      "value": "General Store"
+    }
+  ],
+  "renderorder": "right-down",
+  "tiledversion": "1.10.0",
+  "tileheight": 1,
+  "tilewidth": 1,
+  "type": "map",
+  "version": "1.10",
+  "width": 640
+}

@@ -151,13 +151,25 @@ struct WalkAreaData {
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(WalkAreaData,
     minX, maxX, minY, maxY)
 
+struct LayerData {
+    std::string image;          // Bildfil
+    int zIndex = 0;             // Djup (negativa = bakom spelare, positiva = framför)
+    float parallaxX = 1.0f;     // Parallax-faktor X (1.0 = normal)
+    float parallaxY = 1.0f;     // Parallax-faktor Y (1.0 = normal)
+    float opacity = 1.0f;       // Genomskinlighet (0.0-1.0)
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(LayerData,
+    image, zIndex, parallaxX, parallaxY, opacity)
+
 struct RoomData {
     std::string id;
     std::string name;
-    std::string background;     // Bakgrundsbild
+    std::string background;     // Bakgrundsbild (legacy, använd layers istället)
+    std::vector<LayerData> layers;  // Multi-layer rendering
     WalkAreaData walkArea;
     std::vector<HotspotData> hotspots;
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(RoomData,
-    id, name, background, walkArea, hotspots)
+    id, name, background, layers, walkArea, hotspots)

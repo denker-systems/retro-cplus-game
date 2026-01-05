@@ -46,13 +46,40 @@ RoomData TiledImporter::importRoom(const std::string& tiledJsonPath) {
                 std::string layerType = layer.value("type", "");
                 std::string layerName = layer.value("name", "");
                 
-                // Image layer = bakgrund
+                // Image layer = bakgrund eller förgrund
                 if (layerType == "imagelayer") {
                     if (layer.contains("image")) {
-                        room.background = layer["image"].get<std::string>();
+                        LayerData layerData;
+                        layerData.image = layer["image"].get<std::string>();
+                        
                         // Ta bort eventuell sökväg, behåll bara filnamn
-                        fs::path bgPath(room.background);
-                        room.background = "assets/backgrounds/" + bgPath.filename().string();
+                        fs::path imgPath(layerData.image);
+                        layerData.image = "assets/backgrounds/" + imgPath.filename().string();
+                        
+                        // Läs layer properties för zIndex, parallax etc
+                        layerData.opacity = layer.value("opacity", 1.0f);
+                        
+                        if (layer.contains("properties")) {
+                            for (const auto& prop : layer["properties"]) {
+                                std::string propName = prop.value("name", "");
+                                if (propName == "zIndex") {
+                                    layerData.zIndex = prop.value("value", 0);
+                                }
+                                else if (propName == "parallaxX") {
+                                    layerData.parallaxX = prop.value("value", 1.0f);
+                                }
+                                else if (propName == "parallaxY") {
+                                    layerData.parallaxY = prop.value("value", 1.0f);
+                                }
+                            }
+                        }
+                        
+                        // Legacy: första image layer blir också "background"
+                        if (room.background.empty()) {
+                            room.background = layerData.image;
+                        }
+                        
+                        room.layers.push_back(layerData);
                     }
                 }
                 

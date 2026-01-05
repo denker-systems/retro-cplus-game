@@ -5,6 +5,7 @@
 #include "Room.h"
 #include "entities/NPC.h"
 #include <SDL_image.h>
+#include <algorithm>
 #include <iostream>
 
 Room::Room(const std::string& id, const std::string& name) 
@@ -18,6 +19,14 @@ Room::~Room() {
         SDL_DestroyTexture(m_background);
         m_background = nullptr;
     }
+    
+    // Rensa layers
+    for (auto& layer : m_layers) {
+        if (layer.texture) {
+            SDL_DestroyTexture(layer.texture);
+        }
+    }
+    m_layers.clear();
 }
 
 bool Room::loadBackground(SDL_Renderer* renderer, const std::string& path) {
@@ -36,10 +45,10 @@ bool Room::loadBackground(SDL_Renderer* renderer, const std::string& path) {
 }
 
 void Room::render(SDL_Renderer* renderer) {
-    // Rita bakgrund
-    if (m_background) {
+    // Legacy: Rita bakgrund om inga layers finns
+    if (m_layers.empty() && m_background) {
         SDL_RenderCopy(renderer, m_background, nullptr, nullptr);
-    } else {
+    } else if (m_layers.empty()) {
         // Fallback - färgad bakgrund
         SDL_SetRenderDrawColor(renderer, 20, 20, 60, 255);
         SDL_Rect bg = {0, 0, 640, 260};
@@ -52,6 +61,8 @@ void Room::render(SDL_Renderer* renderer) {
         SDL_SetRenderDrawColor(renderer, 40, 35, 30, 255);
         SDL_RenderFillRect(renderer, &walkRect);
     }
+    
+    // Notera: Multi-layer rendering hanteras av PlayState som anropar renderLayers()
 
     // Rita hotspots (debug)
     renderDebugInfo(renderer);
@@ -179,6 +190,56 @@ void Room::renderNPCs(SDL_Renderer* renderer) {
     for (auto& npc : m_npcs) {
         if (npc) {
             npc->render(renderer);
+        }
+    }
+}
+
+bool Room::loadLayer(SDL_Renderer* renderer, const std::string& imagePath, int zIndex,
+                     float parallaxX, float parallaxY, float opacity) {
+    SDL_Texture* texture = IMG_LoadTexture(renderer, imagePath.c_str());
+    if (!texture) {
+        std::cerr << "Failed to load layer: " << imagePath << " - " << IMG_GetError() << std::endl;
+        return false;
+    }
+    
+    RoomLayer layer;
+    layer.texture = texture;
+    layer.zIndex = zIndex;
+    layer.parallaxX = parallaxX;
+    layer.parallaxY = parallaxY;
+    layer.opacity = opacity;
+    
+    m_layers.push_back(layer);
+    
+    std::cout << "Loaded layer: " << imagePath << " (zIndex: " << zIndex << ")" << std::endl;
+    return true;
+}
+
+void Room::renderLayers(SDL_Renderer* renderer, int playerY, bool renderBehind) {
+    // Sortera layers efter zIndex
+    std::vector<RoomLayer*> sortedLayers;
+    for (auto& layer : m_layers) {
+        sortedLayers.push_back(&layer);
+    }
+    std::sort(sortedLayers.begin(), sortedLayers.end(), 
+              [](const RoomLayer* a, const RoomLayer* b) {
+                  return a->zIndex < b->zIndex;
+              });
+    
+    // Rita layers baserat på om de är bakom eller framför spelaren
+    for (auto* layer : sortedLayers) {
+        bool isBehind = (layer->zIndex < 0);
+        
+        // Rendera bara layers som matchar renderBehind-flaggan
+        if (isBehind != renderBehind) continue;
+        
+        if (layer->texture) {
+            // Sätt opacity
+            SDL_SetTextureAlphaMod(layer->texture, static_cast<Uint8>(layer->opacity * 255));
+            
+            // TODO: Implementera parallax scrolling här om kameran rör sig
+            // För nu: rita bara direkt
+            SDL_RenderCopy(renderer, layer->texture, nullptr, nullptr);
         }
     }
 }

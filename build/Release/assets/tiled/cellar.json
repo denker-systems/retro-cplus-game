@@ -1,0 +1,124 @@
+{
+  "height": 400,
+  "layers": [
+    {
+      "image": "cellar_bg",
+      "name": "background",
+      "opacity": 1,
+      "type": "imagelayer",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "hotspots",
+      "objects": [
+        {
+          "height": 60,
+          "id": 1,
+          "name": "Wine Barrels",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "barrel_pile"
+            }
+          ],
+          "type": "examine",
+          "visible": true,
+          "width": 80,
+          "x": 100,
+          "y": 280
+        },
+        {
+          "height": 40,
+          "id": 2,
+          "name": "Old Crate",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "crate"
+            }
+          ],
+          "type": "item",
+          "visible": true,
+          "width": 50,
+          "x": 400,
+          "y": 300
+        },
+        {
+          "height": 80,
+          "id": 3,
+          "name": "Strange Wall",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "secret_door"
+            }
+          ],
+          "type": "examine",
+          "visible": true,
+          "width": 60,
+          "x": 550,
+          "y": 270
+        },
+        {
+          "height": 70,
+          "id": 4,
+          "name": "Stairs Up",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "stairs_up"
+            },
+            {
+              "name": "targetRoom",
+              "type": "string",
+              "value": "tavern"
+            }
+          ],
+          "type": "exit",
+          "visible": true,
+          "width": 50,
+          "x": 20,
+          "y": 280
+        }
+      ],
+      "type": "objectgroup"
+    },
+    {
+      "name": "walkarea",
+      "objects": [
+        {
+          "height": 80,
+          "id": 5,
+          "name": "walkarea",
+          "type": "walkarea",
+          "visible": true,
+          "width": 640,
+          "x": 0,
+          "y": 270
+        }
+      ],
+      "type": "objectgroup"
+    }
+  ],
+  "orientation": "orthogonal",
+  "properties": [
+    {
+      "name": "roomName",
+      "type": "string",
+      "value": "Tavern Cellar"
+    }
+  ],
+  "renderorder": "right-down",
+  "tiledversion": "1.10.0",
+  "tileheight": 1,
+  "tilewidth": 1,
+  "type": "map",
+  "version": "1.10",
+  "width": 640
+}
