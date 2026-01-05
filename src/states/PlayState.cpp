@@ -22,6 +22,7 @@
 #include "../data/GameDataLoader.h"
 #include "../entities/NPC.h"
 #include <iostream>
+#include <cmath>
 
 PlayState::PlayState() {
     std::cout << "PlayState created" << std::endl;
@@ -87,42 +88,13 @@ void PlayState::update(float deltaTime) {
     Hotspot* hs = room->getHotspotAt(mx, my);
     m_hoveredHotspot = hs ? hs->name : "";
     
+    // Hitta närmaste hotspot för E-interaktion
+    m_nearbyHotspot = getNearbyHotspot(INTERACT_DISTANCE);
+    
     // Point-and-click (vänsterklick)
     if (m_input->isMouseClicked(SDL_BUTTON_LEFT)) {
         if (hs) {
-            std::cout << "Clicked on: " << hs->name << " (" << hs->id << ")" << std::endl;
-            
-            if (hs->type == HotspotType::NPC) {
-                if (hs->id == "bartender") {
-                    DialogSystem::instance().startDialog("bartender_intro");
-                    QuestSystem::instance().updateObjective(ObjectiveType::Talk, "bartender");
-                    if (m_game) {
-                        m_game->pushState(std::make_unique<DialogState>());
-                    }
-                }
-            } else if (hs->type == HotspotType::Item) {
-                if (hs->id == "chest") {
-                    if (!InventorySystem::instance().hasItem("rusty_key")) {
-                        InventorySystem::instance().addItem("rusty_key");
-                        QuestSystem::instance().updateObjective(ObjectiveType::Collect, "rusty_key");
-                    } else {
-                        std::cout << "The chest is empty." << std::endl;
-                    }
-                }
-            } else if (hs->type == HotspotType::Exit) {
-                // Byt rum med fade transition!
-                if (!hs->targetRoom.empty() && !Transition::instance().isActive()) {
-                    std::string target = hs->targetRoom;
-                    float spawnX = (hs->rect.x > 300) ? 80.0f : 550.0f;
-                    
-                    Transition::instance().fadeToBlack(0.5f, [target, spawnX]() {
-                        RoomManager::instance().setSpawnPosition(spawnX, 300.0f);
-                        RoomManager::instance().changeRoom(target);
-                    });
-                }
-            } else if (hs->type == HotspotType::Examine) {
-                std::cout << "You examine the " << hs->name << "..." << std::endl;
-            }
+            interactWithHotspot(hs);
         } else if (my > 260 && my < 375) {
             m_player->setTarget(static_cast<float>(mx), static_cast<float>(my));
         }
@@ -163,6 +135,11 @@ void PlayState::render(SDL_Renderer* renderer) {
     if (!m_hoveredHotspot.empty()) {
         FontManager::instance().renderText(renderer, "default", 
             m_hoveredHotspot, 10, 378, {255, 255, 200, 255});
+    } else if (m_nearbyHotspot) {
+        // Visa nearby hotspot med [E] prompt
+        std::string prompt = "[E] " + m_nearbyHotspot->name;
+        FontManager::instance().renderText(renderer, "default",
+            prompt, 10, 378, {100, 255, 100, 255});
     } else if (room) {
         FontManager::instance().renderText(renderer, "default",
             room->getName(), 10, 378, {150, 150, 180, 255});
@@ -195,6 +172,81 @@ void PlayState::handleEvent(const SDL_Event& event) {
             if (m_game) {
                 m_game->pushState(std::make_unique<QuestLogState>());
             }
+        } else if (event.key.keysym.scancode == SDL_SCANCODE_E) {
+            // Interagera med nearby hotspot
+            if (m_nearbyHotspot) {
+                interactWithHotspot(m_nearbyHotspot);
+            }
         }
+    }
+}
+
+Hotspot* PlayState::getNearbyHotspot(float maxDistance) {
+    Room* room = RoomManager::instance().getCurrentRoom();
+    if (!room || !m_player) return nullptr;
+    
+    float playerX = m_player->getX() + 16;  // Center of player
+    float playerY = m_player->getY() + 32;
+    
+    Hotspot* nearest = nullptr;
+    float nearestDist = maxDistance;
+    
+    for (auto& hotspot : room->getHotspots()) {
+        // Beräkna centrum av hotspot
+        float hsX = hotspot.rect.x + hotspot.rect.w / 2.0f;
+        float hsY = hotspot.rect.y + hotspot.rect.h / 2.0f;
+        
+        // Beräkna avstånd
+        float dx = playerX - hsX;
+        float dy = playerY - hsY;
+        float dist = std::sqrt(dx * dx + dy * dy);
+        
+        if (dist < nearestDist) {
+            nearestDist = dist;
+            nearest = const_cast<Hotspot*>(&hotspot);
+        }
+    }
+    
+    return nearest;
+}
+
+void PlayState::interactWithHotspot(Hotspot* hotspot) {
+    if (!hotspot) return;
+    
+    std::cout << "Interact: " << hotspot->name << " (" << hotspot->id << ")" << std::endl;
+    
+    if (hotspot->type == HotspotType::NPC) {
+        // Starta dialog om det finns
+        if (!hotspot->dialogId.empty()) {
+            DialogSystem::instance().startDialog(hotspot->dialogId);
+            QuestSystem::instance().updateObjective(ObjectiveType::Talk, hotspot->id);
+            if (m_game) {
+                m_game->pushState(std::make_unique<DialogState>());
+            }
+        }
+    } else if (hotspot->type == HotspotType::Item) {
+        // Försök plocka upp item
+        if (hotspot->id == "chest") {
+            if (!InventorySystem::instance().hasItem("rusty_key")) {
+                InventorySystem::instance().addItem("rusty_key");
+                QuestSystem::instance().updateObjective(ObjectiveType::Collect, "rusty_key");
+            } else {
+                std::cout << "The chest is empty." << std::endl;
+            }
+        }
+    } else if (hotspot->type == HotspotType::Exit) {
+        // Byt rum med fade transition
+        if (!hotspot->targetRoom.empty() && !Transition::instance().isActive()) {
+            std::string target = hotspot->targetRoom;
+            float spawnX = (hotspot->rect.x > 300) ? 80.0f : 550.0f;
+            
+            Transition::instance().fadeToBlack(0.5f, [target, spawnX]() {
+                RoomManager::instance().setSpawnPosition(spawnX, 300.0f);
+                RoomManager::instance().changeRoom(target);
+            });
+        }
+    } else if (hotspot->type == HotspotType::Examine) {
+        std::cout << "You examine the " << hotspot->name << "..." << std::endl;
+        QuestSystem::instance().updateObjective(ObjectiveType::Examine, hotspot->id);
     }
 }

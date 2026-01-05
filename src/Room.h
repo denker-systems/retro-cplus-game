@@ -31,6 +31,7 @@ struct Hotspot {
     SDL_Rect rect;          // Klickbart område
     HotspotType type;       // Typ av hotspot
     std::string targetRoom; // För exits - vilken rum att gå till
+    std::string dialogId;   // För NPCs - dialog att starta
     bool active = true;     // Om hotspot är synlig/interaktiv
 };
 
@@ -57,7 +58,8 @@ public:
     
     /** @brief Lägg till hotspot */
     void addHotspot(const std::string& id, const std::string& name, 
-                    int x, int y, int w, int h, HotspotType type);
+                    int x, int y, int w, int h, HotspotType type,
+                    const std::string& dialogId = "");
     
     /** @brief Lägg till exit-hotspot med målrum */
     void addExit(const std::string& id, const std::string& name,
@@ -78,6 +80,7 @@ public:
     const std::string& getId() const { return m_id; }
     const std::string& getName() const { return m_name; }
     const WalkArea& getWalkArea() const { return m_walkArea; }
+    const std::vector<Hotspot>& getHotspots() const { return m_hotspots; }
     
     /** @brief NPC-hantering */
     void addNPC(std::unique_ptr<NPC> npc);

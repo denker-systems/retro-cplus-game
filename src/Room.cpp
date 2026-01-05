@@ -92,12 +92,14 @@ void Room::renderDebugInfo(SDL_Renderer* renderer) {
 }
 
 void Room::addHotspot(const std::string& id, const std::string& name,
-                       int x, int y, int w, int h, HotspotType type) {
+                       int x, int y, int w, int h, HotspotType type,
+                       const std::string& dialogId) {
     Hotspot hs;
     hs.id = id;
     hs.name = name;
     hs.rect = {x, y, w, h};
     hs.type = type;
+    hs.dialogId = dialogId;
     hs.active = true;
     m_hotspots.push_back(hs);
 }
