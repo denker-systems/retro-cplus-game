@@ -38,14 +38,13 @@ bool Game::init(const std::string& title, int width, int height) {
         return false;
     }
 
-    // Skapa fönster
+    // Skapa fullscreen fönster
     m_window = SDL_CreateWindow(
         title.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        width,
-        height,
-        SDL_WINDOW_SHOWN
+        0, 0,  // Storlek ignoreras för fullscreen desktop
+        SDL_WINDOW_FULLSCREEN_DESKTOP
     );
 
     if (!m_window) {
@@ -61,6 +60,12 @@ bool Game::init(const std::string& title, int width, int height) {
         std::cerr << "Renderer creation failed: " << SDL_GetError() << std::endl;
         return false;
     }
+    
+    // Sätt logisk upplösning för skalning
+    SDL_RenderSetLogicalSize(m_renderer, GAME_WIDTH, GAME_HEIGHT);
+    
+    // Beräkna viewport för letterboxing
+    calculateViewport();
 
     // Initiera managers
     TextureManager::instance().init(m_renderer);
@@ -126,6 +131,37 @@ void Game::popState() {
 void Game::changeState(std::unique_ptr<IState> state) {
     state->setGame(this);
     m_stateManager->changeState(std::move(state));
+}
+
+void Game::calculateViewport() {
+    int windowW, windowH;
+    SDL_GetWindowSize(m_window, &windowW, &windowH);
+    
+    float windowAspect = static_cast<float>(windowW) / windowH;
+    float gameAspect = static_cast<float>(GAME_WIDTH) / GAME_HEIGHT;
+    
+    if (windowAspect > gameAspect) {
+        // Skärmen är bredare - letterbox på sidorna
+        m_viewport.h = windowH;
+        m_viewport.w = static_cast<int>(windowH * gameAspect);
+        m_viewport.x = (windowW - m_viewport.w) / 2;
+        m_viewport.y = 0;
+    } else {
+        // Skärmen är högre - letterbox top/bottom
+        m_viewport.w = windowW;
+        m_viewport.h = static_cast<int>(windowW / gameAspect);
+        m_viewport.x = 0;
+        m_viewport.y = (windowH - m_viewport.h) / 2;
+    }
+    
+    m_scale = static_cast<float>(m_viewport.w) / GAME_WIDTH;
+    std::cout << "Viewport: " << m_viewport.w << "x" << m_viewport.h 
+              << " at (" << m_viewport.x << "," << m_viewport.y << ")" << std::endl;
+}
+
+void Game::screenToGame(int screenX, int screenY, int& gameX, int& gameY) const {
+    gameX = static_cast<int>((screenX - m_viewport.x) / m_scale);
+    gameY = static_cast<int>((screenY - m_viewport.y) / m_scale);
 }
 
 void Game::quit() {

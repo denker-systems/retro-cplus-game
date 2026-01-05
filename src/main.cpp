@@ -10,8 +10,8 @@ int main(int argc, char* argv[]) {
     
     Game game;
 
-    // Initiera SDL och skapa fönster
-    if (!game.init("Retro Adventure", Game::SCREEN_WIDTH, Game::SCREEN_HEIGHT)) {
+    // Initiera SDL och skapa fullscreen fönster
+    if (!game.init("Retro Adventure", Game::GAME_WIDTH, Game::GAME_HEIGHT)) {
         return 1;  // Fel vid initiering
     }
 

@@ -41,18 +41,27 @@ public:
     void changeState(std::unique_ptr<IState> state);
     
     SDL_Renderer* getRenderer() const { return m_renderer; }
+    
+    /** @brief Konvertera skärmkoordinater till spelkoordinater */
+    void screenToGame(int screenX, int screenY, int& gameX, int& gameY) const;
 
-    static constexpr int SCREEN_WIDTH = 640;
-    static constexpr int SCREEN_HEIGHT = 400;
+    // Logisk spelupplösning (16:10 retro-stil)
+    static constexpr int GAME_WIDTH = 640;
+    static constexpr int GAME_HEIGHT = 400;
 
 private:
-    void handleEvents();           // Hantera SDL events
-    void update(float deltaTime);  // Uppdatera aktiv state
-    void render();                 // Rita aktiv state
+    void handleEvents();
+    void update(float deltaTime);
+    void render();
+    void calculateViewport();
 
     SDL_Window* m_window = nullptr;
     SDL_Renderer* m_renderer = nullptr;
     std::unique_ptr<StateManager> m_stateManager;
     bool m_running = false;
-    Uint32 m_lastFrameTime = 0;  // För delta time beräkning
+    Uint32 m_lastFrameTime = 0;
+    
+    // Viewport för letterboxing
+    SDL_Rect m_viewport = {0, 0, GAME_WIDTH, GAME_HEIGHT};
+    float m_scale = 1.0f;
 };

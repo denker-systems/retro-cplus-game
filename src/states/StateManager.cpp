@@ -7,11 +7,8 @@
 #include <iostream>
 
 void StateManager::pushState(std::unique_ptr<IState> state) {
-    // Pausa nuvarande state om den finns
-    if (!m_states.empty()) {
-        m_states.top()->exit();
-    }
-    // Lägg till ny state och aktivera
+    // För overlays: lägg till ovanpå utan att avsluta underliggande state
+    // (underliggande state behåller sina resurser)
     m_states.push(std::move(state));
     m_states.top()->enter();
 }

@@ -12,6 +12,7 @@
 #include "../Input.h"
 #include "../graphics/FontManager.h"
 #include "../systems/DialogSystem.h"
+#include "../systems/InventorySystem.h"
 #include <iostream>
 
 PlayState::PlayState() {
@@ -66,6 +67,25 @@ void PlayState::enter() {
     bartenderDialog.nodes.push_back(node2);
     
     DialogSystem::instance().addDialog(bartenderDialog);
+    
+    // Registrera items
+    Item key;
+    key.id = "rusty_key";
+    key.name = "Rusty Key";
+    key.description = "An old rusty key. Wonder what it opens?";
+    InventorySystem::instance().registerItem(key);
+    
+    Item coin;
+    coin.id = "gold_coin";
+    coin.name = "Gold Coin";
+    coin.description = "A shiny gold coin.";
+    InventorySystem::instance().registerItem(coin);
+    
+    Item letter;
+    letter.id = "old_letter";
+    letter.name = "Old Letter";
+    letter.description = "A faded letter with barely readable text.";
+    InventorySystem::instance().registerItem(letter);
 }
 
 void PlayState::exit() {
@@ -108,7 +128,14 @@ void PlayState::update(float deltaTime) {
                     }
                 }
             } else if (hs->type == HotspotType::Item) {
-                std::cout << "You examine the " << hs->name << std::endl;
+                // Pickup item från chest
+                if (hs->id == "chest") {
+                    if (!InventorySystem::instance().hasItem("rusty_key")) {
+                        InventorySystem::instance().addItem("rusty_key");
+                    } else {
+                        std::cout << "The chest is empty." << std::endl;
+                    }
+                }
             } else if (hs->type == HotspotType::Exit) {
                 std::cout << "You look at the exit..." << std::endl;
             }
@@ -141,6 +168,10 @@ void PlayState::render(SDL_Renderer* renderer) {
         FontManager::instance().renderText(renderer, "default",
             m_room->getName(), 10, 378, {150, 150, 180, 255});
     }
+    
+    // Visa inventory count
+    std::string invText = "Items: " + std::to_string(InventorySystem::instance().getItemCount());
+    FontManager::instance().renderText(renderer, "default", invText, 550, 378, {180, 180, 200, 255});
 }
 
 void PlayState::handleEvent(const SDL_Event& event) {

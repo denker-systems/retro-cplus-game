@@ -24,6 +24,7 @@ set(SOURCES
     src/states/PauseState.cpp
     src/states/DialogState.cpp
     src/systems/DialogSystem.cpp
+    src/systems/InventorySystem.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp
     src/graphics/Animation.cpp
