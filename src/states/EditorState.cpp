@@ -12,8 +12,10 @@
 #include "../audio/AudioManager.h"
 #include "../graphics/FontManager.h"
 #include "../data/DataLoader.h"
+#include "../data/TiledImporter.h"
 #include "../utils/Logger.h"
 #include <algorithm>
+#include <filesystem>
 
 EditorState::EditorState() {
     LOG_INFO("EditorState created");
@@ -61,7 +63,13 @@ void EditorState::exit() {
 }
 
 void EditorState::update(float deltaTime) {
-    (void)deltaTime;
+    // Uppdatera status message timer
+    if (m_statusTimer > 0) {
+        m_statusTimer -= deltaTime;
+        if (m_statusTimer <= 0) {
+            m_statusMessage.clear();
+        }
+    }
 }
 
 void EditorState::render(SDL_Renderer* renderer) {
@@ -86,6 +94,12 @@ void EditorState::render(SDL_Renderer* renderer) {
         case EditorTab::Items:      renderItemsTab(renderer); break;
         case EditorTab::WorldState: renderWorldStateTab(renderer); break;
         case EditorTab::Audio:      renderAudioTab(renderer); break;
+    }
+    
+    // Status message
+    if (!m_statusMessage.empty()) {
+        SDL_Color statusColor = {100, 255, 100, 255};
+        FontManager::instance().renderText(renderer, "default", m_statusMessage, 10, 365, statusColor);
     }
     
     // Footer
@@ -193,8 +207,12 @@ void EditorState::renderRoomsTab(SDL_Renderer* renderer) {
     
     FontManager::instance().renderText(renderer, "default", "[Rooms]", 10, 65, cyan);
     
+    // Import/Export knappar
+    renderButton(renderer, "Import Tiled", 450, 65, 90, 18, false);
+    renderButton(renderer, "Export All", 550, 65, 80, 18, false);
+    
     auto& rooms = DataLoader::instance().getRooms();
-    int y = 85;
+    int y = 90;
     
     for (const auto& room : rooms) {
         bool selected = (room.id == m_selectedRoom);
@@ -456,10 +474,137 @@ void EditorState::handleMouseClick(int x, int y) {
             }
         }
     }
+    
+    // Kolla knapp-klick i Rooms tab
+    if (m_currentTab == EditorTab::Rooms) {
+        // Import Tiled knapp
+        if (isButtonClicked(450, 65, 90, 18, x, y)) {
+            importFromTiled();
+            AudioManager::instance().playSound("select");
+        }
+        // Export All knapp
+        if (isButtonClicked(550, 65, 80, 18, x, y)) {
+            exportAllToTiled();
+            AudioManager::instance().playSound("select");
+        }
+    }
 }
 
 void EditorState::renderDialogTree(SDL_Renderer* renderer, const std::string& dialogId) {
     (void)renderer;
     (void)dialogId;
     // TODO: Implementera dialogträd-visualisering
+}
+
+void EditorState::renderButton(SDL_Renderer* renderer, const char* text, int x, int y, int w, int h, bool highlight) {
+    // Bakgrund
+    if (highlight) {
+        SDL_SetRenderDrawColor(renderer, 80, 100, 80, 255);
+    } else {
+        SDL_SetRenderDrawColor(renderer, 60, 60, 80, 255);
+    }
+    SDL_Rect rect = {x, y, w, h};
+    SDL_RenderFillRect(renderer, &rect);
+    
+    // Ram
+    SDL_SetRenderDrawColor(renderer, 100, 150, 100, 255);
+    SDL_RenderDrawRect(renderer, &rect);
+    
+    // Text
+    SDL_Color textColor = {200, 255, 200, 255};
+    FontManager::instance().renderText(renderer, "default", text, x + 4, y + 2, textColor);
+}
+
+bool EditorState::isButtonClicked(int btnX, int btnY, int btnW, int btnH, int clickX, int clickY) {
+    return clickX >= btnX && clickX <= btnX + btnW &&
+           clickY >= btnY && clickY <= btnY + btnH;
+}
+
+void EditorState::importFromTiled() {
+    namespace fs = std::filesystem;
+    
+    std::string tiledFolder = "assets/tiled/";
+    
+    // Skapa mappen om den inte finns
+    if (!fs::exists(tiledFolder)) {
+        fs::create_directories(tiledFolder);
+        m_statusMessage = "Created assets/tiled/ - add .json files there";
+        m_statusTimer = 3.0f;
+        LOG_INFO("Created tiled folder: " + tiledFolder);
+        return;
+    }
+    
+    // Importera alla .json filer
+    int count = 0;
+    for (const auto& entry : fs::directory_iterator(tiledFolder)) {
+        if (entry.path().extension() == ".json") {
+            auto room = TiledImporter::importRoom(entry.path().string());
+            if (!room.id.empty()) {
+                count++;
+            }
+        }
+    }
+    
+    if (count > 0) {
+        m_statusMessage = "Imported " + std::to_string(count) + " room(s) from Tiled";
+        // Uppdatera rum-noder
+        enter();  // Reload
+    } else {
+        m_statusMessage = "No .json files found in assets/tiled/";
+    }
+    m_statusTimer = 3.0f;
+    LOG_INFO(m_statusMessage);
+}
+
+void EditorState::exportToTiled() {
+    if (m_selectedRoom.empty()) {
+        m_statusMessage = "Select a room first";
+        m_statusTimer = 2.0f;
+        return;
+    }
+    
+    namespace fs = std::filesystem;
+    std::string tiledFolder = "assets/tiled/";
+    
+    if (!fs::exists(tiledFolder)) {
+        fs::create_directories(tiledFolder);
+    }
+    
+    auto& rooms = DataLoader::instance().getRooms();
+    for (const auto& room : rooms) {
+        if (room.id == m_selectedRoom) {
+            std::string path = tiledFolder + room.id + ".json";
+            if (TiledImporter::exportRoom(room, path)) {
+                m_statusMessage = "Exported " + room.id + " to " + path;
+            } else {
+                m_statusMessage = "Failed to export " + room.id;
+            }
+            m_statusTimer = 3.0f;
+            LOG_INFO(m_statusMessage);
+            break;
+        }
+    }
+}
+
+void EditorState::exportAllToTiled() {
+    namespace fs = std::filesystem;
+    std::string tiledFolder = "assets/tiled/";
+    
+    if (!fs::exists(tiledFolder)) {
+        fs::create_directories(tiledFolder);
+    }
+    
+    auto& rooms = DataLoader::instance().getRooms();
+    int count = 0;
+    
+    for (const auto& room : rooms) {
+        std::string path = tiledFolder + room.id + ".json";
+        if (TiledImporter::exportRoom(room, path)) {
+            count++;
+        }
+    }
+    
+    m_statusMessage = "Exported " + std::to_string(count) + " room(s) to Tiled format";
+    m_statusTimer = 3.0f;
+    LOG_INFO(m_statusMessage);
 }

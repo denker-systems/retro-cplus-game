@@ -57,7 +57,16 @@ private:
     void handleTabSwitch(int direction);
     void handleMouseClick(int x, int y);
     
+    // Tiled import/export
+    void importFromTiled();
+    void exportToTiled();
+    void exportAllToTiled();
+    void renderButton(SDL_Renderer* renderer, const char* text, int x, int y, int w, int h, bool highlight = false);
+    bool isButtonClicked(int btnX, int btnY, int btnW, int btnH, int clickX, int clickY);
+    
     EditorTab m_currentTab = EditorTab::Overview;
+    std::string m_statusMessage;
+    float m_statusTimer = 0.0f;
     
     // Scroll och selection
     int m_scrollY = 0;
