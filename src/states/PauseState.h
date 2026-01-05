@@ -25,8 +25,8 @@ public:
 
 private:
     int m_selectedOption = 0;
-    static constexpr int NUM_OPTIONS = 3;
-    std::string m_options[NUM_OPTIONS] = { "Resume", "Options", "Quit to Menu" };
+    static constexpr int NUM_OPTIONS = 5;
+    std::string m_options[NUM_OPTIONS] = { "Resume", "Save Game", "Load Game", "Options", "Quit to Menu" };
     
     void renderOption(SDL_Renderer* renderer, int index, int y, bool selected);
 };
