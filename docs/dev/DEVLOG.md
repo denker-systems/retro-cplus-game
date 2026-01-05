@@ -9,6 +9,22 @@ Kronologisk logg av alla ändringar sedan projektets start.
 ## 2026-01-05
 
 ### Kväll
+- `5c4fd4d` docs(workflows): enforce complete change analysis in all workflows
+  - Uppdaterade git-commit, update-docs, end-session workflows
+  - Obligatorisk `git diff --stat` och ändringsanalys
+  - Krav på dokumentation av arkitektur, build och features
+  - Session: [2026-01-05](sessions/2026-01-05.md)
+
+- `2c38bfa` docs: add complete architecture documentation for engine/game/editor split
+  - ADR 005: Separate Engine, Game and Editor
+  - Dokumenterade modulär projektstruktur (300+ filer)
+  - Dokumenterade build-system
+  - Session: [2026-01-05](sessions/2026-01-05.md)
+
+- `9f11b6b` docs: update DEVLOG, ROADMAP, CHANGELOG and session report
+  - Dokumenterade drag-and-drop och hot reload removal
+  - Session: [2026-01-05](sessions/2026-01-05.md)
+
 - `cf1940c` feat(editor): implement drag-and-drop editing with safe save workflow
   - **Arkitektur:** Separerade `src/` i `engine/`, `game/`, `editor/`
   - **Build:** RetroCore (static lib), RetroGame (exe), RetroEditor (exe)
