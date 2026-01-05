@@ -71,15 +71,50 @@ void PlayerCharacter::updateAnimation(float deltaTime) {
 }
 
 void PlayerCharacter::render(SDL_Renderer* renderer) {
+    renderScaled(renderer, 1.0f);
+}
+
+void PlayerCharacter::renderScaled(SDL_Renderer* renderer, float scale) {
+    int scaledW = static_cast<int>(m_width * scale);
+    int scaledH = static_cast<int>(m_height * scale);
+    
+    // Justera Y så att fötterna stannar på samma plats
+    int drawX = static_cast<int>(m_x) - (scaledW - m_width) / 2;
+    int drawY = static_cast<int>(m_y) - (scaledH - m_height);
+    
     if (m_spriteSheet && m_spriteSheet->isLoaded()) {
-        // Använd sprite sheet
         Animation* currentAnim = m_moving ? m_walkAnim.get() : m_idleAnim.get();
         if (currentAnim) {
-            currentAnim->render(renderer, static_cast<int>(m_x), static_cast<int>(m_y), !m_facingRight);
+            currentAnim->renderScaled(renderer, drawX, drawY, scaledW, scaledH, !m_facingRight);
         }
     } else {
-        // Fallback till placeholder
-        renderPlaceholder(renderer);
+        // Placeholder med skalning
+        SDL_Rect rect = {drawX, drawY, scaledW, scaledH};
+        
+        // Kropp
+        SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
+        SDL_RenderFillRect(renderer, &rect);
+        
+        // Huvud (skalad)
+        int headW = static_cast<int>(16 * scale);
+        int headH = static_cast<int>(14 * scale);
+        SDL_Rect head = {
+            drawX + static_cast<int>(8 * scale),
+            drawY + static_cast<int>(2 * scale),
+            headW, headH
+        };
+        SDL_SetRenderDrawColor(renderer, 240, 200, 160, 255);
+        SDL_RenderFillRect(renderer, &head);
+        
+        // Byxor (skalad)
+        SDL_Rect pants = {
+            drawX + static_cast<int>(4 * scale),
+            drawY + static_cast<int>(24 * scale),
+            static_cast<int>(24 * scale),
+            static_cast<int>(16 * scale)
+        };
+        SDL_SetRenderDrawColor(renderer, 60, 60, 60, 255);
+        SDL_RenderFillRect(renderer, &pants);
     }
 }
 

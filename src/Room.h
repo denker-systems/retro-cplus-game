@@ -51,6 +51,8 @@ struct Hotspot {
 struct WalkArea {
     int minX, maxX;
     int minY, maxY;
+    float scaleTop = 0.5f;      // Skala vid minY (längre bort)
+    float scaleBottom = 1.0f;   // Skala vid maxY (närmare)
 };
 
 /**
@@ -95,8 +97,8 @@ public:
     void addExit(const std::string& id, const std::string& name,
                  int x, int y, int w, int h, const std::string& targetRoom);
     
-    /** @brief Sätt walk area */
-    void setWalkArea(int minX, int maxX, int minY, int maxY);
+    /** @brief Sätt walk area med depth scale */
+    void setWalkArea(int minX, int maxX, int minY, int maxY, float scaleTop = 0.5f, float scaleBottom = 1.0f);
     
     /** @brief Kolla om position är inom walk area */
     bool isInWalkArea(float x, float y) const;

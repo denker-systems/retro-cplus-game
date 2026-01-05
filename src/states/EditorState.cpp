@@ -717,6 +717,37 @@ void EditorState::handleEvent(const SDL_Event& event) {
             AudioManager::instance().playSound("select");
         }
     }
+    
+    // Depth scale adjustment (+/- keys)
+    if (event.type == SDL_KEYDOWN && m_visualEditor && m_selectedHotspot < 0) {
+        bool shift = (event.key.keysym.mod & KMOD_SHIFT) != 0;
+        float step = 0.05f;
+        
+        if (event.key.keysym.scancode == SDL_SCANCODE_EQUALS || 
+            event.key.keysym.scancode == SDL_SCANCODE_KP_PLUS) {
+            // + ökar scale (shift = top, annars bottom)
+            if (shift) {
+                m_editRoomData.walkArea.scaleTop = std::min(2.0f, m_editRoomData.walkArea.scaleTop + step);
+                m_statusMessage = "Top scale: " + std::to_string(static_cast<int>(m_editRoomData.walkArea.scaleTop * 100)) + "%";
+            } else {
+                m_editRoomData.walkArea.scaleBottom = std::min(2.0f, m_editRoomData.walkArea.scaleBottom + step);
+                m_statusMessage = "Bottom scale: " + std::to_string(static_cast<int>(m_editRoomData.walkArea.scaleBottom * 100)) + "%";
+            }
+            m_statusTimer = 1.0f;
+        }
+        if (event.key.keysym.scancode == SDL_SCANCODE_MINUS || 
+            event.key.keysym.scancode == SDL_SCANCODE_KP_MINUS) {
+            // - minskar scale
+            if (shift) {
+                m_editRoomData.walkArea.scaleTop = std::max(0.1f, m_editRoomData.walkArea.scaleTop - step);
+                m_statusMessage = "Top scale: " + std::to_string(static_cast<int>(m_editRoomData.walkArea.scaleTop * 100)) + "%";
+            } else {
+                m_editRoomData.walkArea.scaleBottom = std::max(0.1f, m_editRoomData.walkArea.scaleBottom - step);
+                m_statusMessage = "Bottom scale: " + std::to_string(static_cast<int>(m_editRoomData.walkArea.scaleBottom * 100)) + "%";
+            }
+            m_statusTimer = 1.0f;
+        }
+    }
 }
 
 void EditorState::handleTabSwitch(int direction) {
@@ -1224,11 +1255,13 @@ void EditorState::saveRoomChanges() {
                     room["layers"].push_back(layerJson);
                 }
                 
-                // Uppdatera walk area
+                // Uppdatera walk area (inkl depth scale)
                 room["walkArea"]["minX"] = m_editRoomData.walkArea.minX;
                 room["walkArea"]["maxX"] = m_editRoomData.walkArea.maxX;
                 room["walkArea"]["minY"] = m_editRoomData.walkArea.minY;
                 room["walkArea"]["maxY"] = m_editRoomData.walkArea.maxY;
+                room["walkArea"]["scaleTop"] = m_editRoomData.walkArea.scaleTop;
+                room["walkArea"]["scaleBottom"] = m_editRoomData.walkArea.scaleBottom;
                 
                 // Uppdatera hotspots
                 room["hotspots"] = json::array();
@@ -1459,13 +1492,23 @@ void EditorState::renderVisualEditor(SDL_Renderer* renderer) {
                           std::to_string(hs.x) + "," + std::to_string(hs.y) + ")";
         FontManager::instance().renderText(renderer, "default", info, 10, 355, yellow);
     } else {
-        // Visa walk area info
-        std::string walkInfo = "Walk Area: (" + std::to_string(wa.minX) + "," + std::to_string(wa.minY) + 
-                              ") to (" + std::to_string(wa.maxX) + "," + std::to_string(wa.maxY) + ")";
-        FontManager::instance().renderText(renderer, "default", walkInfo, 10, 355, cyan);
+        // Visa walk area info med depth scale
+        char scaleStr[64];
+        snprintf(scaleStr, sizeof(scaleStr), "Depth: %.0f%% (top) to %.0f%% (bottom)", 
+                 wa.scaleTop * 100, wa.scaleBottom * 100);
+        FontManager::instance().renderText(renderer, "default", scaleStr, 10, 355, cyan);
     }
     
+    // Visa depth scale visuellt (två figurer som visar storleksskillnad)
+    int figTopH = static_cast<int>(20 * wa.scaleTop);
+    int figBotH = static_cast<int>(20 * wa.scaleBottom);
+    SDL_SetRenderDrawColor(renderer, 255, 200, 100, 200);
+    SDL_Rect figTop = {walkRect.x + 5, walkRect.y + 5, 8, figTopH};
+    SDL_Rect figBot = {walkRect.x + 5, walkRect.y + walkRect.h - figBotH - 5, 8, figBotH};
+    SDL_RenderFillRect(renderer, &figTop);
+    SDL_RenderFillRect(renderer, &figBot);
+    
     // Instruktioner
-    std::string instructions = "Drag corners to resize | Drag cyan handles for walk area | Right-click: Add | DEL: Delete";
+    std::string instructions = "[+/-] Adjust depth scale | Drag cyan handles for walk area | Right-click: Add";
     FontManager::instance().renderText(renderer, "default", instructions, 10, 375, green);
 }

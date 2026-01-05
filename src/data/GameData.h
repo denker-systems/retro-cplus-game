@@ -146,10 +146,12 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(HotspotData,
 
 struct WalkAreaData {
     int minX, maxX, minY, maxY;
+    float scaleTop = 0.5f;      // Skala vid minY (längre bort)
+    float scaleBottom = 1.0f;   // Skala vid maxY (närmare)
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(WalkAreaData,
-    minX, maxX, minY, maxY)
+    minX, maxX, minY, maxY, scaleTop, scaleBottom)
 
 struct LayerData {
     std::string image;          // Bildfil

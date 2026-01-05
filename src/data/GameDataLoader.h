@@ -129,7 +129,8 @@ private:
         for (const auto& data : DataLoader::instance().getRooms()) {
             auto room = std::make_unique<Room>(data.id, data.name);
             room->setWalkArea(data.walkArea.minX, data.walkArea.maxX,
-                             data.walkArea.minY, data.walkArea.maxY);
+                             data.walkArea.minY, data.walkArea.maxY,
+                             data.walkArea.scaleTop, data.walkArea.scaleBottom);
             
             // Ladda layers om de finns
             if (!data.layers.empty()) {

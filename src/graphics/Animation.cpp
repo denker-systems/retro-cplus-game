@@ -60,6 +60,11 @@ void Animation::renderScaled(SDL_Renderer* renderer, int x, int y, float scale, 
     m_sheet->renderScaled(renderer, m_currentFrame, x, y, scale, flipH);
 }
 
+void Animation::renderScaled(SDL_Renderer* renderer, int x, int y, int w, int h, bool flipH) {
+    if (!m_sheet) return;
+    m_sheet->renderScaled(renderer, m_currentFrame, x, y, w, h, flipH);
+}
+
 void Animation::play() {
     m_playing = true;
 }

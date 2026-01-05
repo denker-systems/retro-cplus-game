@@ -133,8 +133,8 @@ void Room::addExit(const std::string& id, const std::string& name,
     m_hotspots.push_back(hs);
 }
 
-void Room::setWalkArea(int minX, int maxX, int minY, int maxY) {
-    m_walkArea = {minX, maxX, minY, maxY};
+void Room::setWalkArea(int minX, int maxX, int minY, int maxY, float scaleTop, float scaleBottom) {
+    m_walkArea = {minX, maxX, minY, maxY, scaleTop, scaleBottom};
 }
 
 bool Room::isInWalkArea(float x, float y) const {

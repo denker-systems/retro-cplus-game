@@ -137,8 +137,20 @@ void PlayState::render(SDL_Renderer* renderer) {
         room->renderNPCs(renderer);
     }
     
-    // Rita spelare
-    m_player->render(renderer);
+    // Rita spelare med depth scale
+    float playerScale = 1.0f;
+    if (room) {
+        const auto& wa = room->getWalkArea();
+        float playerY = m_player->getY();
+        
+        // Beräkna scale baserat på Y-position inom walk area
+        if (wa.maxY > wa.minY) {
+            float t = (playerY - wa.minY) / (wa.maxY - wa.minY);
+            t = std::max(0.0f, std::min(1.0f, t));  // Clamp 0-1
+            playerScale = wa.scaleTop + t * (wa.scaleBottom - wa.scaleTop);
+        }
+    }
+    m_player->renderScaled(renderer, playerScale);
     
     // Visa hotspot-namn i UI-bar
     if (!m_hoveredHotspot.empty()) {

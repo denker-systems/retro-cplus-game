@@ -23,6 +23,9 @@ public:
     void update(float deltaTime) override;
     void render(SDL_Renderer* renderer) override;
     
+    /** @brief Rendera med perspektiv-skalning */
+    void renderScaled(SDL_Renderer* renderer, float scale);
+    
     /** @brief Ladda sprite sheet för animationer */
     bool loadSprite(SDL_Renderer* renderer, const std::string& path);
     

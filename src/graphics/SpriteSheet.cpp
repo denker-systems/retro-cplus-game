@@ -69,3 +69,13 @@ void SpriteSheet::renderScaled(SDL_Renderer* renderer, int frameIndex, int x, in
     SDL_RendererFlip flip = flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
     SDL_RenderCopyEx(renderer, m_texture, &src, &dst, 0.0, nullptr, flip);
 }
+
+void SpriteSheet::renderScaled(SDL_Renderer* renderer, int frameIndex, int x, int y, int w, int h, bool flipH) {
+    if (!m_texture) return;
+
+    SDL_Rect src = getFrameRect(frameIndex);
+    SDL_Rect dst = { x, y, w, h };
+    
+    SDL_RendererFlip flip = flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+    SDL_RenderCopyEx(renderer, m_texture, &src, &dst, 0.0, nullptr, flip);
+}
