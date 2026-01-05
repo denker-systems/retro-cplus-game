@@ -36,6 +36,8 @@ set(SOURCES
     src/systems/CutsceneSystem.cpp
     src/systems/HintSystem.cpp
     src/systems/RecapSystem.cpp
+    src/systems/GateSystem.cpp
+    src/systems/JournalSystem.cpp
     src/data/DataLoader.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp

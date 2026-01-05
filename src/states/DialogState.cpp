@@ -16,6 +16,10 @@ DialogState::DialogState() {
 void DialogState::enter() {
     std::cout << "DialogState::enter()" << std::endl;
     m_selectedChoice = 0;
+    m_textRevealTimer = 0.0f;
+    m_revealedChars = 0;
+    m_textFullyRevealed = false;
+    m_skipRequested = false;
 }
 
 void DialogState::exit() {
@@ -23,12 +27,28 @@ void DialogState::exit() {
 }
 
 void DialogState::update(float deltaTime) {
-    (void)deltaTime;
-    
     // Avsluta om dialogen är klar
     if (!DialogSystem::instance().isActive()) {
         if (m_game) {
             m_game->popState();
+        }
+        return;
+    }
+    
+    // Text reveal animation (snabbare om skipRequested)
+    const std::string& text = DialogSystem::instance().getCurrentText();
+    float revealSpeed = m_skipRequested ? 0.01f : 0.03f;  // Sekunder per tecken
+    
+    if (!m_textFullyRevealed && m_revealedChars < static_cast<int>(text.length())) {
+        m_textRevealTimer += deltaTime;
+        
+        while (m_textRevealTimer >= revealSpeed && m_revealedChars < static_cast<int>(text.length())) {
+            m_textRevealTimer -= revealSpeed;
+            m_revealedChars++;
+        }
+        
+        if (m_revealedChars >= static_cast<int>(text.length())) {
+            m_textFullyRevealed = true;
         }
     }
 }
@@ -66,9 +86,10 @@ void DialogState::renderDialogBox(SDL_Renderer* renderer) {
         FontManager::instance().renderText(renderer, "default", speaker, 35, 270, {255, 220, 100, 255});
     }
     
-    // Dialog text
+    // Dialog text (visa bara revealed chars)
     const std::string& text = DialogSystem::instance().getCurrentText();
-    FontManager::instance().renderText(renderer, "default", text, 35, 295, {255, 255, 255, 255});
+    std::string displayText = text.substr(0, m_revealedChars);
+    FontManager::instance().renderText(renderer, "default", displayText, 35, 295, {255, 255, 255, 255});
 }
 
 void DialogState::renderChoices(SDL_Renderer* renderer) {
@@ -118,10 +139,22 @@ void DialogState::handleEvent(const SDL_Event& event) {
     const auto& choices = DialogSystem::instance().getCurrentChoices();
     
     if (choices.empty()) {
-        // Ingen val - SPACE fortsätter
+        // Ingen val - SPACE fortsätter eller skippar text
         if (event.key.keysym.scancode == SDL_SCANCODE_SPACE ||
             event.key.keysym.scancode == SDL_SCANCODE_RETURN) {
-            DialogSystem::instance().advance();
+            
+            if (!m_textFullyRevealed) {
+                // Skip till slutet av texten
+                m_skipRequested = true;
+            } else {
+                // Fortsätt till nästa nod
+                DialogSystem::instance().advance();
+                // Återställ för nästa text
+                m_textRevealTimer = 0.0f;
+                m_revealedChars = 0;
+                m_textFullyRevealed = false;
+                m_skipRequested = false;
+            }
         }
     } else {
         // Navigera val

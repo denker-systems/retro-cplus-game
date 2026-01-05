@@ -22,6 +22,8 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\SaveSystem.cpp;C:\U
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\CutsceneSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\CutsceneSystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\HintSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\HintSystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\RecapSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\RecapSystem.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\GateSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\GateSystem.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\JournalSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\JournalSystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\data\DataLoader.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\DataLoader.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\TextureManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\TextureManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\SpriteSheet.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\SpriteSheet.obj

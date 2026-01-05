@@ -73,6 +73,12 @@
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\RecapSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\GateSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\JournalSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\data\DataLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

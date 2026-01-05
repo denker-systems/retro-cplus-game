@@ -26,4 +26,10 @@ private:
     void renderChoices(SDL_Renderer* renderer);
     
     int m_selectedChoice = 0;
+    
+    // Komedi-timing (Sam & Max-inspirerat)
+    float m_textRevealTimer = 0.0f;
+    int m_revealedChars = 0;
+    bool m_textFullyRevealed = false;
+    bool m_skipRequested = false;
 };

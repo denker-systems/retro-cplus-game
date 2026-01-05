@@ -485,6 +485,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\CutsceneSystem.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\HintSystem.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\RecapSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\GateSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\JournalSystem.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\data\DataLoader.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\TextureManager.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\SpriteSheet.cpp" />
