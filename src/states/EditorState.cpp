@@ -24,9 +24,16 @@ void EditorState::enter() {
     m_currentTab = EditorTab::Overview;
     m_scrollY = 0;
     
+    // Ladda all game data (om inte redan laddat)
+    auto& loader = DataLoader::instance();
+    if (loader.getRooms().empty()) {
+        LOG_INFO("EditorState: Loading game data...");
+        loader.loadAll();
+    }
+    
     // Bygg rum-flowchart positioner
     m_roomNodes.clear();
-    auto& rooms = DataLoader::instance().getRooms();
+    auto& rooms = loader.getRooms();
     
     int x = 50;
     int y = 100;
