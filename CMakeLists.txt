@@ -58,6 +58,13 @@ set(SOURCES
     src/ui/Widget.cpp
     src/utils/Logger.cpp
     src/editor/DebugEditor.cpp
+    src/editor/EditorCore.cpp
+    src/editor/EditorContext.cpp
+    src/editor/widgets/Widget.cpp
+    src/editor/widgets/Button.cpp
+    src/editor/widgets/ListView.cpp
+    src/editor/panels/RoomPanel.cpp
+    src/editor/commands/HotspotCommands.cpp
 )
 
 # Skapa executable

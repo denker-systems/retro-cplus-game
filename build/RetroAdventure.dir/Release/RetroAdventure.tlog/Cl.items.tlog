@@ -41,6 +41,13 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\Entity.cpp;C:\User
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\Character.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Character.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\PlayerCharacter.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\PlayerCharacter.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\NPC.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\NPC.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ui\Widget.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Widget.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ui\Widget.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\src\ui\Widget.cpp.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\utils\Logger.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Logger.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\DebugEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\DebugEditor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\EditorCore.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\EditorCore.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\EditorContext.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\EditorContext.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\widgets\Widget.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\src\editor\widgets\Widget.cpp.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\widgets\Button.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Button.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\widgets\ListView.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\ListView.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\RoomPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\RoomPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\commands\HotspotCommands.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\HotspotCommands.obj
