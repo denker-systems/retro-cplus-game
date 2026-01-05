@@ -40,59 +40,127 @@ src/
     └── Animation.cpp/h       # Tidsbaserad animation ✅
 ```
 
-### Planerat (ej implementerat)
+### Planerat (ny OOP-struktur)
 
 ```
 src/
-├── states/               # Fler states
+├── states/               # Game states (State Pattern)
 │   ├── PauseState.cpp/h
 │   ├── InventoryState.cpp/h
 │   └── DialogState.cpp/h
 │
-├── entities/             # Spelobjekt (Entity-Component)
-│   ├── Entity.cpp/h      # Basklass
-│   ├── Player.cpp/h      # (refactor från nuvarande)
-│   ├── NPC.cpp/h
-│   ├── Item.cpp/h
-│   └── Hotspot.cpp/h
+├── entities/             # Entity Hierarchy (OOP)
+│   ├── Entity.h              # Abstract base för alla objekt
+│   ├── Character.h/.cpp      # Abstract character base
+│   ├── PlayerCharacter.h/.cpp
+│   ├── AICharacter.h/.cpp    # Abstract AI base
+│   ├── NPCCharacter.h/.cpp
+│   ├── Item.h/.cpp
+│   └── Hotspot.h/.cpp
+│
+├── components/           # Composition (delad funktionalitet)
+│   ├── MovementComponent.h/.cpp
+│   ├── AnimationComponent.h/.cpp
+│   ├── CollisionComponent.h/.cpp
+│   └── DialogComponent.h/.cpp
 │
 ├── systems/              # Spelsystem
-│   ├── RoomSystem.cpp/h      # Rum och navigation
-│   ├── DialogSystem.cpp/h    # Dialogträd
-│   ├── QuestSystem.cpp/h     # Quests och mål
-│   ├── InventorySystem.cpp/h # Inventory
-│   ├── AISystem.cpp/h        # NPC beteende
-│   └── SaveSystem.cpp/h      # Spara/Ladda
-│
-├── audio/                # Ljudsystem
-│   ├── AudioManager.cpp/h
-│   ├── Music.cpp/h
-│   └── SoundEffect.cpp/h
-│
-├── graphics/             # Mer grafik
-│   ├── ParticleSystem.cpp/h
-│   └── Camera.cpp/h
+│   ├── RoomSystem.h/.cpp
+│   ├── DialogSystem.h/.cpp
+│   ├── QuestSystem.h/.cpp
+│   ├── InventorySystem.h/.cpp
+│   └── SaveSystem.h/.cpp
 │
 ├── ui/                   # Användargränssnitt
-│   ├── UIManager.cpp/h
-│   ├── Widget.cpp/h      # Basklass
-│   ├── Button.cpp/h
-│   ├── Label.cpp/h
-│   ├── TextBox.cpp/h
-│   └── InventoryUI.cpp/h
+│   ├── Widget.h/.cpp         # Abstract base
+│   ├── Button.h/.cpp
+│   ├── Label.h/.cpp
+│   └── InventoryUI.h/.cpp
 │
-├── data/                 # Datastrukturer
-│   ├── Room.cpp/h
-│   ├── Quest.cpp/h
-│   ├── Dialog.cpp/h
-│   ├── Character.cpp/h
-│   └── ItemData.cpp/h
+└── utils/
+    ├── Logger.h/.cpp
+    └── Config.h/.cpp
+```
+
+---
+
+## Entity Hierarki (OOP)
+
+### Principer
+- **Composition over Inheritance** - Komponenter för delad funktionalitet
+- **Max 3 nivåer** - Entity → Character → PlayerCharacter
+- **Single Responsibility** - En klass = ett ansvar
+
+### Arvshierarki
+
+```
+Entity (abstract)
+│   - position, size, active
+│   - update(), render()
 │
-└── utils/                # Hjälpklasser
-    ├── ResourcePath.cpp/h
-    ├── Logger.cpp/h
-    ├── Config.cpp/h
-    └── Math.cpp/h
+├── Character (abstract)
+│   │   - health, name
+│   │   - MovementComponent
+│   │   - AnimationComponent
+│   │
+│   ├── PlayerCharacter
+│   │       - inventory
+│   │       - point-and-click movement
+│   │
+│   └── AICharacter (abstract)
+│       │   - AI behavior
+│       │   - pathfinding
+│       │
+│       └── NPCCharacter
+│               - DialogComponent
+│               - schedule
+│
+├── Item
+│       - pickupable
+│       - combinable
+│
+└── Hotspot
+        - interactable area
+        - trigger actions
+```
+
+### Entity Base Class
+
+```cpp
+class Entity {
+public:
+    virtual ~Entity() = default;
+    virtual void update(float deltaTime) = 0;
+    virtual void render(SDL_Renderer* renderer) = 0;
+    
+    float getX() const { return m_x; }
+    float getY() const { return m_y; }
+    bool isActive() const { return m_active; }
+    
+protected:
+    float m_x = 0, m_y = 0;
+    int m_width = 0, m_height = 0;
+    bool m_active = true;
+};
+```
+
+### Character Base Class
+
+```cpp
+class Character : public Entity {
+public:
+    void update(float deltaTime) override;
+    void render(SDL_Renderer* renderer) override;
+    
+    const std::string& getName() const { return m_name; }
+    int getHealth() const { return m_health; }
+    
+protected:
+    std::string m_name;
+    int m_health = 100;
+    std::unique_ptr<MovementComponent> m_movement;
+    std::unique_ptr<AnimationComponent> m_animation;
+};
 ```
 
 ---

@@ -7,6 +7,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Room.cpp;C:\Users\Calle\Doc
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\StateManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\StateManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\MenuState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\MenuState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\PlayState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\PlayState.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\OptionsState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\OptionsState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\TextureManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\TextureManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\SpriteSheet.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\SpriteSheet.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\Animation.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Animation.obj

@@ -35,18 +35,27 @@ void PlayState::exit() {
 }
 
 void PlayState::update(float deltaTime) {
-    // Samla input till rörelseverktor (-1, 0, eller 1)
+    // Tangentbord-rörelse
     int dx = 0, dy = 0;
     if (m_input->isKeyDown(SDL_SCANCODE_LEFT) || m_input->isKeyDown(SDL_SCANCODE_A)) dx = -1;
     if (m_input->isKeyDown(SDL_SCANCODE_RIGHT) || m_input->isKeyDown(SDL_SCANCODE_D)) dx = 1;
     if (m_input->isKeyDown(SDL_SCANCODE_UP) || m_input->isKeyDown(SDL_SCANCODE_W)) dy = -1;
     if (m_input->isKeyDown(SDL_SCANCODE_DOWN) || m_input->isKeyDown(SDL_SCANCODE_S)) dy = 1;
     
-    // Uppdatera spelare
     m_player->move(dx, dy, deltaTime);
-    m_player->update(deltaTime);
     
-    // Spara input-state för nästa frame
+    // Point-and-click (vänsterklick i walk area)
+    if (m_input->isMouseClicked(SDL_BUTTON_LEFT)) {
+        int mx = m_input->getMouseX();
+        int my = m_input->getMouseY();
+        
+        // Kolla om klick är i walk area (y > 260 och y < 375)
+        if (my > 260 && my < 375) {
+            m_player->setTarget(static_cast<float>(mx), static_cast<float>(my));
+        }
+    }
+    
+    m_player->update(deltaTime);
     m_input->update();
 }
 

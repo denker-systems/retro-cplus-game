@@ -19,8 +19,8 @@ Game::~Game() {
 }
 
 bool Game::init(const std::string& title, int width, int height) {
-    // Initiera SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
+    // Initiera SDL (med gamecontroller-stöd)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER) < 0) {
         std::cerr << "SDL init failed: " << SDL_GetError() << std::endl;
         return false;
     }

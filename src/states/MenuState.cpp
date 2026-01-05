@@ -5,6 +5,7 @@
 #include "MenuState.h"
 #include "StateManager.h"
 #include "PlayState.h"
+#include "OptionsState.h"
 #include "../Game.h"
 #include "../audio/AudioManager.h"
 #include <iostream>
@@ -78,6 +79,11 @@ void MenuState::handleEvent(const SDL_Event& event) {
                         m_game->changeState(std::make_unique<PlayState>());
                     }
                 } else if (m_selectedOption == 1) {
+                    // Options
+                    if (m_game) {
+                        m_game->changeState(std::make_unique<OptionsState>());
+                    }
+                } else if (m_selectedOption == 2) {
                     // Quit
                     SDL_Event quitEvent;
                     quitEvent.type = SDL_QUIT;
