@@ -16,10 +16,16 @@ MenuState::MenuState() {
 void MenuState::enter() {
     std::cout << "MenuState::enter()" << std::endl;
     m_selectedOption = 0;
+    
+    // Ladda och spela menymusik
+    AudioManager::instance().loadMusic("menu", "assets/sounds/MAINMENU.wav");
+    AudioManager::instance().playMusic("menu");
 }
 
 void MenuState::exit() {
     std::cout << "MenuState::exit()" << std::endl;
+    // Fade ut menymusik
+    AudioManager::instance().fadeOutMusic(500);
 }
 
 void MenuState::update(float deltaTime) {
