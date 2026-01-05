@@ -101,6 +101,18 @@ void Room::addHotspot(const std::string& id, const std::string& name,
     m_hotspots.push_back(hs);
 }
 
+void Room::addExit(const std::string& id, const std::string& name,
+                   int x, int y, int w, int h, const std::string& targetRoom) {
+    Hotspot hs;
+    hs.id = id;
+    hs.name = name;
+    hs.rect = {x, y, w, h};
+    hs.type = HotspotType::Exit;
+    hs.targetRoom = targetRoom;
+    hs.active = true;
+    m_hotspots.push_back(hs);
+}
+
 void Room::setWalkArea(int minX, int maxX, int minY, int maxY) {
     m_walkArea = {minX, maxX, minY, maxY};
 }

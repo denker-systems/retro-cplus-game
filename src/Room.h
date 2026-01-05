@@ -56,6 +56,10 @@ public:
     void addHotspot(const std::string& id, const std::string& name, 
                     int x, int y, int w, int h, HotspotType type);
     
+    /** @brief Lägg till exit-hotspot med målrum */
+    void addExit(const std::string& id, const std::string& name,
+                 int x, int y, int w, int h, const std::string& targetRoom);
+    
     /** @brief Sätt walk area */
     void setWalkArea(int minX, int maxX, int minY, int maxY);
     

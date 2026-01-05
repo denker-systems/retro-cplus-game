@@ -13,6 +13,8 @@
 #include "../graphics/FontManager.h"
 #include "../systems/DialogSystem.h"
 #include "../systems/InventorySystem.h"
+#include "../systems/RoomManager.h"
+#include "../graphics/Transition.h"
 #include <iostream>
 
 PlayState::PlayState() {
@@ -28,12 +30,16 @@ void PlayState::enter() {
     m_input = std::make_unique<Input>();
     m_player = std::make_unique<PlayerCharacter>(160.0f, 300.0f);
     
-    // Skapa rum med hotspots
-    m_room = std::make_unique<Room>("tavern", "Tavern");
-    m_room->setWalkArea(0, 640, 260, 350);
-    m_room->addHotspot("bartender", "Bartender", 80, 270, 40, 60, HotspotType::NPC);
-    m_room->addHotspot("chest", "Old Chest", 400, 300, 40, 40, HotspotType::Item);
-    m_room->addHotspot("door", "Exit Door", 580, 260, 50, 90, HotspotType::Exit);
+    // Skapa rum och registrera i RoomManager
+    setupRooms();
+    
+    // Sätt callback för rumsbyte
+    RoomManager::instance().setOnRoomChange([this](const std::string& roomId) {
+        onRoomChange(roomId);
+    });
+    
+    // Starta i tavern
+    RoomManager::instance().changeRoom("tavern");
     
     // Registrera Bartender-dialog
     DialogTree bartenderDialog;
@@ -93,11 +99,47 @@ void PlayState::exit() {
     
     // Frigör resurser
     m_player.reset();
-    m_room.reset();
     m_input.reset();
 }
 
+void PlayState::setupRooms() {
+    // === TAVERN ===
+    auto tavern = std::make_unique<Room>("tavern", "Tavern");
+    tavern->setWalkArea(0, 640, 260, 350);
+    tavern->addHotspot("bartender", "Bartender", 80, 270, 40, 60, HotspotType::NPC);
+    tavern->addHotspot("chest", "Old Chest", 400, 300, 40, 40, HotspotType::Item);
+    tavern->addExit("door_street", "Exit to Street", 580, 260, 50, 90, "street");
+    RoomManager::instance().addRoom(std::move(tavern));
+    
+    // === STREET ===
+    auto street = std::make_unique<Room>("street", "Town Street");
+    street->setWalkArea(0, 640, 280, 360);
+    street->addExit("door_tavern", "Tavern Door", 20, 270, 50, 90, "tavern");
+    street->addExit("door_shop", "Shop Door", 300, 260, 50, 90, "shop");
+    street->addHotspot("well", "Old Well", 500, 300, 50, 50, HotspotType::Examine);
+    RoomManager::instance().addRoom(std::move(street));
+    
+    // === SHOP ===
+    auto shop = std::make_unique<Room>("shop", "General Store");
+    shop->setWalkArea(0, 640, 260, 350);
+    shop->addHotspot("shopkeeper", "Shopkeeper", 400, 270, 40, 60, HotspotType::NPC);
+    shop->addExit("door_street", "Exit to Street", 20, 260, 50, 90, "street");
+    RoomManager::instance().addRoom(std::move(shop));
+}
+
+void PlayState::onRoomChange(const std::string& roomId) {
+    std::cout << "Player entered: " << roomId << std::endl;
+    
+    // Sätt spelarens position baserat på vilket rum
+    float spawnX, spawnY;
+    RoomManager::instance().getSpawnPosition(spawnX, spawnY);
+    m_player->setPosition(spawnX, spawnY);
+}
+
 void PlayState::update(float deltaTime) {
+    Room* room = RoomManager::instance().getCurrentRoom();
+    if (!room) return;
+    
     // Tangentbord-rörelse
     int dx = 0, dy = 0;
     if (m_input->isKeyDown(SDL_SCANCODE_LEFT) || m_input->isKeyDown(SDL_SCANCODE_A)) dx = -1;
@@ -110,17 +152,15 @@ void PlayState::update(float deltaTime) {
     // Kolla hotspot under musen
     int mx = m_input->getMouseX();
     int my = m_input->getMouseY();
-    Hotspot* hs = m_room->getHotspotAt(mx, my);
+    Hotspot* hs = room->getHotspotAt(mx, my);
     m_hoveredHotspot = hs ? hs->name : "";
     
     // Point-and-click (vänsterklick)
     if (m_input->isMouseClicked(SDL_BUTTON_LEFT)) {
         if (hs) {
-            // Klickade på hotspot - interagera
             std::cout << "Clicked on: " << hs->name << " (" << hs->id << ")" << std::endl;
             
             if (hs->type == HotspotType::NPC) {
-                // Starta dialog med NPC
                 if (hs->id == "bartender") {
                     DialogSystem::instance().startDialog("bartender_intro");
                     if (m_game) {
@@ -128,7 +168,6 @@ void PlayState::update(float deltaTime) {
                     }
                 }
             } else if (hs->type == HotspotType::Item) {
-                // Pickup item från chest
                 if (hs->id == "chest") {
                     if (!InventorySystem::instance().hasItem("rusty_key")) {
                         InventorySystem::instance().addItem("rusty_key");
@@ -137,25 +176,42 @@ void PlayState::update(float deltaTime) {
                     }
                 }
             } else if (hs->type == HotspotType::Exit) {
-                std::cout << "You look at the exit..." << std::endl;
+                // Byt rum med fade transition!
+                if (!hs->targetRoom.empty() && !Transition::instance().isActive()) {
+                    std::string target = hs->targetRoom;
+                    float spawnX = (hs->rect.x > 300) ? 80.0f : 550.0f;
+                    
+                    Transition::instance().fadeToBlack(0.5f, [target, spawnX]() {
+                        RoomManager::instance().setSpawnPosition(spawnX, 300.0f);
+                        RoomManager::instance().changeRoom(target);
+                    });
+                }
+            } else if (hs->type == HotspotType::Examine) {
+                std::cout << "You examine the " << hs->name << "..." << std::endl;
             }
         } else if (my > 260 && my < 375) {
-            // Klickade i walk area - gå dit
             m_player->setTarget(static_cast<float>(mx), static_cast<float>(my));
         }
     }
     
     m_player->update(deltaTime);
     m_input->update();
+    
+    // Uppdatera transition
+    Transition::instance().update(deltaTime);
 }
 
 void PlayState::render(SDL_Renderer* renderer) {
+    Room* room = RoomManager::instance().getCurrentRoom();
+    
     // Bakgrund
     SDL_SetRenderDrawColor(renderer, 20, 20, 60, 255);
     SDL_RenderClear(renderer);
     
     // Rita rum
-    m_room->render(renderer);
+    if (room) {
+        room->render(renderer);
+    }
     
     // Rita spelare
     m_player->render(renderer);
@@ -164,14 +220,17 @@ void PlayState::render(SDL_Renderer* renderer) {
     if (!m_hoveredHotspot.empty()) {
         FontManager::instance().renderText(renderer, "default", 
             m_hoveredHotspot, 10, 378, {255, 255, 200, 255});
-    } else {
+    } else if (room) {
         FontManager::instance().renderText(renderer, "default",
-            m_room->getName(), 10, 378, {150, 150, 180, 255});
+            room->getName(), 10, 378, {150, 150, 180, 255});
     }
     
     // Visa inventory count
     std::string invText = "Items: " + std::to_string(InventorySystem::instance().getItemCount());
     FontManager::instance().renderText(renderer, "default", invText, 550, 378, {180, 180, 200, 255});
+    
+    // Rita transition overlay sist
+    Transition::instance().render(renderer);
 }
 
 void PlayState::handleEvent(const SDL_Event& event) {

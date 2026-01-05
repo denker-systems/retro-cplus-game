@@ -26,14 +26,17 @@ set(SOURCES
     src/states/DialogState.cpp
     src/systems/DialogSystem.cpp
     src/systems/InventorySystem.cpp
+    src/systems/RoomManager.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp
     src/graphics/Animation.cpp
     src/graphics/FontManager.cpp
+    src/graphics/Transition.cpp
     src/audio/AudioManager.cpp
     src/entities/Entity.cpp
     src/entities/Character.cpp
     src/entities/PlayerCharacter.cpp
+    src/entities/NPC.cpp
 )
 
 # Skapa executable

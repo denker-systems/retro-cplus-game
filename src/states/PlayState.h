@@ -30,8 +30,10 @@ public:
     void handleEvent(const SDL_Event& event) override;
 
 private:
+    void setupRooms();
+    void onRoomChange(const std::string& roomId);
+    
     std::unique_ptr<PlayerCharacter> m_player;
-    std::unique_ptr<Room> m_room;
     std::unique_ptr<Input> m_input;
     
     std::string m_hoveredHotspot;  // Namn på hotspot under musen
