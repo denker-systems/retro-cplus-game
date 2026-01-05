@@ -15,6 +15,7 @@
 #include "../data/TiledImporter.h"
 #include "../utils/Logger.h"
 #include <nlohmann/json.hpp>
+#include <SDL_image.h>
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
@@ -605,19 +606,50 @@ void EditorState::handleMouseClick(int x, int y) {
     
     // Room editor knappar
     if (m_currentTab == EditorTab::Rooms && m_editingRoom) {
-        // Save knapp
-        if (isButtonClicked(450, 65, 60, 18, x, y)) {
-            saveRoomChanges();
-            AudioManager::instance().playSound("select");
-            return;
-        }
-        // Cancel knapp
-        if (isButtonClicked(520, 65, 60, 18, x, y)) {
-            m_editingRoom = false;
-            m_statusMessage = "Cancelled editing";
-            m_statusTimer = 2.0f;
-            AudioManager::instance().playSound("select");
-            return;
+        if (m_visualEditor) {
+            // Visual editor knappar
+            if (isButtonClicked(400, 65, 60, 18, x, y)) {
+                saveRoomChanges();
+                AudioManager::instance().playSound("select");
+                return;
+            }
+            if (isButtonClicked(470, 65, 60, 18, x, y)) {
+                m_visualEditor = false;
+                AudioManager::instance().playSound("select");
+                return;
+            }
+            if (isButtonClicked(540, 65, 60, 18, x, y)) {
+                m_editingRoom = false;
+                m_visualEditor = false;
+                m_statusMessage = "Cancelled editing";
+                m_statusTimer = 2.0f;
+                AudioManager::instance().playSound("select");
+                return;
+            }
+            
+            // Hotspot klick/drag i visual editor
+            // TODO: Implementera hotspot interaction
+            
+        } else {
+            // Text editor knappar
+            if (isButtonClicked(400, 65, 60, 18, x, y)) {
+                saveRoomChanges();
+                AudioManager::instance().playSound("select");
+                return;
+            }
+            if (isButtonClicked(470, 65, 60, 18, x, y)) {
+                m_visualEditor = true;
+                loadRoomPreview(m_game->getRenderer());
+                AudioManager::instance().playSound("select");
+                return;
+            }
+            if (isButtonClicked(540, 65, 60, 18, x, y)) {
+                m_editingRoom = false;
+                m_statusMessage = "Cancelled editing";
+                m_statusTimer = 2.0f;
+                AudioManager::instance().playSound("select");
+                return;
+            }
         }
         return;  // Ignorera andra klick när vi redigerar
     }
@@ -821,6 +853,12 @@ void EditorState::openRoomEditor() {
 }
 
 void EditorState::renderRoomEditor(SDL_Renderer* renderer) {
+    // Om visuell editor är aktiv, visa den istället
+    if (m_visualEditor) {
+        renderVisualEditor(renderer);
+        return;
+    }
+    
     SDL_Color white = {255, 255, 255, 255};
     SDL_Color cyan = {100, 255, 255, 255};
     SDL_Color yellow = {255, 255, 100, 255};
@@ -830,8 +868,9 @@ void EditorState::renderRoomEditor(SDL_Renderer* renderer) {
         "[Edit Room: " + m_editRoomData.name + "]", 10, 65, cyan);
     
     // Knappar
-    renderButton(renderer, "Save", 450, 65, 60, 18, false);
-    renderButton(renderer, "Cancel", 520, 65, 60, 18, false);
+    renderButton(renderer, "Save", 400, 65, 60, 18, false);
+    renderButton(renderer, "Visual", 470, 65, 60, 18, false);
+    renderButton(renderer, "Cancel", 540, 65, 60, 18, false);
     
     int y = 90;
     
@@ -999,4 +1038,100 @@ void EditorState::renderTextField(SDL_Renderer* renderer, const std::string& lab
     // Value text
     FontManager::instance().renderText(renderer, "default", value, x + 105, y, 
                                       selected ? yellow : white);
+}
+
+void EditorState::loadRoomPreview(SDL_Renderer* renderer) {
+    // Ladda bakgrundstextur för preview
+    if (m_roomPreviewTexture) {
+        SDL_DestroyTexture(m_roomPreviewTexture);
+        m_roomPreviewTexture = nullptr;
+    }
+    
+    // Ladda första layer eller background
+    std::string imagePath;
+    if (!m_editRoomData.layers.empty()) {
+        imagePath = m_editRoomData.layers[0].image;
+    } else if (!m_editRoomData.background.empty()) {
+        imagePath = m_editRoomData.background;
+    }
+    
+    if (!imagePath.empty()) {
+        m_roomPreviewTexture = IMG_LoadTexture(renderer, imagePath.c_str());
+        if (!m_roomPreviewTexture) {
+            LOG_WARNING("Failed to load room preview: " + imagePath);
+        }
+    }
+}
+
+void EditorState::renderVisualEditor(SDL_Renderer* renderer) {
+    SDL_Color white = {255, 255, 255, 255};
+    SDL_Color cyan = {100, 255, 255, 255};
+    SDL_Color yellow = {255, 255, 100, 255};
+    SDL_Color green = {100, 255, 100, 255};
+    SDL_Color red = {255, 100, 100, 255};
+    
+    FontManager::instance().renderText(renderer, "default", 
+        "[Visual Editor: " + m_editRoomData.name + "]", 10, 65, cyan);
+    
+    // Knappar
+    renderButton(renderer, "Save", 400, 65, 60, 18, false);
+    renderButton(renderer, "Text", 470, 65, 60, 18, false);
+    renderButton(renderer, "Cancel", 540, 65, 60, 18, false);
+    
+    // Rita bakgrund
+    if (m_roomPreviewTexture) {
+        SDL_Rect dstRect = {10, 90, 620, 260};
+        SDL_RenderCopy(renderer, m_roomPreviewTexture, nullptr, &dstRect);
+    } else {
+        // Fallback
+        SDL_SetRenderDrawColor(renderer, 40, 40, 60, 255);
+        SDL_Rect bg = {10, 90, 620, 260};
+        SDL_RenderFillRect(renderer, &bg);
+    }
+    
+    // Rita hotspots
+    for (size_t i = 0; i < m_editRoomData.hotspots.size(); i++) {
+        const auto& hs = m_editRoomData.hotspots[i];
+        bool selected = (static_cast<int>(i) == m_selectedHotspot);
+        
+        // Skala hotspot till preview-storlek (620x260 istället för 640x400)
+        float scaleX = 620.0f / 640.0f;
+        float scaleY = 260.0f / 400.0f;
+        SDL_Rect rect = {
+            10 + static_cast<int>(hs.x * scaleX),
+            90 + static_cast<int>(hs.y * scaleY),
+            static_cast<int>(hs.w * scaleX),
+            static_cast<int>(hs.h * scaleY)
+        };
+        
+        // Färg baserat på typ
+        if (hs.type == "npc") {
+            SDL_SetRenderDrawColor(renderer, 100, 255, 100, selected ? 200 : 100);
+        } else if (hs.type == "item") {
+            SDL_SetRenderDrawColor(renderer, 255, 255, 100, selected ? 200 : 100);
+        } else if (hs.type == "exit") {
+            SDL_SetRenderDrawColor(renderer, 100, 100, 255, selected ? 200 : 100);
+        } else {
+            SDL_SetRenderDrawColor(renderer, 150, 150, 150, selected ? 200 : 100);
+        }
+        
+        SDL_RenderFillRect(renderer, &rect);
+        
+        // Ram
+        if (selected) {
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        } else {
+            SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
+        }
+        SDL_RenderDrawRect(renderer, &rect);
+        
+        // Namn
+        if (selected) {
+            FontManager::instance().renderText(renderer, "default", hs.name, rect.x + 2, rect.y + 2, white);
+        }
+    }
+    
+    // Instruktioner
+    std::string instructions = "Click hotspot to select | Drag to move | Right-click: Add hotspot";
+    FontManager::instance().renderText(renderer, "default", instructions, 10, 365, green);
 }

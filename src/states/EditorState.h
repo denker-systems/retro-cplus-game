@@ -66,7 +66,9 @@ private:
     // Manual room editing
     void openRoomEditor();
     void renderRoomEditor(SDL_Renderer* renderer);
+    void renderVisualEditor(SDL_Renderer* renderer);
     void saveRoomChanges();
+    void loadRoomPreview(SDL_Renderer* renderer);
     
     void renderButton(SDL_Renderer* renderer, const char* text, int x, int y, int w, int h, bool highlight = false);
     bool isButtonClicked(int btnX, int btnY, int btnW, int btnH, int clickX, int clickY);
@@ -103,9 +105,18 @@ private:
     
     // Room editor state
     bool m_editingRoom = false;
+    bool m_visualEditor = false;  // Visuell editor mode
     int m_selectedField = 0;  // Vilket fält som är valt för redigering
     bool m_editingText = false;  // Om vi redigerar text just nu
     std::string m_textBuffer;  // Buffer för text-input
+    
+    // Visual editor state
+    int m_selectedHotspot = -1;  // Index av vald hotspot
+    bool m_draggingHotspot = false;
+    bool m_resizingHotspot = false;
+    int m_dragStartX = 0;
+    int m_dragStartY = 0;
+    SDL_Texture* m_roomPreviewTexture = nullptr;  // Cached room texture
     
     // Edit room data (kopierad från DataLoader)
     struct EditRoomData {
