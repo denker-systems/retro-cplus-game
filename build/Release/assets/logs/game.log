@@ -1,0 +1,12 @@
+========================================
+  Game Log - 2026-01-04 22:13:49.047
+========================================
+
+[2026-01-04 22:13:49.047] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-04 22:13:49.157] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-04 22:13:49.170] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-04 22:13:49.188] [INFO ] [Game.cpp:66] Window created
+[2026-01-04 22:13:49.280] [INFO ] [Game.cpp:76] Renderer created
+[2026-01-04 22:13:49.280] [INFO ] [Game.cpp:184] Viewport: 2304x1440 at (568,0)
+[2026-01-04 22:13:49.287] [INFO ] [Game.cpp:100] Scale: 3.600000 (fonts scaled for sharp rendering)
+[2026-01-04 22:13:49.292] [INFO ] [Game.cpp:111] Game initialized successfully!
