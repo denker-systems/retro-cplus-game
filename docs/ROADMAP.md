@@ -5,8 +5,8 @@
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Fas 1: Core       │ Fas 2: Systems  │ Fas 3: Content │ Fas 4: Polish│
-│ ▓▓▓▓▓▓▓▓░░░░░░░░ │ ░░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░│
-│ 50%               │ 0%              │ 0%             │ 0%           │
+│ ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ │ ░░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░│
+│ 75%               │ 0%              │ 0%             │ 0%           │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -34,11 +34,11 @@
 - [x] Animation system
 - [ ] Font rendering (SDL_ttf eller bitmap)
 
-### 1.4 Audio Foundation
-- [ ] AudioManager klass
-- [ ] Music playback
-- [ ] Sound effects
-- [ ] Volume kontroll
+### 1.4 Audio Foundation ✅
+- [x] AudioManager klass
+- [x] Music playback
+- [x] Sound effects
+- [x] Volume kontroll
 
 **Estimerad tid: 2-3 sessioner**
 
@@ -191,20 +191,20 @@
 
 ---
 
-## Nästa session: AudioManager
+## Nästa session: Fas 2 - Room System
 
 ### Filer att skapa:
 ```
-src/audio/
-├── AudioManager.h
-├── AudioManager.cpp
+src/systems/
+├── RoomSystem.h
+├── RoomSystem.cpp
 ```
 
 ### Mål:
-1. AudioManager singleton
-2. Music playback (looping background music)
-3. Sound effects (click, pickup, etc.)
-4. Volume control
+1. Bakgrundstexturer för rum
+2. Walk area (polygon eller rektangel)
+3. Hotspot-interaktion (klick)
+4. Room exits och transitions
 
 ---
 
