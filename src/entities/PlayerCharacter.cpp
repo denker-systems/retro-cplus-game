@@ -3,9 +3,30 @@
  * @brief Implementation av spelarkaraktär
  */
 #include "PlayerCharacter.h"
+#include "../graphics/SpriteSheet.h"
+#include "../graphics/Animation.h"
+#include <iostream>
 
 PlayerCharacter::PlayerCharacter(float x, float y)
     : Character(x, y, 32, 48, "Player") {}
+
+PlayerCharacter::~PlayerCharacter() = default;
+
+bool PlayerCharacter::loadSprite(SDL_Renderer* renderer, const std::string& path) {
+    m_spriteSheet = std::make_unique<SpriteSheet>();
+    if (!m_spriteSheet->load(path, 32, 48)) {
+        std::cerr << "Failed to load player sprite: " << path << std::endl;
+        m_spriteSheet.reset();
+        return false;
+    }
+    
+    // Skapa animationer (anta 4 frames walk, 1 frame idle)
+    m_walkAnim = std::make_unique<Animation>(m_spriteSheet.get(), 0, 3, 0.15f, true);
+    m_idleAnim = std::make_unique<Animation>(m_spriteSheet.get(), 0, 0, 1.0f, true);
+    
+    std::cout << "Loaded player sprite: " << path << std::endl;
+    return true;
+}
 
 void PlayerCharacter::move(int dx, int dy, float deltaTime) {
     if (dx != 0 || dy != 0) {
@@ -28,6 +49,15 @@ void PlayerCharacter::update(float deltaTime) {
 }
 
 void PlayerCharacter::updateAnimation(float deltaTime) {
+    // Uppdatera Animation-objekt om de finns
+    if (m_walkAnim && m_moving) {
+        m_walkAnim->update(deltaTime);
+    }
+    if (m_idleAnim && !m_moving) {
+        m_idleAnim->update(deltaTime);
+    }
+    
+    // Fallback animation för placeholder
     if (m_moving) {
         m_animTimer += deltaTime;
         if (m_animTimer >= m_animSpeed) {
@@ -41,7 +71,16 @@ void PlayerCharacter::updateAnimation(float deltaTime) {
 }
 
 void PlayerCharacter::render(SDL_Renderer* renderer) {
-    renderPlaceholder(renderer);
+    if (m_spriteSheet && m_spriteSheet->isLoaded()) {
+        // Använd sprite sheet
+        Animation* currentAnim = m_moving ? m_walkAnim.get() : m_idleAnim.get();
+        if (currentAnim) {
+            currentAnim->render(renderer, static_cast<int>(m_x), static_cast<int>(m_y), !m_facingRight);
+        }
+    } else {
+        // Fallback till placeholder
+        renderPlaceholder(renderer);
+    }
 }
 
 void PlayerCharacter::renderPlaceholder(SDL_Renderer* renderer) {
