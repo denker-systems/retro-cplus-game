@@ -2,16 +2,19 @@
  * @file main.cpp
  * @brief Entry point för RetroAdventure Editor (Standalone)
  */
-#include "EditorApp.h"
+#include "../Game.h"
+#include "../states/EditorState.h"
 #include "../utils/Logger.h"
 #include <SDL.h>
 
 int main(int argc, char* argv[]) {
     LOG_INFO("=== RetroAdventure Editor Starting ===");
     
-    EditorApp editor;
-    if (editor.init("Retro Adventure Editor", 800, 600)) {
-        editor.run();
+    Game game;
+    if (game.init("Retro Adventure Editor", 640, 400)) {
+        // Ersätt MenuState med EditorState (inte push ovanpå)
+        game.changeState(std::make_unique<EditorState>());
+        game.run();
     }
     
     LOG_INFO("=== RetroAdventure Editor Shutdown ===");

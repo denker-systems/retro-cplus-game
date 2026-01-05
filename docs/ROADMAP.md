@@ -5,8 +5,8 @@
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Fas 1: Core       │ Fas 2: Systems  │ Fas 3: Advanced│ Fas 4: Content│
-│ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ░░░░░░░░░░░░│
-│ 100%              │ 100%            │ 100%           │ 0%           │
+│ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ▓▓░░░░░░░░░░│
+│ 100%              │ 100%            │ 100%           │ 15%          │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -139,7 +139,18 @@
 - [x] JSON save/load av ändringar
 - [x] Command pattern för undo/redo
 
-### 3.7 Depth Scaling ✅
+### 3.7 ImGui Editor ✅ (2026-01-05)
+- [x] Dear ImGui integration med docking
+- [x] Panel-baserad arkitektur (IEditorPanel)
+- [x] HierarchyPanel - Objektträd
+- [x] PropertiesPanel - Inspector
+- [x] ViewportPanel - Rum-preview med zoom
+- [x] AssetBrowserPanel - Grid/List view, filter, search
+- [x] ConsolePanel - Logg med timestamps
+- [x] Docking layout - Flyttbara paneler
+- [x] Windowed mode (1600x900 max, resizable)
+
+### 3.8 Depth Scaling ✅
 - [x] WalkArea med scaleTop/scaleBottom
 - [x] PlayerCharacter::renderScaled()
 - [x] Animation/SpriteSheet scaled rendering
@@ -150,6 +161,16 @@
 ---
 
 ## Fas 4: Content & Polish
+
+### 4.0 Editor Tools ✅ (2026-01-05)
+- [x] Professionell ImGui-editor
+- [x] Asset Browser
+- [x] Console med loggning
+- [x] Viewport med zoom/overlays
+- [ ] Undo/Redo system
+- [ ] Dialog node editor
+- [ ] Asset preview (sprites, sounds)
+- [ ] Hot reload
 
 ### 4.1 Game Content
 - [ ] Komplett storyline

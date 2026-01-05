@@ -4,6 +4,7 @@ Ett point-and-click adventure-spel för Windows, byggt med C++17 och SDL2.
 
 ## Features
 
+### Spel
 - **State Management** - MenuState, PlayState, PauseState, DialogState
 - **Room System** - Rum med hotspots, NPCs, transitions
 - **Dialog System** - Dialogträd med val och villkor
@@ -14,13 +15,22 @@ Ett point-and-click adventure-spel för Windows, byggt med C++17 och SDL2.
 - **Cutscene System** - Scripted sequences med fade och text
 - **UI Widgets** - Button, Label, Panel, ProgressBar
 - **Depth Scaling** - Perspektiv-skalning av karaktärer baserat på Y-position
-- **In-Game Editor** - Visuell redigering av rum, hotspots och walk areas
+
+### Editor (Dear ImGui)
+- **Professionellt UI** - Docking-baserad layout med flyttbara paneler
+- **Hierarchy Panel** - Träd med rum, dialoger, quests, items
+- **Properties Panel** - Inspector för valt objekt
+- **Viewport Panel** - Rum-preview med zoom och overlays
+- **Asset Browser** - Grid/List view, filter, search
+- **Console Panel** - Logg med timestamps och log levels
+- **Visuell redigering** - Drag-and-drop för hotspots och walk areas
 
 ## Krav
 
 - CMake 3.16+
 - SDL2, SDL2_image, SDL2_mixer, SDL2_ttf
 - nlohmann/json
+- Dear ImGui (docking branch)
 - Visual Studio 2019+ eller MinGW
 
 ## Installation av SDL2 (vcpkg)
@@ -49,6 +59,16 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE=[vcpkg-path]/scripts/buildsystems/vcpkg.cmake
 cmake --build . --config Release
 ```
 
+### Köra Spelet
+```powershell
+.\build\Release\RetroAdventure.exe
+```
+
+### Köra Editorn
+```powershell
+.\build\Release\RetroEditor.exe
+```
+
 ## Kontroller
 
 | Tangent | Funktion |
@@ -65,16 +85,19 @@ cmake --build . --config Release
 
 ```
 src/
-├── main.cpp           # Entry point
+├── main.cpp           # Entry point (spel)
 ├── Game.cpp/h         # Spelloop och init
 ├── Room.cpp/h         # Rum med hotspots
-├── states/            # Game states (8 st)
+├── states/            # Game states (9 st)
 ├── systems/           # Spelsystem (7 st)
 ├── entities/          # Entity hierarki
 ├── graphics/          # Rendering och animation
 ├── audio/             # Ljud och musik
 ├── data/              # JSON data-laddning
-└── ui/                # Widget-system
+├── ui/                # Widget-system
+├── editor/            # ImGui-baserad editor
+│   └── panels/        # HierarchyPanel, PropertiesPanel, etc.
+└── vendor/            # Vendored ImGui backends
 ```
 
 ## Parallellt projekt

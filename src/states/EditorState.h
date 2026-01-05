@@ -10,13 +10,20 @@
 #include "../data/GameData.h"
 #include "../editor/VisualRoomEditor.h"
 #include "../editor/EditorTabRenderer.h"
+#include "../editor/EditorContext.h"
 #include <SDL.h>
 #include <string>
 #include <vector>
 #include <memory>
 
-// Forward declaration
+// Forward declarations
 struct RoomNode;
+class IEditorPanel;
+class HierarchyPanel;
+class PropertiesPanel;
+class ViewportPanel;
+class AssetBrowserPanel;
+class ConsolePanel;
 
 /**
  * @brief Editor tabs/modes
@@ -47,7 +54,7 @@ public:
 
 private:
     // Tab rendering
-    void renderTabs(SDL_Renderer* renderer);
+    void renderTabs(SDL_Renderer* renderer, int screenW, int screenH, float scale);
     void renderOverviewTab(SDL_Renderer* renderer);
     void renderRoomsTab(SDL_Renderer* renderer);
     void renderDialogsTab(SDL_Renderer* renderer);
@@ -77,6 +84,9 @@ private:
     void loadRoomPreview(SDL_Renderer* renderer);
     
     void renderButton(SDL_Renderer* renderer, const char* text, int x, int y, int w, int h, bool highlight = false);
+    
+    // ImGui rendering (om HAS_IMGUI är definierad)
+    void renderImGui();
     bool isButtonClicked(int btnX, int btnY, int btnW, int btnH, int clickX, int clickY);
     void renderTextField(SDL_Renderer* renderer, const std::string& label, const std::string& value, int x, int y, int w, bool selected);
     
@@ -117,4 +127,12 @@ private:
     
     // Edit room data
     RoomData m_editRoomData;
+    
+    // ImGui Panels
+    EditorContext m_editorContext;
+    std::unique_ptr<HierarchyPanel> m_hierarchyPanel;
+    std::unique_ptr<PropertiesPanel> m_propertiesPanel;
+    std::unique_ptr<ViewportPanel> m_viewportPanel;
+    std::unique_ptr<AssetBrowserPanel> m_assetBrowserPanel;
+    std::unique_ptr<ConsolePanel> m_consolePanel;
 };

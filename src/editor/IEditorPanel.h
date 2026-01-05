@@ -1,67 +1,49 @@
 /**
  * @file IEditorPanel.h
- * @brief Interface for editor panels (Strategy Pattern)
- * 
- * Each panel represents a distinct editing mode:
- * - RoomPanel: Visual room editing
- * - DialogPanel: Dialog tree editing
- * - QuestPanel: Quest editing
- * - ItemPanel: Item editing
- * etc.
+ * @brief Interface för ImGui-baserade editor-paneler
  */
 #pragma once
 
-#include <SDL.h>
 #include <string>
 
 class EditorContext;
 
 /**
- * @brief Base interface for editor panels
+ * @brief Base interface för ImGui editor-paneler
+ * 
+ * Varje panel är ett dockbart ImGui-fönster:
+ * - HierarchyPanel: Träd med rum, dialoger, etc.
+ * - ViewportPanel: Rum-preview och editing
+ * - PropertiesPanel: Inspector för valt objekt
+ * - AssetBrowserPanel: Assets (sprites, sounds, etc.)
+ * - ConsolePanel: Logg och status
  */
 class IEditorPanel {
 public:
     virtual ~IEditorPanel() = default;
     
-    /**
-     * @brief Get panel identifier
-     */
+    /** @brief Hämta panel-ID (används för docking) */
     virtual const std::string& getId() const = 0;
     
-    /**
-     * @brief Get display name for tab
-     */
-    virtual const std::string& getDisplayName() const = 0;
+    /** @brief Hämta visningsnamn för fönster */
+    virtual const std::string& getTitle() const = 0;
     
-    /**
-     * @brief Called when panel becomes active
-     */
-    virtual void onActivate() = 0;
+    /** @brief Rendera panelens ImGui-innehåll */
+    virtual void render() = 0;
     
-    /**
-     * @brief Called when panel becomes inactive
-     */
-    virtual void onDeactivate() = 0;
+    /** @brief Uppdatera panel-logik */
+    virtual void update(float deltaTime) {}
     
-    /**
-     * @brief Update panel logic
-     */
-    virtual void update(float deltaTime) = 0;
+    /** @brief Är panelen synlig? */
+    bool isVisible() const { return m_visible; }
     
-    /**
-     * @brief Render panel content
-     */
-    virtual void render(SDL_Renderer* renderer) = 0;
+    /** @brief Sätt synlighet */
+    void setVisible(bool visible) { m_visible = visible; }
     
-    /**
-     * @brief Handle input events
-     * @return true if event was consumed
-     */
-    virtual bool handleEvent(const SDL_Event& event) = 0;
+    /** @brief Toggle synlighet */
+    void toggleVisible() { m_visible = !m_visible; }
     
-    /**
-     * @brief Get keyboard shortcut hint
-     */
-    virtual std::string getShortcutHint() const { return ""; }
+protected:
+    bool m_visible = true;
 };
 

@@ -8,6 +8,9 @@
 #include <string>
 #include <memory>
 
+// Forward declarations
+class EditorState;
+
 class EditorApp {
 public:
     EditorApp();
@@ -29,4 +32,12 @@ private:
     bool m_running = false;
     
     Uint32 m_lastTime = 0;
+    
+    // Editor state
+    std::unique_ptr<EditorState> m_editorState;
+    
+public:
+    // Dummy methods för EditorState-kompatibilitet
+    void popState() { m_running = false; }
+    SDL_Renderer* getRenderer() { return m_renderer; }
 };

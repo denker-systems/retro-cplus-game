@@ -110,7 +110,7 @@ private:
     
     float m_musicVolume = 0.7f;  // 0.0 - 1.0
     float m_sfxVolume = 1.0f;    // 0.0 - 1.0
-    bool m_muted = false;
+    bool m_muted = true;         // Default: ljud avstängt
     bool m_initialized = false;
     
     // Adaptiv musik state

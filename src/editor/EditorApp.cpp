@@ -3,11 +3,7 @@
  * @brief Implementation av standalone editor application
  */
 #include "EditorApp.h"
-#include "EditorCore.h"
-#include "EditorContext.h"
-#include "VisualRoomEditor.h"
-#include "RoomDataManager.h"
-#include "EditorTabRenderer.h"
+#include "../states/EditorState.h"
 #include "../graphics/FontManager.h"
 #include "../graphics/TextureManager.h"
 #include "../audio/AudioManager.h"
@@ -45,13 +41,13 @@ bool EditorApp::init(const std::string& title, int width, int height) {
         return false;
     }
     
-    // Create window
+    // Create fullscreen window
     m_window = SDL_CreateWindow(
         title.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         width, height,
-        SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE
+        SDL_WINDOW_FULLSCREEN_DESKTOP
     );
     
     if (!m_window) {
@@ -68,14 +64,32 @@ bool EditorApp::init(const std::string& title, int width, int height) {
         return false;
     }
     
+    // Använd logisk upplösning för enkel koordinat-hantering
+    SDL_RenderSetLogicalSize(m_renderer, 640, 400);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+    
     // Init managers
     TextureManager::instance().init(m_renderer);
     FontManager::instance().init();
-    FontManager::instance().loadFont("default", "assets/fonts/PressStart2P.ttf", 8);
+    
+    // Försök ladda PressStart2P, fallback till arial
+    if (!FontManager::instance().loadFont("default", "assets/fonts/PressStart2P.ttf", 8)) {
+        LOG_INFO("PressStart2P not found, using arial.ttf");
+        FontManager::instance().loadFont("default", "assets/fonts/arial.ttf", 12);
+    }
+    
     AudioManager::instance().init();
     
     // Load game data for editing
     DataLoader::instance().loadAll();
+    
+    // Create EditorState (innehåller alla befintliga editor-features)
+    m_editorState = std::make_unique<EditorState>();
+    
+    // Sätt EditorApp som "game" för EditorState (för kompatibilitet)
+    m_editorState->setGame(reinterpret_cast<Game*>(this));
+    
+    m_editorState->enter();
     
     m_running = true;
     m_lastTime = SDL_GetTicks();
@@ -111,31 +125,27 @@ void EditorApp::handleEvents() {
             }
         }
         
-        // Forward to EditorCore
-        EditorCore::instance().handleEvent(event);
+        // Forward to EditorState
+        if (m_editorState) {
+            m_editorState->handleEvent(event);
+        }
     }
 }
 
 void EditorApp::update(float deltaTime) {
-    EditorCore::instance().update(deltaTime);
+    if (m_editorState) {
+        m_editorState->update(deltaTime);
+    }
 }
 
 void EditorApp::render() {
     SDL_SetRenderDrawColor(m_renderer, 30, 30, 40, 255);
     SDL_RenderClear(m_renderer);
     
-    // Render editor
-    EditorCore::instance().render(m_renderer);
-    
-    // Title bar
-    SDL_Color titleColor = {255, 200, 100, 255};
-    FontManager::instance().renderText(m_renderer, "default", 
-        "=== RETRO ADVENTURE EDITOR (Standalone) ===", 140, 10, titleColor);
-    
-    // Footer
-    SDL_Color footerColor = {150, 150, 150, 255};
-    FontManager::instance().renderText(m_renderer, "default", 
-        "ESC: Exit | Ctrl+S: Save | Ctrl+Z: Undo | Ctrl+Y: Redo", 10, 380, footerColor);
+    // Render EditorState (innehåller alla befintliga editor-features)
+    if (m_editorState) {
+        m_editorState->render(m_renderer);
+    }
     
     SDL_RenderPresent(m_renderer);
 }

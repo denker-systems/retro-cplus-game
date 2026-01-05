@@ -49,14 +49,29 @@ bool Game::init(const std::string& title, int width, int height) {
     // Detektera optimal upplösning
     VideoSettings::instance().detectOptimalSettings();
 
-    // Skapa fönster (börjar fullscreen)
+    // Skapa fönster
+    // Editor: windowed mode för att kunna se andra applikationer
+    // Game: fullscreen för immersive experience
+    bool isEditor = (title.find("Editor") != std::string::npos);
+    Uint32 windowFlags = isEditor ? SDL_WINDOW_RESIZABLE : SDL_WINDOW_FULLSCREEN_DESKTOP;
+    
+    // Editor: rimlig storlek (1600x900 eller mindre beroende på skärm)
+    int windowWidth = VideoSettings::instance().getWidth();
+    int windowHeight = VideoSettings::instance().getHeight();
+    
+    if (isEditor) {
+        // Begränsa till max 1600x900 för editor
+        windowWidth = std::min(1600, windowWidth);
+        windowHeight = std::min(900, windowHeight);
+    }
+    
     m_window = SDL_CreateWindow(
         title.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        VideoSettings::instance().getWidth(),
-        VideoSettings::instance().getHeight(),
-        SDL_WINDOW_FULLSCREEN_DESKTOP
+        windowWidth,
+        windowHeight,
+        windowFlags
     );
 
     if (!m_window) {
@@ -78,9 +93,8 @@ bool Game::init(const std::string& title, int width, int height) {
     // Beräkna viewport och skala
     calculateViewport();
     
-    // Använd logisk upplösning för enkel koordinat-hantering
-    // SDL sköter skalning och letterboxing automatiskt
-    SDL_RenderSetLogicalSize(m_renderer, GAME_WIDTH, GAME_HEIGHT);
+    // INGEN logisk upplösning - använd faktisk skärmupplösning
+    // UI skalas dynamiskt baserat på m_screenWidth/m_screenHeight
     
     // Aktivera linjär skalning för mjukare grafik
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
@@ -193,6 +207,18 @@ void Game::calculateViewport() {
 void Game::screenToGame(int screenX, int screenY, int& gameX, int& gameY) const {
     gameX = static_cast<int>((screenX - m_viewport.x) / m_scale);
     gameY = static_cast<int>((screenY - m_viewport.y) / m_scale);
+}
+
+int Game::getScreenWidth() const {
+    int w, h;
+    SDL_GetWindowSize(m_window, &w, &h);
+    return w;
+}
+
+int Game::getScreenHeight() const {
+    int w, h;
+    SDL_GetWindowSize(m_window, &w, &h);
+    return h;
 }
 
 void Game::quit() {

@@ -15,6 +15,17 @@
 #include <iostream>
 #include <algorithm>
 
+#ifdef HAS_IMGUI
+#include "../editor/ImGuiManager.h"
+#include "../editor/panels/HierarchyPanel.h"
+#include "../editor/panels/PropertiesPanel.h"
+#include "../editor/panels/ViewportPanel.h"
+#include "../editor/panels/AssetBrowserPanel.h"
+#include "../editor/panels/ConsolePanel.h"
+#include <imgui.h>
+#include <imgui_internal.h>
+#endif
+
 EditorState::EditorState() 
     : m_visualRoomEditor(std::make_unique<VisualRoomEditor>()) {
     LOG_INFO("EditorState created");
@@ -24,6 +35,23 @@ void EditorState::enter() {
     LOG_INFO("EditorState::enter()");
     m_currentTab = EditorTab::Overview;
     m_scrollY = 0;
+    
+#ifdef HAS_IMGUI
+    // Initiera ImGui
+    if (m_game) {
+        ImGuiManager::instance().init(m_game->getWindow(), m_game->getRenderer());
+    }
+    
+    // Skapa paneler
+    m_hierarchyPanel = std::make_unique<HierarchyPanel>(m_editorContext);
+    m_propertiesPanel = std::make_unique<PropertiesPanel>(m_editorContext);
+    m_viewportPanel = std::make_unique<ViewportPanel>(m_editorContext);
+    m_viewportPanel->setRenderer(m_game->getRenderer());
+    m_assetBrowserPanel = std::make_unique<AssetBrowserPanel>(m_editorContext);
+    m_consolePanel = std::make_unique<ConsolePanel>(m_editorContext);
+    
+    m_consolePanel->log("Editor initialized with panel architecture");
+#endif
     
     // Ladda all game data
     auto& loader = DataLoader::instance();
@@ -75,14 +103,22 @@ void EditorState::update(float deltaTime) {
 }
 
 void EditorState::render(SDL_Renderer* renderer) {
+    // Hämta skärmupplösning för dynamisk layout
+    int screenW = m_game ? m_game->getScreenWidth() : 1920;
+    int screenH = m_game ? m_game->getScreenHeight() : 1080;
+    
     SDL_SetRenderDrawColor(renderer, 30, 30, 40, 255);
     SDL_RenderClear(renderer);
     
+    // Skala baserat på skärmbredd (referens: 1920px)
+    float scale = screenW / 1920.0f;
+    int fontSize = static_cast<int>(16 * scale);
+    
     SDL_Color titleColor = {255, 200, 100, 255};
     FontManager::instance().renderText(renderer, "default", 
-        "=== RETRO ADVENTURE EDITOR ===", 180, 10, titleColor);
+        "=== RETRO ADVENTURE EDITOR ===", static_cast<int>(screenW * 0.35f), static_cast<int>(20 * scale), titleColor);
     
-    renderTabs(renderer);
+    renderTabs(renderer, screenW, screenH, scale);
     
     switch (m_currentTab) {
         case EditorTab::Overview:   
@@ -110,26 +146,38 @@ void EditorState::render(SDL_Renderer* renderer) {
     
     if (!m_statusMessage.empty()) {
         SDL_Color statusColor = {100, 255, 100, 255};
-        FontManager::instance().renderText(renderer, "default", m_statusMessage, 10, 365, statusColor);
+        FontManager::instance().renderText(renderer, "default", m_statusMessage, 
+            static_cast<int>(20 * scale), screenH - static_cast<int>(60 * scale), statusColor);
     }
     
     SDL_Color footerColor = {150, 150, 150, 255};
-    std::string footerText = "ESC: Back | TAB: Switch tabs | T: Toggle Tiled/Manual";
-    FontManager::instance().renderText(renderer, "default", footerText, 10, 380, footerColor);
+    std::string footerText = "ESC: Exit | TAB: Switch tabs | T: Toggle Tiled/Manual";
+    FontManager::instance().renderText(renderer, "default", footerText, 
+        static_cast<int>(20 * scale), screenH - static_cast<int>(30 * scale), footerColor);
+    
+#ifdef HAS_IMGUI
+    // Render ImGui overlay (ingen logisk skalning behövs längre)
+    ImGuiManager::instance().beginFrame();
+    renderImGui();
+    ImGuiManager::instance().endFrame();
+#endif
 }
 
-void EditorState::renderTabs(SDL_Renderer* renderer) {
+void EditorState::renderTabs(SDL_Renderer* renderer, int screenW, int screenH, float scale) {
     const char* tabNames[] = {
         "Overview", "Rooms", "Dialogs", "Quests", "Items", "WorldState", "Audio"
     };
     
-    int x = 10;
-    int y = 35;
+    int tabWidth = static_cast<int>(120 * scale);
+    int tabHeight = static_cast<int>(30 * scale);
+    int tabSpacing = static_cast<int>(10 * scale);
+    int x = static_cast<int>(20 * scale);
+    int y = static_cast<int>(60 * scale);
     
     for (int i = 0; i < 7; i++) {
         bool selected = (static_cast<int>(m_currentTab) == i);
         
-        SDL_Rect tabRect = {x, y, 85, 20};
+        SDL_Rect tabRect = {x, y, tabWidth, tabHeight};
         
         if (selected) {
             SDL_SetRenderDrawColor(renderer, 80, 80, 120, 255);
@@ -142,9 +190,9 @@ void EditorState::renderTabs(SDL_Renderer* renderer) {
         SDL_RenderDrawRect(renderer, &tabRect);
         
         SDL_Color textColor = selected ? SDL_Color{255, 255, 100, 255} : SDL_Color{200, 200, 200, 255};
-        FontManager::instance().renderText(renderer, "default", tabNames[i], x + 5, y + 3, textColor);
+        FontManager::instance().renderText(renderer, "default", tabNames[i], x + static_cast<int>(10 * scale), y + static_cast<int>(8 * scale), textColor);
         
-        x += 90;
+        x += tabWidth + tabSpacing;
     }
 }
 
@@ -246,6 +294,17 @@ void EditorState::renderVisualEditor(SDL_Renderer* renderer) {
 }
 
 void EditorState::handleEvent(const SDL_Event& event) {
+#ifdef HAS_IMGUI
+    // Låt ImGui processa events först
+    ImGuiManager::instance().processEvent(event);
+    
+    // Om ImGui vill ha input, skippa vår handling
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.WantCaptureMouse || io.WantCaptureKeyboard) {
+        return;
+    }
+#endif
+    
     if (event.type == SDL_KEYDOWN) {
         switch (event.key.keysym.scancode) {
             case SDL_SCANCODE_ESCAPE:
@@ -506,6 +565,163 @@ void EditorState::renderButton(SDL_Renderer* renderer, const char* text, int x, 
     
     SDL_Color textColor = {255, 255, 255, 255};
     FontManager::instance().renderText(renderer, "default", text, x + 5, y + 3, textColor);
+}
+
+void EditorState::renderImGui() {
+#ifdef HAS_IMGUI
+    static bool showDemoWindow = false;
+    static bool firstTime = true;
+    
+    // Hämta skärmstorlek
+    ImGuiIO& io = ImGui::GetIO();
+    float screenW = io.DisplaySize.x;
+    float screenH = io.DisplaySize.y;
+    
+    // Synka EditorContext med gamla selection-variabler
+    m_editorContext.selectedRoomId = m_selectedRoom;
+    m_editorContext.selectedDialogId = m_selectedDialog;
+    m_editorContext.selectedQuestId = m_selectedQuest;
+    m_editorContext.selectedItemId = m_selectedItem;
+    m_editorContext.statusMessage = m_statusMessage;
+    
+    // === HUVUDMENY ===
+    float menuBarHeight = 0;
+    if (ImGui::BeginMainMenuBar()) {
+        menuBarHeight = ImGui::GetWindowSize().y;
+        
+        if (ImGui::BeginMenu("File")) {
+            if (ImGui::MenuItem("Save All", "Ctrl+S")) {
+                m_editorContext.saveToFiles();
+                if (m_consolePanel) m_consolePanel->log("Saved all data");
+            }
+            if (ImGui::MenuItem("Import from Tiled...")) {
+                importFromTiled();
+            }
+            if (ImGui::MenuItem("Export to Tiled...")) {
+                exportAllToTiled();
+            }
+            ImGui::Separator();
+            if (ImGui::MenuItem("Exit", "ESC")) {
+                if (m_game) m_game->popState();
+            }
+            ImGui::EndMenu();
+        }
+        
+        if (ImGui::BeginMenu("Edit")) {
+            if (ImGui::MenuItem("Undo", "Ctrl+Z", false, false)) {}
+            if (ImGui::MenuItem("Redo", "Ctrl+Y", false, false)) {}
+            ImGui::EndMenu();
+        }
+        
+        if (ImGui::BeginMenu("View")) {
+            bool hierarchyVisible = m_hierarchyPanel && m_hierarchyPanel->isVisible();
+            bool viewportVisible = m_viewportPanel && m_viewportPanel->isVisible();
+            bool propertiesVisible = m_propertiesPanel && m_propertiesPanel->isVisible();
+            bool assetBrowserVisible = m_assetBrowserPanel && m_assetBrowserPanel->isVisible();
+            bool consoleVisible = m_consolePanel && m_consolePanel->isVisible();
+            
+            if (ImGui::MenuItem("Hierarchy", nullptr, &hierarchyVisible)) {
+                if (m_hierarchyPanel) m_hierarchyPanel->setVisible(hierarchyVisible);
+            }
+            if (ImGui::MenuItem("Viewport", nullptr, &viewportVisible)) {
+                if (m_viewportPanel) m_viewportPanel->setVisible(viewportVisible);
+            }
+            if (ImGui::MenuItem("Properties", nullptr, &propertiesVisible)) {
+                if (m_propertiesPanel) m_propertiesPanel->setVisible(propertiesVisible);
+            }
+            if (ImGui::MenuItem("Asset Browser", nullptr, &assetBrowserVisible)) {
+                if (m_assetBrowserPanel) m_assetBrowserPanel->setVisible(assetBrowserVisible);
+            }
+            if (ImGui::MenuItem("Console", nullptr, &consoleVisible)) {
+                if (m_consolePanel) m_consolePanel->setVisible(consoleVisible);
+            }
+            ImGui::Separator();
+            ImGui::MenuItem("ImGui Demo", nullptr, &showDemoWindow);
+            ImGui::EndMenu();
+        }
+        
+        if (ImGui::BeginMenu("Tools")) {
+            if (ImGui::MenuItem("Validate All Data")) {
+                if (m_consolePanel) m_consolePanel->logWarning("Validation not implemented yet");
+            }
+            if (ImGui::MenuItem("Reload Data")) {
+                DataLoader::instance().loadAll();
+                if (m_consolePanel) m_consolePanel->log("Data reloaded");
+            }
+            if (ImGui::MenuItem("Refresh Assets")) {
+                if (m_assetBrowserPanel) {
+                    m_assetBrowserPanel->refreshAssets();
+                    if (m_consolePanel) m_consolePanel->log("Assets refreshed");
+                }
+            }
+            ImGui::EndMenu();
+        }
+        
+        ImGui::EndMainMenuBar();
+    }
+    
+    // === DOCKSPACE ===
+    ImGuiWindowFlags dockspaceFlags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
+        ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBackground;
+    
+    ImGui::SetNextWindowPos(ImVec2(0, menuBarHeight));
+    ImGui::SetNextWindowSize(ImVec2(screenW, screenH - menuBarHeight));
+    
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+    ImGui::Begin("DockSpaceWindow", nullptr, dockspaceFlags);
+    ImGui::PopStyleVar();
+    
+    ImGuiID dockspaceId = ImGui::GetID("EditorDockspace");
+    ImGui::DockSpace(dockspaceId, ImVec2(0, 0), ImGuiDockNodeFlags_PassthruCentralNode);
+    
+    // Sätt upp default layout första gången
+    if (firstTime) {
+        firstTime = false;
+        ImGui::DockBuilderRemoveNode(dockspaceId);
+        ImGui::DockBuilderAddNode(dockspaceId, ImGuiDockNodeFlags_DockSpace);
+        ImGui::DockBuilderSetNodeSize(dockspaceId, ImVec2(screenW, screenH - menuBarHeight));
+        
+        ImGuiID dockLeft, dockRight, dockBottom, dockCenter;
+        ImGui::DockBuilderSplitNode(dockspaceId, ImGuiDir_Left, 0.2f, &dockLeft, &dockCenter);
+        ImGui::DockBuilderSplitNode(dockCenter, ImGuiDir_Right, 0.3f, &dockRight, &dockCenter);
+        ImGui::DockBuilderSplitNode(dockCenter, ImGuiDir_Down, 0.25f, &dockBottom, &dockCenter);
+        
+        // Dela höger panel för Properties och Asset Browser
+        ImGuiID dockRightTop, dockRightBottom;
+        ImGui::DockBuilderSplitNode(dockRight, ImGuiDir_Down, 0.5f, &dockRightBottom, &dockRightTop);
+        
+        ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
+        ImGui::DockBuilderDockWindow("Viewport", dockCenter);
+        ImGui::DockBuilderDockWindow("Properties", dockRightTop);
+        ImGui::DockBuilderDockWindow("Asset Browser", dockRightBottom);
+        ImGui::DockBuilderDockWindow("Console", dockBottom);
+        ImGui::DockBuilderFinish(dockspaceId);
+    }
+    
+    ImGui::End();
+    
+    // === RENDERA PANELER ===
+    if (m_hierarchyPanel) m_hierarchyPanel->render();
+    if (m_viewportPanel) {
+        m_viewportPanel->update(0.016f);
+        m_viewportPanel->render();
+    }
+    if (m_propertiesPanel) m_propertiesPanel->render();
+    if (m_assetBrowserPanel) m_assetBrowserPanel->render();
+    if (m_consolePanel) m_consolePanel->render();
+    
+    // Demo window
+    if (showDemoWindow) {
+        ImGui::ShowDemoWindow(&showDemoWindow);
+    }
+    
+    // Synka tillbaka selection
+    m_selectedRoom = m_editorContext.selectedRoomId;
+    m_selectedDialog = m_editorContext.selectedDialogId;
+    m_selectedQuest = m_editorContext.selectedQuestId;
+    m_selectedItem = m_editorContext.selectedItemId;
+#endif
 }
 
 bool EditorState::isButtonClicked(int btnX, int btnY, int btnW, int btnH, int clickX, int clickY) {
