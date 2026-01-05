@@ -11,6 +11,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\PauseState.cpp;C:\Us
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\TextureManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\TextureManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\SpriteSheet.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\SpriteSheet.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\Animation.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Animation.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\FontManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\FontManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\audio\AudioManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\AudioManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\Entity.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Entity.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\Character.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Character.obj

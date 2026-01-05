@@ -33,7 +33,7 @@
 - [x] TextureManager (singleton)
 - [x] SpriteSheet loading (PNG)
 - [x] Animation system
-- [ ] Font rendering (framtida - SDL_ttf)
+- [x] FontManager (SDL_ttf)
 
 ### 1.4 Audio Foundation ✅
 - [x] AudioManager klass

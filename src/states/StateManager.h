@@ -15,6 +15,7 @@ class IState;
  * 
  * Använder en stack för att tillåta states ovanpå varandra
  * (t.ex. PauseState ovanpå PlayState).
+ * State-ändringar är deferred för att undvika problem under handleEvent.
  */
 class StateManager {
 public:
@@ -30,13 +31,21 @@ public:
     /** @brief Ersätt alla states med ny (för state-byte) */
     void changeState(std::unique_ptr<IState> state);
     
+    /** @brief Processa pending state-ändringar (anropas av Game) */
+    void processPendingChanges();
+    
     void update(float deltaTime);
     void render(SDL_Renderer* renderer);
     void handleEvent(const SDL_Event& event);
     
-    bool isEmpty() const { return m_states.empty(); }
+    bool isEmpty() const { return m_states.empty() && !m_pendingState; }
     IState* getCurrentState() const;
 
 private:
-    std::stack<std::unique_ptr<IState>> m_states;  // Stack av states
+    void doChangeState(std::unique_ptr<IState> state);
+    
+    std::stack<std::unique_ptr<IState>> m_states;
+    std::unique_ptr<IState> m_pendingState;
+    bool m_pendingChange = false;
+    bool m_pendingPop = false;
 };

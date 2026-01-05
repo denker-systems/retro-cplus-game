@@ -4,6 +4,7 @@
  */
 #include "StateManager.h"
 #include "IState.h"
+#include <iostream>
 
 void StateManager::pushState(std::unique_ptr<IState> state) {
     // Pausa nuvarande state om den finns
@@ -29,6 +30,12 @@ void StateManager::popState() {
 }
 
 void StateManager::changeState(std::unique_ptr<IState> state) {
+    // Deferred - vänta tills efter handleEvent är klar
+    m_pendingState = std::move(state);
+    m_pendingChange = true;
+}
+
+void StateManager::doChangeState(std::unique_ptr<IState> state) {
     // Ta bort alla befintliga states
     while (!m_states.empty()) {
         m_states.top()->exit();
@@ -37,6 +44,23 @@ void StateManager::changeState(std::unique_ptr<IState> state) {
     // Lägg till den nya
     m_states.push(std::move(state));
     m_states.top()->enter();
+}
+
+void StateManager::processPendingChanges() {
+    if (m_pendingChange && m_pendingState) {
+        m_pendingChange = false;
+        doChangeState(std::move(m_pendingState));
+    }
+    if (m_pendingPop) {
+        m_pendingPop = false;
+        if (!m_states.empty()) {
+            m_states.top()->exit();
+            m_states.pop();
+            if (!m_states.empty()) {
+                m_states.top()->enter();
+            }
+        }
+    }
 }
 
 void StateManager::update(float deltaTime) {

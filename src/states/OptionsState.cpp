@@ -6,6 +6,7 @@
 #include "MenuState.h"
 #include "../Game.h"
 #include "../audio/AudioManager.h"
+#include "../graphics/FontManager.h"
 #include <iostream>
 
 OptionsState::OptionsState() {
@@ -39,9 +40,8 @@ void OptionsState::render(SDL_Renderer* renderer) {
     SDL_RenderClear(renderer);
     
     // Titel
-    SDL_Rect titleRect = { 230, 60, 180, 40 };
-    SDL_SetRenderDrawColor(renderer, 180, 160, 100, 255);
-    SDL_RenderFillRect(renderer, &titleRect);
+    FontManager::instance().renderTextCentered(renderer, "title", 
+        "OPTIONS", 320, 60, {180, 160, 100, 255});
     
     // Input Mode
     std::string inputStr = (m_inputMode == InputMode::KeyboardMouse) 
@@ -60,25 +60,20 @@ void OptionsState::render(SDL_Renderer* renderer) {
     renderOption(renderer, "Back", "", 340, m_selectedOption == 3);
     
     // Instruktioner
-    SDL_Rect instructRect = { 150, 380, 340, 15 };
-    SDL_SetRenderDrawColor(renderer, 60, 60, 80, 255);
-    SDL_RenderFillRect(renderer, &instructRect);
+    FontManager::instance().renderTextCentered(renderer, "default",
+        "LEFT/RIGHT to change, ESC to go back", 320, 380, {80, 80, 100, 255});
 }
 
 void OptionsState::renderOption(SDL_Renderer* renderer, const std::string& label,
                                  const std::string& value, int y, bool selected) {
-    (void)label;
-    (void)value;
-    
     // Bakgrund för alternativ
     SDL_Rect rect = { 150, y, 340, 40 };
     
     if (selected) {
         SDL_SetRenderDrawColor(renderer, 255, 200, 50, 255);
         SDL_RenderFillRect(renderer, &rect);
-        SDL_SetRenderDrawColor(renderer, 40, 40, 60, 255);
     } else {
-        SDL_SetRenderDrawColor(renderer, 80, 80, 100, 255);
+        SDL_SetRenderDrawColor(renderer, 60, 60, 80, 255);
         SDL_RenderFillRect(renderer, &rect);
     }
     
@@ -86,12 +81,28 @@ void OptionsState::renderOption(SDL_Renderer* renderer, const std::string& label
     SDL_SetRenderDrawColor(renderer, 100, 100, 120, 255);
     SDL_RenderDrawRect(renderer, &rect);
     
-    // Värde-indikator (bar för volym)
-    if (!value.empty() && value.back() == '%') {
-        int pct = std::stoi(value.substr(0, value.length() - 1));
-        SDL_Rect bar = { 300, y + 10, static_cast<int>(150 * pct / 100), 20 };
-        SDL_SetRenderDrawColor(renderer, 100, 200, 100, 255);
-        SDL_RenderFillRect(renderer, &bar);
+    // Label text
+    SDL_Color textColor = selected ? SDL_Color{40, 40, 60, 255} : SDL_Color{180, 180, 200, 255};
+    FontManager::instance().renderText(renderer, "default", label, 165, y + 10, textColor);
+    
+    // Value text eller bar
+    if (!value.empty()) {
+        if (value.back() == '%') {
+            // Volym-bar
+            int pct = std::stoi(value.substr(0, value.length() - 1));
+            SDL_Rect barBg = { 280, y + 12, 150, 16 };
+            SDL_SetRenderDrawColor(renderer, 40, 40, 60, 255);
+            SDL_RenderFillRect(renderer, &barBg);
+            
+            SDL_Rect bar = { 280, y + 12, static_cast<int>(150 * pct / 100), 16 };
+            SDL_SetRenderDrawColor(renderer, 100, 200, 100, 255);
+            SDL_RenderFillRect(renderer, &bar);
+            
+            FontManager::instance().renderText(renderer, "default", value, 440, y + 10, textColor);
+        } else {
+            // Vanligt värde
+            FontManager::instance().renderText(renderer, "default", value, 280, y + 10, textColor);
+        }
     }
 }
 
@@ -145,13 +156,19 @@ void OptionsState::handleEvent(const SDL_Event& event) {
                 
             case SDL_SCANCODE_RETURN:
             case SDL_SCANCODE_SPACE:
-            case SDL_SCANCODE_ESCAPE:
-                if (m_selectedOption == 3 || event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
+                if (m_selectedOption == 3) {
                     // Back to menu
                     AudioManager::instance().playSound("select");
                     if (m_game) {
                         m_game->changeState(std::make_unique<MenuState>());
                     }
+                }
+                break;
+                
+            case SDL_SCANCODE_ESCAPE:
+                AudioManager::instance().playSound("select");
+                if (m_game) {
+                    m_game->changeState(std::make_unique<MenuState>());
                 }
                 break;
                 

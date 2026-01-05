@@ -7,6 +7,7 @@
 #include "OptionsState.h"
 #include "../Game.h"
 #include "../audio/AudioManager.h"
+#include "../graphics/FontManager.h"
 #include <iostream>
 
 PauseState::PauseState() {
@@ -42,28 +43,29 @@ void PauseState::render(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, 100, 100, 140, 255);
     SDL_RenderDrawRect(renderer, &pauseBox);
     
-    // Titel "PAUSED"
-    SDL_Rect titleRect = { 270, 115, 100, 30 };
-    SDL_SetRenderDrawColor(renderer, 200, 180, 100, 255);
-    SDL_RenderFillRect(renderer, &titleRect);
+    // Titel
+    FontManager::instance().renderTextCentered(renderer, "title", 
+        "PAUSED", 320, 115, {200, 180, 100, 255});
     
     // Menyalternativ
     for (int i = 0; i < NUM_OPTIONS; i++) {
-        renderOption(renderer, i, 165 + i * 40, i == m_selectedOption);
+        renderOption(renderer, i, 170 + i * 40, i == m_selectedOption);
     }
 }
 
 void PauseState::renderOption(SDL_Renderer* renderer, int index, int y, bool selected) {
-    (void)index;
-    
     SDL_Rect rect = { 220, y, 200, 30 };
     
     if (selected) {
         SDL_SetRenderDrawColor(renderer, 255, 200, 50, 255);
         SDL_RenderFillRect(renderer, &rect);
+        FontManager::instance().renderTextCentered(renderer, "default", 
+            m_options[index], 320, y + 5, {40, 40, 60, 255});
     } else {
-        SDL_SetRenderDrawColor(renderer, 80, 80, 100, 255);
+        SDL_SetRenderDrawColor(renderer, 60, 60, 80, 255);
         SDL_RenderFillRect(renderer, &rect);
+        FontManager::instance().renderTextCentered(renderer, "default", 
+            m_options[index], 320, y + 5, {180, 180, 200, 255});
     }
 }
 

@@ -7,6 +7,7 @@
 #include "states/IState.h"
 #include "states/MenuState.h"
 #include "graphics/TextureManager.h"
+#include "graphics/FontManager.h"
 #include "audio/AudioManager.h"
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -64,6 +65,9 @@ bool Game::init(const std::string& title, int width, int height) {
     // Initiera managers
     TextureManager::instance().init(m_renderer);
     AudioManager::instance().init();
+    FontManager::instance().init();
+    FontManager::instance().loadFont("default", "assets/fonts/arial.ttf", 18);
+    FontManager::instance().loadFont("title", "assets/fonts/arial.ttf", 32);
 
     // Skapa StateManager och starta med MenuState
     m_stateManager = std::make_unique<StateManager>();
@@ -85,6 +89,7 @@ void Game::run() {
         m_lastFrameTime = currentTime;
 
         handleEvents();
+        m_stateManager->processPendingChanges();  // Process deferred state changes
         update(deltaTime);
         render();
     }
@@ -126,6 +131,7 @@ void Game::changeState(std::unique_ptr<IState> state) {
 void Game::quit() {
     m_stateManager.reset();
     AudioManager::instance().shutdown();
+    FontManager::instance().shutdown();
     TextureManager::instance().shutdown();
 
     if (m_renderer) {

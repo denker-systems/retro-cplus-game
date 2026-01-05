@@ -23,21 +23,28 @@ Ett skalbart point-and-click adventure-spel byggt med modern C++17 och SDL2.
 src/
 ├── Game.cpp/h            # Huvudloop, SDL init, state koordinering ✅
 ├── Input.cpp/h           # Tangentbordshantering ✅
-├── Player.cpp/h          # Spelarkaraktär (placeholder) ✅
-├── Room.cpp/h            # Rum med hotspots (placeholder) ✅
-├── Renderer.cpp/h        # Utility (unused) ✅
-├── main.cpp              # Entry point ✅
 │
-├── states/               # Game states (State Pattern) ✅
-│   ├── StateManager.cpp/h  # Push/pop/change states ✅
-│   ├── IState.h            # Abstract interface ✅
-│   ├── MenuState.cpp/h     # Huvudmeny ✅
-│   └── PlayState.cpp/h     # Gameplay ✅
+├── states/               # Game states (State Pattern) 
+│   ├── StateManager.cpp/h  # Push/pop/change (deferred) 
+│   ├── IState.h            # Abstract interface 
+│   ├── MenuState.cpp/h     # Huvudmeny 
+│   ├── PlayState.cpp/h     # Gameplay 
+│   ├── PauseState.cpp/h    # Pausmeny (overlay) 
+│   └── OptionsState.cpp/h  # Inställningar 
 │
-└── graphics/             # Grafiksystem ✅
-    ├── TextureManager.cpp/h  # Singleton, texture caching ✅
-    ├── SpriteSheet.cpp/h     # Frame-baserad rendering ✅
-    └── Animation.cpp/h       # Tidsbaserad animation ✅
+├── graphics/             # Grafiksystem 
+│   ├── TextureManager.cpp/h  # Singleton, texture caching 
+│   ├── SpriteSheet.cpp/h     # Frame-baserad rendering 
+│   ├── Animation.cpp/h       # Tidsbaserad animation 
+│   └── FontManager.cpp/h     # SDL_ttf text rendering 
+│
+├── audio/                # Ljudsystem 
+│   └── AudioManager.cpp/h    # Music, SFX, volume 
+│
+└── entities/             # Entity hierarki (OOP) 
+    ├── Entity.cpp/h          # Abstract base 
+    ├── Character.cpp/h       # Character base 
+    └── PlayerCharacter.cpp/h # Spelaren 
 ```
 
 ### Planerat (ny OOP-struktur)

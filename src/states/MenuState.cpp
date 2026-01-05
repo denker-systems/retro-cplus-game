@@ -8,6 +8,7 @@
 #include "OptionsState.h"
 #include "../Game.h"
 #include "../audio/AudioManager.h"
+#include "../graphics/FontManager.h"
 #include <iostream>
 
 MenuState::MenuState() {
@@ -39,20 +40,18 @@ void MenuState::render(SDL_Renderer* renderer) {
     SDL_RenderClear(renderer);
     
     // Titel
-    SDL_Rect titleRect = { 220, 80, 200, 40 };
-    SDL_SetRenderDrawColor(renderer, 200, 180, 100, 255);
-    SDL_RenderFillRect(renderer, &titleRect);
+    FontManager::instance().renderTextCentered(renderer, "title", 
+        "RETRO ADVENTURE", 320, 80, {200, 180, 100, 255});
     
     // Menyalternativ
     int startY = 180;
     for (int i = 0; i < NUM_OPTIONS; i++) {
-        renderText(renderer, m_options[i], 270, startY + i * 60, i == m_selectedOption);
+        renderText(renderer, m_options[i], 320, startY + i * 50, i == m_selectedOption);
     }
     
     // Instruktioner
-    SDL_Rect instructRect = { 200, 350, 240, 20 };
-    SDL_SetRenderDrawColor(renderer, 80, 80, 100, 255);
-    SDL_RenderFillRect(renderer, &instructRect);
+    FontManager::instance().renderTextCentered(renderer, "default",
+        "Use UP/DOWN and ENTER to select", 320, 360, {100, 100, 120, 255});
 }
 
 void MenuState::handleEvent(const SDL_Event& event) {
@@ -98,18 +97,21 @@ void MenuState::handleEvent(const SDL_Event& event) {
 }
 
 void MenuState::renderText(SDL_Renderer* renderer, const std::string& text, int x, int y, bool selected) {
-    (void)text;
-    
-    SDL_Rect rect = { x, y, 100, 30 };
+    int w, h;
+    FontManager::instance().getTextSize("default", text, &w, &h);
     
     if (selected) {
+        // Highlight bakgrund
+        SDL_Rect highlight = { x - w/2 - 15, y - 5, w + 30, h + 10 };
         SDL_SetRenderDrawColor(renderer, 255, 200, 50, 255);
-        SDL_Rect highlight = { x - 10, y - 5, 120, 40 };
         SDL_RenderFillRect(renderer, &highlight);
-        SDL_SetRenderDrawColor(renderer, 40, 40, 60, 255);
+        SDL_SetRenderDrawColor(renderer, 100, 100, 140, 255);
+        SDL_RenderDrawRect(renderer, &highlight);
+        
+        // Text (mörk på ljus bakgrund)
+        FontManager::instance().renderTextCentered(renderer, "default", text, x, y, {40, 40, 60, 255});
     } else {
-        SDL_SetRenderDrawColor(renderer, 150, 150, 170, 255);
+        // Normal text
+        FontManager::instance().renderTextCentered(renderer, "default", text, x, y, {180, 180, 200, 255});
     }
-    
-    SDL_RenderFillRect(renderer, &rect);
 }
