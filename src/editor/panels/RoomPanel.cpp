@@ -8,8 +8,8 @@
 #include "../widgets/Button.h"
 #include "../widgets/ListView.h"
 #include "../commands/HotspotCommands.h"
-#include "../../graphics/FontManager.h"
-#include "../../audio/AudioManager.h"
+#include "engine/graphics/FontManager.h"
+#include "engine/audio/AudioManager.h"
 #include "../../utils/Logger.h"
 #include <SDL_image.h>
 

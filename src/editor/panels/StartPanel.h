@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "../IEditorPanel.h"
+#include "editor/IEditorPanel.h"
 #include <SDL.h>
 
 class StartPanel : public IEditorPanel {

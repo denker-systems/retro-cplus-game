@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "../IEditorPanel.h"
+#include "editor/IEditorPanel.h"
 #include <string>
 #include <SDL.h>
 
@@ -47,4 +47,17 @@ private:
     bool m_showGrid = true;
     bool m_showHotspots = true;
     bool m_showWalkArea = true;
+    
+    // Drag state
+    bool m_isDragging = false;
+    int m_draggedHotspotIndex = -1;
+    bool m_draggingSpawn = false;
+    bool m_draggingWalkArea = false;
+    int m_walkAreaCorner = -1; // 0=TL, 1=TR, 2=BR, 3=BL
+    float m_dragOffsetX = 0.0f;
+    float m_dragOffsetY = 0.0f;
+    
+    void handleMouseDown(float mouseX, float mouseY, float previewX, float previewY,
+                        float previewW, float previewH, float roomX, float roomY, const struct RoomData* room);
+    void handleMouseDrag(float roomX, float roomY);
 };

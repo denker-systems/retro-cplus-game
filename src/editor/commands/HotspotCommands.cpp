@@ -3,8 +3,8 @@
  * @brief Implementation of hotspot editing commands
  */
 #include "HotspotCommands.h"
-#include "../EditorCore.h"
-#include "../EditorContext.h"
+#include "editor/EditorCore.h"
+#include "editor/EditorContext.h"
 
 static RoomData* findRoom(const std::string& roomId) {
     auto& ctx = EditorCore::instance().getContext();

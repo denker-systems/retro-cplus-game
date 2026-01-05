@@ -2,9 +2,9 @@
  * @file main.cpp
  * @brief Entry point för RetroAdventure Editor (Standalone)
  */
-#include "../Game.h"
-#include "../states/EditorState.h"
-#include "../utils/Logger.h"
+#include "game/Game.h"
+#include "editor/EditorState.h"
+#include "engine/utils/Logger.h"
 #include <SDL.h>
 
 int main(int argc, char* argv[]) {

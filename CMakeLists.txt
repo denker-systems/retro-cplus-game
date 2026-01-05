@@ -22,7 +22,7 @@ find_package(nfd CONFIG QUIET)
 
 # Dev dependencies (optional)
 find_package(spdlog CONFIG QUIET)
-find_package(efsw CONFIG QUIET)
+# efsw removed - using polling-based FileWatcher instead (more robust)
 
 # Report what we found
 message(STATUS "ImGui found: ${imgui_FOUND}")
@@ -34,43 +34,44 @@ message(STATUS "NativeFileDialog found: ${nfd_FOUND}")
 # RETRO CORE LIBRARY - Delad kod mellan Game och Editor
 # ============================================================================
 set(CORE_SOURCES
-    src/Renderer.cpp
-    src/Input.cpp
-    src/Room.cpp
-    src/VideoSettings.cpp
-    src/systems/DialogSystem.cpp
-    src/systems/InventorySystem.cpp
-    src/systems/RoomManager.cpp
-    src/systems/QuestSystem.cpp
-    src/systems/AISystem.cpp
-    src/systems/SaveSystem.cpp
-    src/systems/CutsceneSystem.cpp
-    src/systems/HintSystem.cpp
-    src/systems/RecapSystem.cpp
-    src/systems/GateSystem.cpp
-    src/systems/JournalSystem.cpp
-    src/systems/WorldState.cpp
-    src/systems/ConditionSystem.cpp
-    src/systems/EventBus.cpp
-    src/systems/WorldQuery.cpp
-    src/data/DataLoader.cpp
-    src/data/TiledImporter.cpp
-    src/graphics/TextureManager.cpp
-    src/graphics/SpriteSheet.cpp
-    src/graphics/Animation.cpp
-    src/graphics/FontManager.cpp
-    src/graphics/Transition.cpp
-    src/audio/AudioManager.cpp
-    src/entities/Entity.cpp
-    src/entities/Character.cpp
-    src/entities/PlayerCharacter.cpp
-    src/entities/NPC.cpp
-    src/ui/Widget.cpp
-    src/utils/Logger.cpp
+    src/engine/Renderer.cpp
+    src/engine/input/Input.cpp
+    src/engine/Room.cpp
+    src/engine/VideoSettings.cpp
+    src/engine/systems/DialogSystem.cpp
+    src/engine/systems/InventorySystem.cpp
+    src/engine/systems/RoomManager.cpp
+    src/engine/systems/QuestSystem.cpp
+    src/engine/systems/AISystem.cpp
+    src/engine/systems/SaveSystem.cpp
+    src/engine/systems/CutsceneSystem.cpp
+    src/engine/systems/HintSystem.cpp
+    src/engine/systems/RecapSystem.cpp
+    src/engine/systems/GateSystem.cpp
+    src/engine/systems/JournalSystem.cpp
+    src/engine/systems/WorldState.cpp
+    src/engine/systems/ConditionSystem.cpp
+    src/engine/systems/EventBus.cpp
+    src/engine/systems/WorldQuery.cpp
+    src/engine/data/DataLoader.cpp
+    src/engine/data/TiledImporter.cpp
+    src/engine/graphics/TextureManager.cpp
+    src/engine/graphics/SpriteSheet.cpp
+    src/engine/graphics/Animation.cpp
+    src/engine/graphics/FontManager.cpp
+    src/engine/graphics/Transition.cpp
+    src/engine/audio/AudioManager.cpp
+    src/engine/entities/Entity.cpp
+    src/engine/entities/Character.cpp
+    src/engine/entities/PlayerCharacter.cpp
+    src/engine/entities/NPC.cpp
+    src/engine/ui/Widget.cpp
+    src/engine/utils/Logger.cpp
+    src/engine/utils/FileWatcher.cpp
 )
 
 add_library(RetroCore STATIC ${CORE_SOURCES})
-target_include_directories(RetroCore PUBLIC src)
+target_include_directories(RetroCore PUBLIC src src/engine)
 target_link_libraries(RetroCore PUBLIC
     $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
     $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
@@ -79,34 +80,24 @@ target_link_libraries(RetroCore PUBLIC
     nlohmann_json::nlohmann_json
 )
 
+# Hot Reload alltid tillgängligt (polling-baserat, ingen extern dependency)
+message(STATUS "Hot Reload enabled (polling-based FileWatcher)")
+
 # ============================================================================
-# RETRO GAME - Huvudspel executable (inkluderar in-game editor)
+# RETRO GAME - Huvudspel executable (utan editor)
 # ============================================================================
 set(GAME_SOURCES
     src/game/main.cpp
-    src/Game.cpp
-    src/states/StateManager.cpp
-    src/states/MenuState.cpp
-    src/states/PlayState.cpp
-    src/states/OptionsState.cpp
-    src/states/PauseState.cpp
-    src/states/DialogState.cpp
-    src/states/InventoryState.cpp
-    src/states/QuestLogState.cpp
-    src/states/SaveLoadState.cpp
-    src/states/EditorState.cpp
-    src/editor/DebugEditor.cpp
-    src/editor/EditorCore.cpp
-    src/editor/EditorContext.cpp
-    src/editor/VisualRoomEditor.cpp
-    src/editor/RoomDataManager.cpp
-    src/editor/EditorTabRenderer.cpp
-    src/editor/TiledIntegration.cpp
-    src/editor/widgets/Widget.cpp
-    src/editor/widgets/Button.cpp
-    src/editor/widgets/ListView.cpp
-    src/editor/panels/RoomPanel.cpp
-    src/editor/commands/HotspotCommands.cpp
+    src/game/Game.cpp
+    src/game/states/StateManager.cpp
+    src/game/states/MenuState.cpp
+    src/game/states/PlayState.cpp
+    src/game/states/OptionsState.cpp
+    src/game/states/PauseState.cpp
+    src/game/states/DialogState.cpp
+    src/game/states/InventoryState.cpp
+    src/game/states/QuestLogState.cpp
+    src/game/states/SaveLoadState.cpp
 )
 
 add_executable(RetroGame ${GAME_SOURCES})
@@ -126,23 +117,23 @@ set(IMGUI_BACKEND_SOURCES
 
 set(EDITOR_SOURCES
     src/editor/main.cpp
-    src/Game.cpp
-    src/states/StateManager.cpp
-    src/states/MenuState.cpp
-    src/states/PlayState.cpp
-    src/states/OptionsState.cpp
-    src/states/PauseState.cpp
-    src/states/DialogState.cpp
-    src/states/InventoryState.cpp
-    src/states/QuestLogState.cpp
-    src/states/SaveLoadState.cpp
-    src/states/EditorState.cpp
-    src/editor/DebugEditor.cpp
+    src/game/Game.cpp
+    src/game/states/StateManager.cpp
+    src/game/states/MenuState.cpp
+    src/game/states/PlayState.cpp
+    src/game/states/OptionsState.cpp
+    src/game/states/PauseState.cpp
+    src/game/states/DialogState.cpp
+    src/game/states/InventoryState.cpp
+    src/game/states/QuestLogState.cpp
+    src/game/states/SaveLoadState.cpp
+    src/editor/EditorState.cpp
+    src/editor/components/DebugEditor.cpp
     src/editor/EditorContext.cpp
-    src/editor/VisualRoomEditor.cpp
-    src/editor/RoomDataManager.cpp
-    src/editor/EditorTabRenderer.cpp
-    src/editor/TiledIntegration.cpp
+    src/editor/components/VisualRoomEditor.cpp
+    src/editor/components/RoomDataManager.cpp
+    src/editor/components/EditorTabRenderer.cpp
+    src/editor/components/TiledIntegration.cpp
     src/editor/panels/HierarchyPanel.cpp
     src/editor/panels/PropertiesPanel.cpp
     src/editor/panels/ViewportPanel.cpp
@@ -165,6 +156,9 @@ target_link_libraries(RetroEditor PRIVATE
     $<TARGET_NAME_IF_EXISTS:efsw::efsw>
 )
 
+# Definiera HAS_EDITOR för att inkludera editor-funktionalitet
+target_compile_definitions(RetroEditor PRIVATE HAS_EDITOR=1)
+
 # Definiera HAS_* om bibliotek finns
 if(imgui_FOUND)
     target_compile_definitions(RetroEditor PRIVATE HAS_IMGUI=1)
@@ -180,52 +174,9 @@ if(nfd_FOUND)
 endif()
 
 # ============================================================================
-# LEGACY - Kombinerad executable (för bakåtkompatibilitet)
-# ============================================================================
-set(ALL_SOURCES
-    src/main.cpp
-    src/Game.cpp
-    ${CORE_SOURCES}
-    src/states/StateManager.cpp
-    src/states/MenuState.cpp
-    src/states/PlayState.cpp
-    src/states/OptionsState.cpp
-    src/states/PauseState.cpp
-    src/states/DialogState.cpp
-    src/states/InventoryState.cpp
-    src/states/QuestLogState.cpp
-    src/states/SaveLoadState.cpp
-    src/states/EditorState.cpp
-    src/editor/DebugEditor.cpp
-    src/editor/EditorCore.cpp
-    src/editor/EditorContext.cpp
-    src/editor/VisualRoomEditor.cpp
-    src/editor/RoomDataManager.cpp
-    src/editor/EditorTabRenderer.cpp
-    src/editor/TiledIntegration.cpp
-    src/editor/widgets/Widget.cpp
-    src/editor/widgets/Button.cpp
-    src/editor/widgets/ListView.cpp
-    src/editor/panels/RoomPanel.cpp
-    src/editor/commands/HotspotCommands.cpp
-)
-
-add_executable(RetroAdventure ${ALL_SOURCES})
-target_include_directories(RetroAdventure PRIVATE src)
-target_link_libraries(RetroAdventure PRIVATE
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-    $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>
-    $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
-    nlohmann_json::nlohmann_json
-    $<TARGET_NAME_IF_EXISTS:imgui::imgui>
-)
-
-# ============================================================================
 # POST BUILD - Kopiera assets
 # ============================================================================
-foreach(target RetroGame RetroEditor RetroAdventure)
+foreach(target RetroGame RetroEditor)
     add_custom_command(TARGET ${target} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${target}>/assets

@@ -15,7 +15,7 @@
 #include <unordered_map>
 #include <vector>
 #include <any>
-#include "../data/GameData.h"
+#include "engine/data/GameData.h"
 
 /**
  * @brief Selection types
@@ -95,6 +95,10 @@ public:
     // Status message
     std::string statusMessage;
     float statusTimer = 0.0f;
+    
+    // Dirty flag for unsaved changes
+    bool isDirty = false;
+    void markDirty() { isDirty = true; }
     
     // Current editing data (mutable copies)
     std::vector<RoomData> rooms;

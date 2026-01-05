@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "../IEditorPanel.h"
+#include "editor/IEditorPanel.h"
 #include <string>
 #include <vector>
 #include <functional>

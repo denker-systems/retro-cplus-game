@@ -1,6 +1,5 @@
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/RetroCore.dir
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/RetroGame.dir
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/RetroEditor.dir
-C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/RetroAdventure.dir
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/ALL_BUILD.dir
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/ZERO_CHECK.dir

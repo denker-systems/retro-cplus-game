@@ -79,7 +79,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/vcpkg/installed/x64-windows/include" /external:I "C:/vcpkg/installed/x64-windows/include/SDL2"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -107,10 +107,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -123,7 +123,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/vcpkg/installed/x64-windows/include" /external:I "C:/vcpkg/installed/x64-windows/include/SDL2"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -152,10 +152,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -168,7 +168,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/vcpkg/installed/x64-windows/include" /external:I "C:/vcpkg/installed/x64-windows/include/SDL2"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -197,10 +197,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -213,7 +213,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/vcpkg/installed/x64-windows/include" /external:I "C:/vcpkg/installed/x64-windows/include/SDL2"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -241,10 +241,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\vcpkg\installed\x64-windows\include;C:\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -313,39 +313,40 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Renderer.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Input.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Room.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\VideoSettings.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\DialogSystem.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\InventorySystem.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\RoomManager.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\QuestSystem.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\AISystem.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\SaveSystem.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\CutsceneSystem.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\HintSystem.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\RecapSystem.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\GateSystem.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\JournalSystem.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\WorldState.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\ConditionSystem.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\EventBus.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\WorldQuery.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\data\DataLoader.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\data\TiledImporter.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\TextureManager.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\SpriteSheet.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\Animation.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\FontManager.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\Transition.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\audio\AudioManager.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\Entity.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\Character.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\PlayerCharacter.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\NPC.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ui\Widget.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\utils\Logger.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Renderer.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\input\Input.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Room.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\VideoSettings.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\DialogSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\InventorySystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\RoomManager.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\QuestSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\AISystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\SaveSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\CutsceneSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\HintSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\RecapSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\GateSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\JournalSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\WorldState.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\ConditionSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\EventBus.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\WorldQuery.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\data\DataLoader.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\data\TiledImporter.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\TextureManager.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\SpriteSheet.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\Animation.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\FontManager.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\Transition.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\audio\AudioManager.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Entity.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Character.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\PlayerCharacter.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\NPC.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\ui\Widget.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\Logger.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\FileWatcher.cpp" />
     <Natvis Include="C:\vcpkg\installed\x64-windows\share\nlohmann_json\nlohmann_json.natvis">
     </Natvis>
   </ItemGroup>

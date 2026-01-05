@@ -3,9 +3,9 @@
  * @brief Implementation av start panel
  */
 #include "StartPanel.h"
-#include "../EditorCore.h"
-#include "../../graphics/FontManager.h"
-#include "../../data/DataLoader.h"
+#include "editor/EditorCore.h"
+#include "engine/graphics/FontManager.h"
+#include "engine/data/DataLoader.h"
 
 StartPanel::StartPanel() = default;
 

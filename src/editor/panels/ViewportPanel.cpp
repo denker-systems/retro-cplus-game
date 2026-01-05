@@ -3,8 +3,8 @@
  * @brief Viewport panel implementation
  */
 #include "ViewportPanel.h"
-#include "../EditorContext.h"
-#include "../../data/DataLoader.h"
+#include "editor/EditorContext.h"
+#include "engine/data/DataLoader.h"
 #include <SDL_image.h>
 
 #ifdef HAS_IMGUI
@@ -102,10 +102,10 @@ void ViewportPanel::renderRoomPreview() {
         return;
     }
     
-    // Find room data
-    const auto& rooms = DataLoader::instance().getRooms();
-    const RoomData* room = nullptr;
-    for (const auto& r : rooms) {
+    // Find room data (mutable for editing)
+    auto& rooms = DataLoader::instance().getRooms();
+    RoomData* room = nullptr;
+    for (auto& r : rooms) {
         if (r.id == m_context.selectedRoomId) {
             room = &r;
             break;
@@ -192,7 +192,136 @@ void ViewportPanel::renderRoomPreview() {
         ImVec2(spawnX + 10, spawnY - 8),
         IM_COL32(255, 0, 255, 255), "Spawn");
     
-    // Reserve space for preview
-    ImGui::Dummy(previewSize);
+    // Make preview area interactive
+    ImGui::SetCursorScreenPos(cursorPos);
+    ImGui::InvisibleButton("viewport_canvas", previewSize);
+    
+    // Calculate room coordinates (reuse scaleX/scaleY from above)
+    ImVec2 mousePos = ImGui::GetMousePos();
+    float roomX = (mousePos.x - cursorPos.x) / scaleX;
+    float roomY = (mousePos.y - cursorPos.y) / scaleY;
+    roomX = std::max(0.0f, std::min(640.0f, roomX));
+    roomY = std::max(0.0f, std::min(400.0f, roomY));
+    
+    // Handle mouse down
+    if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) {
+        handleMouseDown(mousePos.x, mousePos.y, cursorPos.x, cursorPos.y, 
+                       previewSize.x, previewSize.y, roomX, roomY, room);
+    }
+    
+    // Handle drag
+    if (ImGui::IsItemActive() && ImGui::IsMouseDown(0)) {
+        handleMouseDrag(roomX, roomY);
+    }
+    
+    // Release drag on mouse up
+    if (!ImGui::IsMouseDown(0)) {
+        if (m_isDragging) {
+            m_context.markDirty();
+        }
+        m_isDragging = false;
+        m_draggedHotspotIndex = -1;
+        m_draggingSpawn = false;
+        m_draggingWalkArea = false;
+    }
+#endif
+}
+
+// Helper function to check walk area corners (avoids MSVC bug with member access)
+static int checkWalkAreaCorner(float roomX, float roomY, const WalkAreaData& wa, float radius) {
+    float cx[4] = { (float)wa.minX, (float)wa.maxX, (float)wa.maxX, (float)wa.minX };
+    float cy[4] = { (float)wa.minY, (float)wa.minY, (float)wa.maxY, (float)wa.maxY };
+    
+    for (int i = 0; i < 4; i++) {
+        float dx = roomX - cx[i];
+        float dy = roomY - cy[i];
+        if (std::sqrt(dx*dx + dy*dy) < radius) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void ViewportPanel::handleMouseDown(float mouseX, float mouseY, float previewX, float previewY,
+                                   float previewW, float previewH, float roomX, float roomY, const RoomData* room) {
+#ifdef HAS_IMGUI
+    if (!room || m_isDragging) return;
+    
+    // Check spawn
+    float spawnDist = std::sqrt(std::pow(roomX - room->playerSpawnX, 2) + 
+                               std::pow(roomY - room->playerSpawnY, 2));
+    if (spawnDist < 15.0f) {
+        m_isDragging = true;
+        m_draggingSpawn = true;
+        m_dragOffsetX = roomX - room->playerSpawnX;
+        m_dragOffsetY = roomY - room->playerSpawnY;
+        return;
+    }
+    
+    // Check hotspots
+    for (int i = room->hotspots.size() - 1; i >= 0; i--) {
+        const auto& hs = room->hotspots[i];
+        if (roomX >= hs.x && roomX <= hs.x + hs.w &&
+            roomY >= hs.y && roomY <= hs.y + hs.h) {
+            m_isDragging = true;
+            m_draggedHotspotIndex = i;
+            m_dragOffsetX = roomX - hs.x;
+            m_dragOffsetY = roomY - hs.y;
+            m_context.selectedHotspotIndex = i;
+            return;
+        }
+    }
+    
+    // Check walk area corners (using static helper to avoid MSVC bug)
+    int cornerHit = checkWalkAreaCorner(roomX, roomY, room->walkArea, 10.0f);
+    if (cornerHit >= 0) {
+        m_isDragging = true;
+        m_draggingWalkArea = true;
+        m_walkAreaCorner = cornerHit;
+        return;
+    }
+#endif
+}
+
+void ViewportPanel::handleMouseDrag(float roomX, float roomY) {
+#ifdef HAS_IMGUI
+    if (!m_isDragging) return;
+    
+    // Get mutable room data
+    auto& rooms = DataLoader::instance().getRooms();
+    RoomData* editRoom = nullptr;
+    for (auto& r : rooms) {
+        if (r.id == m_context.selectedRoomId) {
+            editRoom = &r;
+            break;
+        }
+    }
+    
+    if (!editRoom) return;
+    
+    // Update based on what's being dragged
+    if (m_draggingSpawn) {
+        editRoom->playerSpawnX = roomX - m_dragOffsetX;
+        editRoom->playerSpawnY = roomY - m_dragOffsetY;
+    }
+    
+    if (m_draggedHotspotIndex >= 0 && m_draggedHotspotIndex < (int)editRoom->hotspots.size()) {
+        auto& hs = editRoom->hotspots[m_draggedHotspotIndex];
+        hs.x = static_cast<int>(roomX - m_dragOffsetX);
+        hs.y = static_cast<int>(roomY - m_dragOffsetY);
+    }
+    
+    if (m_draggingWalkArea) {
+        auto& wa = editRoom->walkArea;
+        int x = static_cast<int>(roomX);
+        int y = static_cast<int>(roomY);
+        int corner = m_walkAreaCorner;
+        
+        // Update based on corner index
+        if (corner == 0) { wa.minX = x; wa.minY = y; }
+        else if (corner == 1) { wa.maxX = x; wa.minY = y; }
+        else if (corner == 2) { wa.maxX = x; wa.maxY = y; }
+        else if (corner == 3) { wa.minX = x; wa.maxY = y; }
+    }
 #endif
 }

@@ -3,8 +3,8 @@
  * @brief Properties panel implementation
  */
 #include "PropertiesPanel.h"
-#include "../EditorContext.h"
-#include "../../data/DataLoader.h"
+#include "editor/EditorContext.h"
+#include "engine/data/DataLoader.h"
 
 #ifdef HAS_IMGUI
 #include <imgui.h>

@@ -3,8 +3,8 @@
  * @brief Editor button widget implementation
  */
 #include "Button.h"
-#include "../../graphics/FontManager.h"
-#include "../../audio/AudioManager.h"
+#include "engine/graphics/FontManager.h"
+#include "engine/audio/AudioManager.h"
 
 namespace Editor {
 

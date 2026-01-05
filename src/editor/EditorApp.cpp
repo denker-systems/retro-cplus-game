@@ -3,12 +3,12 @@
  * @brief Implementation av standalone editor application
  */
 #include "EditorApp.h"
-#include "../states/EditorState.h"
-#include "../graphics/FontManager.h"
-#include "../graphics/TextureManager.h"
-#include "../audio/AudioManager.h"
-#include "../data/DataLoader.h"
-#include "../utils/Logger.h"
+#include "game/states/EditorState.h"
+#include "engine/graphics/FontManager.h"
+#include "engine/graphics/TextureManager.h"
+#include "engine/audio/AudioManager.h"
+#include "engine/data/DataLoader.h"
+#include "engine/utils/Logger.h"
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <iostream>

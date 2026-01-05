@@ -174,10 +174,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.vcxproj">
-      <Project>{5EC72D33-5287-3C30-94B2-3C9B9DB3C9E5}</Project>
-      <Name>RetroAdventure</Name>
-    </ProjectReference>
     <ProjectReference Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.vcxproj">
       <Project>{9C5686C9-5D49-3B2E-9176-C26EE4519454}</Project>
       <Name>RetroCore</Name>

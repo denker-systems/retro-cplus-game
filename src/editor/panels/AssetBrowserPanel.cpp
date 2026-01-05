@@ -3,7 +3,7 @@
  * @brief Asset browser implementation
  */
 #include "AssetBrowserPanel.h"
-#include "../EditorContext.h"
+#include "editor/EditorContext.h"
 #include <filesystem>
 #include <algorithm>
 

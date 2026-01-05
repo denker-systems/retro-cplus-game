@@ -6,7 +6,7 @@
 #include "IEditorPanel.h"
 #include "IEditorCommand.h"
 #include "EditorContext.h"
-#include "../utils/Logger.h"
+#include "engine/utils/Logger.h"
 
 EditorCore& EditorCore::instance() {
     static EditorCore instance;

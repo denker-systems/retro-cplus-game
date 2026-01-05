@@ -3,11 +3,12 @@
  * @brief Implementation of shared editor context
  */
 #include "EditorContext.h"
-#include "../data/DataLoader.h"
-#include "../utils/Logger.h"
+#include "engine/data/DataLoader.h"
+#include "engine/utils/Logger.h"
 #include <nlohmann/json.hpp>
 #include <SDL_image.h>
 #include <fstream>
+#include <filesystem>
 
 using json = nlohmann::json;
 
@@ -78,12 +79,19 @@ void EditorContext::loadFromDataLoader() {
 }
 
 void EditorContext::saveToFiles() {
-    // Save rooms
+    // Save rooms - use DataLoader's rooms since ViewportPanel modifies those directly
     {
         json data;
         data["rooms"] = json::array();
         
-        for (const auto& room : rooms) {
+        const auto& roomsToSave = DataLoader::instance().getRooms();
+        
+        if (roomsToSave.empty()) {
+            LOG_WARNING("No rooms to save - aborting to prevent data loss");
+            return;
+        }
+        
+        for (const auto& room : roomsToSave) {
             json roomJson;
             roomJson["id"] = room.id;
             roomJson["name"] = room.name;
@@ -94,6 +102,12 @@ void EditorContext::saveToFiles() {
             roomJson["walkArea"]["maxX"] = room.walkArea.maxX;
             roomJson["walkArea"]["minY"] = room.walkArea.minY;
             roomJson["walkArea"]["maxY"] = room.walkArea.maxY;
+            roomJson["walkArea"]["scaleTop"] = room.walkArea.scaleTop;
+            roomJson["walkArea"]["scaleBottom"] = room.walkArea.scaleBottom;
+            
+            // Player spawn
+            roomJson["playerSpawnX"] = room.playerSpawnX;
+            roomJson["playerSpawnY"] = room.playerSpawnY;
             
             // Layers
             roomJson["layers"] = json::array();
@@ -133,15 +147,29 @@ void EditorContext::saveToFiles() {
             data["rooms"].push_back(roomJson);
         }
         
+        // Create backup before saving
+        std::string backupPath = "assets/data/rooms.json.bak";
+        std::filesystem::copy_file("assets/data/rooms.json", backupPath, 
+                                   std::filesystem::copy_options::overwrite_existing);
+        
         std::ofstream file("assets/data/rooms.json");
         if (file.is_open()) {
             file << data.dump(2);
             file.close();
-            LOG_INFO("Saved rooms.json");
+            LOG_INFO("Saved rooms.json (" + std::to_string(roomsToSave.size()) + " rooms)");
+        } else {
+            LOG_ERROR("Failed to open rooms.json for writing!");
+            return;
         }
     }
     
     // Reload DataLoader to sync
     DataLoader::instance().loadAll();
+    
+    // Clear dirty flag after successful save
+    isDirty = false;
+    
+    statusMessage = "Saved successfully!";
+    statusTimer = 3.0f;
 }
 

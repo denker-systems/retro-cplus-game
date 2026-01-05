@@ -3,8 +3,8 @@
  * @brief Console panel implementation
  */
 #include "ConsolePanel.h"
-#include "../EditorContext.h"
-#include "../../data/DataLoader.h"
+#include "editor/EditorContext.h"
+#include "engine/data/DataLoader.h"
 #include <ctime>
 #include <iomanip>
 #include <sstream>

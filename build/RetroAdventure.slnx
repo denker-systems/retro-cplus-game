@@ -8,7 +8,6 @@
 		<Platform Name="x64"/>
 	</Configurations>
 	<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="4992fd6b-9ce1-31df-809d-122279b4a588" DefaultStartup="true">
-		<BuildDependency Project="RetroAdventure.vcxproj"/>
 		<BuildDependency Project="RetroCore.vcxproj"/>
 		<BuildDependency Project="RetroEditor.vcxproj"/>
 		<BuildDependency Project="RetroGame.vcxproj"/>
@@ -17,9 +16,6 @@
 		<Build Solution="Release|*" Project="false"/>
 		<Build Solution="MinSizeRel|*" Project="false"/>
 		<Build Solution="RelWithDebInfo|*" Project="false"/>
-	</Project>
-	<Project Path="RetroAdventure.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="5ec72d33-5287-3c30-94b2-3c9b9db3c9e5">
-		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
 	<Project Path="RetroCore.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="9c5686c9-5d49-3b2e-9176-c26ee4519454">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>

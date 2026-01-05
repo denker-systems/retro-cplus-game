@@ -2,8 +2,8 @@
  * @file main.cpp
  * @brief Entry point för RetroAdventure Game
  */
-#include "../Game.h"
-#include "../utils/Logger.h"
+#include "Game.h"
+#include "engine/utils/Logger.h"
 #include <SDL.h>
 
 int main(int argc, char* argv[]) {
