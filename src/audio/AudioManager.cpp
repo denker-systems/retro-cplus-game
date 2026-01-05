@@ -123,7 +123,7 @@ void AudioManager::playSound(const std::string& id) {
 void AudioManager::playSound(const std::string& id, int volume) {
     auto it = m_sounds.find(id);
     if (it == m_sounds.end()) {
-        std::cerr << "Sound not found: " << id << std::endl;
+        // Tyst miss - inte logga för varje försök
         return;
     }
     
