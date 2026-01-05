@@ -104,6 +104,8 @@ private:
     // Room editor state
     bool m_editingRoom = false;
     int m_selectedField = 0;  // Vilket fält som är valt för redigering
+    bool m_editingText = false;  // Om vi redigerar text just nu
+    std::string m_textBuffer;  // Buffer för text-input
     
     // Edit room data (kopierad från DataLoader)
     struct EditRoomData {
