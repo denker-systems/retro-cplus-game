@@ -1,19 +1,21 @@
 ﻿---
-description: Commit och push ändringar med detaljerad information
+description: Commit och push ändringar - synkar med DEVLOG, CHANGELOG och session reports
 ---
 
 # Git Commit & Push Workflow
 
-## 1. Kolla status
+** VIKTIGT:** Denna workflow körs ENDAST när användaren explicit ber om det!
+
+## 1. Kolla datum och branch
+// turbo
+`powershell
+$today = Get-Date -Format 'yyyy-MM-dd'; $branch = git branch --show-current; Write-Host "Datum: $today | Branch: $branch"
+`
+
+## 2. Kolla status
 // turbo
 `powershell
 git status --short
-`
-
-## 2. Se detaljerade ändringar
-// turbo
-`powershell
-git diff --stat; Write-Host ""; git diff --name-status
 `
 
 ## 3. Stage alla ändringar
@@ -21,69 +23,57 @@ git diff --stat; Write-Host ""; git diff --name-status
 git add -A
 `
 
-## 4. Commit med konventionellt format och body
-Format: `type(scope): kort beskrivning`
+## 4. Commit med konventionellt format
 
-**Types:**
-- `feat` - Ny feature
-- `fix` - Bugfix
-- `refactor` - Omstrukturering
-- `docs` - Dokumentation
-- `style` - Formatering
-- `test` - Tester
-- `chore` - Övrigt
-- `perf` - Prestandaförbättring
-- `content` - Spelinnehåll (JSON data)
+**Format:** `type(scope): beskrivning`
 
-**Scopes för detta projekt:**
-- `core` - Game, Window, Renderer
-- `states` - StateManager, States
-- `entities` - Player, NPC, Item
-- `systems` - Dialog, Quest, Inventory, Room
-- `audio` - AudioManager
-- `graphics` - TextureManager, FontManager
-- `ui` - UI widgets
-- `utils` - Logger, Config
-- `data` - JSON data, DataLoader
-- `build` - CMake, vcpkg
-- `input` - Input handling
-
-**Commit med multi-line body:**
+**Commit med session-referens:**
 `powershell
-git commit -m "feat(scope): kort beskrivning" -m "- Detalj 1" -m "- Detalj 2" -m "- Detalj 3"
+git commit -m "type(scope): beskrivning" -m "- Detalj 1" -m "- Detalj 2" -m "Session: YYYY-MM-DD"
 `
 
-**Enkelt commit:**
-`powershell
-git commit -m "fix(player): correct delta time movement"
-`
-
-## 5. Visa commit-detaljer
+## 5. Hämta commit-hash
 // turbo
 `powershell
-git log -1 --stat --format="Commit: %h%nAuthor: %an%nDate: %ad%nBranch: $(git branch --show-current)%n%nMessage:%n%B"
+$hash = git rev-parse --short HEAD; $msg = git log -1 --format="%s"; Write-Host "Commit: $hash - $msg"
 `
 
-## 6. Push till remote
+## 6. Uppdatera dokumentation
+
+### DEVLOG (docs/dev/DEVLOG.md)
+`markdown
+- `HASH` type(scope): beskrivning
+  - Detalj 1
+  - Session: [YYYY-MM-DD](sessions/YYYY-MM-DD.md)
+`
+
+### Session Report (docs/dev/sessions/YYYY-MM-DD.md)
+Lägg till commit i "Git Commits" sektionen.
+
+### CHANGELOG (docs/CHANGELOG.md)
+Lägg till under [Unreleased] om ny feature.
+
+### ROADMAP (docs/ROADMAP.md)
+Markera feature som [x] om klar.
+
+## 7. Push till remote
 `powershell
 git push origin $(git branch --show-current)
 `
 
-## 7. Visa push-status
-// turbo
-`powershell
-Write-Host "=== Push Complete ===" -ForegroundColor Green; git log origin/$(git branch --show-current)..HEAD --oneline; if ($LASTEXITCODE -eq 0 -and (git log origin/$(git branch --show-current)..HEAD --oneline).Count -eq 0) { Write-Host "All commits pushed!" -ForegroundColor Green }
-`
+---
+
+## Checklista
+
+- [ ] Commit-hash noterad
+- [ ] docs/dev/DEVLOG.md uppdaterad
+- [ ] docs/dev/sessions/YYYY-MM-DD.md uppdaterad
+- [ ] docs/CHANGELOG.md uppdaterad (om ny feature)
+- [ ] docs/ROADMAP.md uppdaterad (om feature klar)
 
 ---
 
-## Quick Commit & Push (allt i ett)
-`powershell
-git add -A; git commit -m "TYPE(SCOPE): MESSAGE" -m "DETAILS"; git push origin $(git branch --show-current)
-`
+##  PÅMINNELSE
 
-## Se senaste commits innan PR
-// turbo
-`powershell
-git log --oneline -10 --decorate
-`
+Kör ENDAST denna workflow när användaren explicit ber om det!
+**ALDRIG git-operationer i samband med annat arbete!**
