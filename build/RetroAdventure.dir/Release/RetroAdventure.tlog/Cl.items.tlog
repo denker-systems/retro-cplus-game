@@ -11,9 +11,11 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\OptionsState.cpp;C:\
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\PauseState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\PauseState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\DialogState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\DialogState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\InventoryState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\InventoryState.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\QuestLogState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\QuestLogState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\DialogSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\DialogSystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\InventorySystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\InventorySystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\RoomManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\RoomManager.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\QuestSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\QuestSystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\TextureManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\TextureManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\SpriteSheet.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\SpriteSheet.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\Animation.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Animation.obj

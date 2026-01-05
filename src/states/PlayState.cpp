@@ -7,6 +7,7 @@
 #include "PauseState.h"
 #include "DialogState.h"
 #include "InventoryState.h"
+#include "QuestLogState.h"
 #include "../Game.h"
 #include "../entities/PlayerCharacter.h"
 #include "../Room.h"
@@ -15,6 +16,7 @@
 #include "../systems/DialogSystem.h"
 #include "../systems/InventorySystem.h"
 #include "../systems/RoomManager.h"
+#include "../systems/QuestSystem.h"
 #include "../graphics/Transition.h"
 #include <iostream>
 
@@ -93,6 +95,36 @@ void PlayState::enter() {
     letter.name = "Old Letter";
     letter.description = "A faded letter with barely readable text.";
     InventorySystem::instance().registerItem(letter);
+    
+    // === REGISTRERA QUESTS ===
+    Quest mainQuest;
+    mainQuest.id = "find_the_key";
+    mainQuest.title = "The Rusty Key";
+    mainQuest.description = "Find the old key hidden in the tavern.";
+    
+    Objective obj1;
+    obj1.id = "talk_bartender";
+    obj1.description = "Talk to the Bartender";
+    obj1.type = ObjectiveType::Talk;
+    obj1.targetId = "bartender";
+    mainQuest.objectives.push_back(obj1);
+    
+    Objective obj2;
+    obj2.id = "find_key";
+    obj2.description = "Find the rusty key";
+    obj2.type = ObjectiveType::Collect;
+    obj2.targetId = "rusty_key";
+    mainQuest.objectives.push_back(obj2);
+    
+    Objective obj3;
+    obj3.id = "visit_shop";
+    obj3.description = "Visit the General Store";
+    obj3.type = ObjectiveType::GoTo;
+    obj3.targetId = "shop";
+    mainQuest.objectives.push_back(obj3);
+    
+    QuestSystem::instance().addQuest(mainQuest);
+    QuestSystem::instance().startQuest("find_the_key");
 }
 
 void PlayState::exit() {
@@ -135,6 +167,9 @@ void PlayState::onRoomChange(const std::string& roomId) {
     float spawnX, spawnY;
     RoomManager::instance().getSpawnPosition(spawnX, spawnY);
     m_player->setPosition(spawnX, spawnY);
+    
+    // Uppdatera quest objective för GoTo
+    QuestSystem::instance().updateObjective(ObjectiveType::GoTo, roomId);
 }
 
 void PlayState::update(float deltaTime) {
@@ -164,6 +199,7 @@ void PlayState::update(float deltaTime) {
             if (hs->type == HotspotType::NPC) {
                 if (hs->id == "bartender") {
                     DialogSystem::instance().startDialog("bartender_intro");
+                    QuestSystem::instance().updateObjective(ObjectiveType::Talk, "bartender");
                     if (m_game) {
                         m_game->pushState(std::make_unique<DialogState>());
                     }
@@ -172,6 +208,7 @@ void PlayState::update(float deltaTime) {
                 if (hs->id == "chest") {
                     if (!InventorySystem::instance().hasItem("rusty_key")) {
                         InventorySystem::instance().addItem("rusty_key");
+                        QuestSystem::instance().updateObjective(ObjectiveType::Collect, "rusty_key");
                     } else {
                         std::cout << "The chest is empty." << std::endl;
                     }
@@ -247,6 +284,11 @@ void PlayState::handleEvent(const SDL_Event& event) {
             // Öppna inventory (overlay)
             if (m_game) {
                 m_game->pushState(std::make_unique<InventoryState>());
+            }
+        } else if (event.key.keysym.scancode == SDL_SCANCODE_J) {
+            // Öppna quest log (overlay)
+            if (m_game) {
+                m_game->pushState(std::make_unique<QuestLogState>());
             }
         }
     }

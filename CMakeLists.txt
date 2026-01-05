@@ -25,9 +25,11 @@ set(SOURCES
     src/states/PauseState.cpp
     src/states/DialogState.cpp
     src/states/InventoryState.cpp
+    src/states/QuestLogState.cpp
     src/systems/DialogSystem.cpp
     src/systems/InventorySystem.cpp
     src/systems/RoomManager.cpp
+    src/systems/QuestSystem.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp
     src/graphics/Animation.cpp
