@@ -648,6 +648,21 @@ void EditorState::handleEvent(const SDL_Event& event) {
             if (wa.minX > wa.maxX - 20) wa.minX = wa.maxX - 20;
             if (wa.minY > wa.maxY - 20) wa.minY = wa.maxY - 20;
         }
+        // Drag player spawn
+        else if (m_visualEditor && m_editingPlayerSpawn) {
+            // Konvertera från preview-koordinater till game-koordinater
+            float gameX = (m_mouseX - 10) / (620.0f / 640.0f);
+            float gameY = (m_mouseY - 90) / (260.0f / 400.0f);
+            
+            // Clamp till rum-gränser
+            if (gameX < 0) gameX = 0;
+            if (gameX > 640) gameX = 640;
+            if (gameY < 0) gameY = 0;
+            if (gameY > 400) gameY = 400;
+            
+            m_editRoomData.playerSpawnX = gameX;
+            m_editRoomData.playerSpawnY = gameY;
+        }
     }
     
     if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -704,6 +719,11 @@ void EditorState::handleEvent(const SDL_Event& event) {
             m_statusMessage = "Updated walk area";
             m_statusTimer = 1.5f;
         }
+        if (m_editingPlayerSpawn) {
+            m_editingPlayerSpawn = false;
+            m_statusMessage = "Player spawn updated";
+            m_statusTimer = 1.5f;
+        }
     }
     
     // Delete hotspot
@@ -718,18 +738,7 @@ void EditorState::handleEvent(const SDL_Event& event) {
         }
     }
     
-    // Toggle player spawn editing (P key)
-    if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_P && m_visualEditor) {
-        m_editingPlayerSpawn = !m_editingPlayerSpawn;
-        if (m_editingPlayerSpawn) {
-            m_selectedHotspot = -1;  // Avmarkera hotspots
-            m_editingWalkArea = false;
-            m_statusMessage = "Click to set player spawn position";
-        } else {
-            m_statusMessage = "Player spawn editing disabled";
-        }
-        m_statusTimer = 2.0f;
-    }
+    // P key inte längre behövs - player spawn kan alltid dras
     
     // Depth scale adjustment (+/- keys)
     if (event.type == SDL_KEYDOWN && m_visualEditor && m_selectedHotspot < 0) {
@@ -892,17 +901,18 @@ void EditorState::handleMouseClick(int x, int y) {
                     }
                 }
                 
-                // Om player spawn editing är aktivt, sätt spawn position
-                if (m_editingPlayerSpawn) {
-                    // Konvertera från preview-koordinater till game-koordinater
-                    float gameX = (x - 10) / scaleX;
-                    float gameY = (y - 90) / scaleY;
-                    m_editRoomData.playerSpawnX = gameX;
-                    m_editRoomData.playerSpawnY = gameY;
-                    m_statusMessage = "Player spawn set to (" + std::to_string(static_cast<int>(gameX)) + 
-                                     ", " + std::to_string(static_cast<int>(gameY)) + ")";
-                    m_statusTimer = 2.0f;
-                    m_editingPlayerSpawn = false;
+                // Kolla om vi klickar på player spawn marker för att dra den
+                int spawnScreenX = 10 + static_cast<int>(m_editRoomData.playerSpawnX * scaleX);
+                int spawnScreenY = 90 + static_cast<int>(m_editRoomData.playerSpawnY * scaleY);
+                SDL_Rect spawnClickRect = {spawnScreenX - 8, spawnScreenY - 12, 16, 24};
+                
+                if (x >= spawnClickRect.x && x < spawnClickRect.x + spawnClickRect.w &&
+                    y >= spawnClickRect.y && y < spawnClickRect.y + spawnClickRect.h) {
+                    // Klick på player spawn - aktivera drag mode
+                    m_editingPlayerSpawn = true;
+                    m_selectedHotspot = -1;
+                    m_statusMessage = "Dragging player spawn position";
+                    m_statusTimer = 1.0f;
                     return;
                 }
                 
@@ -1551,6 +1561,6 @@ void EditorState::renderVisualEditor(SDL_Renderer* renderer) {
     SDL_RenderDrawRect(renderer, &spawnRect);
     
     // Instruktioner
-    std::string instructions = "[+/-] Adjust depth scale | [P] Edit player spawn | Drag cyan handles for walk area | Right-click: Add";
+    std::string instructions = "[+/-] Adjust depth scale | Drag magenta spawn | Drag cyan handles for walk area | Right-click: Add";
     FontManager::instance().renderText(renderer, "default", instructions, 10, 375, green);
 }
