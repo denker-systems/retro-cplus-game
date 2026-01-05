@@ -53,6 +53,160 @@
       ],
       "rewardItem": "gold_coin",
       "rewardXP": 100
+    },
+    {
+      "id": "library_research",
+      "title": "Ancient Knowledge",
+      "description": "The librarian needs help researching an ancient text.",
+      "autoStart": false,
+      "objectives": [
+        {
+          "id": "talk_librarian",
+          "description": "Speak with the Librarian",
+          "type": "talk",
+          "targetId": "librarian",
+          "requiredCount": 1
+        },
+        {
+          "id": "find_book",
+          "description": "Find the Ancient Book",
+          "type": "collect",
+          "targetId": "ancient_book",
+          "requiredCount": 1
+        },
+        {
+          "id": "return_book",
+          "description": "Return the book to the Librarian",
+          "type": "deliver",
+          "targetId": "librarian",
+          "requiredCount": 1
+        }
+      ],
+      "rewardItem": "mysterious_note",
+      "rewardXP": 150
+    },
+    {
+      "id": "forest_mystery",
+      "title": "The Forest Hermit",
+      "description": "A strange hermit in the forest might know something important.",
+      "autoStart": false,
+      "objectives": [
+        {
+          "id": "find_hermit",
+          "description": "Find the Forest Hermit",
+          "type": "goto",
+          "targetId": "forest",
+          "requiredCount": 1
+        },
+        {
+          "id": "talk_hermit",
+          "description": "Talk to the Hermit",
+          "type": "talk",
+          "targetId": "hermit",
+          "requiredCount": 1
+        },
+        {
+          "id": "gather_mushrooms",
+          "description": "Gather magical mushrooms",
+          "type": "collect",
+          "targetId": "mushroom",
+          "requiredCount": 1
+        }
+      ],
+      "rewardItem": "potion",
+      "rewardXP": 200
+    },
+    {
+      "id": "treasure_hunt",
+      "title": "The Hidden Treasure",
+      "description": "Rumors speak of a treasure hidden in the cave.",
+      "autoStart": false,
+      "objectives": [
+        {
+          "id": "find_map_1",
+          "description": "Find the first map piece",
+          "type": "collect",
+          "targetId": "map_piece_1",
+          "requiredCount": 1
+        },
+        {
+          "id": "find_map_2",
+          "description": "Find the second map piece",
+          "type": "collect",
+          "targetId": "map_piece_2",
+          "requiredCount": 1
+        },
+        {
+          "id": "explore_cave",
+          "description": "Explore the mysterious cave",
+          "type": "goto",
+          "targetId": "cave",
+          "requiredCount": 1
+        },
+        {
+          "id": "find_treasure",
+          "description": "Find the hidden treasure",
+          "type": "collect",
+          "targetId": "gemstone",
+          "requiredCount": 1
+        }
+      ],
+      "rewardXP": 500
+    },
+    {
+      "id": "helping_hand",
+      "title": "A Helping Hand",
+      "description": "Help the shopkeeper with a delivery problem.",
+      "autoStart": false,
+      "objectives": [
+        {
+          "id": "talk_shopkeeper",
+          "description": "Talk to the Shopkeeper",
+          "type": "talk",
+          "targetId": "shopkeeper",
+          "requiredCount": 1
+        },
+        {
+          "id": "get_rope",
+          "description": "Find a rope",
+          "type": "collect",
+          "targetId": "rope",
+          "requiredCount": 1
+        },
+        {
+          "id": "deliver_rope",
+          "description": "Deliver the rope",
+          "type": "deliver",
+          "targetId": "shopkeeper",
+          "requiredCount": 1
+        }
+      ],
+      "rewardItem": "silver_coin",
+      "rewardXP": 75
+    },
+    {
+      "id": "drunk_tales",
+      "title": "Tavern Tales",
+      "description": "The drunk patron seems to know some interesting stories.",
+      "autoStart": false,
+      "objectives": [
+        {
+          "id": "talk_drunk",
+          "description": "Listen to the Drunk's stories",
+          "type": "talk",
+          "targetId": "drunk_patron",
+          "requiredCount": 1
+        },
+        {
+          "id": "buy_drink",
+          "description": "Buy the drunk a drink (give coin)",
+          "type": "deliver",
+          "targetId": "bartender",
+          "requiredCount": 1
+        }
+      ],
+      "rewardItem": "map_piece_1",
+      "rewardXP": 50
     }
   ]
 }

@@ -77,10 +77,12 @@ struct DialogChoiceData {
     std::string text;
     int nextNodeId = -1;
     std::string condition;      // Villkor (t.ex. "has_item:rusty_key")
+    std::string tone;           // Ton: "friendly", "aggressive", "sarcastic", "neutral"
+    std::string preview;        // Kort preview av intention (valfritt)
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(DialogChoiceData,
-    text, nextNodeId, condition)
+    text, nextNodeId, condition, tone, preview)
 
 struct DialogNodeData {
     int id = 0;
@@ -135,25 +137,43 @@ struct HotspotData {
     int x, y, w, h;
     std::string targetRoom;     // För exits
     std::string dialogId;       // För NPCs
+    std::string examineText;    // "Titta på" beskrivning
+    std::vector<std::string> funnyFails;  // Roliga svar på dumma försök
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(HotspotData,
-    id, name, type, x, y, w, h, targetRoom, dialogId)
+    id, name, type, x, y, w, h, targetRoom, dialogId, examineText, funnyFails)
 
 struct WalkAreaData {
     int minX, maxX, minY, maxY;
+    float scaleTop = 0.5f;      // Skala vid minY (längre bort)
+    float scaleBottom = 1.0f;   // Skala vid maxY (närmare)
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(WalkAreaData,
-    minX, maxX, minY, maxY)
+    minX, maxX, minY, maxY, scaleTop, scaleBottom)
+
+struct LayerData {
+    std::string image;          // Bildfil
+    int zIndex = 0;             // Djup (negativa = bakom spelare, positiva = framför)
+    float parallaxX = 1.0f;     // Parallax-faktor X (1.0 = normal)
+    float parallaxY = 1.0f;     // Parallax-faktor Y (1.0 = normal)
+    float opacity = 1.0f;       // Genomskinlighet (0.0-1.0)
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(LayerData,
+    image, zIndex, parallaxX, parallaxY, opacity)
 
 struct RoomData {
     std::string id;
     std::string name;
-    std::string background;     // Bakgrundsbild
+    std::string background;     // Bakgrundsbild (legacy, använd layers istället)
+    std::vector<LayerData> layers;  // Multi-layer rendering
     WalkAreaData walkArea;
     std::vector<HotspotData> hotspots;
+    float playerSpawnX = 320.0f;  // Player spawn X
+    float playerSpawnY = 300.0f;  // Player spawn Y
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(RoomData,
-    id, name, background, walkArea, hotspots)
+    id, name, background, layers, walkArea, hotspots, playerSpawnX, playerSpawnY)

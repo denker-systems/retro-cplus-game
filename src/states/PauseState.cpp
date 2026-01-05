@@ -5,6 +5,7 @@
 #include "PauseState.h"
 #include "MenuState.h"
 #include "OptionsState.h"
+#include "SaveLoadState.h"
 #include "../Game.h"
 #include "../audio/AudioManager.h"
 #include "../graphics/FontManager.h"
@@ -35,7 +36,7 @@ void PauseState::render(SDL_Renderer* renderer) {
     SDL_RenderFillRect(renderer, &overlay);
     
     // Pausruta
-    SDL_Rect pauseBox = { 170, 100, 300, 200 };
+    SDL_Rect pauseBox = { 170, 80, 300, 260 };
     SDL_SetRenderDrawColor(renderer, 40, 40, 60, 255);
     SDL_RenderFillRect(renderer, &pauseBox);
     
@@ -45,11 +46,11 @@ void PauseState::render(SDL_Renderer* renderer) {
     
     // Titel
     FontManager::instance().renderTextCentered(renderer, "title", 
-        "PAUSED", 320, 115, {200, 180, 100, 255});
+        "PAUSED", 320, 95, {200, 180, 100, 255});
     
     // Menyalternativ
     for (int i = 0; i < NUM_OPTIONS; i++) {
-        renderOption(renderer, i, 170 + i * 40, i == m_selectedOption);
+        renderOption(renderer, i, 140 + i * 38, i == m_selectedOption);
     }
 }
 
@@ -88,16 +89,26 @@ void PauseState::handleEvent(const SDL_Event& event) {
             case SDL_SCANCODE_SPACE:
                 AudioManager::instance().playSound("select");
                 if (m_selectedOption == 0) {
-                    // Resume - pop this state
+                    // Resume
                     if (m_game) {
                         m_game->popState();
                     }
                 } else if (m_selectedOption == 1) {
+                    // Save Game
+                    if (m_game) {
+                        m_game->pushState(std::make_unique<SaveLoadState>(SaveLoadState::Mode::Save));
+                    }
+                } else if (m_selectedOption == 2) {
+                    // Load Game
+                    if (m_game) {
+                        m_game->pushState(std::make_unique<SaveLoadState>(SaveLoadState::Mode::Load));
+                    }
+                } else if (m_selectedOption == 3) {
                     // Options
                     if (m_game) {
                         m_game->pushState(std::make_unique<OptionsState>());
                     }
-                } else if (m_selectedOption == 2) {
+                } else if (m_selectedOption == 4) {
                     // Quit to Menu
                     if (m_game) {
                         m_game->changeState(std::make_unique<MenuState>());

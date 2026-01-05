@@ -68,6 +68,8 @@ void FontManager::renderText(SDL_Renderer* renderer, const std::string& fontName
                               const std::string& text, int x, int y, SDL_Color color) {
     auto it = m_fonts.find(fontName);
     if (it == m_fonts.end() || !it->second) {
+        // Fallback: rita enkel text-placeholder
+        renderFallbackText(renderer, text, x, y, color);
         return;
     }
     
@@ -102,8 +104,9 @@ void FontManager::getTextSize(const std::string& fontName, const std::string& te
                                int* width, int* height) {
     auto it = m_fonts.find(fontName);
     if (it == m_fonts.end() || !it->second) {
-        *width = 0;
-        *height = 0;
+        // Fallback storlek
+        *width = static_cast<int>(text.length()) * 6;
+        *height = 10;
         return;
     }
     
@@ -112,4 +115,25 @@ void FontManager::getTextSize(const std::string& fontName, const std::string& te
     // Returnera skalade värden (för logiska koordinater)
     *width = static_cast<int>(*width / m_scale);
     *height = static_cast<int>(*height / m_scale);
+}
+
+void FontManager::renderFallbackText(SDL_Renderer* renderer, const std::string& text,
+                                     int x, int y, SDL_Color color) {
+    // Enkel bitmap-font fallback (6x8 per tecken)
+    const int charW = 6;
+    const int charH = 10;
+    int textW = static_cast<int>(text.length()) * charW;
+    
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    
+    for (size_t i = 0; i < text.length(); i++) {
+        char c = text[i];
+        int cx = x + static_cast<int>(i) * charW;
+        
+        if (c == ' ') continue;
+        
+        // Rita enkel rektangel för varje tecken
+        SDL_Rect charRect = {cx, y + 2, charW - 1, charH - 2};
+        SDL_RenderFillRect(renderer, &charRect);
+    }
 }

@@ -21,7 +21,9 @@
 #include "../graphics/Transition.h"
 #include "../data/GameDataLoader.h"
 #include "../entities/NPC.h"
+#include "../utils/Logger.h"
 #include <iostream>
+#include <cmath>
 
 PlayState::PlayState() {
     std::cout << "PlayState created" << std::endl;
@@ -30,39 +32,54 @@ PlayState::PlayState() {
 PlayState::~PlayState() = default;
 
 void PlayState::enter() {
-    std::cout << "PlayState::enter()" << std::endl;
+    LOG_DEBUG("PlayState::enter() - initialized=" + std::string(m_initialized ? "true" : "false"));
     
-    // Skapa spelkomponenter
-    m_input = std::make_unique<Input>();
-    m_player = std::make_unique<PlayerCharacter>(160.0f, 300.0f);
-    
-    // Ladda all speldata från JSON-filer
-    GameDataLoader::loadAll();
-    
-    // Sätt callback för rumsbyte
-    RoomManager::instance().setOnRoomChange([this](const std::string& roomId) {
-        onRoomChange(roomId);
-    });
-    
-    // Starta i tavern
-    RoomManager::instance().changeRoom("tavern");
+    // Första gången - ladda allt
+    if (!m_initialized) {
+        LOG_INFO("PlayState initializing for first time");
+        
+        // Skapa spelkomponenter
+        m_input = std::make_unique<Input>();
+        m_player = std::make_unique<PlayerCharacter>(160.0f, 300.0f);
+        
+        // Ladda all speldata från JSON-filer (skicka renderer för att ladda texturer)
+        SDL_Renderer* renderer = m_game->getRenderer();
+        GameDataLoader::loadAll(renderer);
+        
+        // Sätt callback för rumsbyte
+        RoomManager::instance().setOnRoomChange([this](const std::string& roomId) {
+            onRoomChange(roomId);
+        });
+        
+        // Starta i tavern
+        RoomManager::instance().changeRoom("tavern");
+        
+        m_initialized = true;
+    } else {
+        LOG_DEBUG("PlayState resuming (already initialized)");
+    }
 }
 
 void PlayState::exit() {
-    std::cout << "PlayState::exit()" << std::endl;
-    
-    // Frigör resurser
-    m_player.reset();
-    m_input.reset();
+    LOG_DEBUG("PlayState::exit()");
+    // OBS: Frigör INTE resurser här - de behövs när vi resumar från overlay
+    // Resurser frigörs i destruktorn
 }
 
 void PlayState::onRoomChange(const std::string& roomId) {
     std::cout << "Player entered: " << roomId << std::endl;
     
-    // Sätt spelarens position baserat på vilket rum
-    float spawnX, spawnY;
-    RoomManager::instance().getSpawnPosition(spawnX, spawnY);
-    m_player->setPosition(spawnX, spawnY);
+    // Uppdatera spelarens walk area från rummet
+    Room* room = RoomManager::instance().getCurrentRoom();
+    if (room) {
+        const auto& wa = room->getWalkArea();
+        m_player->setWalkArea(wa.minX, wa.maxX, wa.minY, wa.maxY);
+        
+        // Använd rummets player spawn position
+        float spawnX, spawnY;
+        room->getPlayerSpawn(spawnX, spawnY);
+        m_player->setPosition(spawnX, spawnY);
+    }
     
     // Uppdatera quest objective för GoTo
     QuestSystem::instance().updateObjective(ObjectiveType::GoTo, roomId);
@@ -87,42 +104,13 @@ void PlayState::update(float deltaTime) {
     Hotspot* hs = room->getHotspotAt(mx, my);
     m_hoveredHotspot = hs ? hs->name : "";
     
+    // Hitta närmaste hotspot för E-interaktion
+    m_nearbyHotspot = getNearbyHotspot(INTERACT_DISTANCE);
+    
     // Point-and-click (vänsterklick)
     if (m_input->isMouseClicked(SDL_BUTTON_LEFT)) {
         if (hs) {
-            std::cout << "Clicked on: " << hs->name << " (" << hs->id << ")" << std::endl;
-            
-            if (hs->type == HotspotType::NPC) {
-                if (hs->id == "bartender") {
-                    DialogSystem::instance().startDialog("bartender_intro");
-                    QuestSystem::instance().updateObjective(ObjectiveType::Talk, "bartender");
-                    if (m_game) {
-                        m_game->pushState(std::make_unique<DialogState>());
-                    }
-                }
-            } else if (hs->type == HotspotType::Item) {
-                if (hs->id == "chest") {
-                    if (!InventorySystem::instance().hasItem("rusty_key")) {
-                        InventorySystem::instance().addItem("rusty_key");
-                        QuestSystem::instance().updateObjective(ObjectiveType::Collect, "rusty_key");
-                    } else {
-                        std::cout << "The chest is empty." << std::endl;
-                    }
-                }
-            } else if (hs->type == HotspotType::Exit) {
-                // Byt rum med fade transition!
-                if (!hs->targetRoom.empty() && !Transition::instance().isActive()) {
-                    std::string target = hs->targetRoom;
-                    float spawnX = (hs->rect.x > 300) ? 80.0f : 550.0f;
-                    
-                    Transition::instance().fadeToBlack(0.5f, [target, spawnX]() {
-                        RoomManager::instance().setSpawnPosition(spawnX, 300.0f);
-                        RoomManager::instance().changeRoom(target);
-                    });
-                }
-            } else if (hs->type == HotspotType::Examine) {
-                std::cout << "You examine the " << hs->name << "..." << std::endl;
-            }
+            interactWithHotspot(hs);
         } else if (my > 260 && my < 375) {
             m_player->setTarget(static_cast<float>(mx), static_cast<float>(my));
         }
@@ -156,13 +144,30 @@ void PlayState::render(SDL_Renderer* renderer) {
         room->renderNPCs(renderer);
     }
     
-    // Rita spelare
-    m_player->render(renderer);
+    // Rita spelare med depth scale
+    float playerScale = 1.0f;
+    if (room) {
+        const auto& wa = room->getWalkArea();
+        float playerY = m_player->getY();
+        
+        // Beräkna scale baserat på Y-position inom walk area
+        if (wa.maxY > wa.minY) {
+            float t = (playerY - wa.minY) / (wa.maxY - wa.minY);
+            t = std::max(0.0f, std::min(1.0f, t));  // Clamp 0-1
+            playerScale = wa.scaleTop + t * (wa.scaleBottom - wa.scaleTop);
+        }
+    }
+    m_player->renderScaled(renderer, playerScale);
     
     // Visa hotspot-namn i UI-bar
     if (!m_hoveredHotspot.empty()) {
         FontManager::instance().renderText(renderer, "default", 
             m_hoveredHotspot, 10, 378, {255, 255, 200, 255});
+    } else if (m_nearbyHotspot) {
+        // Visa nearby hotspot med [E] prompt
+        std::string prompt = "[E] " + m_nearbyHotspot->name;
+        FontManager::instance().renderText(renderer, "default",
+            prompt, 10, 378, {100, 255, 100, 255});
     } else if (room) {
         FontManager::instance().renderText(renderer, "default",
             room->getName(), 10, 378, {150, 150, 180, 255});
@@ -195,6 +200,89 @@ void PlayState::handleEvent(const SDL_Event& event) {
             if (m_game) {
                 m_game->pushState(std::make_unique<QuestLogState>());
             }
+        } else if (event.key.keysym.scancode == SDL_SCANCODE_E) {
+            // Interagera med nearby hotspot
+            if (m_nearbyHotspot) {
+                interactWithHotspot(m_nearbyHotspot);
+            }
         }
+    }
+}
+
+Hotspot* PlayState::getNearbyHotspot(float maxDistance) {
+    Room* room = RoomManager::instance().getCurrentRoom();
+    if (!room || !m_player) return nullptr;
+    
+    float playerX = m_player->getX() + 16;  // Center of player
+    float playerY = m_player->getY() + 32;
+    
+    Hotspot* nearest = nullptr;
+    float nearestDist = maxDistance;
+    
+    for (auto& hotspot : room->getHotspots()) {
+        // Beräkna centrum av hotspot
+        float hsX = hotspot.rect.x + hotspot.rect.w / 2.0f;
+        float hsY = hotspot.rect.y + hotspot.rect.h / 2.0f;
+        
+        // Beräkna avstånd
+        float dx = playerX - hsX;
+        float dy = playerY - hsY;
+        float dist = std::sqrt(dx * dx + dy * dy);
+        
+        if (dist < nearestDist) {
+            nearestDist = dist;
+            nearest = const_cast<Hotspot*>(&hotspot);
+        }
+    }
+    
+    return nearest;
+}
+
+void PlayState::interactWithHotspot(Hotspot* hotspot) {
+    if (!hotspot) {
+        LOG_WARNING("interactWithHotspot called with null hotspot");
+        return;
+    }
+    
+    LOG_INFO("Interact: " + hotspot->name + " (" + hotspot->id + ") type=" + std::to_string(static_cast<int>(hotspot->type)));
+    
+    if (hotspot->type == HotspotType::NPC) {
+        LOG_DEBUG("NPC interaction, dialogId=" + hotspot->dialogId);
+        if (!hotspot->dialogId.empty()) {
+            LOG_DEBUG("Starting dialog: " + hotspot->dialogId);
+            DialogSystem::instance().startDialog(hotspot->dialogId);
+            QuestSystem::instance().updateObjective(ObjectiveType::Talk, hotspot->id);
+            if (m_game) {
+                LOG_DEBUG("Pushing DialogState");
+                m_game->pushState(std::make_unique<DialogState>());
+            }
+        }
+    } else if (hotspot->type == HotspotType::Item) {
+        LOG_DEBUG("Item interaction: " + hotspot->id);
+        if (hotspot->id == "chest") {
+            if (!InventorySystem::instance().hasItem("rusty_key")) {
+                LOG_INFO("Adding rusty_key to inventory");
+                InventorySystem::instance().addItem("rusty_key");
+                QuestSystem::instance().updateObjective(ObjectiveType::Collect, "rusty_key");
+            } else {
+                LOG_DEBUG("Chest already looted");
+            }
+        }
+    } else if (hotspot->type == HotspotType::Exit) {
+        LOG_DEBUG("Exit interaction, target=" + hotspot->targetRoom);
+        if (!hotspot->targetRoom.empty() && !Transition::instance().isActive()) {
+            std::string target = hotspot->targetRoom;
+            float spawnX = (hotspot->rect.x > 300) ? 80.0f : 550.0f;
+            
+            LOG_INFO("Room transition to: " + target);
+            Transition::instance().fadeToBlack(0.5f, [target, spawnX]() {
+                LOG_DEBUG("Fade complete, changing room to: " + target);
+                RoomManager::instance().setSpawnPosition(spawnX, 300.0f);
+                RoomManager::instance().changeRoom(target);
+            });
+        }
+    } else if (hotspot->type == HotspotType::Examine) {
+        LOG_DEBUG("Examine: " + hotspot->name);
+        QuestSystem::instance().updateObjective(ObjectiveType::Examine, hotspot->id);
     }
 }

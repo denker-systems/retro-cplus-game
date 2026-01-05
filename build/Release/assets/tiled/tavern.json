@@ -1,0 +1,193 @@
+{
+  "height": 400,
+  "layers": [
+    {
+      "image": "tavern_bg",
+      "name": "background",
+      "opacity": 1,
+      "type": "imagelayer",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "hotspots",
+      "objects": [
+        {
+          "height": 60,
+          "id": 1,
+          "name": "Bartender",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "bartender"
+            },
+            {
+              "name": "dialogId",
+              "type": "string",
+              "value": "bartender_intro"
+            },
+            {
+              "name": "examineText",
+              "type": "string",
+              "value": "En storvuxen man med imponerande mustasch. Han torkar glas med en trasa som sett bättre dagar."
+            }
+          ],
+          "type": "npc",
+          "visible": true,
+          "width": 40,
+          "x": 80,
+          "y": 270
+        },
+        {
+          "height": 55,
+          "id": 2,
+          "name": "Drunk Patron",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "drunk_patron"
+            },
+            {
+              "name": "dialogId",
+              "type": "string",
+              "value": "drunk_hints"
+            },
+            {
+              "name": "examineText",
+              "type": "string",
+              "value": "En man som uppenbarligen har haft en lång kväll. Han mumlar något om 'skatten'."
+            }
+          ],
+          "type": "npc",
+          "visible": true,
+          "width": 35,
+          "x": 200,
+          "y": 280
+        },
+        {
+          "height": 40,
+          "id": 3,
+          "name": "Old Chest",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "chest"
+            },
+            {
+              "name": "examineText",
+              "type": "string",
+              "value": "En gammal träkista med rostiga gångjärn. Den ser ut att ha varit här i årtionden."
+            }
+          ],
+          "type": "item",
+          "visible": true,
+          "width": 40,
+          "x": 400,
+          "y": 300
+        },
+        {
+          "height": 70,
+          "id": 4,
+          "name": "Fireplace",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "fireplace"
+            },
+            {
+              "name": "examineText",
+              "type": "string",
+              "value": "En varm brasa sprakar mysigt. Perfekt för kalla kvällar."
+            }
+          ],
+          "type": "examine",
+          "visible": true,
+          "width": 60,
+          "x": 500,
+          "y": 270
+        },
+        {
+          "height": 90,
+          "id": 5,
+          "name": "Exit to Street",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "door_street"
+            },
+            {
+              "name": "targetRoom",
+              "type": "string",
+              "value": "street"
+            }
+          ],
+          "type": "exit",
+          "visible": true,
+          "width": 50,
+          "x": 580,
+          "y": 260
+        },
+        {
+          "height": 30,
+          "id": 6,
+          "name": "Cellar Door",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "door_cellar"
+            },
+            {
+              "name": "targetRoom",
+              "type": "string",
+              "value": "cellar"
+            }
+          ],
+          "type": "exit",
+          "visible": true,
+          "width": 40,
+          "x": 300,
+          "y": 320
+        }
+      ],
+      "type": "objectgroup"
+    },
+    {
+      "name": "walkarea",
+      "objects": [
+        {
+          "height": 90,
+          "id": 7,
+          "name": "walkarea",
+          "type": "walkarea",
+          "visible": true,
+          "width": 640,
+          "x": 0,
+          "y": 260
+        }
+      ],
+      "type": "objectgroup"
+    }
+  ],
+  "orientation": "orthogonal",
+  "properties": [
+    {
+      "name": "roomName",
+      "type": "string",
+      "value": "The Rusty Anchor"
+    }
+  ],
+  "renderorder": "right-down",
+  "tiledversion": "1.10.0",
+  "tileheight": 1,
+  "tilewidth": 1,
+  "type": "map",
+  "version": "1.10",
+  "width": 640
+}

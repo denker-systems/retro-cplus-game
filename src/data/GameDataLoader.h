@@ -20,7 +20,7 @@
 class GameDataLoader {
 public:
     /** @brief Ladda och registrera all data */
-    static bool loadAll() {
+    static bool loadAll(SDL_Renderer* renderer = nullptr) {
         if (!DataLoader::instance().loadAll()) {
             return false;
         }
@@ -28,7 +28,7 @@ public:
         loadItems();
         loadQuests();
         loadDialogs();
-        loadRooms();
+        loadRooms(renderer);
         loadNPCs();
         
         return true;
@@ -109,7 +109,13 @@ private:
                 node.nextNodeId = nodeData.nextNodeId;
                 
                 for (const auto& choiceData : nodeData.choices) {
-                    node.choices.push_back({choiceData.text, choiceData.nextNodeId});
+                    DialogChoice choice;
+                    choice.text = choiceData.text;
+                    choice.nextNodeId = choiceData.nextNodeId;
+                    choice.condition = choiceData.condition;
+                    choice.tone = choiceData.tone;
+                    choice.preview = choiceData.preview;
+                    node.choices.push_back(choice);
                 }
                 
                 tree.nodes.push_back(node);
@@ -119,11 +125,25 @@ private:
         }
     }
     
-    static void loadRooms() {
+    static void loadRooms(SDL_Renderer* renderer) {
         for (const auto& data : DataLoader::instance().getRooms()) {
             auto room = std::make_unique<Room>(data.id, data.name);
             room->setWalkArea(data.walkArea.minX, data.walkArea.maxX,
-                             data.walkArea.minY, data.walkArea.maxY);
+                             data.walkArea.minY, data.walkArea.maxY,
+                             data.walkArea.scaleTop, data.walkArea.scaleBottom);
+            room->setPlayerSpawn(data.playerSpawnX, data.playerSpawnY);
+            
+            // Ladda layers om de finns
+            if (!data.layers.empty()) {
+                for (const auto& layer : data.layers) {
+                    room->loadLayer(renderer, layer.image, layer.zIndex, 
+                                   layer.parallaxX, layer.parallaxY, layer.opacity);
+                }
+            }
+            // Legacy: Ladda background om inga layers finns
+            else if (!data.background.empty()) {
+                room->loadBackground(renderer, data.background);
+            }
             
             for (const auto& hs : data.hotspots) {
                 HotspotType type = HotspotType::None;
@@ -135,7 +155,8 @@ private:
                 if (type == HotspotType::Exit) {
                     room->addExit(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, hs.targetRoom);
                 } else {
-                    room->addHotspot(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, type);
+                    room->addHotspot(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, type, 
+                                     hs.dialogId, hs.examineText, hs.funnyFails);
                 }
             }
             
@@ -151,11 +172,21 @@ private:
                 continue;
             }
             
-            auto npc = std::make_unique<NPC>(
-                static_cast<float>(data.x),
-                static_cast<float>(data.y),
-                data.name
-            );
+            // Hitta hotspot med samma ID för att få position
+            const auto& hotspots = room->getHotspots();
+            float npcX = static_cast<float>(data.x);
+            float npcY = static_cast<float>(data.y);
+            
+            for (const auto& hs : hotspots) {
+                if (hs.id == data.id && hs.type == HotspotType::NPC) {
+                    // Använd hotspot-position (centrera NPC i hotspot)
+                    npcX = static_cast<float>(hs.rect.x + hs.rect.w / 2 - 16);  // 16 = halva NPC-bredden
+                    npcY = static_cast<float>(hs.rect.y + hs.rect.h - 48);      // 48 = NPC-höjd (fötter vid botten)
+                    break;
+                }
+            }
+            
+            auto npc = std::make_unique<NPC>(npcX, npcY, data.name);
             npc->setDialogId(data.dialogId);
             npc->setSpeed(data.moveSpeed);
             

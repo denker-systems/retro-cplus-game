@@ -2,12 +2,25 @@
 
 Ett point-and-click adventure-spel för Windows, byggt med C++17 och SDL2.
 
+## Features
+
+- **State Management** - MenuState, PlayState, PauseState, DialogState
+- **Room System** - Rum med hotspots, NPCs, transitions
+- **Dialog System** - Dialogträd med val och villkor
+- **Inventory System** - Items, pickup, kombination
+- **Quest System** - Objectives med auto-completion
+- **AI System** - NPC-beteenden, scheman, waypoints
+- **Save/Load** - JSON serialization med flags och counters
+- **Cutscene System** - Scripted sequences med fade och text
+- **UI Widgets** - Button, Label, Panel, ProgressBar
+- **Depth Scaling** - Perspektiv-skalning av karaktärer baserat på Y-position
+- **In-Game Editor** - Visuell redigering av rum, hotspots och walk areas
+
 ## Krav
 
 - CMake 3.16+
-- SDL2
-- SDL2_image
-- SDL2_mixer
+- SDL2, SDL2_image, SDL2_mixer, SDL2_ttf
+- nlohmann/json
 - Visual Studio 2019+ eller MinGW
 
 ## Installation av SDL2 (vcpkg)
@@ -38,19 +51,30 @@ cmake --build . --config Release
 
 ## Kontroller
 
-- **Piltangenter / WASD** - Gå
-- **ESC** - Avsluta
+| Tangent | Funktion |
+|---------|----------|
+| WASD / Piltangenter | Rörelse |
+| Vänsterklick | Interagera / Gå |
+| ESC | Pausmeny |
+| I | Inventory |
+| J | Quest Log |
+| M | Mute/Unmute ljud |
+| F1 | Öppna Editor |
 
 ## Projektstruktur
 
 ```
 src/
-├── main.cpp      # Entry point
-├── Game.cpp/h    # Spelloop och init
-├── Renderer.cpp/h # Textur-laddning
-├── Input.cpp/h   # Tangentbord
-├── Player.cpp/h  # Spelarlogik
-└── Room.cpp/h    # Rum och hotspots
+├── main.cpp           # Entry point
+├── Game.cpp/h         # Spelloop och init
+├── Room.cpp/h         # Rum med hotspots
+├── states/            # Game states (8 st)
+├── systems/           # Spelsystem (7 st)
+├── entities/          # Entity hierarki
+├── graphics/          # Rendering och animation
+├── audio/             # Ljud och musik
+├── data/              # JSON data-laddning
+└── ui/                # Widget-system
 ```
 
 ## Parallellt projekt

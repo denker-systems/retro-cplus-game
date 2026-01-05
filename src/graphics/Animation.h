@@ -37,6 +37,7 @@ public:
     /** @brief Rita nuvarande frame */
     void render(SDL_Renderer* renderer, int x, int y, bool flipH = false);
     void renderScaled(SDL_Renderer* renderer, int x, int y, float scale, bool flipH = false);
+    void renderScaled(SDL_Renderer* renderer, int x, int y, int w, int h, bool flipH = false);
 
     // Kontroll
     void play();

@@ -1,0 +1,98 @@
+/**
+ * @file EditorContext.h
+ * @brief Shared editor state accessible to all panels
+ * 
+ * Contains:
+ * - Current selection state
+ * - Clipboard data
+ * - Editor preferences
+ * - Cached textures
+ */
+#pragma once
+
+#include <SDL.h>
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <any>
+#include "../data/GameData.h"
+
+/**
+ * @brief Selection types
+ */
+enum class SelectionType {
+    None,
+    Room,
+    Hotspot,
+    Layer,
+    Dialog,
+    DialogNode,
+    Quest,
+    Item,
+    NPC
+};
+
+/**
+ * @brief Current selection state
+ */
+struct EditorSelection {
+    SelectionType type = SelectionType::None;
+    std::string primaryId;      // e.g., room ID
+    int secondaryIndex = -1;    // e.g., hotspot index within room
+    
+    void clear() {
+        type = SelectionType::None;
+        primaryId.clear();
+        secondaryIndex = -1;
+    }
+    
+    bool hasSelection() const { return type != SelectionType::None; }
+};
+
+/**
+ * @brief Shared editor context
+ */
+class EditorContext {
+public:
+    EditorContext() = default;
+    ~EditorContext();
+    
+    // Selection
+    EditorSelection& getSelection() { return m_selection; }
+    const EditorSelection& getSelection() const { return m_selection; }
+    void setSelection(SelectionType type, const std::string& id, int index = -1);
+    void clearSelection();
+    
+    // Clipboard
+    void copyToClipboard(const std::string& type, const std::any& data);
+    bool hasClipboardData(const std::string& type) const;
+    std::any getClipboardData(const std::string& type) const;
+    
+    // Texture cache
+    SDL_Texture* getTexture(SDL_Renderer* renderer, const std::string& path);
+    void clearTextureCache();
+    
+    // Editor preferences
+    bool showGrid = true;
+    bool snapToGrid = true;
+    int gridSize = 10;
+    bool showHotspotNames = true;
+    bool showWalkArea = true;
+    
+    // Current editing data (mutable copies)
+    std::vector<RoomData> rooms;
+    std::vector<DialogData> dialogs;
+    std::vector<QuestData> quests;
+    std::vector<ItemData> items;
+    std::vector<NPCData> npcs;
+    
+    // Load/Save
+    void loadFromDataLoader();
+    void saveToFiles();
+
+private:
+    EditorSelection m_selection;
+    std::unordered_map<std::string, std::any> m_clipboard;
+    std::unordered_map<std::string, SDL_Texture*> m_textureCache;
+};
+

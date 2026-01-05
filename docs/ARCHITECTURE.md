@@ -21,8 +21,9 @@ Ett skalbart point-and-click adventure-spel byggt med modern C++17 och SDL2.
 
 ```
 src/
-├── Game.cpp/h            # Huvudloop, SDL init, state koordinering ✅
-├── Input.cpp/h           # Tangentbordshantering ✅
+├── Game.cpp/h            # Huvudloop, SDL init, state koordinering
+├── Input.cpp/h           # Tangentbordshantering
+├── Room.cpp/h            # Rum med hotspots och NPCs
 │
 ├── states/               # Game states (State Pattern) 
 │   ├── StateManager.cpp/h  # Push/pop/change (deferred) 
@@ -30,21 +31,53 @@ src/
 │   ├── MenuState.cpp/h     # Huvudmeny 
 │   ├── PlayState.cpp/h     # Gameplay 
 │   ├── PauseState.cpp/h    # Pausmeny (overlay) 
-│   └── OptionsState.cpp/h  # Inställningar 
+│   ├── OptionsState.cpp/h  # Inställningar
+│   ├── DialogState.cpp/h   # Dialog overlay
+│   ├── InventoryState.cpp/h # Inventory overlay
+│   └── QuestLogState.cpp/h # Quest log overlay
+│
+├── systems/              # Spelsystem (singletons)
+│   ├── RoomManager.cpp/h    # Rumhantering och transitions
+│   ├── DialogSystem.cpp/h   # Dialog-träd och val
+│   ├── InventorySystem.cpp/h # Items och kombination
+│   ├── QuestSystem.cpp/h    # Quests och objectives
+│   ├── AISystem.cpp/h       # NPC-beteenden och scheman
+│   ├── SaveSystem.cpp/h     # JSON save/load
+│   └── CutsceneSystem.cpp/h # Scripted sequences
+│
+├── data/                 # Data-laddning
+│   ├── GameData.h           # Datastrukturer med JSON-makron
+│   ├── DataLoader.cpp/h     # JSON-filläsning
+│   └── GameDataLoader.h     # Integration med spelsystem
 │
 ├── graphics/             # Grafiksystem 
 │   ├── TextureManager.cpp/h  # Singleton, texture caching 
 │   ├── SpriteSheet.cpp/h     # Frame-baserad rendering 
-│   ├── Animation.cpp/h       # Tidsbaserad animation 
-│   └── FontManager.cpp/h     # SDL_ttf text rendering 
+│   ├── Animation.cpp/h       # Tidsbaserad animation
+│   ├── FontManager.cpp/h     # SDL_ttf text rendering
+│   └── Transition.cpp/h      # Fade transitions
 │
 ├── audio/                # Ljudsystem 
 │   └── AudioManager.cpp/h    # Music, SFX, volume 
 │
-└── entities/             # Entity hierarki (OOP) 
-    ├── Entity.cpp/h          # Abstract base 
-    ├── Character.cpp/h       # Character base 
-    └── PlayerCharacter.cpp/h # Spelaren 
+├── entities/             # Entity hierarki (OOP) 
+│   ├── Entity.cpp/h          # Abstract base 
+│   ├── Character.cpp/h       # Character base 
+│   ├── PlayerCharacter.cpp/h # Spelaren
+│   └── NPC.cpp/h             # Non-player characters
+│
+├── ui/                   # Widget-system
+│   └── Widget.cpp/h          # Label, Button, Panel, ProgressBar
+│
+└── editor/               # In-game editor system
+    ├── EditorCore.cpp/h      # Singleton coordinator, undo/redo
+    ├── EditorContext.cpp/h   # Shared state, data copies
+    ├── IEditorCommand.h      # Command interface
+    ├── IEditorPanel.h        # Panel interface
+    ├── commands/             # Undoable commands
+    │   └── HotspotCommands.cpp/h
+    └── panels/               # Editor panels
+        └── RoomPanel.cpp/h
 ```
 
 ### Planerat (ny OOP-struktur)
@@ -349,10 +382,16 @@ public:
 
 ### 6. Room System
 ```cpp
+struct WalkArea {
+    int minX, maxX, minY, maxY;
+    float scaleTop = 0.5f;     // Karaktärsstorlek vid minY (långt bort)
+    float scaleBottom = 1.0f;  // Karaktärsstorlek vid maxY (nära)
+};
+
 class Room {
     std::string m_id, m_name;
     SDL_Texture* m_background;
-    SDL_Rect m_walkArea;
+    WalkArea m_walkArea;       // Inkl perspektiv-skalning
     std::vector<Hotspot> m_hotspots;
     std::vector<Exit> m_exits;
     std::vector<NPC*> m_npcs;
@@ -381,6 +420,7 @@ class AudioManager {
     std::unordered_map<std::string, Mix_Music*> m_music;
     float m_musicVolume = 1.0f;
     float m_sfxVolume = 1.0f;
+    bool m_muted = false;
 public:
     void loadSound(const std::string& id, const std::string& path);
     void loadMusic(const std::string& id, const std::string& path);
@@ -389,6 +429,8 @@ public:
     void stopMusic();
     void setMusicVolume(float volume);
     void setSFXVolume(float volume);
+    void toggleMute();     // Global mute toggle (M key)
+    bool isMuted() const;
 };
 ```
 
@@ -421,7 +463,11 @@ public:
   "id": "tavern",
   "name": "The Rusty Anchor",
   "background": "assets/backgrounds/tavern.png",
-  "walkArea": { "x": 0, "y": 200, "w": 640, "h": 150 },
+  "walkArea": { 
+    "minX": 0, "maxX": 640, "minY": 220, "maxY": 380,
+    "scaleTop": 0.6,     // Karaktär 60% storlek längst bort
+    "scaleBottom": 1.0   // Karaktär 100% storlek närmast
+  },
   "hotspots": [
     {
       "id": "bartender",

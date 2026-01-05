@@ -31,9 +31,14 @@ public:
 
 private:
     void onRoomChange(const std::string& roomId);
+    void interactWithHotspot(struct Hotspot* hotspot);
+    struct Hotspot* getNearbyHotspot(float maxDistance = 60.0f);
     
     std::unique_ptr<PlayerCharacter> m_player;
     std::unique_ptr<Input> m_input;
     
-    std::string m_hoveredHotspot;  // Namn på hotspot under musen
+    std::string m_hoveredHotspot;    // Namn på hotspot under musen
+    struct Hotspot* m_nearbyHotspot = nullptr;  // Närmaste hotspot för E-interaktion
+    static constexpr float INTERACT_DISTANCE = 60.0f;
+    bool m_initialized = false;  // Undvik att ladda om data vid resume
 };

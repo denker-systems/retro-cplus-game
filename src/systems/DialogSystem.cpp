@@ -3,6 +3,7 @@
  * @brief Implementation av dialog system
  */
 #include "DialogSystem.h"
+#include "../utils/Logger.h"
 #include <iostream>
 
 DialogSystem& DialogSystem::instance() {
@@ -12,13 +13,14 @@ DialogSystem& DialogSystem::instance() {
 
 void DialogSystem::addDialog(const DialogTree& tree) {
     m_dialogs[tree.id] = tree;
-    std::cout << "Added dialog: " << tree.id << " with " << tree.nodes.size() << " nodes" << std::endl;
+    LOG_INFO("Added dialog: " + tree.id + " with " + std::to_string(tree.nodes.size()) + " nodes");
 }
 
 bool DialogSystem::startDialog(const std::string& dialogId) {
+    LOG_INFO("startDialog called: " + dialogId);
     auto it = m_dialogs.find(dialogId);
     if (it == m_dialogs.end()) {
-        std::cerr << "Dialog not found: " << dialogId << std::endl;
+        LOG_ERROR("Dialog not found: " + dialogId);
         return false;
     }
     
@@ -26,7 +28,7 @@ bool DialogSystem::startDialog(const std::string& dialogId) {
     m_currentNodeId = m_currentDialog->startNodeId;
     m_active = true;
     
-    std::cout << "Started dialog: " << dialogId << std::endl;
+    LOG_INFO("Started dialog: " + dialogId + ", startNode=" + std::to_string(m_currentNodeId));
     return true;
 }
 

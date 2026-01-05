@@ -26,6 +26,8 @@ set(SOURCES
     src/states/DialogState.cpp
     src/states/InventoryState.cpp
     src/states/QuestLogState.cpp
+    src/states/SaveLoadState.cpp
+    src/states/EditorState.cpp
     src/systems/DialogSystem.cpp
     src/systems/InventorySystem.cpp
     src/systems/RoomManager.cpp
@@ -33,7 +35,16 @@ set(SOURCES
     src/systems/AISystem.cpp
     src/systems/SaveSystem.cpp
     src/systems/CutsceneSystem.cpp
+    src/systems/HintSystem.cpp
+    src/systems/RecapSystem.cpp
+    src/systems/GateSystem.cpp
+    src/systems/JournalSystem.cpp
+    src/systems/WorldState.cpp
+    src/systems/ConditionSystem.cpp
+    src/systems/EventBus.cpp
+    src/systems/WorldQuery.cpp
     src/data/DataLoader.cpp
+    src/data/TiledImporter.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp
     src/graphics/Animation.cpp
@@ -45,6 +56,15 @@ set(SOURCES
     src/entities/PlayerCharacter.cpp
     src/entities/NPC.cpp
     src/ui/Widget.cpp
+    src/utils/Logger.cpp
+    src/editor/DebugEditor.cpp
+    src/editor/EditorCore.cpp
+    src/editor/EditorContext.cpp
+    src/editor/widgets/Widget.cpp
+    src/editor/widgets/Button.cpp
+    src/editor/widgets/ListView.cpp
+    src/editor/panels/RoomPanel.cpp
+    src/editor/commands/HotspotCommands.cpp
 )
 
 # Skapa executable
@@ -56,6 +76,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE src)
 # Hitta nlohmann_json
 find_package(nlohmann_json CONFIG REQUIRED)
 
+# Hitta imgui (för framtida full debug editor)
+find_package(imgui CONFIG QUIET)
+
 # Länka bibliotek (vcpkg targets)
 target_link_libraries(${PROJECT_NAME} PRIVATE
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
@@ -64,6 +87,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>
     $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
     nlohmann_json::nlohmann_json
+    $<TARGET_NAME_IF_EXISTS:imgui::imgui>
 )
 
 # Kopiera assets till build-mappen

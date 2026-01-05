@@ -38,6 +38,7 @@ public:
     
     /** @brief Rita frame med skalning */
     void renderScaled(SDL_Renderer* renderer, int frameIndex, int x, int y, float scale, bool flipH = false);
+    void renderScaled(SDL_Renderer* renderer, int frameIndex, int x, int y, int w, int h, bool flipH = false);
 
     // Getters
     int getFrameWidth() const { return m_frameWidth; }

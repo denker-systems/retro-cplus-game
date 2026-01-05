@@ -4,9 +4,9 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│ Fas 1: Core       │ Fas 2: Systems  │ Fas 3: Content │ Fas 4: Polish│
-│ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ▓▓▓▓▓▓▓▓░░░░░░░ │ ░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░│
-│ 100%              │ 60%             │ 0%             │ 0%           │
+│ Fas 1: Core       │ Fas 2: Systems  │ Fas 3: Advanced│ Fas 4: Content│
+│ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ░░░░░░░░░░░░│
+│ 100%              │ 100%            │ 100%           │ 0%           │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -50,85 +50,100 @@
 
 ---
 
-## Fas 2: Game Systems (60% klar)
+## Fas 2: Game Systems ✅ (Klar)
 
 ### 2.1 Room System ✅
 - [x] Room klass med bakgrund
 - [x] Walk area och kollision
 - [x] Hotspots (interaktiva områden)
-- [ ] Exits (rumsövergångar)
-- [ ] Room transitions (fade)
-- [ ] JSON room definitions
+- [x] RoomManager med rumsövergångar
+- [x] Fade transitions
+- [x] JSON room definitions
+- [x] NPC-hantering per rum
 
 ### 2.2 Entity System ✅
 - [x] Entity basklass
-- [x] Player med sprite animation stöd
-- [x] Point-and-click movement
-- [ ] NPC basklass
-- [ ] Item entitet
+- [x] Character basklass
+- [x] PlayerCharacter med point-and-click
+- [x] NPC klass
 
 ### 2.3 Dialog System ✅
-- [x] DialogNode struktur
-- [ ] DialogTree parser (JSON)
+- [x] DialogNode/DialogTree struktur
+- [x] JSON-laddning via DataLoader
 - [x] Dialog UI (textbox)
 - [x] Valmöjligheter
-- [ ] Villkor och actions
-- [ ] Character portraits
+- [x] DialogState overlay
 
 ### 2.4 Inventory System ✅
-- [x] InventorySystem klass
-- [x] Item pickup
-- [ ] Inventory UI
-- [ ] Item examination
-- [ ] Item combination
-- [ ] Use item on hotspot
+- [x] InventorySystem singleton
+- [x] Item pickup/remove
+- [x] InventoryState UI overlay
+- [x] Item combination
+- [x] JSON item definitions
 
-### 2.5 Quest System
-- [ ] Quest struktur
-- [ ] Objectives
-- [ ] Quest log UI
-- [ ] Quest triggers
-- [ ] Rewards
+### 2.5 Quest System ✅
+- [x] Quest/Objective strukturer
+- [x] ObjectiveTypes: Talk, Collect, Deliver, GoTo, Examine
+- [x] QuestLogState UI overlay
+- [x] Auto-completion detection
+- [x] JSON quest definitions
 
 **Estimerad tid: 4-5 sessioner**
 
 ---
 
-## Fas 3: Advanced Features
+## Fas 3: Advanced Features ✅ (Klar)
 
-### 3.1 AI System
-- [ ] AIBehavior interface
-- [ ] Scheduled behaviors
-- [ ] NPC pathfinding (A*)
-- [ ] NPC states (idle, walk, talk)
-- [ ] NPC schedules
+### 3.1 AI System ✅
+- [x] AISystem singleton
+- [x] BehaviorTypes: Idle, Patrol, Wander, Follow, GoTo
+- [x] Waypoint-baserad patrol
+- [x] Tidbaserade schedules
+- [x] Game time med konfigurerbar skala
+- [x] Automatisk NPC-registrering
 
-### 3.2 Save/Load System
-- [ ] SaveData struktur
-- [ ] JSON serialization
-- [ ] Multiple save slots
-- [ ] Auto-save
-- [ ] Save slot UI
+### 3.2 Save/Load System ✅
+- [x] SaveData struktur
+- [x] JSON serialization (nlohmann/json)
+- [x] Multiple save slots
+- [x] Flags och counters
+- [x] Speltid-tracking
 
-### 3.3 Menu System
-- [ ] Main menu
-- [ ] Options (volume, fullscreen)
-- [ ] Save/Load menu
-- [ ] Credits
-- [ ] Pause menu
+### 3.3 Menu System ✅
+- [x] MenuState (huvudmeny)
+- [x] OptionsState (volym, fullscreen)
+- [x] PauseState (overlay)
+- [x] Global mute toggle (M-tangent)
+- [ ] SaveLoadState (save/load meny)
 
-### 3.4 UI System
-- [ ] Widget basklass
-- [ ] Button med hover/click
-- [ ] Label med fonts
-- [ ] Panels
-- [ ] Scrollable lists
+### 3.4 UI System ✅
+- [x] Widget basklass
+- [x] Button med hover/click states
+- [x] Label med fonts
+- [x] Panel (container)
+- [x] ProgressBar
+- [x] Mute status indikator
 
-### 3.5 Cutscenes/Video
-- [ ] Video playback (FFMPEG eller pre-rendered)
-- [ ] Scripted sequences
-- [ ] Camera movements
-- [ ] Letterboxing
+### 3.5 Cutscene System ✅
+- [x] CutsceneSystem singleton
+- [x] Sekventiella actions
+- [x] Text overlay med speaker
+- [x] FadeIn/FadeOut
+- [x] Factory methods för enkel skapning
+
+### 3.6 Editor System ✅
+- [x] EditorState (F1 för att öppna)
+- [x] Visuell hotspot-redigering (drag, resize)
+- [x] Walk area editing med handles
+- [x] Depth scaling redigering (+/- tangenter)
+- [x] JSON save/load av ändringar
+- [x] Command pattern för undo/redo
+
+### 3.7 Depth Scaling ✅
+- [x] WalkArea med scaleTop/scaleBottom
+- [x] PlayerCharacter::renderScaled()
+- [x] Animation/SpriteSheet scaled rendering
+- [x] Perspektiv-effekt baserat på Y-position
 
 **Estimerad tid: 4-5 sessioner**
 
@@ -197,20 +212,13 @@
 
 ---
 
-## Nästa session: Fas 2 - Room System
+## Nästa session: Fas 4 - Content & Polish
 
-### Filer att skapa:
-```
-src/systems/
-├── RoomSystem.h
-├── RoomSystem.cpp
-```
-
-### Mål:
-1. Bakgrundstexturer för rum
-2. Walk area (polygon eller rektangel)
-3. Hotspot-interaktion (klick)
-4. Room exits och transitions
+### Fokus:
+1. Sprite/textur assets
+2. Bakgrundsbilder för rum
+3. Ljudeffekter och musik
+4. Komplett spelinnehåll
 
 ---
 
@@ -234,10 +242,10 @@ src/systems/
 |-----------|-------------|--------|
 | M1 | Fönster + rendering | ✅ |
 | M2 | State system + meny | ✅ |
-| M3 | Rum med spelare | ⏳ |
-| M4 | Dialog med NPC | ⬜ |
-| M5 | Inventory fungerar | ⬜ |
-| M6 | Quest system | ⬜ |
-| M7 | Save/Load | ⬜ |
+| M3 | Rum med spelare | ✅ |
+| M4 | Dialog med NPC | ✅ |
+| M5 | Inventory fungerar | ✅ |
+| M6 | Quest system | ✅ |
+| M7 | Save/Load | ✅ |
 | M8 | Playable demo | ⬜ |
 | M9 | Full game | ⬜ |

@@ -5,6 +5,7 @@
 #include "Room.h"
 #include "entities/NPC.h"
 #include <SDL_image.h>
+#include <algorithm>
 #include <iostream>
 
 Room::Room(const std::string& id, const std::string& name) 
@@ -18,6 +19,14 @@ Room::~Room() {
         SDL_DestroyTexture(m_background);
         m_background = nullptr;
     }
+    
+    // Rensa layers
+    for (auto& layer : m_layers) {
+        if (layer.texture) {
+            SDL_DestroyTexture(layer.texture);
+        }
+    }
+    m_layers.clear();
 }
 
 bool Room::loadBackground(SDL_Renderer* renderer, const std::string& path) {
@@ -36,8 +45,12 @@ bool Room::loadBackground(SDL_Renderer* renderer, const std::string& path) {
 }
 
 void Room::render(SDL_Renderer* renderer) {
-    // Rita bakgrund
-    if (m_background) {
+    // Rita layers om de finns
+    if (!m_layers.empty()) {
+        renderLayers(renderer, 0, true);  // Rita alla layers (för nu, ingen spelar-depth)
+    }
+    // Legacy: Rita bakgrund om inga layers finns
+    else if (m_background) {
         SDL_RenderCopy(renderer, m_background, nullptr, nullptr);
     } else {
         // Fallback - färgad bakgrund
@@ -92,12 +105,18 @@ void Room::renderDebugInfo(SDL_Renderer* renderer) {
 }
 
 void Room::addHotspot(const std::string& id, const std::string& name,
-                       int x, int y, int w, int h, HotspotType type) {
+                       int x, int y, int w, int h, HotspotType type,
+                       const std::string& dialogId,
+                       const std::string& examineText,
+                       const std::vector<std::string>& funnyFails) {
     Hotspot hs;
     hs.id = id;
     hs.name = name;
     hs.rect = {x, y, w, h};
     hs.type = type;
+    hs.dialogId = dialogId;
+    hs.examineText = examineText;
+    hs.funnyFails = funnyFails;
     hs.active = true;
     m_hotspots.push_back(hs);
 }
@@ -114,8 +133,8 @@ void Room::addExit(const std::string& id, const std::string& name,
     m_hotspots.push_back(hs);
 }
 
-void Room::setWalkArea(int minX, int maxX, int minY, int maxY) {
-    m_walkArea = {minX, maxX, minY, maxY};
+void Room::setWalkArea(int minX, int maxX, int minY, int maxY, float scaleTop, float scaleBottom) {
+    m_walkArea = {minX, maxX, minY, maxY, scaleTop, scaleBottom};
 }
 
 bool Room::isInWalkArea(float x, float y) const {
@@ -173,6 +192,48 @@ void Room::renderNPCs(SDL_Renderer* renderer) {
     for (auto& npc : m_npcs) {
         if (npc) {
             npc->render(renderer);
+        }
+    }
+}
+
+bool Room::loadLayer(SDL_Renderer* renderer, const std::string& imagePath, int zIndex,
+                     float parallaxX, float parallaxY, float opacity) {
+    SDL_Texture* texture = IMG_LoadTexture(renderer, imagePath.c_str());
+    if (!texture) {
+        std::cerr << "Failed to load layer: " << imagePath << " - " << IMG_GetError() << std::endl;
+        return false;
+    }
+    
+    RoomLayer layer;
+    layer.texture = texture;
+    layer.zIndex = zIndex;
+    layer.parallaxX = parallaxX;
+    layer.parallaxY = parallaxY;
+    layer.opacity = opacity;
+    
+    m_layers.push_back(layer);
+    
+    std::cout << "Loaded layer: " << imagePath << " (zIndex: " << zIndex << ")" << std::endl;
+    return true;
+}
+
+void Room::renderLayers(SDL_Renderer* renderer, int playerY, bool renderBehind) {
+    (void)playerY;
+    (void)renderBehind;
+    
+    std::vector<RoomLayer*> sortedLayers;
+    for (auto& layer : m_layers) {
+        sortedLayers.push_back(&layer);
+    }
+    std::sort(sortedLayers.begin(), sortedLayers.end(), 
+              [](const RoomLayer* a, const RoomLayer* b) {
+                  return a->zIndex < b->zIndex;
+              });
+    
+    for (auto* layer : sortedLayers) {
+        if (layer->texture) {
+            SDL_SetTextureAlphaMod(layer->texture, static_cast<Uint8>(layer->opacity * 255));
+            SDL_RenderCopy(renderer, layer->texture, nullptr, nullptr);
         }
     }
 }

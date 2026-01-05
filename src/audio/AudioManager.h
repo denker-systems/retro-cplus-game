@@ -44,6 +44,27 @@ public:
     /** @brief Fade out musik (ms) */
     void fadeOutMusic(int ms);
     
+    /** @brief Crossfade till ny musik (ms) */
+    void crossfadeToMusic(const std::string& id, int fadeMs = 1000);
+    
+    // Adaptiv musik (iMUSE-inspirerat)
+    enum class MusicState {
+        Normal,      // Standard rum-tema
+        Tense,       // Nära lösning / fara
+        Discovery,   // Hittade något viktigt
+        Victory,     // Löste pussel
+        Cutscene     // Speciell sekvens
+    };
+    
+    /** @brief Sätt musik-state för adaptiv musik */
+    void setMusicState(MusicState state);
+    
+    /** @brief Hämta nuvarande musik-state */
+    MusicState getMusicState() const { return m_currentState; }
+    
+    /** @brief Spela kort "sting" (t.ex. vid pussel-lösning) */
+    void playMusicSting(const std::string& id);
+    
     // Ljudeffekter
     /** @brief Ladda ljudeffekt (WAV) */
     bool loadSound(const std::string& id, const std::string& path);
@@ -73,6 +94,9 @@ public:
     /** @brief Återställ ljud */
     void unmute();
     
+    /** @brief Toggle mute */
+    void toggleMute() { m_muted ? unmute() : mute(); }
+    
     bool isMuted() const { return m_muted; }
 
 private:
@@ -88,4 +112,9 @@ private:
     float m_sfxVolume = 1.0f;    // 0.0 - 1.0
     bool m_muted = false;
     bool m_initialized = false;
+    
+    // Adaptiv musik state
+    MusicState m_currentState = MusicState::Normal;
+    std::string m_currentMusicId;
+    bool m_isCrossfading = false;
 };

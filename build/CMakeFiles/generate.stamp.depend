@@ -48,6 +48,10 @@ C:/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets-release.cm
 C:/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets.cmake
 C:/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfig.cmake
 C:/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfigVersion.cmake
+C:/vcpkg/installed/x64-windows/share/imgui/imgui-config.cmake
+C:/vcpkg/installed/x64-windows/share/imgui/imgui-targets-debug.cmake
+C:/vcpkg/installed/x64-windows/share/imgui/imgui-targets-release.cmake
+C:/vcpkg/installed/x64-windows/share/imgui/imgui-targets.cmake
 C:/vcpkg/installed/x64-windows/share/nlohmann_json/nlohmann_jsonConfig.cmake
 C:/vcpkg/installed/x64-windows/share/nlohmann_json/nlohmann_jsonConfigVersion.cmake
 C:/vcpkg/installed/x64-windows/share/nlohmann_json/nlohmann_jsonTargets.cmake

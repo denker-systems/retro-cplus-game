@@ -1,0 +1,151 @@
+{
+  "height": 400,
+  "layers": [
+    {
+      "image": "forest_bg",
+      "name": "background",
+      "opacity": 1,
+      "type": "imagelayer",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "hotspots",
+      "objects": [
+        {
+          "height": 60,
+          "id": 1,
+          "name": "Forest Hermit",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "hermit"
+            },
+            {
+              "name": "dialogId",
+              "type": "string",
+              "value": "hermit_intro"
+            }
+          ],
+          "type": "npc",
+          "visible": true,
+          "width": 40,
+          "x": 400,
+          "y": 290
+        },
+        {
+          "height": 30,
+          "id": 2,
+          "name": "Strange Mushrooms",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "mushrooms"
+            }
+          ],
+          "type": "item",
+          "visible": true,
+          "width": 40,
+          "x": 200,
+          "y": 320
+        },
+        {
+          "height": 90,
+          "id": 3,
+          "name": "Ancient Tree",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "old_tree"
+            }
+          ],
+          "type": "examine",
+          "visible": true,
+          "width": 80,
+          "x": 500,
+          "y": 270
+        },
+        {
+          "height": 60,
+          "id": 4,
+          "name": "Path to Town",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "path_town"
+            },
+            {
+              "name": "targetRoom",
+              "type": "string",
+              "value": "street"
+            }
+          ],
+          "type": "exit",
+          "visible": true,
+          "width": 50,
+          "x": 20,
+          "y": 300
+        },
+        {
+          "height": 70,
+          "id": 5,
+          "name": "Cave Entrance",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "path_cave"
+            },
+            {
+              "name": "targetRoom",
+              "type": "string",
+              "value": "cave"
+            }
+          ],
+          "type": "exit",
+          "visible": true,
+          "width": 50,
+          "x": 580,
+          "y": 290
+        }
+      ],
+      "type": "objectgroup"
+    },
+    {
+      "name": "walkarea",
+      "objects": [
+        {
+          "height": 70,
+          "id": 6,
+          "name": "walkarea",
+          "type": "walkarea",
+          "visible": true,
+          "width": 640,
+          "x": 0,
+          "y": 290
+        }
+      ],
+      "type": "objectgroup"
+    }
+  ],
+  "orientation": "orthogonal",
+  "properties": [
+    {
+      "name": "roomName",
+      "type": "string",
+      "value": "Dark Forest"
+    }
+  ],
+  "renderorder": "right-down",
+  "tiledversion": "1.10.0",
+  "tileheight": 1,
+  "tilewidth": 1,
+  "type": "map",
+  "version": "1.10",
+  "width": 640
+}

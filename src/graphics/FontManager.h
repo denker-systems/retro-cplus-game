@@ -46,6 +46,10 @@ private:
     FontManager(const FontManager&) = delete;
     FontManager& operator=(const FontManager&) = delete;
     
+    /** @brief Fallback-rendering när font saknas */
+    void renderFallbackText(SDL_Renderer* renderer, const std::string& text,
+                           int x, int y, SDL_Color color);
+    
     std::unordered_map<std::string, TTF_Font*> m_fonts;
     std::unordered_map<std::string, int> m_fontBaseSizes;  // Bas-storlek för skalning
     bool m_initialized = false;

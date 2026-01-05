@@ -1,0 +1,173 @@
+{
+  "height": 400,
+  "layers": [
+    {
+      "image": "street_bg",
+      "name": "background",
+      "opacity": 1,
+      "type": "imagelayer",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "hotspots",
+      "objects": [
+        {
+          "height": 90,
+          "id": 1,
+          "name": "Tavern Door",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "door_tavern"
+            },
+            {
+              "name": "targetRoom",
+              "type": "string",
+              "value": "tavern"
+            }
+          ],
+          "type": "exit",
+          "visible": true,
+          "width": 50,
+          "x": 20,
+          "y": 270
+        },
+        {
+          "height": 90,
+          "id": 2,
+          "name": "Shop Door",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "door_shop"
+            },
+            {
+              "name": "targetRoom",
+              "type": "string",
+              "value": "shop"
+            }
+          ],
+          "type": "exit",
+          "visible": true,
+          "width": 50,
+          "x": 300,
+          "y": 260
+        },
+        {
+          "height": 90,
+          "id": 3,
+          "name": "Library Door",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "door_library"
+            },
+            {
+              "name": "targetRoom",
+              "type": "string",
+              "value": "library"
+            }
+          ],
+          "type": "exit",
+          "visible": true,
+          "width": 50,
+          "x": 450,
+          "y": 260
+        },
+        {
+          "height": 50,
+          "id": 4,
+          "name": "Old Well",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "well"
+            }
+          ],
+          "type": "examine",
+          "visible": true,
+          "width": 50,
+          "x": 180,
+          "y": 300
+        },
+        {
+          "height": 60,
+          "id": 5,
+          "name": "Notice Board",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "notice_board"
+            }
+          ],
+          "type": "examine",
+          "visible": true,
+          "width": 40,
+          "x": 550,
+          "y": 280
+        },
+        {
+          "height": 60,
+          "id": 6,
+          "name": "Forest Path",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "path_forest"
+            },
+            {
+              "name": "targetRoom",
+              "type": "string",
+              "value": "forest"
+            }
+          ],
+          "type": "exit",
+          "visible": true,
+          "width": 40,
+          "x": 600,
+          "y": 300
+        }
+      ],
+      "type": "objectgroup"
+    },
+    {
+      "name": "walkarea",
+      "objects": [
+        {
+          "height": 80,
+          "id": 7,
+          "name": "walkarea",
+          "type": "walkarea",
+          "visible": true,
+          "width": 640,
+          "x": 0,
+          "y": 280
+        }
+      ],
+      "type": "objectgroup"
+    }
+  ],
+  "orientation": "orthogonal",
+  "properties": [
+    {
+      "name": "roomName",
+      "type": "string",
+      "value": "Town Square"
+    }
+  ],
+  "renderorder": "right-down",
+  "tiledversion": "1.10.0",
+  "tileheight": 1,
+  "tilewidth": 1,
+  "type": "map",
+  "version": "1.10",
+  "width": 640
+}
