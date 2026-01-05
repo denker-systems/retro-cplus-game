@@ -210,7 +210,7 @@ Architecture: x64-windows
 Multi-Arch: same
 Abi: 2ef2b3b35a3bca51f173a9bee6b9609eb29220eb1d6b39ed25c7ba600447d430
 Description: Node Editor built using Dear ImGui
-Status: install ok installed
+Status: purge ok not-installed
 
 Package: imguizmo
 Version: 2024-05-29

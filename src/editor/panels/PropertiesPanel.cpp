@@ -378,7 +378,16 @@ void PropertiesPanel::updateEditorSelection() {
     
     // Uppdatera NPC editor
     if (m_context.selectedType == EditorContext::SelectionType::NPC) {
-        // TODO: Implementera när NPC selection finns i EditorContext
+        NPCData* npc = nullptr;
+        for (auto& n : m_context.npcs) {
+            if (n.id == m_context.selectedNPCId) {
+                npc = &n;
+                break;
+            }
+        }
+        if (npc && m_npcEditor->getNPC() != npc) {
+            m_npcEditor->setNPC(npc);
+        }
     }
 }
 

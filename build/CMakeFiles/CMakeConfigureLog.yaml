@@ -87,7 +87,7 @@ events:
       The output was:
       0
       MSBuild version 17.15.0-preview-25421-07+49758e5ba for .NET Framework
-      Build started 1/5/2026 4:47:09 PM.
+      Build started 1/5/2026 5:15:43 PM.
       
       Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\4.2.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
       PrepareForBuild:
@@ -116,7 +116,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.29
+      Time Elapsed 00:00:00.33
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -2854,8 +2854,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-4599eq"
-      binary: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-4599eq"
+      source: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-xjyw1z"
+      binary: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-xjyw1z"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -2869,39 +2869,39 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-4599eq'
+        Change Dir: 'C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-xjyw1z'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Insiders/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_662e3.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Insiders/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_f75c6.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
         MSBuild version 17.15.0-preview-25421-07+49758e5ba for .NET Framework
-        Build started 1/5/2026 4:47:09 PM.
+        Build started 1/5/2026 5:15:44 PM.
         
-        Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-4599eq\\cmTC_662e3.vcxproj" on node 1 (default targets).
+        Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-xjyw1z\\cmTC_f75c6.vcxproj" on node 1 (default targets).
         PrepareForBuild:
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-4599eq\\Debug\\".
-          Creating directory "cmTC_662e3.dir\\Debug\\cmTC_662e3.tlog\\".
+          Creating directory "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-xjyw1z\\Debug\\".
+          Creating directory "cmTC_f75c6.dir\\Debug\\cmTC_f75c6.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_662e3.dir\\Debug\\cmTC_662e3.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_662e3.dir\\Debug\\cmTC_662e3.tlog\\unsuccessfulbuild".
+          Creating "cmTC_f75c6.dir\\Debug\\cmTC_f75c6.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_f75c6.dir\\Debug\\cmTC_f75c6.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_662e3.dir\\Debug\\\\" /Fd"cmTC_662e3.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_f75c6.dir\\Debug\\\\" /Fd"cmTC_f75c6.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.50.35503 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_662e3.dir\\Debug\\\\" /Fd"cmTC_662e3.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_f75c6.dir\\Debug\\\\" /Fd"cmTC_f75c6.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
           CMakeCXXCompilerABI.cpp
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-4599eq\\Debug\\cmTC_662e3.exe" /INCREMENTAL /ILK:"cmTC_662e3.dir\\Debug\\cmTC_662e3.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-4599eq/Debug/cmTC_662e3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-4599eq/Debug/cmTC_662e3.lib" /MACHINE:X64  /machine:x64 cmTC_662e3.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_662e3.vcxproj -> C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-4599eq\\Debug\\cmTC_662e3.exe
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-xjyw1z\\Debug\\cmTC_f75c6.exe" /INCREMENTAL /ILK:"cmTC_f75c6.dir\\Debug\\cmTC_f75c6.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-xjyw1z/Debug/cmTC_f75c6.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-xjyw1z/Debug/cmTC_f75c6.lib" /MACHINE:X64  /machine:x64 cmTC_f75c6.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_f75c6.vcxproj -> C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-xjyw1z\\Debug\\cmTC_f75c6.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_662e3.dir\\Debug\\cmTC_662e3.tlog\\unsuccessfulbuild".
-          Touching "cmTC_662e3.dir\\Debug\\cmTC_662e3.tlog\\cmTC_662e3.lastbuildstate".
-        Done Building Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-4599eq\\cmTC_662e3.vcxproj" (default targets).
+          Deleting file "cmTC_f75c6.dir\\Debug\\cmTC_f75c6.tlog\\unsuccessfulbuild".
+          Touching "cmTC_f75c6.dir\\Debug\\cmTC_f75c6.tlog\\cmTC_f75c6.lastbuildstate".
+        Done Building Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-xjyw1z\\cmTC_f75c6.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:00.28
+        Time Elapsed 00:00:00.31
         
       exitCode: 0
   -
@@ -5352,14 +5352,6 @@ events:
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/imgui-node-editor/imguiConfig.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
-        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/imgui-node-editor/imgui-config.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
         path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/imgui/imguiConfig.cmake"
         mode: "config"
         reason: "no_exist"
@@ -5589,118 +5581,6 @@ events:
         reason: "no_exist"
     found:
       path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/implot/implot-config.cmake"
-      mode: "config"
-      version: ""
-    search_context:
-      CMAKE_PREFIX_PATH:
-        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
-        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
-      ENV{PATH}:
-        - "C:\\Python314\\Scripts\\"
-        - "C:\\Python314\\"
-        - "C:\\WINDOWS\\system32"
-        - "C:\\WINDOWS"
-        - "C:\\WINDOWS\\System32\\Wbem"
-        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
-        - "C:\\WINDOWS\\System32\\OpenSSH\\"
-        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
-        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
-        - "C:\\Program Files\\Git\\cmd"
-        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
-        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
-        - "C:\\Program Files\\dotnet\\"
-        - "C:\\Program Files (x86)\\Incredibuild"
-        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
-        - "C:\\Customization\\Yasb\\"
-        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
-        - "C:\\Program Files\\nodejs\\"
-        - "C:\\ProgramData\\chocolatey\\bin"
-        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
-        - "C:\\Program Files\\CMake\\bin"
-        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
-        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
-        - "C:\\Users\\Calle\\scoop\\shims"
-        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
-        - "C:\\Users\\Calle\\.dotnet\\tools"
-        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
-        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
-        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
-        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
-        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
-        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
-      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
-      CMAKE_SYSTEM_PREFIX_PATH:
-        - "C:/Program Files"
-        - "C:/Program Files (x86)"
-        - "C:/Program Files/CMake"
-        - "C:/Program Files (x86)/RetroAdventure"
-      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
-  -
-    kind: "find_package-v1"
-    backtrace:
-      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
-      - "CMakeLists.txt:21 (find_package)"
-    name: "unofficial-imgui-node-editor"
-    configs:
-      -
-        filename: "unofficial-imgui-node-editorConfig.cmake"
-        kind: "cmake"
-      -
-        filename: "unofficial-imgui-node-editor-config.cmake"
-        kind: "cmake"
-    version_request:
-      exact: false
-    settings:
-      required: "optional"
-      quiet: true
-      global: false
-      policy_scope: true
-      bypass_provider: false
-      names:
-        - "unofficial-imgui-node-editor"
-      path_suffixes:
-        - ""
-      paths:
-        CMAKE_FIND_USE_CMAKE_PATH: true
-        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
-        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
-        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
-        CMAKE_FIND_USE_INSTALL_PREFIX: true
-        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
-        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
-        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
-        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
-    candidates:
-      -
-        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-imgui-node-editorConfig.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
-        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-imgui-node-editor-config.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
-        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-imgui-node-editorConfig.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
-        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-imgui-node-editor-config.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
-        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/unofficial-imgui-node-editorConfig.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
-        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/unofficial-imgui-node-editor-config.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
-        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/unofficial-imgui-node-editor/unofficial-imgui-node-editorConfig.cmake"
-        mode: "config"
-        reason: "no_exist"
-    found:
-      path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/unofficial-imgui-node-editor/unofficial-imgui-node-editor-config.cmake"
       mode: "config"
       version: ""
     search_context:

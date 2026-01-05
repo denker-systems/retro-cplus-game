@@ -15,7 +15,6 @@
     },
     "imguizmo",
     "implot",
-    "imgui-node-editor",
     "nativefiledialog-extended"
   ],
   "features": {
@@ -28,7 +27,6 @@
         },
         "imguizmo",
         "implot",
-        "imgui-node-editor",
         "nativefiledialog-extended"
       ]
     },

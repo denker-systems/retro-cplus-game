@@ -215,8 +215,11 @@ void HierarchyPanel::render() {
         // NPCs
         if (ImGui::CollapsingHeader("NPCs")) {
             for (const auto& npc : npcs) {
-                if (ImGui::Selectable(npc.name.c_str())) {
-                    // TODO: NPC selection
+                bool isSelected = (m_context.selectedType == EditorContext::SelectionType::NPC &&
+                                   m_context.selectedNPCId == npc.id);
+                if (ImGui::Selectable(npc.name.c_str(), isSelected)) {
+                    m_context.selectedType = EditorContext::SelectionType::NPC;
+                    m_context.selectedNPCId = npc.id;
                 }
             }
         }

@@ -68,6 +68,7 @@ public:
     std::string selectedDialogId;
     std::string selectedQuestId;
     std::string selectedItemId;
+    std::string selectedNPCId;
     int selectedHotspotIndex = -1;
     
     // Selection helpers

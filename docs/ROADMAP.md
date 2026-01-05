@@ -260,13 +260,32 @@
 
 **Mål:** Visuella verktyg för komplexa datatyper
 
-#### 4B.1 Dialog Graph Editor 🔴 Hög prioritet
-- [ ] vcpkg: imnodes dependency
-- [ ] Node-baserad dialog editor
+#### 4B.1 Node Graph System 🔴 Hög prioritet (PÅGÅENDE)
+
+**Arkitektur:**
+- [ ] vcpkg: imnodes dependency (byta från imgui-node-editor)
+- [ ] Uppdatera CMakeLists.txt för imnodes
+- [ ] Skapa IGraphNode base class
+- [ ] Skapa INodeGraphPanel base class
+- [ ] Skapa Link struct
+
+**Dialog Graph:**
+- [ ] DialogNode implementation
+- [ ] DialogGraphPanel (imnodes-baserad)
+- [ ] Automatisk tree layout
 - [ ] Visuella kopplingar mellan noder
-- [ ] Drag-and-drop noder
 - [ ] Zoom och pan
-- [ ] Export till JSON
+- [ ] Sync till/från DialogData
+
+**Quest Graph (framtida):**
+- [ ] QuestNode implementation
+- [ ] QuestGraphPanel
+- [ ] Objective-noder
+
+**NPC Behavior Graph (framtida):**
+- [ ] BehaviorNode implementation
+- [ ] BehaviorGraphPanel
+- [ ] AI behavior trees
 
 #### 4B.2 Room Flowchart 🟡 Medium prioritet
 - [ ] Visuell karta över alla rum

@@ -1,23 +1,19 @@
 ========================================
-  Game Log - 2026-01-05 16:56:21.383
+  Game Log - 2026-01-05 17:45:05.290
 ========================================
 
-[2026-01-05 16:56:21.383] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-05 16:56:21.505] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-05 16:56:21.527] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-05 16:56:21.550] [INFO ] [Game.cpp:82] Window created
-[2026-01-05 16:56:21.736] [INFO ] [Game.cpp:92] Renderer created
-[2026-01-05 16:56:21.737] [INFO ] [Game.cpp:208] Viewport: 1440x900 at (80,0)
-[2026-01-05 16:56:21.738] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
-[2026-01-05 16:56:21.744] [INFO ] [Game.cpp:129] Game initialized successfully!
-[2026-01-05 16:56:21.744] [INFO ] [EditorState.cpp:32] EditorState created
-[2026-01-05 16:56:21.745] [INFO ] [EditorState.cpp:36] EditorState::enter()
-[2026-01-05 16:56:21.746] [INFO ] [EditorState.cpp:61] EditorState: Loading game data...
-[2026-01-05 16:56:21.761] [INFO ] [EditorContext.cpp:78] EditorContext loaded 7 rooms, 8 dialogs
-[2026-01-05 16:56:21.761] [INFO ] [EditorState.cpp:67] EditorContext loaded with 8 dialogs
-[2026-01-05 16:56:36.213] [INFO ] [main.cpp:20] === RetroAdventure Editor Shutdown ===
-[2026-01-05 16:56:36.213] [INFO ] [Game.cpp:229] === Game Shutting Down ===
-
-========================================
-  Log ended - 2026-01-05 16:56:36.302
-========================================
+[2026-01-05 17:45:05.290] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-05 17:45:05.458] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-05 17:45:05.472] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-05 17:45:05.490] [INFO ] [Game.cpp:82] Window created
+[2026-01-05 17:45:05.591] [INFO ] [Game.cpp:92] Renderer created
+[2026-01-05 17:45:05.591] [INFO ] [Game.cpp:208] Viewport: 1440x900 at (80,0)
+[2026-01-05 17:45:05.592] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-05 17:45:05.598] [INFO ] [Game.cpp:129] Game initialized successfully!
+[2026-01-05 17:45:05.598] [INFO ] [EditorState.cpp:34] EditorState created
+[2026-01-05 17:45:05.602] [INFO ] [EditorState.cpp:38] EditorState::enter()
+[2026-01-05 17:45:05.603] [INFO ] [EditorState.cpp:65] EditorState: Loading game data...
+[2026-01-05 17:45:05.616] [INFO ] [EditorContext.cpp:78] EditorContext loaded 7 rooms, 8 dialogs
+[2026-01-05 17:45:05.616] [INFO ] [EditorState.cpp:71] EditorContext loaded with 8 dialogs
+[2026-01-05 17:45:16.176] [INFO ] [main.cpp:20] === RetroAdventure Editor Shutdown ===
+[2026-01-05 17:45:16.176] [INFO ] [Game.cpp:229] === Game Shutting Down ===

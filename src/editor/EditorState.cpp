@@ -22,7 +22,9 @@
 #include "editor/panels/ViewportPanel.h"
 #include "editor/panels/AssetBrowserPanel.h"
 #include "editor/panels/ConsolePanel.h"
-#include "editor/panels/DialogGraphPanel.h"
+#include "editor/graphs/dialog/DialogGraphPanel.h"
+#include "editor/graphs/quest/QuestGraphPanel.h"
+#include "editor/graphs/npc/BehaviorGraphPanel.h"
 #include <imgui.h>
 #include <imgui_internal.h>
 #endif
@@ -51,6 +53,8 @@ void EditorState::enter() {
     m_assetBrowserPanel = std::make_unique<AssetBrowserPanel>(m_editorContext);
     m_consolePanel = std::make_unique<ConsolePanel>(m_editorContext);
     m_dialogGraphPanel = std::make_unique<DialogGraphPanel>(m_editorContext);
+    m_questGraphPanel = std::make_unique<QuestGraphPanel>(m_editorContext);
+    m_behaviorGraphPanel = std::make_unique<BehaviorGraphPanel>(m_editorContext);
     
     m_consolePanel->log("Editor initialized with panel architecture");
 #endif
@@ -635,6 +639,8 @@ void EditorState::renderImGui() {
             bool assetBrowserVisible = m_assetBrowserPanel && m_assetBrowserPanel->isVisible();
             bool consoleVisible = m_consolePanel && m_consolePanel->isVisible();
             bool dialogGraphVisible = m_dialogGraphPanel && m_dialogGraphPanel->isVisible();
+            bool questGraphVisible = m_questGraphPanel && m_questGraphPanel->isVisible();
+            bool behaviorGraphVisible = m_behaviorGraphPanel && m_behaviorGraphPanel->isVisible();
             
             if (ImGui::MenuItem("Hierarchy", nullptr, &hierarchyVisible)) {
                 if (m_hierarchyPanel) m_hierarchyPanel->setVisible(hierarchyVisible);
@@ -645,9 +651,17 @@ void EditorState::renderImGui() {
             if (ImGui::MenuItem("Properties", nullptr, &propertiesVisible)) {
                 if (m_propertiesPanel) m_propertiesPanel->setVisible(propertiesVisible);
             }
+            ImGui::Separator();
             if (ImGui::MenuItem("Dialog Graph", nullptr, &dialogGraphVisible)) {
                 if (m_dialogGraphPanel) m_dialogGraphPanel->setVisible(dialogGraphVisible);
             }
+            if (ImGui::MenuItem("Quest Graph", nullptr, &questGraphVisible)) {
+                if (m_questGraphPanel) m_questGraphPanel->setVisible(questGraphVisible);
+            }
+            if (ImGui::MenuItem("NPC Behavior", nullptr, &behaviorGraphVisible)) {
+                if (m_behaviorGraphPanel) m_behaviorGraphPanel->setVisible(behaviorGraphVisible);
+            }
+            ImGui::Separator();
             if (ImGui::MenuItem("Asset Browser", nullptr, &assetBrowserVisible)) {
                 if (m_assetBrowserPanel) m_assetBrowserPanel->setVisible(assetBrowserVisible);
             }
@@ -713,6 +727,8 @@ void EditorState::renderImGui() {
         ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
         ImGui::DockBuilderDockWindow("Viewport", dockCenter);
         ImGui::DockBuilderDockWindow("Dialog Graph", dockCenter);
+        ImGui::DockBuilderDockWindow("Quest Graph", dockCenter);
+        ImGui::DockBuilderDockWindow("NPC Behavior", dockCenter);
         ImGui::DockBuilderDockWindow("Properties", dockRightTop);
         ImGui::DockBuilderDockWindow("Asset Browser", dockRightBottom);
         ImGui::DockBuilderDockWindow("Console", dockBottom);
@@ -729,6 +745,8 @@ void EditorState::renderImGui() {
     }
     if (m_propertiesPanel) m_propertiesPanel->render();
     if (m_dialogGraphPanel) m_dialogGraphPanel->render();
+    if (m_questGraphPanel) m_questGraphPanel->render();
+    if (m_behaviorGraphPanel) m_behaviorGraphPanel->render();
     if (m_assetBrowserPanel) m_assetBrowserPanel->render();
     if (m_consolePanel) m_consolePanel->render();
     

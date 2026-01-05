@@ -28,7 +28,14 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\DialogPro
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\QuestPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\QuestPropertyEditor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\ItemPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ItemPropertyEditor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\NPCPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\NPCPropertyEditor.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\DialogGraphPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\DialogGraphPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\INodeGraphPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\INodeGraphPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\dialog\DialogNode.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\DialogNode.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\dialog\DialogGraphPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\DialogGraphPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\quest\QuestNode.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\QuestNode.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\quest\QuestGraphPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\QuestGraphPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\npc\BehaviorNode.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\BehaviorNode.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\npc\BehaviorGraphPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\BehaviorGraphPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imnodes\imnodes.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\imnodes.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\ImGuiManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ImGuiManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_sdl2.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\imgui_impl_sdl2.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_sdlrenderer2.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\imgui_impl_sdlrenderer2.obj
