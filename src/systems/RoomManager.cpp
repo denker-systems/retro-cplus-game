@@ -3,6 +3,7 @@
  * @brief Implementation av RoomManager
  */
 #include "RoomManager.h"
+#include "../utils/Logger.h"
 #include <iostream>
 
 RoomManager& RoomManager::instance() {
@@ -12,26 +13,32 @@ RoomManager& RoomManager::instance() {
 
 void RoomManager::addRoom(std::unique_ptr<Room> room) {
     std::string id = room->getId();
+    LOG_INFO("Adding room: " + id);
     m_rooms[id] = std::move(room);
-    std::cout << "Added room: " << id << std::endl;
 }
 
 Room* RoomManager::getRoom(const std::string& roomId) {
     auto it = m_rooms.find(roomId);
-    return (it != m_rooms.end()) ? it->second.get() : nullptr;
+    if (it == m_rooms.end()) {
+        LOG_WARNING("Room not found: " + roomId);
+        return nullptr;
+    }
+    return it->second.get();
 }
 
 bool RoomManager::changeRoom(const std::string& roomId) {
+    LOG_INFO("changeRoom called: " + roomId);
     Room* newRoom = getRoom(roomId);
     if (!newRoom) {
-        std::cerr << "Room not found: " << roomId << std::endl;
+        LOG_ERROR("Failed to change room - not found: " + roomId);
         return false;
     }
     
-    std::cout << "Changing to room: " << roomId << std::endl;
+    LOG_INFO("Changing to room: " + roomId);
     m_currentRoom = newRoom;
     
     if (m_onRoomChange) {
+        LOG_DEBUG("Calling onRoomChange callback");
         m_onRoomChange(roomId);
     }
     

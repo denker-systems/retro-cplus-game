@@ -1,12 +1,82 @@
 ========================================
-  Game Log - 2026-01-04 22:13:49.047
+  Game Log - 2026-01-04 22:19:18.336
 ========================================
 
-[2026-01-04 22:13:49.047] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-04 22:13:49.157] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-04 22:13:49.170] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-04 22:13:49.188] [INFO ] [Game.cpp:66] Window created
-[2026-01-04 22:13:49.280] [INFO ] [Game.cpp:76] Renderer created
-[2026-01-04 22:13:49.280] [INFO ] [Game.cpp:184] Viewport: 2304x1440 at (568,0)
-[2026-01-04 22:13:49.287] [INFO ] [Game.cpp:100] Scale: 3.600000 (fonts scaled for sharp rendering)
-[2026-01-04 22:13:49.292] [INFO ] [Game.cpp:111] Game initialized successfully!
+[2026-01-04 22:19:18.336] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-04 22:19:18.443] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-04 22:19:18.463] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-04 22:19:18.485] [INFO ] [Game.cpp:66] Window created
+[2026-01-04 22:19:18.606] [INFO ] [Game.cpp:76] Renderer created
+[2026-01-04 22:19:18.606] [INFO ] [Game.cpp:184] Viewport: 2304x1440 at (568,0)
+[2026-01-04 22:19:18.613] [INFO ] [Game.cpp:100] Scale: 3.600000 (fonts scaled for sharp rendering)
+[2026-01-04 22:19:18.617] [INFO ] [Game.cpp:111] Game initialized successfully!
+[2026-01-04 22:19:22.647] [INFO ] [DialogSystem.cpp:16] Added dialog: bartender_intro with 6 nodes
+[2026-01-04 22:19:22.647] [INFO ] [DialogSystem.cpp:16] Added dialog: shopkeeper_intro with 4 nodes
+[2026-01-04 22:19:22.647] [INFO ] [DialogSystem.cpp:16] Added dialog: drunk_hints with 4 nodes
+[2026-01-04 22:19:22.647] [INFO ] [DialogSystem.cpp:16] Added dialog: stranger_intro with 3 nodes
+[2026-01-04 22:19:22.647] [INFO ] [DialogSystem.cpp:16] Added dialog: guard_intro with 4 nodes
+[2026-01-04 22:19:22.647] [INFO ] [DialogSystem.cpp:16] Added dialog: librarian_intro with 5 nodes
+[2026-01-04 22:19:22.648] [INFO ] [DialogSystem.cpp:16] Added dialog: hermit_intro with 5 nodes
+[2026-01-04 22:19:22.648] [INFO ] [DialogSystem.cpp:16] Added dialog: cat_meow with 3 nodes
+[2026-01-04 22:19:22.648] [INFO ] [RoomManager.cpp:16] Adding room: tavern
+[2026-01-04 22:19:22.648] [INFO ] [RoomManager.cpp:16] Adding room: street
+[2026-01-04 22:19:22.648] [INFO ] [RoomManager.cpp:16] Adding room: shop
+[2026-01-04 22:19:22.648] [INFO ] [RoomManager.cpp:16] Adding room: library
+[2026-01-04 22:19:22.648] [INFO ] [RoomManager.cpp:16] Adding room: cellar
+[2026-01-04 22:19:22.648] [INFO ] [RoomManager.cpp:16] Adding room: forest
+[2026-01-04 22:19:22.648] [INFO ] [RoomManager.cpp:16] Adding room: cave
+[2026-01-04 22:19:22.649] [INFO ] [RoomManager.cpp:30] changeRoom called: tavern
+[2026-01-04 22:19:22.649] [INFO ] [RoomManager.cpp:37] Changing to room: tavern
+[2026-01-04 22:19:22.649] [DEBUG] [RoomManager.cpp:41] Calling onRoomChange callback
+[2026-01-04 22:19:57.449] [INFO ] [PlayState.cpp:220] Interact: Cellar Door (door_cellar) type=3
+[2026-01-04 22:19:57.449] [DEBUG] [PlayState.cpp:245] Exit interaction, target=cellar
+[2026-01-04 22:19:57.449] [INFO ] [PlayState.cpp:250] Room transition to: cellar
+[2026-01-04 22:19:57.697] [DEBUG] [PlayState.cpp:252] Fade complete, changing room to: cellar
+[2026-01-04 22:19:57.698] [INFO ] [RoomManager.cpp:30] changeRoom called: cellar
+[2026-01-04 22:19:57.698] [INFO ] [RoomManager.cpp:37] Changing to room: cellar
+[2026-01-04 22:19:57.698] [DEBUG] [RoomManager.cpp:41] Calling onRoomChange callback
+[2026-01-04 22:20:02.092] [INFO ] [PlayState.cpp:220] Interact: Old Crate (crate) type=2
+[2026-01-04 22:20:02.092] [DEBUG] [PlayState.cpp:234] Item interaction: crate
+[2026-01-04 22:20:04.164] [INFO ] [PlayState.cpp:220] Interact: Wine Barrels (barrel_pile) type=4
+[2026-01-04 22:20:04.164] [DEBUG] [PlayState.cpp:258] Examine: Wine Barrels
+[2026-01-04 22:20:05.388] [INFO ] [PlayState.cpp:220] Interact: Stairs Up (stairs_up) type=3
+[2026-01-04 22:20:05.389] [DEBUG] [PlayState.cpp:245] Exit interaction, target=tavern
+[2026-01-04 22:20:05.389] [INFO ] [PlayState.cpp:250] Room transition to: tavern
+[2026-01-04 22:20:05.638] [DEBUG] [PlayState.cpp:252] Fade complete, changing room to: tavern
+[2026-01-04 22:20:05.639] [INFO ] [RoomManager.cpp:30] changeRoom called: tavern
+[2026-01-04 22:20:05.639] [INFO ] [RoomManager.cpp:37] Changing to room: tavern
+[2026-01-04 22:20:05.639] [DEBUG] [RoomManager.cpp:41] Calling onRoomChange callback
+[2026-01-04 22:20:08.795] [INFO ] [PlayState.cpp:220] Interact: Exit to Street (door_street) type=3
+[2026-01-04 22:20:08.795] [DEBUG] [PlayState.cpp:245] Exit interaction, target=street
+[2026-01-04 22:20:08.796] [INFO ] [PlayState.cpp:250] Room transition to: street
+[2026-01-04 22:20:09.043] [DEBUG] [PlayState.cpp:252] Fade complete, changing room to: street
+[2026-01-04 22:20:09.043] [INFO ] [RoomManager.cpp:30] changeRoom called: street
+[2026-01-04 22:20:09.043] [INFO ] [RoomManager.cpp:37] Changing to room: street
+[2026-01-04 22:20:09.044] [DEBUG] [RoomManager.cpp:41] Calling onRoomChange callback
+[2026-01-04 22:20:12.559] [INFO ] [PlayState.cpp:220] Interact: Library Door (door_library) type=3
+[2026-01-04 22:20:12.559] [DEBUG] [PlayState.cpp:245] Exit interaction, target=library
+[2026-01-04 22:20:12.560] [INFO ] [PlayState.cpp:250] Room transition to: library
+[2026-01-04 22:20:12.807] [DEBUG] [PlayState.cpp:252] Fade complete, changing room to: library
+[2026-01-04 22:20:12.807] [INFO ] [RoomManager.cpp:30] changeRoom called: library
+[2026-01-04 22:20:12.807] [INFO ] [RoomManager.cpp:37] Changing to room: library
+[2026-01-04 22:20:12.807] [DEBUG] [RoomManager.cpp:41] Calling onRoomChange callback
+[2026-01-04 22:20:15.299] [INFO ] [PlayState.cpp:220] Interact: Exit to Street (door_street) type=3
+[2026-01-04 22:20:15.299] [DEBUG] [PlayState.cpp:245] Exit interaction, target=street
+[2026-01-04 22:20:15.299] [INFO ] [PlayState.cpp:250] Room transition to: street
+[2026-01-04 22:20:15.546] [DEBUG] [PlayState.cpp:252] Fade complete, changing room to: street
+[2026-01-04 22:20:15.546] [INFO ] [RoomManager.cpp:30] changeRoom called: street
+[2026-01-04 22:20:15.546] [INFO ] [RoomManager.cpp:37] Changing to room: street
+[2026-01-04 22:20:15.546] [DEBUG] [RoomManager.cpp:41] Calling onRoomChange callback
+[2026-01-04 22:20:16.152] [INFO ] [PlayState.cpp:220] Interact: Forest Path (path_forest) type=3
+[2026-01-04 22:20:16.152] [DEBUG] [PlayState.cpp:245] Exit interaction, target=forest
+[2026-01-04 22:20:16.152] [INFO ] [PlayState.cpp:250] Room transition to: forest
+[2026-01-04 22:20:16.402] [DEBUG] [PlayState.cpp:252] Fade complete, changing room to: forest
+[2026-01-04 22:20:16.402] [INFO ] [RoomManager.cpp:30] changeRoom called: forest
+[2026-01-04 22:20:16.402] [INFO ] [RoomManager.cpp:37] Changing to room: forest
+[2026-01-04 22:20:16.402] [DEBUG] [RoomManager.cpp:41] Calling onRoomChange callback
+[2026-01-04 22:20:19.486] [INFO ] [PlayState.cpp:220] Interact: Forest Hermit (hermit) type=1
+[2026-01-04 22:20:19.486] [DEBUG] [PlayState.cpp:223] NPC interaction, dialogId=hermit_intro
+[2026-01-04 22:20:19.486] [DEBUG] [PlayState.cpp:225] Starting dialog: hermit_intro
+[2026-01-04 22:20:19.486] [INFO ] [DialogSystem.cpp:20] startDialog called: hermit_intro
+[2026-01-04 22:20:19.486] [INFO ] [DialogSystem.cpp:31] Started dialog: hermit_intro, startNode=0
+[2026-01-04 22:20:19.486] [DEBUG] [PlayState.cpp:229] Pushing DialogState

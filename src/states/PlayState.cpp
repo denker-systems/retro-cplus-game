@@ -21,6 +21,7 @@
 #include "../graphics/Transition.h"
 #include "../data/GameDataLoader.h"
 #include "../entities/NPC.h"
+#include "../utils/Logger.h"
 #include <iostream>
 #include <cmath>
 
@@ -211,42 +212,50 @@ Hotspot* PlayState::getNearbyHotspot(float maxDistance) {
 }
 
 void PlayState::interactWithHotspot(Hotspot* hotspot) {
-    if (!hotspot) return;
+    if (!hotspot) {
+        LOG_WARNING("interactWithHotspot called with null hotspot");
+        return;
+    }
     
-    std::cout << "Interact: " << hotspot->name << " (" << hotspot->id << ")" << std::endl;
+    LOG_INFO("Interact: " + hotspot->name + " (" + hotspot->id + ") type=" + std::to_string(static_cast<int>(hotspot->type)));
     
     if (hotspot->type == HotspotType::NPC) {
-        // Starta dialog om det finns
+        LOG_DEBUG("NPC interaction, dialogId=" + hotspot->dialogId);
         if (!hotspot->dialogId.empty()) {
+            LOG_DEBUG("Starting dialog: " + hotspot->dialogId);
             DialogSystem::instance().startDialog(hotspot->dialogId);
             QuestSystem::instance().updateObjective(ObjectiveType::Talk, hotspot->id);
             if (m_game) {
+                LOG_DEBUG("Pushing DialogState");
                 m_game->pushState(std::make_unique<DialogState>());
             }
         }
     } else if (hotspot->type == HotspotType::Item) {
-        // Försök plocka upp item
+        LOG_DEBUG("Item interaction: " + hotspot->id);
         if (hotspot->id == "chest") {
             if (!InventorySystem::instance().hasItem("rusty_key")) {
+                LOG_INFO("Adding rusty_key to inventory");
                 InventorySystem::instance().addItem("rusty_key");
                 QuestSystem::instance().updateObjective(ObjectiveType::Collect, "rusty_key");
             } else {
-                std::cout << "The chest is empty." << std::endl;
+                LOG_DEBUG("Chest already looted");
             }
         }
     } else if (hotspot->type == HotspotType::Exit) {
-        // Byt rum med fade transition
+        LOG_DEBUG("Exit interaction, target=" + hotspot->targetRoom);
         if (!hotspot->targetRoom.empty() && !Transition::instance().isActive()) {
             std::string target = hotspot->targetRoom;
             float spawnX = (hotspot->rect.x > 300) ? 80.0f : 550.0f;
             
+            LOG_INFO("Room transition to: " + target);
             Transition::instance().fadeToBlack(0.5f, [target, spawnX]() {
+                LOG_DEBUG("Fade complete, changing room to: " + target);
                 RoomManager::instance().setSpawnPosition(spawnX, 300.0f);
                 RoomManager::instance().changeRoom(target);
             });
         }
     } else if (hotspot->type == HotspotType::Examine) {
-        std::cout << "You examine the " << hotspot->name << "..." << std::endl;
+        LOG_DEBUG("Examine: " + hotspot->name);
         QuestSystem::instance().updateObjective(ObjectiveType::Examine, hotspot->id);
     }
 }
