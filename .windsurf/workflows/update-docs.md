@@ -4,11 +4,18 @@ description: Uppdaterar projektdokumentation (README, ARCHITECTURE, ROADMAP)
 
 # Update Docs Workflow
 
-## 1. Kolla vad som ändrats
+## 1. Analysera ALLA ändringar sedan senaste dokumenterade commit
 // turbo
 `powershell
-git diff --name-only HEAD~1
+git diff --stat HEAD~1
 `
+
+**KRITISKT:** Identifiera ALLA typer av ändringar:
+- Nya filer/mappar?
+- Flyttade filer (arkitekturändringar)?
+- Nya features/system?
+- Build-system ändringar?
+- Bugfixes?
 
 ## 2. Uppdatera README.md
 - Ny feature? Lägg till i Features

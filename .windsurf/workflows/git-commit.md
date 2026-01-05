@@ -12,11 +12,23 @@ description: Commit och push ändringar - synkar med DEVLOG, CHANGELOG och sessi
 $today = Get-Date -Format 'yyyy-MM-dd'; $branch = git branch --show-current; Write-Host "Datum: $today | Branch: $branch"
 `
 
-## 2. Kolla status
+## 2. Analysera ALLA ändringar sedan senaste commit
 // turbo
 `powershell
 git status --short
 `
+
+**KRITISKT:** Kör `git diff --stat` för att se ALLA ändrade filer:
+`powershell
+git diff --stat HEAD
+`
+
+**Identifiera vad som ändrats:**
+- Nya filer/mappar?
+- Flyttade filer (renames)?
+- Arkitekturändringar?
+- Nya features?
+- Bugfixes?
 
 ## 3. Stage alla ändringar
 `powershell
@@ -40,21 +52,40 @@ $hash = git rev-parse --short HEAD; $msg = git log -1 --format="%s"; Write-Host 
 
 ## 6. Uppdatera dokumentation
 
+**KRITISKT:** Dokumentera ALLA ändringar från steg 2, inte bara det senaste!
+
 ### DEVLOG (docs/dev/DEVLOG.md)
-`markdown
+Lägg till under rätt dag/tid med ALLA ändringar:
+```markdown
 - `HASH` type(scope): beskrivning
-  - Detalj 1
+  - **Arkitektur:** Om filer flyttades/strukturändring
+  - **Build:** Om build-system ändrades
+  - **Feature 1:** Kort beskrivning
+  - **Feature 2:** Kort beskrivning
   - Session: [YYYY-MM-DD](sessions/YYYY-MM-DD.md)
-`
+```
 
 ### Session Report (docs/dev/sessions/YYYY-MM-DD.md)
-Lägg till commit i "Git Commits" sektionen.
+Lägg till i "Git Commits" med ALLA ändringar:
+```markdown
+X. `HASH` type(scope): beskrivning
+   - **Arkitektur:** Om relevant
+   - **Build:** Om relevant
+   - Feature 1
+   - Feature 2
+```
 
 ### CHANGELOG (docs/CHANGELOG.md)
-Lägg till under [Unreleased] om ny feature.
+Under [Unreleased], lägg till ALLA ändringar:
+- **Added:** Nya features, filer, system
+- **Changed:** Strukturändringar, refactorings
+- **Fixed:** Bugfixes
 
 ### ROADMAP (docs/ROADMAP.md)
-Markera feature som [x] om klar.
+Markera features som [x] om klara.
+
+### ADR (docs/adr/)
+Skapa ny ADR om arkitekturbeslut togs.
 
 ## 7. Push till remote
 `powershell

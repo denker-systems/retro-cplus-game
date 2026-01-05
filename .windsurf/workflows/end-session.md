@@ -10,12 +10,23 @@ description: Avslutar sessionen och skapar/uppdaterar rapport - synkar med DEVLO
 $today = Get-Date -Format 'yyyy-MM-dd'; Write-Host "=== Avslutar Session $today ===" -ForegroundColor Cyan
 `
 
-## 2. Se dagens commits
+## 2. Analysera dagens commits
 // turbo
 `powershell
 $today = Get-Date -Format 'yyyy-MM-dd'
 git log --oneline --after="$today 00:00" --before="$today 23:59" --format="%h %s"
 `
+
+**För varje commit, kör:**
+`powershell
+git show --stat <HASH>
+`
+
+**Identifiera för varje commit:**
+- Arkitekturändringar? (flyttade filer, nya mappar)
+- Build-system ändringar? (CMakeLists.txt, vcpkg)
+- Nya features/system?
+- Bugfixes?
 
 ## 3. Se git-status (ocommittade ändringar)
 // turbo
@@ -25,27 +36,56 @@ git status --short
 
 ## 4. Uppdatera Session Report
 
+**KRITISKT:** Dokumentera ALLA commits och ändringar!
+
 Uppdatera `docs/dev/sessions/YYYY-MM-DD.md` med:
 - Sammanfattning av dagens arbete
-- Alla commits med hashar
+- **Alla commits med hashar OCH detaljerad beskrivning**
+- **Arkitekturändringar om relevanta**
+- **Build-system ändringar om relevanta**
 - Tekniska beslut
 - Nästa steg
 
+**Format för commits:**
+```markdown
+X. `HASH` type(scope): beskrivning
+   - **Arkitektur:** Om filer flyttades/strukturändring
+   - **Build:** Om build-system ändrades
+   - Feature 1
+   - Feature 2
+```
+
 ## 5. Uppdatera DEVLOG
 
-Lägg till commits i `docs/dev/DEVLOG.md` under rätt datum.
+**KRITISKT:** Lägg till ALLA commits med ALLA ändringar!
 
-## 6. Uppdatera CHANGELOG (om release-ready)
+Lägg till i `docs/dev/DEVLOG.md` under rätt datum/tid:
+```markdown
+- `HASH` type(scope): beskrivning
+  - **Arkitektur:** Om relevant
+  - **Build:** Om relevant
+  - Feature 1
+  - Feature 2
+  - Session: [YYYY-MM-DD](sessions/YYYY-MM-DD.md)
+```
 
-Om nya features är klara, lägg till under [Unreleased] i `docs/CHANGELOG.md`.
+## 6. Uppdatera CHANGELOG
+
+**KRITISKT:** Lägg till ALLA nya features, ändringar och fixes!
+
+Under [Unreleased] i `docs/CHANGELOG.md`:
+- **Added:** Nya features, filer, system, arkitektur
+- **Changed:** Strukturändringar, refactorings, build-system
+- **Fixed:** Bugfixes
 
 ## 7. Uppdatera ROADMAP
 
 Markera klara features som `[x]` i `docs/ROADMAP.md`.
+Lägg till nya upptäckta tasks.
 
-## 8. Skapa ADR (om stort beslut)
+## 8. Skapa ADR (om arkitekturbeslut)
 
-Om ett stort arkitekturbeslut togs, skapa `docs/dev/decisions/NNN-beskrivning.md`.
+Om ett arkitekturbeslut togs, skapa `docs/adr/NNN-beskrivning.md`.
 
 ---
 
