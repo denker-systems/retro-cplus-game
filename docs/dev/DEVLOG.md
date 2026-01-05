@@ -9,6 +9,16 @@ Kronologisk logg av alla ändringar sedan projektets start.
 ## 2026-01-05
 
 ### Kväll
+- `f260c3b` feat(engine): implement Node Scene Graph system with physics
+  - **Arkitektur:** Ny mappstruktur `src/engine/core/`, `nodes/`, `world/`, `physics/`
+  - **Build:** 16 nya klasser i CMakeLists.txt
+  - **Core System:** Vec2, Node (hierarki, z-index, lifecycle), Node2D (transform)
+  - **Visual Nodes:** Sprite, AnimatedSprite, TileMapLayer, ParallaxLayer, Label
+  - **World Management:** Camera2D (follow, zoom, shake), Scene, World (transitions), LayerManager, SceneLoader (JSON)
+  - **Physics:** CollisionShape (AABB/Circle/Polygon), PhysicsBody, KinematicBody (moveAndSlide)
+  - **Features:** Scene transitions, JSON serialization, smooth collision response
+  - Session: [2026-01-05](sessions/2026-01-05.md)
+
 - `f073beb` feat(editor): migrate to imnodes for node graph system
   - **Arkitektur:** Ny `src/editor/graphs/` struktur med base classes
   - **imnodes:** Ersatte imgui-node-editor med imnodes (lokal kopia i vendor/)
