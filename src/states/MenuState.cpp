@@ -1,3 +1,7 @@
+/**
+ * @file MenuState.cpp
+ * @brief Implementation av huvudmeny
+ */
 #include "MenuState.h"
 #include "StateManager.h"
 #include "PlayState.h"

@@ -20,6 +20,9 @@ set(SOURCES
     src/states/StateManager.cpp
     src/states/MenuState.cpp
     src/states/PlayState.cpp
+    src/graphics/TextureManager.cpp
+    src/graphics/SpriteSheet.cpp
+    src/graphics/Animation.cpp
 )
 
 # Skapa executable

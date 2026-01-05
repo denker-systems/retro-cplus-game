@@ -1,3 +1,7 @@
+/**
+ * @file Input.cpp
+ * @brief Implementation av tangentbordshantering
+ */
 #include "Input.h"
 
 Input::Input() {
@@ -6,6 +10,7 @@ Input::Input() {
 }
 
 void Input::handleEvent(const SDL_Event& event) {
+    // Ignorera key repeat events (när tangent hålls nere)
     if (event.type == SDL_KEYDOWN && !event.key.repeat) {
         m_currentKeys[event.key.keysym.scancode] = true;
     }
@@ -15,6 +20,7 @@ void Input::handleEvent(const SDL_Event& event) {
 }
 
 void Input::update() {
+    // Spara nuvarande state som föregående för nästa frame
     m_previousKeys = m_currentKeys;
 }
 
@@ -23,9 +29,11 @@ bool Input::isKeyDown(SDL_Scancode key) const {
 }
 
 bool Input::isKeyPressed(SDL_Scancode key) const {
+    // True endast om tangent är nere nu men inte förra framen
     return m_currentKeys[key] && !m_previousKeys[key];
 }
 
 bool Input::isKeyReleased(SDL_Scancode key) const {
+    // True endast om tangent var nere förra framen men inte nu
     return !m_currentKeys[key] && m_previousKeys[key];
 }

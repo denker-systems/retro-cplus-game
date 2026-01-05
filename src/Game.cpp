@@ -1,7 +1,12 @@
+/**
+ * @file Game.cpp
+ * @brief Implementation av huvudspelloop och SDL-initiering
+ */
 #include "Game.h"
 #include "states/StateManager.h"
 #include "states/IState.h"
 #include "states/MenuState.h"
+#include "graphics/TextureManager.h"
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <iostream>
@@ -54,6 +59,9 @@ bool Game::init(const std::string& title, int width, int height) {
         std::cerr << "Renderer creation failed: " << SDL_GetError() << std::endl;
         return false;
     }
+
+    // Initiera TextureManager
+    TextureManager::instance().init(m_renderer);
 
     // Skapa StateManager och starta med MenuState
     m_stateManager = std::make_unique<StateManager>();
@@ -115,6 +123,7 @@ void Game::changeState(std::unique_ptr<IState> state) {
 
 void Game::quit() {
     m_stateManager.reset();
+    TextureManager::instance().shutdown();
 
     if (m_renderer) {
         SDL_DestroyRenderer(m_renderer);

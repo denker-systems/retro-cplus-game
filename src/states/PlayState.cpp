@@ -1,3 +1,7 @@
+/**
+ * @file PlayState.cpp
+ * @brief Implementation av gameplay state
+ */
 #include "PlayState.h"
 #include "MenuState.h"
 #include "../Game.h"
@@ -15,6 +19,7 @@ PlayState::~PlayState() = default;
 void PlayState::enter() {
     std::cout << "PlayState::enter()" << std::endl;
     
+    // Skapa spelkomponenter
     m_input = std::make_unique<Input>();
     m_player = std::make_unique<Player>(160.0f, 300.0f);
     m_room = std::make_unique<Room>("Tavern");
@@ -23,22 +28,25 @@ void PlayState::enter() {
 void PlayState::exit() {
     std::cout << "PlayState::exit()" << std::endl;
     
+    // Frigör resurser
     m_player.reset();
     m_room.reset();
     m_input.reset();
 }
 
 void PlayState::update(float deltaTime) {
-    // Rörelse
+    // Samla input till rörelseverktor (-1, 0, eller 1)
     int dx = 0, dy = 0;
     if (m_input->isKeyDown(SDL_SCANCODE_LEFT) || m_input->isKeyDown(SDL_SCANCODE_A)) dx = -1;
     if (m_input->isKeyDown(SDL_SCANCODE_RIGHT) || m_input->isKeyDown(SDL_SCANCODE_D)) dx = 1;
     if (m_input->isKeyDown(SDL_SCANCODE_UP) || m_input->isKeyDown(SDL_SCANCODE_W)) dy = -1;
     if (m_input->isKeyDown(SDL_SCANCODE_DOWN) || m_input->isKeyDown(SDL_SCANCODE_S)) dy = 1;
     
+    // Uppdatera spelare
     m_player->move(dx, dy, deltaTime);
     m_player->update(deltaTime);
     
+    // Spara input-state för nästa frame
     m_input->update();
 }
 

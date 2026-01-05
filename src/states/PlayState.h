@@ -1,3 +1,7 @@
+/**
+ * @file PlayState.h
+ * @brief Gameplay state - huvudsaklig spel-logik
+ */
 #pragma once
 
 #include "IState.h"
@@ -7,6 +11,12 @@ class Player;
 class Room;
 class Input;
 
+/**
+ * @brief Gameplay state där spelaren interagerar med världen
+ * 
+ * Hanterar spelare, rum och input under gameplay.
+ * ESC återgår till MenuState.
+ */
 class PlayState : public IState {
 public:
     PlayState();
@@ -19,7 +29,7 @@ public:
     void handleEvent(const SDL_Event& event) override;
 
 private:
-    std::unique_ptr<Player> m_player;
-    std::unique_ptr<Room> m_room;
-    std::unique_ptr<Input> m_input;
+    std::unique_ptr<Player> m_player;  // Spelarkaraktären
+    std::unique_ptr<Room> m_room;      // Nuvarande rum
+    std::unique_ptr<Input> m_input;    // Input-hantering
 };
