@@ -35,6 +35,7 @@ set(SOURCES
     src/systems/SaveSystem.cpp
     src/systems/CutsceneSystem.cpp
     src/systems/HintSystem.cpp
+    src/systems/RecapSystem.cpp
     src/data/DataLoader.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp
