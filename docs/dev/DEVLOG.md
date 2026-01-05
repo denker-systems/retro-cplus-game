@@ -9,6 +9,16 @@ Kronologisk logg av alla ändringar sedan projektets start.
 ## 2026-01-05
 
 ### Kväll
+- `4783d89` feat(engine): complete Fas 4 Node Scene Graph system with advanced features
+  - **Arkitektur:** Nya mappar src/engine/physics/, src/editor/panels/ med 7 nya filer
+  - **Build:** SpatialGrid, SceneGraphPanel, LayerEditorPanel, TileMapEditorPanel i CMakeLists.txt
+  - **Physics:** SpatialGrid för spatial partitioning och broad-phase collision detection
+  - **SceneGraphPanel:** Drag-and-drop re-parenting med ownership transfer (unique_ptr)
+  - **LayerEditorPanel:** Parallax preview med scroll slider och visuell representation
+  - **TileMapEditorPanel:** Interactive grid painting med mouse input och auto-tiling
+  - **Features:** Auto-tiling algorithm baserat på neighbor detection (4 cardinal directions)
+  - Session: [2026-01-05](sessions/2026-01-05.md)
+
 - `f260c3b` feat(engine): implement Node Scene Graph system with physics
   - **Arkitektur:** Ny mappstruktur `src/engine/core/`, `nodes/`, `world/`, `physics/`
   - **Build:** 16 nya klasser i CMakeLists.txt

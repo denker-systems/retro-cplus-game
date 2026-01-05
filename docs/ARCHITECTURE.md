@@ -77,19 +77,67 @@ src/
 │   ├── RoomDataManager.cpp/h  # Room data persistence
 │   ├── EditorTabRenderer.cpp/h # Legacy tab rendering
 │   ├── TiledIntegration.cpp/h # Tiled import/export
-│   └── panels/               # ImGui panels
-│       ├── HierarchyPanel.cpp/h   # Objektträd
-│       ├── PropertiesPanel.cpp/h  # Inspector
-│       ├── ViewportPanel.cpp/h    # Rum-preview med zoom
-│       ├── AssetBrowserPanel.cpp/h # Asset browser
-│       └── ConsolePanel.cpp/h     # Logg console
+│   ├── panels/               # ImGui panels
+│   │   ├── HierarchyPanel.cpp/h      # Objektträd
+│   │   ├── PropertiesPanel.cpp/h     # Inspector
+│   │   ├── ViewportPanel.cpp/h       # Rum-preview med zoom
+│   │   ├── AssetBrowserPanel.cpp/h   # Asset browser
+│   │   ├── ConsolePanel.cpp/h        # Logg console
+│   │   ├── SceneGraphPanel.cpp/h     # Node tree med drag-drop ✨ NEW
+│   │   ├── LayerEditorPanel.cpp/h    # Layer management ✨ NEW
+│   │   └── TileMapEditorPanel.cpp/h  # TileMap painting ✨ NEW
+│   ├── graphs/               # Node graph editors
+│   │   ├── INodeGraphPanel.cpp/h     # Base för graph panels
+│   │   ├── dialog/
+│   │   │   ├── DialogNode.cpp/h      # Dialog node
+│   │   │   └── DialogGraphPanel.cpp/h # Dialog graph editor
+│   │   ├── quest/
+│   │   │   ├── QuestNode.cpp/h       # Quest node
+│   │   │   └── QuestGraphPanel.cpp/h # Quest graph editor
+│   │   └── npc/
+│   │       ├── BehaviorNode.cpp/h    # Behavior node
+│   │       └── BehaviorGraphPanel.cpp/h # NPC behavior editor
+│   └── properties/           # Property editors
+│       ├── IPropertyEditor.h         # Base interface
+│       ├── RoomPropertyEditor.cpp/h
+│       ├── HotspotPropertyEditor.cpp/h
+│       ├── DialogPropertyEditor.cpp/h
+│       ├── QuestPropertyEditor.cpp/h
+│       ├── ItemPropertyEditor.cpp/h
+│       └── NPCPropertyEditor.cpp/h
+│
+├── engine/               # RetroCore static library ✨ NEW
+│   ├── core/             # Core node system
+│   │   ├── Vec2.cpp/h           # 2D vector math
+│   │   ├── Node.cpp/h           # Scene graph base
+│   │   └── Node2D.cpp/h         # 2D transform
+│   ├── nodes/            # Visual nodes
+│   │   ├── Sprite.cpp/h         # Texture rendering
+│   │   ├── AnimatedSprite.cpp/h # Animation state machine
+│   │   ├── TileMapLayer.cpp/h   # Grid-based tilemap
+│   │   ├── ParallaxLayer.cpp/h  # Parallax scrolling
+│   │   └── Label.cpp/h          # Text rendering
+│   ├── world/            # World management
+│   │   ├── Camera2D.cpp/h       # Viewport med follow/zoom/shake
+│   │   ├── Scene.cpp/h          # Level container
+│   │   ├── World.cpp/h          # Multi-scene manager
+│   │   ├── LayerManager.cpp/h   # Layer system
+│   │   └── SceneLoader.cpp/h    # JSON serialization
+│   └── physics/          # Physics system
+│       ├── CollisionShape.cpp/h # AABB, Circle, Polygon
+│       ├── PhysicsBody.cpp/h    # Velocity, acceleration, friction
+│       ├── KinematicBody.cpp/h  # moveAndSlide()
+│       └── SpatialGrid.cpp/h    # Spatial partitioning ✨ NEW
 │
 └── vendor/               # Vendored dependencies
     ├── imgui_impl_sdl2.cpp/h         # SDL2 backend
-    └── imgui_impl_sdlrenderer2.cpp/h # SDL2 renderer backend
+    ├── imgui_impl_sdlrenderer2.cpp/h # SDL2 renderer backend
+    └── imnodes/                      # Node graph library
+        ├── imnodes.h
+        └── imnodes.cpp
 ```
 
-### Planerat (ny OOP-struktur)
+### Planerat (framtida features)
 
 ```
 src/
