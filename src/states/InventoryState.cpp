@@ -64,13 +64,11 @@ void InventoryState::render(SDL_Renderer* renderer) {
         
         // Rita item-namn under slot om vald
         if (hasItem && i == m_selectedIndex) {
-            const Item* item = InventorySystem::instance().getItemDef(items[i]);
-            if (item) {
-                FontManager::instance().renderTextCentered(renderer, "default",
-                    item->name, 320, 290, {255, 255, 200, 255});
-                FontManager::instance().renderTextCentered(renderer, "default",
-                    item->description, 320, 310, {180, 180, 200, 255});
-            }
+            const Item& item = items[i];
+            FontManager::instance().renderTextCentered(renderer, "default",
+                item.name, 320, 290, {255, 255, 200, 255});
+            FontManager::instance().renderTextCentered(renderer, "default",
+                item.description, 320, 310, {180, 180, 200, 255});
         }
     }
     
@@ -100,12 +98,12 @@ void InventoryState::renderItemSlot(SDL_Renderer* renderer, int index, int x, in
     SDL_RenderDrawRect(renderer, &slot);
     
     // Rita item om det finns
-    const auto& items = InventorySystem::instance().getItems();
+    const auto items = InventorySystem::instance().getItems();
     if (index < static_cast<int>(items.size())) {
         // Placeholder - färgad rektangel per item-typ
         SDL_Rect itemRect = {x + 10, y + 10, 50, 50};
         
-        const std::string& itemId = items[index];
+        const std::string& itemId = items[index].id;
         if (itemId == "rusty_key") {
             SDL_SetRenderDrawColor(renderer, 180, 140, 60, 255);
         } else if (itemId == "gold_coin") {

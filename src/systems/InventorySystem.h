@@ -43,7 +43,10 @@ public:
     bool combineItems(const std::string& item1, const std::string& item2);
     
     /** @brief Hämta alla items i inventory */
-    const std::vector<std::string>& getItems() const { return m_inventory; }
+    std::vector<Item> getItems() const;
+    
+    /** @brief Rensa inventoryt */
+    void clear() { m_inventory.clear(); }
     
     /** @brief Hämta item-definition */
     const Item* getItemDef(const std::string& itemId) const;

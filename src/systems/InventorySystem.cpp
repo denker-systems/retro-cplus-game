@@ -86,3 +86,14 @@ const Item* InventorySystem::getItemDef(const std::string& itemId) const {
     auto it = m_itemDefs.find(itemId);
     return (it != m_itemDefs.end()) ? &it->second : nullptr;
 }
+
+std::vector<Item> InventorySystem::getItems() const {
+    std::vector<Item> items;
+    for (const auto& itemId : m_inventory) {
+        const Item* def = getItemDef(itemId);
+        if (def) {
+            items.push_back(*def);
+        }
+    }
+    return items;
+}

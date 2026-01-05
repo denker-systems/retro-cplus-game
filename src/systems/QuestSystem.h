@@ -80,13 +80,22 @@ public:
     bool isQuestCompleted(const std::string& questId) const;
     
     /** @brief Hämta aktiva quests */
-    std::vector<const Quest*> getActiveQuests() const;
+    std::vector<Quest> getActiveQuests() const;
+    
+    /** @brief Hämta avklarade quests */
+    std::vector<Quest> getCompletedQuests() const;
     
     /** @brief Hämta alla quests */
     std::vector<const Quest*> getAllQuests() const;
     
     /** @brief Hämta specifik quest */
     const Quest* getQuest(const std::string& questId) const;
+    
+    /** @brief Markera en quest som klar */
+    void completeQuest(const std::string& questId);
+    
+    /** @brief Markera ett objective som klart via ID */
+    void completeObjectiveById(const std::string& questId, const std::string& objectiveId);
     
     /** @brief Sätt callback för quest completion */
     void setOnQuestComplete(std::function<void(const std::string&)> callback) {

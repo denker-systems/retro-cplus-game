@@ -89,14 +89,24 @@ bool QuestSystem::isQuestCompleted(const std::string& questId) const {
     return it != m_quests.end() && it->second.status == QuestStatus::Completed;
 }
 
-std::vector<const Quest*> QuestSystem::getActiveQuests() const {
-    std::vector<const Quest*> active;
+std::vector<Quest> QuestSystem::getActiveQuests() const {
+    std::vector<Quest> active;
     for (const auto& [id, quest] : m_quests) {
         if (quest.status == QuestStatus::Active) {
-            active.push_back(&quest);
+            active.push_back(quest);
         }
     }
     return active;
+}
+
+std::vector<Quest> QuestSystem::getCompletedQuests() const {
+    std::vector<Quest> completed;
+    for (const auto& [id, quest] : m_quests) {
+        if (quest.status == QuestStatus::Completed) {
+            completed.push_back(quest);
+        }
+    }
+    return completed;
 }
 
 std::vector<const Quest*> QuestSystem::getAllQuests() const {
@@ -112,4 +122,28 @@ std::vector<const Quest*> QuestSystem::getAllQuests() const {
 const Quest* QuestSystem::getQuest(const std::string& questId) const {
     auto it = m_quests.find(questId);
     return it != m_quests.end() ? &it->second : nullptr;
+}
+
+void QuestSystem::completeQuest(const std::string& questId) {
+    auto it = m_quests.find(questId);
+    if (it != m_quests.end()) {
+        it->second.status = QuestStatus::Completed;
+        for (auto& obj : it->second.objectives) {
+            obj.status = QuestStatus::Completed;
+            obj.currentCount = obj.requiredCount;
+        }
+    }
+}
+
+void QuestSystem::completeObjectiveById(const std::string& questId, const std::string& objectiveId) {
+    auto it = m_quests.find(questId);
+    if (it == m_quests.end()) return;
+    
+    for (auto& obj : it->second.objectives) {
+        if (obj.id == objectiveId) {
+            obj.status = QuestStatus::Completed;
+            obj.currentCount = obj.requiredCount;
+            break;
+        }
+    }
 }

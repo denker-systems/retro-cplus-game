@@ -31,6 +31,7 @@ set(SOURCES
     src/systems/RoomManager.cpp
     src/systems/QuestSystem.cpp
     src/systems/AISystem.cpp
+    src/systems/SaveSystem.cpp
     src/data/DataLoader.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp
