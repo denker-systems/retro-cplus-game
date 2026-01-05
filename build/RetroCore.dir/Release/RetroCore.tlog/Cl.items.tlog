@@ -13,6 +13,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\world\SceneLoader.cp
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\CollisionShape.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\CollisionShape.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\PhysicsBody.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PhysicsBody.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\KinematicBody.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\KinematicBody.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\SpatialGrid.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\SpatialGrid.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Renderer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Renderer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\input\Input.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Input.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Room.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Room.obj

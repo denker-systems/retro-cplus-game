@@ -16,15 +16,18 @@
 #include <algorithm>
 
 #ifdef HAS_IMGUI
-#include "editor/ImGuiManager.h"
-#include "editor/panels/HierarchyPanel.h"
-#include "editor/panels/PropertiesPanel.h"
-#include "editor/panels/ViewportPanel.h"
-#include "editor/panels/AssetBrowserPanel.h"
-#include "editor/panels/ConsolePanel.h"
-#include "editor/graphs/dialog/DialogGraphPanel.h"
-#include "editor/graphs/quest/QuestGraphPanel.h"
-#include "editor/graphs/npc/BehaviorGraphPanel.h"
+#include "ImGuiManager.h"
+#include "panels/HierarchyPanel.h"
+#include "panels/PropertiesPanel.h"
+#include "panels/ViewportPanel.h"
+#include "panels/AssetBrowserPanel.h"
+#include "panels/ConsolePanel.h"
+#include "panels/SceneGraphPanel.h"
+#include "panels/LayerEditorPanel.h"
+#include "panels/TileMapEditorPanel.h"
+#include "graphs/dialog/DialogGraphPanel.h"
+#include "graphs/quest/QuestGraphPanel.h"
+#include "graphs/npc/BehaviorGraphPanel.h"
 #include <imgui.h>
 #include <imgui_internal.h>
 #endif
@@ -55,6 +58,9 @@ void EditorState::enter() {
     m_dialogGraphPanel = std::make_unique<DialogGraphPanel>(m_editorContext);
     m_questGraphPanel = std::make_unique<QuestGraphPanel>(m_editorContext);
     m_behaviorGraphPanel = std::make_unique<BehaviorGraphPanel>(m_editorContext);
+    m_sceneGraphPanel = std::make_unique<SceneGraphPanel>(m_editorContext);
+    m_layerEditorPanel = std::make_unique<LayerEditorPanel>(m_editorContext);
+    m_tileMapEditorPanel = std::make_unique<TileMapEditorPanel>(m_editorContext);
     
     m_consolePanel->log("Editor initialized with panel architecture");
 #endif
@@ -729,6 +735,9 @@ void EditorState::renderImGui() {
         ImGui::DockBuilderDockWindow("Dialog Graph", dockCenter);
         ImGui::DockBuilderDockWindow("Quest Graph", dockCenter);
         ImGui::DockBuilderDockWindow("NPC Behavior", dockCenter);
+        ImGui::DockBuilderDockWindow("Scene Graph", dockCenter);
+        ImGui::DockBuilderDockWindow("Layer Editor", dockCenter);
+        ImGui::DockBuilderDockWindow("TileMap Editor", dockCenter);
         ImGui::DockBuilderDockWindow("Properties", dockRightTop);
         ImGui::DockBuilderDockWindow("Asset Browser", dockRightBottom);
         ImGui::DockBuilderDockWindow("Console", dockBottom);
@@ -747,6 +756,9 @@ void EditorState::renderImGui() {
     if (m_dialogGraphPanel) m_dialogGraphPanel->render();
     if (m_questGraphPanel) m_questGraphPanel->render();
     if (m_behaviorGraphPanel) m_behaviorGraphPanel->render();
+    if (m_sceneGraphPanel) m_sceneGraphPanel->render();
+    if (m_layerEditorPanel) m_layerEditorPanel->render();
+    if (m_tileMapEditorPanel) m_tileMapEditorPanel->render();
     if (m_assetBrowserPanel) m_assetBrowserPanel->render();
     if (m_consolePanel) m_consolePanel->render();
     

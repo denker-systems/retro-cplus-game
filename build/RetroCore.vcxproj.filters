@@ -46,6 +46,9 @@
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\KinematicBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\SpatialGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

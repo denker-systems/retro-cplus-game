@@ -51,6 +51,7 @@ set(CORE_SOURCES
     src/engine/physics/CollisionShape.cpp
     src/engine/physics/PhysicsBody.cpp
     src/engine/physics/KinematicBody.cpp
+    src/engine/physics/SpatialGrid.cpp
     src/engine/Renderer.cpp
     src/engine/input/Input.cpp
     src/engine/Room.cpp
@@ -170,6 +171,9 @@ set(EDITOR_SOURCES
     src/editor/graphs/quest/QuestGraphPanel.cpp
     src/editor/graphs/npc/BehaviorNode.cpp
     src/editor/graphs/npc/BehaviorGraphPanel.cpp
+    src/editor/panels/SceneGraphPanel.cpp
+    src/editor/panels/LayerEditorPanel.cpp
+    src/editor/panels/TileMapEditorPanel.cpp
     src/vendor/imnodes/imnodes.cpp
     src/editor/ImGuiManager.cpp
     ${IMGUI_BACKEND_SOURCES}

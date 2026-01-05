@@ -112,6 +112,15 @@
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\npc\BehaviorGraphPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\SceneGraphPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\LayerEditorPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\TileMapEditorPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imnodes\imnodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

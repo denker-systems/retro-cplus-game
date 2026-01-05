@@ -27,6 +27,9 @@ class ConsolePanel;
 class DialogGraphPanel;
 class QuestGraphPanel;
 class BehaviorGraphPanel;
+class SceneGraphPanel;
+class LayerEditorPanel;
+class TileMapEditorPanel;
 
 /**
  * @brief Editor tabs/modes
@@ -141,4 +144,7 @@ private:
     std::unique_ptr<DialogGraphPanel> m_dialogGraphPanel;
     std::unique_ptr<QuestGraphPanel> m_questGraphPanel;
     std::unique_ptr<BehaviorGraphPanel> m_behaviorGraphPanel;
+    std::unique_ptr<SceneGraphPanel> m_sceneGraphPanel;
+    std::unique_ptr<LayerEditorPanel> m_layerEditorPanel;
+    std::unique_ptr<TileMapEditorPanel> m_tileMapEditorPanel;
 };

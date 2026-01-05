@@ -27,6 +27,14 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **CollisionShape** - AABB, Circle, Polygon collision shapes
 - **PhysicsBody** - Physics med velocity, acceleration, friction, mass
 - **KinematicBody** - moveAndSlide() för smooth collision response
+- **SceneGraphPanel** - Hierarkisk node tree viewer med context menu och drag-and-drop re-parenting
+- **LayerEditorPanel** - Layer management med properties, add/remove och parallax preview
+- **TileMapEditorPanel** - TileMap editor med palette, interactive painting, auto-tiling
+- **SpatialGrid** - Grid-baserad spatial partitioning för effektiv collision detection
+- **Drag-and-Drop Re-parenting** - Node ownership transfer i scene graph
+- **Interactive Grid Painting** - Click-and-drag tile painting i TileMapEditor
+- **Auto-tiling Algorithm** - Neighbor-based tile variant selection
+- **Parallax Preview** - Live scrolling preview för background layers
 - **imnodes Node Graph System** - Ersatte imgui-node-editor med imnodes
 - **Graph Base Classes** - IGraphNode, INodeGraphPanel, Link för återanvändbar arkitektur
 - **DialogGraphPanel** - Visualiserar dialog-träd med noder och kopplingar
