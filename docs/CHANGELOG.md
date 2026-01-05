@@ -10,6 +10,29 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- **Node Scene Graph System** - OOP-baserad scene graph (inspirerat av Godot/Cocos2d-x)
+- **Vec2** - 2D vektor-matematik med operators, lerp, rotation, distance
+- **Node** - Base class med parent/child hierarki, z-index, lifecycle callbacks
+- **Node2D** - 2D transform (position, rotation, scale) med global/local koordinater
+- **Sprite** - Textur-rendering med tint, flip, source rect, origin
+- **AnimatedSprite** - Animation state machine med callbacks, frame control
+- **TileMapLayer** - Grid-baserad tilemap med collision detection
+- **ParallaxLayer** - Parallax scrolling med repeat X/Y
+- **Label** - Text rendering med alignment och color
+- **Camera2D** - Viewport med follow, zoom, limits, screen shake, koordinat-konvertering
+- **Scene** - Container för game levels med camera management
+- **World** - Multi-scene manager med transitions och scene stack
+- **LayerManager** - Layer system (Background, Main, Foreground, UI)
+- **SceneLoader** - JSON scene serialization och loading
+- **CollisionShape** - AABB, Circle, Polygon collision shapes
+- **PhysicsBody** - Physics med velocity, acceleration, friction, mass
+- **KinematicBody** - moveAndSlide() för smooth collision response
+- **imnodes Node Graph System** - Ersatte imgui-node-editor med imnodes
+- **Graph Base Classes** - IGraphNode, INodeGraphPanel, Link för återanvändbar arkitektur
+- **DialogGraphPanel** - Visualiserar dialog-träd med noder och kopplingar
+- **QuestGraphPanel** - Quest header + objective-noder i sekvens
+- **BehaviorGraphPanel** - NPC-beteende med dialog/room-kopplingar
+- **Tree Layout Algorithm** - Automatisk horisontell layout baserad på djup
 - **OOP Property Editor System** - IPropertyEditor interface med Strategy pattern
 - **6 Property Editors** - Room, Hotspot, Dialog, Quest, Item, NPC med full CRUD
 - **Breadcrumb Navigation** - Hierarkisk navigation i PropertiesPanel (Rooms > Room > Hotspot)
@@ -30,6 +53,10 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Git-policy rules och synkade workflows
 
 ### Changed
+- **Engine Architecture** - Ny `src/engine/core/`, `nodes/`, `world/` struktur
+- **Node Editor Library** - Bytte från imgui-node-editor till imnodes (enklare, ingen "dangling lines")
+- **Graph Panel Structure** - Ny `src/editor/graphs/` med dialog/, quest/, npc/ subfolders
+- **Default Dock Layout** - Viewport, Dialog Graph, Quest Graph, NPC Behavior som tabs
 - **Selection Management** - Endast ett item kan vara selected åt gången
 - **HierarchyPanel** - Rensar andra selections när nytt item väljs
 - **PropertiesPanel** - Använder Strategy pattern för att välja rätt editor
@@ -40,6 +67,8 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **Hot reload borttaget** - Använd restart-workflow istället (enklare, stabilare)
 
 ### Fixed
+- **NPC Selection** - HierarchyPanel sätter nu selectedNPCId korrekt
+- **NPC Property Editor** - Kopplade NPCPropertyEditor till PropertiesPanel
 - **Multi-selection bug** - Kunde ha både Room och Dialog selected samtidigt
 - **"No dialog selected" bug** - EditorContext.loadFromDataLoader() anropades inte
 - MSVC C2597 compiler bug (ImVec2 → float parametrar i ViewportPanel)

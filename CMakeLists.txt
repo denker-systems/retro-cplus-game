@@ -36,6 +36,21 @@ message(STATUS "NativeFileDialog found: ${nfd_FOUND}")
 # RETRO CORE LIBRARY - Delad kod mellan Game och Editor
 # ============================================================================
 set(CORE_SOURCES
+    src/engine/core/Node.cpp
+    src/engine/core/Node2D.cpp
+    src/engine/nodes/Sprite.cpp
+    src/engine/nodes/AnimatedSprite.cpp
+    src/engine/nodes/TileMapLayer.cpp
+    src/engine/nodes/ParallaxLayer.cpp
+    src/engine/nodes/Label.cpp
+    src/engine/world/Camera2D.cpp
+    src/engine/world/Scene.cpp
+    src/engine/world/World.cpp
+    src/engine/world/LayerManager.cpp
+    src/engine/world/SceneLoader.cpp
+    src/engine/physics/CollisionShape.cpp
+    src/engine/physics/PhysicsBody.cpp
+    src/engine/physics/KinematicBody.cpp
     src/engine/Renderer.cpp
     src/engine/input/Input.cpp
     src/engine/Room.cpp

@@ -163,15 +163,155 @@
 
 ---
 
-## Fas 4: Editor Development & Content Creation
+## Fas 4: Node Scene Graph & World System 🔴 PÅGÅENDE
 
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│ Fas 4A: Property Editing │ Fas 4B: Visual Editors │ Fas 4C: Workflow  │
-│ █████░░░░░░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░░░░ │
-│ 20%                      │ 0%                     │ 0%                │
-└────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ Fas 4A: Core Nodes   │ Fas 4B: World System │ Fas 4C: Physics │ Fas 4D: Editor│
+│ ████████████████████ │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ │ ░░░░░░░░░░░░░│
+│ 100%                 │ 90%                  │ 70%             │ 0%           │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
+
+**Arkitektur:** OOP Scene Graph (inspirerat av Godot, Cocos2d-x, SFML)
+
+### 4A: Core Node System 🔴 HÖG PRIORITET
+
+**Mål:** Skapa Node-baserad hierarki för alla spelobjekt
+
+#### 4A.1 Base Node Classes ✅
+- [x] `Node` - Basklass med transform, hierarki, lifecycle
+- [x] `Node2D` - 2D-specifik node med position, rotation, scale
+- [x] `Vec2` struct för matematiska operationer
+- [x] Parent/child relationer med transform-inheritance
+- [x] Z-index för renderingsordning
+- [x] `onEnter()`, `onExit()`, `update()`, `render()` callbacks
+
+#### 4A.2 Visual Nodes ✅
+- [x] `Sprite` - Textur-rendering med tint, flip, src rect
+- [x] `AnimatedSprite` - Animation state machine
+- [x] `Label` - Text-rendering med FontManager
+- [x] `TileMapLayer` - Grid-baserad tile rendering
+- [x] `ParallaxLayer` - Parallax scrolling support
+
+#### 4A.3 Camera System ✅
+- [x] `Camera2D` - Viewport med follow, zoom, limits
+- [x] Smooth follow med damping
+- [x] Screen shake support
+- [x] World-to-screen / screen-to-world koordinater
+
+**Estimerad tid: 2-3 sessioner**
+
+---
+
+### 4B: World & Scene Management 🟡 MEDIUM PRIORITET
+
+**Mål:** Scen-baserad världshantering
+
+#### 4B.1 Scene System ✅
+- [x] `Scene` - Container för alla nodes i en level
+- [x] `World` - Manages multiple scenes
+- [x] Scene transitions (fade, slide, etc.)
+- [x] Active scene stack för overlays
+
+#### 4B.2 Layer Management ✅
+- [x] Background layers (parallax)
+- [x] Main game layer
+- [x] Foreground/overlay layers
+- [x] UI layer (screen-space)
+
+#### 4B.3 Scene Serialization ✅
+- [x] JSON scene format
+- [x] SceneLoader för att ladda från fil
+- [ ] Integrera med befintliga rooms.json
+
+**Estimerad tid: 2 sessioner**
+
+---
+
+### 4C: Physics & Collision 🟡 MEDIUM PRIORITET
+
+**Mål:** Robust kollision och enkel fysik
+
+#### 4C.1 Collision Shapes ✅
+- [x] `CollisionShape` basklass
+- [x] AABB (axis-aligned bounding box)
+- [x] Circle collision
+- [x] Polygon collision (grundläggande)
+
+#### 4C.2 Physics Bodies ✅
+- [x] `PhysicsBody` - Base med velocity, acceleration, friction
+- [x] `KinematicBody` - Kontrollerad rörelse (spelare, NPCs)
+- [x] `moveAndSlide()` för smooth collision response
+- [x] Collision callbacks (onCollisionEnter, onCollisionStay, onCollisionExit)
+
+#### 4C.3 Collision Detection
+- [x] Shape overlap detection (AABB vs AABB, Circle vs Circle, AABB vs Circle)
+- [ ] Spatial partitioning (grid-baserad)
+- [ ] Broad phase / narrow phase optimization
+
+**Estimerad tid: 2-3 sessioner**
+
+---
+
+### 4D: Editor Integration 🟢 SENARE
+
+**Mål:** Visuell redigering av nya node-typer
+
+#### 4D.1 Visual Layer Editor
+- [ ] Drag-and-drop layers i ViewportPanel
+- [ ] Layer properties (parallax, z-order, opacity)
+- [ ] Preview parallax scrolling
+- [ ] Add/remove layers
+
+#### 4D.2 TileMap Editor
+- [ ] Tile palette panel
+- [ ] Paint/erase tiles
+- [ ] Collision tile marking
+- [ ] Auto-tiling (framtida)
+
+#### 4D.3 Scene Graph Panel
+- [ ] Hierarkisk vy av alla nodes
+- [ ] Drag-and-drop re-parenting
+- [ ] Node properties inspector
+
+**Estimerad tid: 3-4 sessioner**
+
+---
+
+### Ny Mappstruktur
+
+```
+src/engine/
+├── core/                    # NYA
+│   ├── Node.h/cpp
+│   ├── Node2D.h/cpp
+│   └── Vec2.h
+│
+├── nodes/                   # NYA
+│   ├── Sprite.h/cpp
+│   ├── AnimatedSprite.h/cpp
+│   ├── TileMapLayer.h/cpp
+│   ├── ParallaxLayer.h/cpp
+│   └── Label.h/cpp
+│
+├── physics/                 # NYA
+│   ├── CollisionShape.h/cpp
+│   ├── PhysicsBody.h/cpp
+│   └── CollisionWorld.h/cpp
+│
+├── world/                   # NYA
+│   ├── Scene.h/cpp
+│   ├── World.h/cpp
+│   ├── Camera2D.h/cpp
+│   └── SceneLoader.h/cpp
+│
+└── [befintliga mappar...]
+```
+
+---
+
+## Fas 5: Editor Development & Content Creation
 
 ### 4A: Property Editing (Grundläggande Redigering) 🔴 PÅGÅENDE
 

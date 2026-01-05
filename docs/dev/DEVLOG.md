@@ -9,6 +9,18 @@ Kronologisk logg av alla ändringar sedan projektets start.
 ## 2026-01-05
 
 ### Kväll
+- `f073beb` feat(editor): migrate to imnodes for node graph system
+  - **Arkitektur:** Ny `src/editor/graphs/` struktur med base classes
+  - **imnodes:** Ersatte imgui-node-editor med imnodes (lokal kopia i vendor/)
+  - **Base classes:** IGraphNode, INodeGraphPanel, Link för återanvändbar kod
+  - **DialogGraphPanel:** Dialog-noder med tree layout
+  - **QuestGraphPanel:** Quest header + objective-noder
+  - **BehaviorGraphPanel:** NPC-beteende med dialog/room-kopplingar
+  - **Tree Layout:** Horisontell layout baserad på djup
+  - **NPC Selection:** Fixat val i HierarchyPanel + PropertyEditor
+  - **Dock Layout:** Alla graph panels som tabs i center
+  - Session: [2026-01-05](sessions/2026-01-05.md)
+
 - `0196f2f` feat(editor): implement OOP property editors with breadcrumb navigation
   - **Architecture:** Created IPropertyEditor interface + 6 concrete editors
   - **Property Editors:** Room, Hotspot, Dialog, Quest, Item, NPC med full CRUD
