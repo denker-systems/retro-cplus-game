@@ -16,10 +16,10 @@ namespace ed = ax::NodeEditor;
 #endif
 
 // Layout constants
-static const float NODE_WIDTH = 280.0f;
-static const float NODE_HEIGHT = 150.0f;
-static const float HORIZONTAL_SPACING = 320.0f;
-static const float VERTICAL_SPACING = 180.0f;
+static const float NODE_WIDTH = 300.0f;
+static const float NODE_HEIGHT = 180.0f;
+static const float HORIZONTAL_SPACING = 400.0f;
+static const float VERTICAL_SPACING = 250.0f;
 
 DialogGraphPanel::DialogGraphPanel(EditorContext& context)
     : m_context(context) {
@@ -150,20 +150,37 @@ void DialogGraphPanel::renderNodeEditor() {
         }
         ImGui::TextWrapped("%s", displayText.c_str());
         
-        // Output pins för choices
+        // Output pins för choices (bara om koppling finns)
         if (!node.choices.empty()) {
-            ImGui::Separator();
-            ImGui::Text("Choices:");
-            for (size_t c = 0; c < node.choices.size(); c++) {
-                auto& choice = node.choices[c];
-                ed::BeginPin(ed::PinId((node.id + 1) * 1000 + c + 1), ed::PinKind::Output);
-                ImGui::Text("Out -> %s", choice.text.c_str());
-                ed::EndPin();
+            bool hasValidChoice = false;
+            for (const auto& choice : node.choices) {
+                if (choice.nextNodeId >= 0) {
+                    hasValidChoice = true;
+                    break;
+                }
+            }
+            
+            if (hasValidChoice) {
+                ImGui::Separator();
+                ImGui::Text("Choices:");
+                for (size_t c = 0; c < node.choices.size(); c++) {
+                    auto& choice = node.choices[c];
+                    // Bara visa output pin om choice har giltig koppling
+                    if (choice.nextNodeId >= 0) {
+                        ed::BeginPin(ed::PinId((node.id + 1) * 1000 + c + 1), ed::PinKind::Output);
+                        std::string choiceText = choice.text;
+                        if (choiceText.length() > 30) {
+                            choiceText = choiceText.substr(0, 30) + "...";
+                        }
+                        ImGui::Text("-> %s", choiceText.c_str());
+                        ed::EndPin();
+                    }
+                }
             }
         } else if (node.nextNodeId >= 0) {
             // Single output för next node
             ed::BeginPin(ed::PinId((node.id + 1) * 1000 + 1), ed::PinKind::Output);
-            ImGui::Text("Out ->");
+            ImGui::Text("->");
             ed::EndPin();
         }
         
