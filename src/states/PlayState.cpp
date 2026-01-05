@@ -9,6 +9,7 @@
 #include "../entities/PlayerCharacter.h"
 #include "../Room.h"
 #include "../Input.h"
+#include "../graphics/FontManager.h"
 #include <iostream>
 
 PlayState::PlayState() {
@@ -23,7 +24,13 @@ void PlayState::enter() {
     // Skapa spelkomponenter
     m_input = std::make_unique<Input>();
     m_player = std::make_unique<PlayerCharacter>(160.0f, 300.0f);
-    m_room = std::make_unique<Room>("Tavern");
+    
+    // Skapa rum med hotspots
+    m_room = std::make_unique<Room>("tavern", "Tavern");
+    m_room->setWalkArea(0, 640, 260, 350);
+    m_room->addHotspot("bartender", "Bartender", 80, 270, 40, 60, HotspotType::NPC);
+    m_room->addHotspot("chest", "Old Chest", 400, 300, 40, 40, HotspotType::Item);
+    m_room->addHotspot("door", "Exit Door", 580, 260, 50, 90, HotspotType::Exit);
 }
 
 void PlayState::exit() {
@@ -45,13 +52,19 @@ void PlayState::update(float deltaTime) {
     
     m_player->move(dx, dy, deltaTime);
     
-    // Point-and-click (vänsterklick i walk area)
+    // Kolla hotspot under musen
+    int mx = m_input->getMouseX();
+    int my = m_input->getMouseY();
+    Hotspot* hs = m_room->getHotspotAt(mx, my);
+    m_hoveredHotspot = hs ? hs->name : "";
+    
+    // Point-and-click (vänsterklick)
     if (m_input->isMouseClicked(SDL_BUTTON_LEFT)) {
-        int mx = m_input->getMouseX();
-        int my = m_input->getMouseY();
-        
-        // Kolla om klick är i walk area (y > 260 och y < 375)
-        if (my > 260 && my < 375) {
+        if (hs) {
+            // Klickade på hotspot - interagera
+            std::cout << "Clicked on: " << hs->name << std::endl;
+        } else if (my > 260 && my < 375) {
+            // Klickade i walk area - gå dit
             m_player->setTarget(static_cast<float>(mx), static_cast<float>(my));
         }
     }
@@ -70,6 +83,15 @@ void PlayState::render(SDL_Renderer* renderer) {
     
     // Rita spelare
     m_player->render(renderer);
+    
+    // Visa hotspot-namn i UI-bar
+    if (!m_hoveredHotspot.empty()) {
+        FontManager::instance().renderText(renderer, "default", 
+            m_hoveredHotspot, 10, 378, {255, 255, 200, 255});
+    } else {
+        FontManager::instance().renderText(renderer, "default",
+            m_room->getName(), 10, 378, {150, 150, 180, 255});
+    }
 }
 
 void PlayState::handleEvent(const SDL_Event& event) {

@@ -6,6 +6,7 @@
 
 #include "IState.h"
 #include <memory>
+#include <string>
 
 class PlayerCharacter;
 class Room;
@@ -32,4 +33,6 @@ private:
     std::unique_ptr<PlayerCharacter> m_player;
     std::unique_ptr<Room> m_room;
     std::unique_ptr<Input> m_input;
+    
+    std::string m_hoveredHotspot;  // Namn på hotspot under musen
 };
