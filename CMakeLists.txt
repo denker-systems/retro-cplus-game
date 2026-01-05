@@ -30,6 +30,7 @@ set(SOURCES
     src/systems/InventorySystem.cpp
     src/systems/RoomManager.cpp
     src/systems/QuestSystem.cpp
+    src/systems/AISystem.cpp
     src/data/DataLoader.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp

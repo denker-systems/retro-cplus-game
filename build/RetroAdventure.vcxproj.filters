@@ -55,6 +55,9 @@
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\QuestSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\AISystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\data\DataLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

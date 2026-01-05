@@ -7,6 +7,9 @@
 #include <SDL.h>
 #include <string>
 #include <vector>
+#include <memory>
+
+class NPC;
 
 /**
  * @brief Typ av hotspot
@@ -75,12 +78,20 @@ public:
     const std::string& getId() const { return m_id; }
     const std::string& getName() const { return m_name; }
     const WalkArea& getWalkArea() const { return m_walkArea; }
+    
+    /** @brief NPC-hantering */
+    void addNPC(std::unique_ptr<NPC> npc);
+    NPC* getNPC(const std::string& id);
+    const std::vector<std::unique_ptr<NPC>>& getNPCs() const { return m_npcs; }
+    void updateNPCs(float deltaTime);
+    void renderNPCs(SDL_Renderer* renderer);
 
 private:
     std::string m_id;
     std::string m_name;
     SDL_Texture* m_background = nullptr;
     std::vector<Hotspot> m_hotspots;
+    std::vector<std::unique_ptr<NPC>> m_npcs;
     WalkArea m_walkArea = {0, 640, 260, 350};
     
     void renderDebugInfo(SDL_Renderer* renderer);

@@ -35,6 +35,10 @@ public:
     
     // Riktning
     bool isFacingRight() const { return m_facingRight; }
+    
+    // Speed
+    float getSpeed() const { return m_speed; }
+    void setSpeed(float speed) { m_speed = speed; }
 
 protected:
     /** @brief Uppdatera rörelse mot target */

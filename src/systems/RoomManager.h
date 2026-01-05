@@ -28,6 +28,7 @@ public:
     
     /** @brief Hämta aktuellt rum */
     Room* getCurrentRoom() { return m_currentRoom; }
+    std::string getCurrentRoomId() const { return m_currentRoom ? m_currentRoom->getId() : ""; }
     
     /** @brief Sätt callback för rumsbyte */
     void setOnRoomChange(std::function<void(const std::string&)> callback) {

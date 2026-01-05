@@ -6,11 +6,13 @@
 
 #include "DataLoader.h"
 #include "../systems/InventorySystem.h"
-#include <iostream>
 #include "../systems/QuestSystem.h"
 #include "../systems/DialogSystem.h"
 #include "../systems/RoomManager.h"
+#include "../systems/AISystem.h"
 #include "../Room.h"
+#include "../entities/NPC.h"
+#include <iostream>
 
 /**
  * @brief Laddar all speldata från JSON och registrerar i spelsystemen
@@ -142,8 +144,33 @@ private:
     }
     
     static void loadNPCs() {
-        // NPCs laddas för närvarande bara som data
-        // De kan användas av PlayState för att skapa NPC-entiteter
-        std::cout << "NPCs available: " << DataLoader::instance().getNPCs().size() << std::endl;
+        for (const auto& data : DataLoader::instance().getNPCs()) {
+            Room* room = RoomManager::instance().getRoom(data.room);
+            if (!room) {
+                std::cerr << "Room not found for NPC: " << data.id << std::endl;
+                continue;
+            }
+            
+            auto npc = std::make_unique<NPC>(
+                static_cast<float>(data.x),
+                static_cast<float>(data.y),
+                data.name
+            );
+            npc->setDialogId(data.dialogId);
+            npc->setSpeed(data.moveSpeed);
+            
+            // Registrera NPC med AISystem
+            AISystem::instance().registerNPC(npc.get());
+            
+            // Sätt beteende baserat på canMove
+            if (data.canMove) {
+                AISystem::instance().setBehavior(data.name, BehaviorType::Wander);
+            } else {
+                AISystem::instance().setBehavior(data.name, BehaviorType::Idle);
+            }
+            
+            room->addNPC(std::move(npc));
+            std::cout << "Loaded NPC: " << data.name << " in " << data.room << std::endl;
+        }
     }
 };

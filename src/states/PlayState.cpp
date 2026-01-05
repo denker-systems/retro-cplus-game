@@ -17,8 +17,10 @@
 #include "../systems/InventorySystem.h"
 #include "../systems/RoomManager.h"
 #include "../systems/QuestSystem.h"
+#include "../systems/AISystem.h"
 #include "../graphics/Transition.h"
 #include "../data/GameDataLoader.h"
+#include "../entities/NPC.h"
 #include <iostream>
 
 PlayState::PlayState() {
@@ -129,6 +131,14 @@ void PlayState::update(float deltaTime) {
     m_player->update(deltaTime);
     m_input->update();
     
+    // Uppdatera AI-system (NPC beteenden och scheman)
+    AISystem::instance().update(deltaTime);
+    
+    // Uppdatera NPCs i aktuellt rum
+    if (room) {
+        room->updateNPCs(deltaTime);
+    }
+    
     // Uppdatera transition
     Transition::instance().update(deltaTime);
 }
@@ -143,6 +153,7 @@ void PlayState::render(SDL_Renderer* renderer) {
     // Rita rum
     if (room) {
         room->render(renderer);
+        room->renderNPCs(renderer);
     }
     
     // Rita spelare

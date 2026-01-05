@@ -3,6 +3,7 @@
  * @brief Implementation av rum och hotspots
  */
 #include "Room.h"
+#include "entities/NPC.h"
 #include <SDL_image.h>
 #include <iostream>
 
@@ -139,4 +140,39 @@ Hotspot* Room::getHotspotAt(int x, int y) {
         }
     }
     return nullptr;
+}
+
+// ============================================================================
+// NPC MANAGEMENT
+// ============================================================================
+
+void Room::addNPC(std::unique_ptr<NPC> npc) {
+    if (npc) {
+        m_npcs.push_back(std::move(npc));
+    }
+}
+
+NPC* Room::getNPC(const std::string& id) {
+    for (auto& npc : m_npcs) {
+        if (npc && npc->getName() == id) {
+            return npc.get();
+        }
+    }
+    return nullptr;
+}
+
+void Room::updateNPCs(float deltaTime) {
+    for (auto& npc : m_npcs) {
+        if (npc) {
+            npc->update(deltaTime);
+        }
+    }
+}
+
+void Room::renderNPCs(SDL_Renderer* renderer) {
+    for (auto& npc : m_npcs) {
+        if (npc) {
+            npc->render(renderer);
+        }
+    }
 }
