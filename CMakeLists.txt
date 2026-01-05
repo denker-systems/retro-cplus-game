@@ -44,6 +44,7 @@ set(SOURCES
     src/systems/EventBus.cpp
     src/systems/WorldQuery.cpp
     src/data/DataLoader.cpp
+    src/data/TiledImporter.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp
     src/graphics/Animation.cpp

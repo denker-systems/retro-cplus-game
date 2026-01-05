@@ -30,6 +30,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\ConditionSystem.cpp
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\EventBus.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\EventBus.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\WorldQuery.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\WorldQuery.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\data\DataLoader.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\DataLoader.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\data\TiledImporter.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\TiledImporter.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\TextureManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\TextureManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\SpriteSheet.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\SpriteSheet.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\Animation.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Animation.obj
