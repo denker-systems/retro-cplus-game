@@ -42,8 +42,9 @@ void PlayState::enter() {
         m_input = std::make_unique<Input>();
         m_player = std::make_unique<PlayerCharacter>(160.0f, 300.0f);
         
-        // Ladda all speldata från JSON-filer
-        GameDataLoader::loadAll();
+        // Ladda all speldata från JSON-filer (skicka renderer för att ladda texturer)
+        SDL_Renderer* renderer = m_game->getRenderer();
+        GameDataLoader::loadAll(renderer);
         
         // Sätt callback för rumsbyte
         RoomManager::instance().setOnRoomChange([this](const std::string& roomId) {

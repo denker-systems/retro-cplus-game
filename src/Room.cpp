@@ -45,10 +45,14 @@ bool Room::loadBackground(SDL_Renderer* renderer, const std::string& path) {
 }
 
 void Room::render(SDL_Renderer* renderer) {
+    // Rita layers om de finns
+    if (!m_layers.empty()) {
+        renderLayers(renderer, 0, true);  // Rita alla layers (för nu, ingen spelar-depth)
+    }
     // Legacy: Rita bakgrund om inga layers finns
-    if (m_layers.empty() && m_background) {
+    else if (m_background) {
         SDL_RenderCopy(renderer, m_background, nullptr, nullptr);
-    } else if (m_layers.empty()) {
+    } else {
         // Fallback - färgad bakgrund
         SDL_SetRenderDrawColor(renderer, 20, 20, 60, 255);
         SDL_Rect bg = {0, 0, 640, 260};
@@ -61,8 +65,6 @@ void Room::render(SDL_Renderer* renderer) {
         SDL_SetRenderDrawColor(renderer, 40, 35, 30, 255);
         SDL_RenderFillRect(renderer, &walkRect);
     }
-    
-    // Notera: Multi-layer rendering hanteras av PlayState som anropar renderLayers()
 
     // Rita hotspots (debug)
     renderDebugInfo(renderer);
@@ -216,7 +218,9 @@ bool Room::loadLayer(SDL_Renderer* renderer, const std::string& imagePath, int z
 }
 
 void Room::renderLayers(SDL_Renderer* renderer, int playerY, bool renderBehind) {
-    // Sortera layers efter zIndex
+    (void)playerY;
+    (void)renderBehind;
+    
     std::vector<RoomLayer*> sortedLayers;
     for (auto& layer : m_layers) {
         sortedLayers.push_back(&layer);
@@ -226,19 +230,9 @@ void Room::renderLayers(SDL_Renderer* renderer, int playerY, bool renderBehind) 
                   return a->zIndex < b->zIndex;
               });
     
-    // Rita layers baserat på om de är bakom eller framför spelaren
     for (auto* layer : sortedLayers) {
-        bool isBehind = (layer->zIndex < 0);
-        
-        // Rendera bara layers som matchar renderBehind-flaggan
-        if (isBehind != renderBehind) continue;
-        
         if (layer->texture) {
-            // Sätt opacity
             SDL_SetTextureAlphaMod(layer->texture, static_cast<Uint8>(layer->opacity * 255));
-            
-            // TODO: Implementera parallax scrolling här om kameran rör sig
-            // För nu: rita bara direkt
             SDL_RenderCopy(renderer, layer->texture, nullptr, nullptr);
         }
     }

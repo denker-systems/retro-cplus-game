@@ -20,7 +20,7 @@
 class GameDataLoader {
 public:
     /** @brief Ladda och registrera all data */
-    static bool loadAll() {
+    static bool loadAll(SDL_Renderer* renderer = nullptr) {
         if (!DataLoader::instance().loadAll()) {
             return false;
         }
@@ -28,7 +28,7 @@ public:
         loadItems();
         loadQuests();
         loadDialogs();
-        loadRooms();
+        loadRooms(renderer);
         loadNPCs();
         
         return true;
@@ -125,11 +125,23 @@ private:
         }
     }
     
-    static void loadRooms() {
+    static void loadRooms(SDL_Renderer* renderer) {
         for (const auto& data : DataLoader::instance().getRooms()) {
             auto room = std::make_unique<Room>(data.id, data.name);
             room->setWalkArea(data.walkArea.minX, data.walkArea.maxX,
                              data.walkArea.minY, data.walkArea.maxY);
+            
+            // Ladda layers om de finns
+            if (!data.layers.empty()) {
+                for (const auto& layer : data.layers) {
+                    room->loadLayer(renderer, layer.image, layer.zIndex, 
+                                   layer.parallaxX, layer.parallaxY, layer.opacity);
+                }
+            }
+            // Legacy: Ladda background om inga layers finns
+            else if (!data.background.empty()) {
+                room->loadBackground(renderer, data.background);
+            }
             
             for (const auto& hs : data.hotspots) {
                 HotspotType type = HotspotType::None;
