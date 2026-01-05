@@ -1230,7 +1230,25 @@ void EditorState::saveRoomChanges() {
                 room["walkArea"]["minY"] = m_editRoomData.walkArea.minY;
                 room["walkArea"]["maxY"] = m_editRoomData.walkArea.maxY;
                 
-                // Hotspots uppdateras inte här (för komplex)
+                // Uppdatera hotspots
+                room["hotspots"] = json::array();
+                for (const auto& hs : m_editRoomData.hotspots) {
+                    json hsJson;
+                    hsJson["id"] = hs.id;
+                    hsJson["name"] = hs.name;
+                    hsJson["type"] = hs.type;
+                    hsJson["x"] = hs.x;
+                    hsJson["y"] = hs.y;
+                    hsJson["w"] = hs.w;
+                    hsJson["h"] = hs.h;
+                    
+                    if (!hs.dialogId.empty()) hsJson["dialogId"] = hs.dialogId;
+                    if (!hs.examineText.empty()) hsJson["examineText"] = hs.examineText;
+                    if (!hs.targetRoom.empty()) hsJson["targetRoom"] = hs.targetRoom;
+                    if (!hs.funnyFails.empty()) hsJson["funnyFails"] = hs.funnyFails;
+                    
+                    room["hotspots"].push_back(hsJson);
+                }
                 
                 found = true;
                 break;
