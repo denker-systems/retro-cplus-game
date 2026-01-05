@@ -1,15 +1,17 @@
 ========================================
-  Game Log - 2026-01-05 15:07:46.031
+  Game Log - 2026-01-05 16:42:07.041
 ========================================
 
-[2026-01-05 15:07:46.031] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-05 15:07:46.147] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-05 15:07:46.161] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-05 15:07:46.180] [INFO ] [Game.cpp:82] Window created
-[2026-01-05 15:07:46.282] [INFO ] [Game.cpp:92] Renderer created
-[2026-01-05 15:07:46.283] [INFO ] [Game.cpp:208] Viewport: 1440x900 at (80,0)
-[2026-01-05 15:07:46.283] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
-[2026-01-05 15:07:46.284] [INFO ] [Game.cpp:129] Game initialized successfully!
-[2026-01-05 15:07:46.284] [INFO ] [EditorState.cpp:31] EditorState created
-[2026-01-05 15:07:46.285] [INFO ] [EditorState.cpp:35] EditorState::enter()
-[2026-01-05 15:07:46.285] [INFO ] [EditorState.cpp:59] EditorState: Loading game data...
+[2026-01-05 16:42:07.041] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-05 16:42:07.148] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-05 16:42:07.170] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-05 16:42:07.190] [INFO ] [Game.cpp:82] Window created
+[2026-01-05 16:42:07.349] [INFO ] [Game.cpp:92] Renderer created
+[2026-01-05 16:42:07.349] [INFO ] [Game.cpp:208] Viewport: 1440x900 at (80,0)
+[2026-01-05 16:42:07.350] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-05 16:42:07.350] [INFO ] [Game.cpp:129] Game initialized successfully!
+[2026-01-05 16:42:07.350] [INFO ] [EditorState.cpp:32] EditorState created
+[2026-01-05 16:42:07.351] [INFO ] [EditorState.cpp:36] EditorState::enter()
+[2026-01-05 16:42:07.351] [INFO ] [EditorState.cpp:61] EditorState: Loading game data...
+[2026-01-05 16:42:07.352] [INFO ] [EditorContext.cpp:78] EditorContext loaded 0 rooms, 0 dialogs
+[2026-01-05 16:42:07.352] [INFO ] [EditorState.cpp:67] EditorContext loaded with 0 dialogs

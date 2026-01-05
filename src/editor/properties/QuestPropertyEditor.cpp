@@ -26,13 +26,53 @@ void QuestPropertyEditor::setQuest(QuestData* quest) {
 void QuestPropertyEditor::render() {
 #ifdef HAS_IMGUI
     if (!m_quest) {
-        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No quest selected");
+        ImGui::Text("No quest selected");
         return;
     }
     
     renderBasicProperties();
     renderObjectivesList();
-    renderSelectedObjective();
+    
+    if (m_selectedObjectiveIndex >= 0) {
+        renderSelectedObjective();
+    }
+    
+    // Delete button at bottom
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+    
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
+    if (ImGui::Button("Delete Quest", ImVec2(-1, 0))) {
+        ImGui::OpenPopup("DeleteQuestConfirm");
+    }
+    ImGui::PopStyleColor();
+    
+    // Confirmation dialog
+    if (ImGui::BeginPopupModal("DeleteQuestConfirm", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("Are you sure you want to delete this quest?");
+        ImGui::Text("Quest: %s", m_quest->title.c_str());
+        ImGui::Spacing();
+        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "Warning: This action cannot be undone!");
+        ImGui::Spacing();
+        
+        if (ImGui::Button("Delete", ImVec2(120, 0))) {
+            auto it = std::find_if(m_context.quests.begin(), m_context.quests.end(),
+                [this](const QuestData& q) { return q.id == m_quest->id; });
+            if (it != m_context.quests.end()) {
+                m_context.quests.erase(it);
+                m_context.markDirty();
+                m_context.selectedType = EditorContext::SelectionType::None;
+                m_context.selectedQuestId.clear();
+            }
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
+    }
 #endif
 }
 

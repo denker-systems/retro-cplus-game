@@ -24,6 +24,7 @@ class PropertiesPanel;
 class ViewportPanel;
 class AssetBrowserPanel;
 class ConsolePanel;
+class DialogGraphPanel;
 
 /**
  * @brief Editor tabs/modes
@@ -135,4 +136,5 @@ private:
     std::unique_ptr<ViewportPanel> m_viewportPanel;
     std::unique_ptr<AssetBrowserPanel> m_assetBrowserPanel;
     std::unique_ptr<ConsolePanel> m_consolePanel;
+    std::unique_ptr<DialogGraphPanel> m_dialogGraphPanel;
 };

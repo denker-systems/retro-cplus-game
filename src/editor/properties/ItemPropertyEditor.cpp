@@ -25,12 +25,49 @@ void ItemPropertyEditor::setItem(ItemData* item) {
 void ItemPropertyEditor::render() {
 #ifdef HAS_IMGUI
     if (!m_item) {
-        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No item selected");
+        ImGui::Text("No item selected");
         return;
     }
     
     renderBasicProperties();
     renderCombinations();
+    
+    // Delete button at bottom
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+    
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
+    if (ImGui::Button("Delete Item", ImVec2(-1, 0))) {
+        ImGui::OpenPopup("DeleteItemConfirm");
+    }
+    ImGui::PopStyleColor();
+    
+    // Confirmation dialog
+    if (ImGui::BeginPopupModal("DeleteItemConfirm", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("Are you sure you want to delete this item?");
+        ImGui::Text("Item: %s", m_item->name.c_str());
+        ImGui::Spacing();
+        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "Warning: This may break references in quests/combinations!");
+        ImGui::Spacing();
+        
+        if (ImGui::Button("Delete", ImVec2(120, 0))) {
+            auto it = std::find_if(m_context.items.begin(), m_context.items.end(),
+                [this](const ItemData& i) { return i.id == m_item->id; });
+            if (it != m_context.items.end()) {
+                m_context.items.erase(it);
+                m_context.markDirty();
+                m_context.selectedType = EditorContext::SelectionType::None;
+                m_context.selectedItemId.clear();
+            }
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
+    }
 #endif
 }
 

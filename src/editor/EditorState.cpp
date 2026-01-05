@@ -22,6 +22,7 @@
 #include "editor/panels/ViewportPanel.h"
 #include "editor/panels/AssetBrowserPanel.h"
 #include "editor/panels/ConsolePanel.h"
+#include "editor/panels/DialogGraphPanel.h"
 #include <imgui.h>
 #include <imgui_internal.h>
 #endif
@@ -49,6 +50,7 @@ void EditorState::enter() {
     m_viewportPanel->setRenderer(m_game->getRenderer());
     m_assetBrowserPanel = std::make_unique<AssetBrowserPanel>(m_editorContext);
     m_consolePanel = std::make_unique<ConsolePanel>(m_editorContext);
+    m_dialogGraphPanel = std::make_unique<DialogGraphPanel>(m_editorContext);
     
     m_consolePanel->log("Editor initialized with panel architecture");
 #endif
@@ -342,6 +344,15 @@ void EditorState::handleEvent(const SDL_Event& event) {
                 m_statusTimer = 2.0f;
                 return;
                 
+            case SDL_SCANCODE_S:
+                // Ctrl+S to save
+                if (event.key.keysym.mod & KMOD_CTRL) {
+                    m_editorContext.saveToFiles();
+                    AudioManager::instance().playSound("select");
+                    return;
+                }
+                break;
+                
             default:
                 break;
         }
@@ -623,6 +634,7 @@ void EditorState::renderImGui() {
             bool propertiesVisible = m_propertiesPanel && m_propertiesPanel->isVisible();
             bool assetBrowserVisible = m_assetBrowserPanel && m_assetBrowserPanel->isVisible();
             bool consoleVisible = m_consolePanel && m_consolePanel->isVisible();
+            bool dialogGraphVisible = m_dialogGraphPanel && m_dialogGraphPanel->isVisible();
             
             if (ImGui::MenuItem("Hierarchy", nullptr, &hierarchyVisible)) {
                 if (m_hierarchyPanel) m_hierarchyPanel->setVisible(hierarchyVisible);
@@ -632,6 +644,9 @@ void EditorState::renderImGui() {
             }
             if (ImGui::MenuItem("Properties", nullptr, &propertiesVisible)) {
                 if (m_propertiesPanel) m_propertiesPanel->setVisible(propertiesVisible);
+            }
+            if (ImGui::MenuItem("Dialog Graph", nullptr, &dialogGraphVisible)) {
+                if (m_dialogGraphPanel) m_dialogGraphPanel->setVisible(dialogGraphVisible);
             }
             if (ImGui::MenuItem("Asset Browser", nullptr, &assetBrowserVisible)) {
                 if (m_assetBrowserPanel) m_assetBrowserPanel->setVisible(assetBrowserVisible);
@@ -697,6 +712,7 @@ void EditorState::renderImGui() {
         
         ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
         ImGui::DockBuilderDockWindow("Viewport", dockCenter);
+        ImGui::DockBuilderDockWindow("Dialog Graph", dockCenter);
         ImGui::DockBuilderDockWindow("Properties", dockRightTop);
         ImGui::DockBuilderDockWindow("Asset Browser", dockRightBottom);
         ImGui::DockBuilderDockWindow("Console", dockBottom);
@@ -712,6 +728,7 @@ void EditorState::renderImGui() {
         m_viewportPanel->render();
     }
     if (m_propertiesPanel) m_propertiesPanel->render();
+    if (m_dialogGraphPanel) m_dialogGraphPanel->render();
     if (m_assetBrowserPanel) m_assetBrowserPanel->render();
     if (m_consolePanel) m_consolePanel->render();
     

@@ -26,15 +26,53 @@ void RoomPropertyEditor::setRoom(RoomData* room) {
 void RoomPropertyEditor::render() {
 #ifdef HAS_IMGUI
     if (!m_room) {
-        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No room selected");
+        ImGui::Text("No room selected");
         return;
     }
     
     renderBasicProperties();
-    renderSpawnProperties();
-    renderWalkAreaProperties();
+    renderPlayerSpawn();
+    renderWalkArea();
     renderHotspotsList();
     renderLayersList();
+    
+    // Delete button at bottom
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+    
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
+    if (ImGui::Button("Delete Room", ImVec2(-1, 0))) {
+        ImGui::OpenPopup("DeleteRoomConfirm");
+    }
+    ImGui::PopStyleColor();
+    
+    // Confirmation dialog
+    if (ImGui::BeginPopupModal("DeleteRoomConfirm", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("Are you sure you want to delete this room?");
+        ImGui::Text("Room: %s", m_room->name.c_str());
+        ImGui::Spacing();
+        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "Warning: This action cannot be undone!");
+        ImGui::Spacing();
+        
+        if (ImGui::Button("Delete", ImVec2(120, 0))) {
+            // Find and delete room
+            auto it = std::find_if(m_context.rooms.begin(), m_context.rooms.end(),
+                [this](const RoomData& r) { return r.id == m_room->id; });
+            if (it != m_context.rooms.end()) {
+                m_context.rooms.erase(it);
+                m_context.markDirty();
+                m_context.selectedType = EditorContext::SelectionType::None;
+                m_context.selectedRoomId.clear();
+            }
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
+    }
 #endif
 }
 
@@ -65,7 +103,7 @@ void RoomPropertyEditor::renderBasicProperties() {
 #endif
 }
 
-void RoomPropertyEditor::renderSpawnProperties() {
+void RoomPropertyEditor::renderPlayerSpawn() {
 #ifdef HAS_IMGUI
     PropertyEditorUtils::SectionHeader("Player Spawn");
     
@@ -80,7 +118,7 @@ void RoomPropertyEditor::renderSpawnProperties() {
 #endif
 }
 
-void RoomPropertyEditor::renderWalkAreaProperties() {
+void RoomPropertyEditor::renderWalkArea() {
 #ifdef HAS_IMGUI
     PropertyEditorUtils::SectionHeader("Walk Area");
     

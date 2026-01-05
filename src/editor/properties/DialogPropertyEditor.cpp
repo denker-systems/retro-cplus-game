@@ -26,13 +26,54 @@ void DialogPropertyEditor::setDialog(DialogData* dialog) {
 void DialogPropertyEditor::render() {
 #ifdef HAS_IMGUI
     if (!m_dialog) {
-        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No dialog selected");
+        ImGui::Text("No dialog selected");
         return;
     }
     
     renderBasicProperties();
     renderNodesList();
-    renderSelectedNode();
+    
+    if (m_selectedNodeIndex >= 0) {
+        renderSelectedNode();
+        renderNodeChoices();
+    }
+    
+    // Delete button at bottom
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+    
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
+    if (ImGui::Button("Delete Dialog", ImVec2(-1, 0))) {
+        ImGui::OpenPopup("DeleteDialogConfirm");
+    }
+    ImGui::PopStyleColor();
+    
+    // Confirmation dialog
+    if (ImGui::BeginPopupModal("DeleteDialogConfirm", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("Are you sure you want to delete this dialog?");
+        ImGui::Text("Dialog: %s", m_dialog->id.c_str());
+        ImGui::Spacing();
+        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "Warning: This may break references in NPCs/Hotspots!");
+        ImGui::Spacing();
+        
+        if (ImGui::Button("Delete", ImVec2(120, 0))) {
+            auto it = std::find_if(m_context.dialogs.begin(), m_context.dialogs.end(),
+                [this](const DialogData& d) { return d.id == m_dialog->id; });
+            if (it != m_context.dialogs.end()) {
+                m_context.dialogs.erase(it);
+                m_context.markDirty();
+                m_context.selectedType = EditorContext::SelectionType::None;
+                m_context.selectedDialogId.clear();
+            }
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
+    }
 #endif
 }
 

@@ -9,6 +9,18 @@ Kronologisk logg av alla ändringar sedan projektets start.
 ## 2026-01-05
 
 ### Kväll
+- `0196f2f` feat(editor): implement OOP property editors with breadcrumb navigation
+  - **Architecture:** Created IPropertyEditor interface + 6 concrete editors
+  - **Property Editors:** Room, Hotspot, Dialog, Quest, Item, NPC med full CRUD
+  - **Breadcrumb Navigation:** Hierarkisk navigation (Rooms > The Rusty Anchor > Bartender)
+  - **Selection Management:** Fixed multi-selection bug, added deselect on re-click
+  - **Dropdown Improvements:** ID references now use dropdowns (NPCs, Items, Rooms, Dialogs)
+  - **Helper Functions:** PropertyEditorUtils::IdCombo för återanvändbar dropdown-logik
+  - **Data Loading:** Fixed EditorContext.loadFromDataLoader() i EditorState::enter()
+  - **UX:** Validation, dirty tracking, save/revert per editor
+  - **Files:** 14 nya filer i src/editor/properties/, uppdaterade PropertiesPanel + HierarchyPanel
+  - Session: [2026-01-05](sessions/2026-01-05.md)
+
 - `5c4fd4d` docs(workflows): enforce complete change analysis in all workflows
   - Uppdaterade git-commit, update-docs, end-session workflows
   - Obligatorisk `git diff --stat` och ändringsanalys

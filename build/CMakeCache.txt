@@ -300,6 +300,9 @@ nlohmann_json_DIR:PATH=C:/vcpkg/installed/x64-windows/share/nlohmann_json
 //The directory containing a CMake configuration file for spdlog.
 spdlog_DIR:PATH=spdlog_DIR-NOTFOUND
 
+//The directory containing a CMake configuration file for unofficial-imgui-node-editor.
+unofficial-imgui-node-editor_DIR:PATH=unofficial-imgui-node-editor_DIR-NOTFOUND
+
 
 ########################
 # INTERNAL cache entries

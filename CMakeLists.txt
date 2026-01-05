@@ -18,6 +18,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(imgui CONFIG QUIET)
 find_package(imguizmo CONFIG QUIET)
 find_package(implot CONFIG QUIET)
+find_package(unofficial-imgui-node-editor CONFIG QUIET)
 find_package(nfd CONFIG QUIET)
 
 # Dev dependencies (optional)
@@ -28,6 +29,7 @@ find_package(spdlog CONFIG QUIET)
 message(STATUS "ImGui found: ${imgui_FOUND}")
 message(STATUS "ImGuizmo found: ${imguizmo_FOUND}")
 message(STATUS "ImPlot found: ${implot_FOUND}")
+message(STATUS "ImGui Node Editor found: ${unofficial-imgui-node-editor_FOUND}")
 message(STATUS "NativeFileDialog found: ${nfd_FOUND}")
 
 # ============================================================================
@@ -146,6 +148,7 @@ set(EDITOR_SOURCES
     src/editor/properties/QuestPropertyEditor.cpp
     src/editor/properties/ItemPropertyEditor.cpp
     src/editor/properties/NPCPropertyEditor.cpp
+    src/editor/panels/DialogGraphPanel.cpp
     src/editor/ImGuiManager.cpp
     ${IMGUI_BACKEND_SOURCES}
 )
@@ -158,6 +161,7 @@ target_link_libraries(RetroEditor PRIVATE
     $<TARGET_NAME_IF_EXISTS:imgui::imgui>
     $<TARGET_NAME_IF_EXISTS:imguizmo::imguizmo>
     $<TARGET_NAME_IF_EXISTS:implot::implot>
+    $<TARGET_NAME_IF_EXISTS:unofficial::imgui-node-editor::imgui-node-editor>
     $<TARGET_NAME_IF_EXISTS:nfd::nfd>
     $<TARGET_NAME_IF_EXISTS:spdlog::spdlog>
     $<TARGET_NAME_IF_EXISTS:efsw::efsw>
@@ -175,6 +179,9 @@ if(imguizmo_FOUND)
 endif()
 if(implot_FOUND)
     target_compile_definitions(RetroEditor PRIVATE HAS_IMPLOT=1)
+endif()
+if(unofficial-imgui-node-editor_FOUND)
+    target_compile_definitions(RetroEditor PRIVATE HAS_IMGUI_NODE_EDITOR=1)
 endif()
 if(nfd_FOUND)
     target_compile_definitions(RetroEditor PRIVATE HAS_NFD=1)

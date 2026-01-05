@@ -29,8 +29,8 @@ public:
     
 private:
     void renderBasicProperties();
-    void renderSpawnProperties();
-    void renderWalkAreaProperties();
+    void renderPlayerSpawn();
+    void renderWalkArea();
     void renderHotspotsList();
     void renderLayersList();
     

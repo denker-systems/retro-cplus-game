@@ -163,6 +163,90 @@ void EditorContext::saveToFiles() {
         }
     }
     
+    // Save dialogs
+    if (!dialogs.empty()) {
+        json data;
+        data["dialogs"] = dialogs;  // nlohmann/json använder NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE
+        
+        std::string backupPath = "assets/data/dialogs.json.bak";
+        if (std::filesystem::exists("assets/data/dialogs.json")) {
+            std::filesystem::copy_file("assets/data/dialogs.json", backupPath, 
+                                       std::filesystem::copy_options::overwrite_existing);
+        }
+        
+        std::ofstream file("assets/data/dialogs.json");
+        if (file.is_open()) {
+            file << data.dump(2);
+            file.close();
+            LOG_INFO("Saved dialogs.json (" + std::to_string(dialogs.size()) + " dialogs)");
+        } else {
+            LOG_ERROR("Failed to open dialogs.json for writing!");
+        }
+    }
+    
+    // Save quests
+    if (!quests.empty()) {
+        json data;
+        data["quests"] = quests;
+        
+        std::string backupPath = "assets/data/quests.json.bak";
+        if (std::filesystem::exists("assets/data/quests.json")) {
+            std::filesystem::copy_file("assets/data/quests.json", backupPath, 
+                                       std::filesystem::copy_options::overwrite_existing);
+        }
+        
+        std::ofstream file("assets/data/quests.json");
+        if (file.is_open()) {
+            file << data.dump(2);
+            file.close();
+            LOG_INFO("Saved quests.json (" + std::to_string(quests.size()) + " quests)");
+        } else {
+            LOG_ERROR("Failed to open quests.json for writing!");
+        }
+    }
+    
+    // Save items
+    if (!items.empty()) {
+        json data;
+        data["items"] = items;
+        
+        std::string backupPath = "assets/data/items.json.bak";
+        if (std::filesystem::exists("assets/data/items.json")) {
+            std::filesystem::copy_file("assets/data/items.json", backupPath, 
+                                       std::filesystem::copy_options::overwrite_existing);
+        }
+        
+        std::ofstream file("assets/data/items.json");
+        if (file.is_open()) {
+            file << data.dump(2);
+            file.close();
+            LOG_INFO("Saved items.json (" + std::to_string(items.size()) + " items)");
+        } else {
+            LOG_ERROR("Failed to open items.json for writing!");
+        }
+    }
+    
+    // Save NPCs
+    if (!npcs.empty()) {
+        json data;
+        data["npcs"] = npcs;
+        
+        std::string backupPath = "assets/data/npcs.json.bak";
+        if (std::filesystem::exists("assets/data/npcs.json")) {
+            std::filesystem::copy_file("assets/data/npcs.json", backupPath, 
+                                       std::filesystem::copy_options::overwrite_existing);
+        }
+        
+        std::ofstream file("assets/data/npcs.json");
+        if (file.is_open()) {
+            file << data.dump(2);
+            file.close();
+            LOG_INFO("Saved npcs.json (" + std::to_string(npcs.size()) + " npcs)");
+        } else {
+            LOG_ERROR("Failed to open npcs.json for writing!");
+        }
+    }
+    
     // Reload DataLoader to sync
     DataLoader::instance().loadAll();
     
