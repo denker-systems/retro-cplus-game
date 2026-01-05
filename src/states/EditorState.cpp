@@ -564,10 +564,81 @@ void EditorState::handleEvent(const SDL_Event& event) {
     if (event.type == SDL_MOUSEMOTION) {
         m_mouseX = event.motion.x;
         m_mouseY = event.motion.y;
+        
+        // Drag hotspot i visual editor
+        if (m_visualEditor && m_draggingHotspot && m_selectedHotspot >= 0) {
+            float scaleX = 640.0f / 620.0f;
+            float scaleY = 400.0f / 260.0f;
+            
+            int deltaX = static_cast<int>((m_mouseX - m_dragStartX) * scaleX);
+            int deltaY = static_cast<int>((m_mouseY - m_dragStartY) * scaleY);
+            
+            auto& hs = m_editRoomData.hotspots[m_selectedHotspot];
+            hs.x = m_hotspotOrigX + deltaX;
+            hs.y = m_hotspotOrigY + deltaY;
+            
+            // Clamp till rum-gränser
+            if (hs.x < 0) hs.x = 0;
+            if (hs.y < 0) hs.y = 0;
+            if (hs.x + hs.w > 640) hs.x = 640 - hs.w;
+            if (hs.y + hs.h > 400) hs.y = 400 - hs.h;
+        }
     }
     
-    if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-        handleMouseClick(event.button.x, event.button.y);
+    if (event.type == SDL_MOUSEBUTTONDOWN) {
+        if (event.button.button == SDL_BUTTON_LEFT) {
+            handleMouseClick(event.button.x, event.button.y);
+        } else if (event.button.button == SDL_BUTTON_RIGHT) {
+            // Right-click: Skapa ny hotspot i visual editor
+            if (m_visualEditor && m_editingRoom) {
+                int x = event.button.x;
+                int y = event.button.y;
+                
+                // Kolla om klick är inom preview-området
+                if (x >= 10 && x < 630 && y >= 90 && y < 350) {
+                    float scaleX = 640.0f / 620.0f;
+                    float scaleY = 400.0f / 260.0f;
+                    
+                    int roomX = static_cast<int>((x - 10) * scaleX);
+                    int roomY = static_cast<int>((y - 90) * scaleY);
+                    
+                    HotspotData newHotspot;
+                    newHotspot.id = "hotspot_" + std::to_string(m_editRoomData.hotspots.size());
+                    newHotspot.name = "New Hotspot";
+                    newHotspot.type = "examine";
+                    newHotspot.x = roomX;
+                    newHotspot.y = roomY;
+                    newHotspot.w = 50;
+                    newHotspot.h = 50;
+                    
+                    m_editRoomData.hotspots.push_back(newHotspot);
+                    m_selectedHotspot = static_cast<int>(m_editRoomData.hotspots.size()) - 1;
+                    m_statusMessage = "Created new hotspot";
+                    m_statusTimer = 2.0f;
+                    AudioManager::instance().playSound("select");
+                }
+            }
+        }
+    }
+    
+    if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT) {
+        if (m_draggingHotspot) {
+            m_draggingHotspot = false;
+            m_statusMessage = "Moved hotspot";
+            m_statusTimer = 1.5f;
+        }
+    }
+    
+    // Delete hotspot
+    if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_DELETE) {
+        if (m_visualEditor && m_selectedHotspot >= 0 && 
+            m_selectedHotspot < static_cast<int>(m_editRoomData.hotspots.size())) {
+            m_editRoomData.hotspots.erase(m_editRoomData.hotspots.begin() + m_selectedHotspot);
+            m_selectedHotspot = -1;
+            m_statusMessage = "Deleted hotspot";
+            m_statusTimer = 2.0f;
+            AudioManager::instance().playSound("select");
+        }
     }
 }
 
@@ -628,7 +699,42 @@ void EditorState::handleMouseClick(int x, int y) {
             }
             
             // Hotspot klick/drag i visual editor
-            // TODO: Implementera hotspot interaction
+            // Kolla om klick är inom preview-området
+            if (x >= 10 && x < 630 && y >= 90 && y < 350) {
+                float scaleX = 620.0f / 640.0f;
+                float scaleY = 260.0f / 400.0f;
+                
+                // Kolla om vi klickar på en hotspot
+                int clickedHotspot = -1;
+                for (int i = static_cast<int>(m_editRoomData.hotspots.size()) - 1; i >= 0; i--) {
+                    const auto& hs = m_editRoomData.hotspots[i];
+                    SDL_Rect rect = {
+                        10 + static_cast<int>(hs.x * scaleX),
+                        90 + static_cast<int>(hs.y * scaleY),
+                        static_cast<int>(hs.w * scaleX),
+                        static_cast<int>(hs.h * scaleY)
+                    };
+                    
+                    if (x >= rect.x && x < rect.x + rect.w &&
+                        y >= rect.y && y < rect.y + rect.h) {
+                        clickedHotspot = i;
+                        break;
+                    }
+                }
+                
+                if (clickedHotspot >= 0) {
+                    m_selectedHotspot = clickedHotspot;
+                    m_draggingHotspot = true;
+                    m_dragStartX = x;
+                    m_dragStartY = y;
+                    m_hotspotOrigX = m_editRoomData.hotspots[clickedHotspot].x;
+                    m_hotspotOrigY = m_editRoomData.hotspots[clickedHotspot].y;
+                    AudioManager::instance().playSound("select");
+                } else {
+                    m_selectedHotspot = -1;
+                }
+                return;
+            }
             
         } else {
             // Text editor knappar
@@ -1117,21 +1223,33 @@ void EditorState::renderVisualEditor(SDL_Renderer* renderer) {
         
         SDL_RenderFillRect(renderer, &rect);
         
-        // Ram
+        // Ram (tjockare för vald)
         if (selected) {
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+            SDL_RenderDrawRect(renderer, &rect);
+            // Rita dubbel ram för tydlighet
+            SDL_Rect outerRect = {rect.x - 1, rect.y - 1, rect.w + 2, rect.h + 2};
+            SDL_RenderDrawRect(renderer, &outerRect);
         } else {
             SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
+            SDL_RenderDrawRect(renderer, &rect);
         }
-        SDL_RenderDrawRect(renderer, &rect);
         
-        // Namn
+        // Namn (visa alltid för vald, annars bara typ-ikon)
         if (selected) {
             FontManager::instance().renderText(renderer, "default", hs.name, rect.x + 2, rect.y + 2, white);
         }
     }
     
+    // Visa vald hotspot info
+    if (m_selectedHotspot >= 0 && m_selectedHotspot < static_cast<int>(m_editRoomData.hotspots.size())) {
+        const auto& hs = m_editRoomData.hotspots[m_selectedHotspot];
+        std::string info = "Selected: " + hs.name + " [" + hs.type + "] (" + 
+                          std::to_string(hs.x) + "," + std::to_string(hs.y) + ")";
+        FontManager::instance().renderText(renderer, "default", info, 10, 355, yellow);
+    }
+    
     // Instruktioner
-    std::string instructions = "Click hotspot to select | Drag to move | Right-click: Add hotspot";
-    FontManager::instance().renderText(renderer, "default", instructions, 10, 365, green);
+    std::string instructions = "Click hotspot to select | Drag to move | Right-click: Add | DEL: Delete";
+    FontManager::instance().renderText(renderer, "default", instructions, 10, 375, green);
 }

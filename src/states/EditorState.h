@@ -116,6 +116,8 @@ private:
     bool m_resizingHotspot = false;
     int m_dragStartX = 0;
     int m_dragStartY = 0;
+    int m_hotspotOrigX = 0;  // Original position för drag
+    int m_hotspotOrigY = 0;
     SDL_Texture* m_roomPreviewTexture = nullptr;  // Cached room texture
     
     // Edit room data (kopierad från DataLoader)
