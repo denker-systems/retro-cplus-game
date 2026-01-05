@@ -1,9 +1,28 @@
 # Tiled Workflow för Rum-design
 
-## Installation
+## Workflow Modes
+
+Editorn stödjer två modes:
+
+### Manual Mode (Default)
+- Redigera rum direkt i editorn
+- Lägg till hotspots, layers, walk areas via UI
+- Enklare för små ändringar
+- **Aktivera:** Tryck **T** i Rooms tab
+
+### Tiled Mode (Optional)
+- Använd externa Tiled-editorn
+- Professionella verktyg för level design
+- Bättre för komplexa rum med många layers
+- **Aktivera:** Tryck **T** i Rooms tab
+
+---
+
+## Installation (för Tiled Mode)
 
 1. Ladda ner Tiled från https://www.mapeditor.org/
 2. Installera och starta
+3. I spelet: Editor → Rooms → Tryck **T** för Tiled mode
 
 ---
 

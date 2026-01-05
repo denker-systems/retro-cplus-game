@@ -104,9 +104,8 @@ void EditorState::render(SDL_Renderer* renderer) {
     
     // Footer
     SDL_Color footerColor = {150, 150, 150, 255};
-    FontManager::instance().renderText(renderer, "default",
-        "ESC: Back to Menu | TAB/Shift+TAB: Switch tabs | Arrows: Navigate", 
-        10, 380, footerColor);
+    std::string footerText = "ESC: Back | TAB: Switch tabs | T: Toggle Tiled/Manual";
+    FontManager::instance().renderText(renderer, "default", footerText, 10, 380, footerColor);
 }
 
 void EditorState::renderTabs(SDL_Renderer* renderer) {
@@ -204,12 +203,23 @@ void EditorState::renderRoomsTab(SDL_Renderer* renderer) {
     SDL_Color white = {255, 255, 255, 255};
     SDL_Color cyan = {100, 255, 255, 255};
     SDL_Color green = {100, 255, 100, 255};
+    SDL_Color yellow = {255, 255, 100, 255};
     
     FontManager::instance().renderText(renderer, "default", "[Rooms]", 10, 65, cyan);
     
-    // Import/Export knappar
-    renderButton(renderer, "Import Tiled", 450, 65, 90, 18, false);
-    renderButton(renderer, "Export All", 550, 65, 80, 18, false);
+    // Workflow toggle
+    std::string workflowText = m_useTiledWorkflow ? "Mode: Tiled" : "Mode: Manual";
+    FontManager::instance().renderText(renderer, "default", workflowText, 350, 68, 
+                                      m_useTiledWorkflow ? green : yellow);
+    
+    // Import/Export knappar (bara synliga om Tiled mode)
+    if (m_useTiledWorkflow) {
+        renderButton(renderer, "Import Tiled", 450, 65, 90, 18, false);
+        renderButton(renderer, "Export All", 550, 65, 80, 18, false);
+    } else {
+        renderButton(renderer, "Add Room", 450, 65, 80, 18, false);
+        renderButton(renderer, "Edit Room", 550, 65, 80, 18, false);
+    }
     
     auto& rooms = DataLoader::instance().getRooms();
     int y = 90;
@@ -422,6 +432,15 @@ void EditorState::handleEvent(const SDL_Event& event) {
                 }
                 break;
                 
+            case SDL_SCANCODE_T:
+                // Toggle Tiled workflow
+                m_useTiledWorkflow = !m_useTiledWorkflow;
+                m_statusMessage = m_useTiledWorkflow ? 
+                    "Switched to Tiled workflow" : "Switched to Manual editing";
+                m_statusTimer = 2.0f;
+                AudioManager::instance().playSound("select");
+                break;
+                
             case SDL_SCANCODE_UP:
             case SDL_SCANCODE_DOWN:
                 // Navigation i listor - implementeras senare
@@ -475,17 +494,41 @@ void EditorState::handleMouseClick(int x, int y) {
         }
     }
     
-    // Kolla knapp-klick i Rooms tab
+    // Kolla workflow mode toggle (klicka på Mode-texten)
     if (m_currentTab == EditorTab::Rooms) {
-        // Import Tiled knapp
-        if (isButtonClicked(450, 65, 90, 18, x, y)) {
-            importFromTiled();
+        if (x >= 350 && x <= 450 && y >= 65 && y <= 80) {
+            m_useTiledWorkflow = !m_useTiledWorkflow;
+            m_statusMessage = m_useTiledWorkflow ? 
+                "Switched to Tiled workflow" : "Switched to Manual editing";
+            m_statusTimer = 2.0f;
             AudioManager::instance().playSound("select");
         }
-        // Export All knapp
-        if (isButtonClicked(550, 65, 80, 18, x, y)) {
-            exportAllToTiled();
-            AudioManager::instance().playSound("select");
+    }
+    
+    // Kolla knapp-klick i Rooms tab
+    if (m_currentTab == EditorTab::Rooms) {
+        if (m_useTiledWorkflow) {
+            // Tiled workflow knappar
+            if (isButtonClicked(450, 65, 90, 18, x, y)) {
+                importFromTiled();
+                AudioManager::instance().playSound("select");
+            }
+            if (isButtonClicked(550, 65, 80, 18, x, y)) {
+                exportAllToTiled();
+                AudioManager::instance().playSound("select");
+            }
+        } else {
+            // Manual editing knappar
+            if (isButtonClicked(450, 65, 80, 18, x, y)) {
+                m_statusMessage = "Add Room: Not yet implemented";
+                m_statusTimer = 2.0f;
+                AudioManager::instance().playSound("select");
+            }
+            if (isButtonClicked(550, 65, 80, 18, x, y)) {
+                m_statusMessage = "Edit Room: Not yet implemented";
+                m_statusTimer = 2.0f;
+                AudioManager::instance().playSound("select");
+            }
         }
     }
 }

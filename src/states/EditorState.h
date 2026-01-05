@@ -68,6 +68,9 @@ private:
     std::string m_statusMessage;
     float m_statusTimer = 0.0f;
     
+    // Editor settings
+    bool m_useTiledWorkflow = false;  // Toggle mellan Tiled och manuell redigering
+    
     // Scroll och selection
     int m_scrollY = 0;
     std::string m_selectedRoom;
