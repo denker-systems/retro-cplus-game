@@ -7,7 +7,7 @@
 #include "IState.h"
 #include <memory>
 
-class Player;
+class PlayerCharacter;
 class Room;
 class Input;
 
@@ -29,7 +29,7 @@ public:
     void handleEvent(const SDL_Event& event) override;
 
 private:
-    std::unique_ptr<Player> m_player;  // Spelarkaraktären
-    std::unique_ptr<Room> m_room;      // Nuvarande rum
-    std::unique_ptr<Input> m_input;    // Input-hantering
+    std::unique_ptr<PlayerCharacter> m_player;
+    std::unique_ptr<Room> m_room;
+    std::unique_ptr<Input> m_input;
 };

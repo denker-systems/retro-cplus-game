@@ -5,7 +5,7 @@
 #include "PlayState.h"
 #include "MenuState.h"
 #include "../Game.h"
-#include "../Player.h"
+#include "../entities/PlayerCharacter.h"
 #include "../Room.h"
 #include "../Input.h"
 #include <iostream>
@@ -21,7 +21,7 @@ void PlayState::enter() {
     
     // Skapa spelkomponenter
     m_input = std::make_unique<Input>();
-    m_player = std::make_unique<Player>(160.0f, 300.0f);
+    m_player = std::make_unique<PlayerCharacter>(160.0f, 300.0f);
     m_room = std::make_unique<Room>("Tavern");
 }
 

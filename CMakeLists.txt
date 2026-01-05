@@ -15,7 +15,6 @@ set(SOURCES
     src/Game.cpp
     src/Renderer.cpp
     src/Input.cpp
-    src/Player.cpp
     src/Room.cpp
     src/states/StateManager.cpp
     src/states/MenuState.cpp
@@ -25,6 +24,9 @@ set(SOURCES
     src/graphics/SpriteSheet.cpp
     src/graphics/Animation.cpp
     src/audio/AudioManager.cpp
+    src/entities/Entity.cpp
+    src/entities/Character.cpp
+    src/entities/PlayerCharacter.cpp
 )
 
 # Skapa executable

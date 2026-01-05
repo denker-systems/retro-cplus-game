@@ -465,7 +465,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Game.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Renderer.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Input.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Player.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Room.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\StateManager.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\MenuState.cpp" />
@@ -475,6 +474,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\SpriteSheet.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\Animation.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\audio\AudioManager.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\Entity.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\Character.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\PlayerCharacter.cpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

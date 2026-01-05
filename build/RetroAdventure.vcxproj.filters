@@ -13,9 +13,6 @@
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\Room.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -41,6 +38,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\audio\AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\PlayerCharacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
