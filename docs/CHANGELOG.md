@@ -10,16 +10,20 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- **Modulär arkitektur** - Separerade `src/` i `engine/`, `game/`, `editor/`
+- **RetroCore static library** - Delad engine-kod mellan game och editor
+- **Separata executables** - RetroGame.exe och RetroEditor.exe
 - **Drag-and-drop editing** i ViewportPanel för hotspots, player spawn och walk area
 - **Automatisk backup** (.bak-fil) vid sparning
 - **Säkerhetsvalidering** förhindrar sparning av tom data
 - ImGui-baserad editor med docking support
 - 5 editor-paneler: Hierarchy, Properties, Viewport, AssetBrowser, Console
-- Standalone editor executable (RetroEditor.exe)
 - Komplett dokumentationsstruktur med CHANGELOG, ADR, DEVLOG
 - Git-policy rules och synkade workflows
 
 ### Changed
+- **Projektstruktur** - Flyttade 300+ filer till nya mappar (engine/game/editor)
+- **Build-system** - Tre CMake targets: RetroCore (lib), RetroGame (exe), RetroEditor (exe)
 - Editor öppnas nu i windowed mode (max 1600x900)
 - Spelet öppnas i fullscreen
 - **Hot reload borttaget** - Använd restart-workflow istället (enklare, stabilare)
