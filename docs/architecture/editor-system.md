@@ -105,6 +105,43 @@ EditorCore::instance().getContext().saveToFiles();
 | R | Resize tool |
 | C | Create tool |
 | DEL | Delete selected |
+| + | Öka bottom scale (depth) |
+| - | Minska bottom scale |
+| Shift++ | Öka top scale |
+| Shift+- | Minska top scale |
+
+## Walk Area Editing
+
+Walk area kan redigeras visuellt i editorn:
+
+```
+┌─────────────────────────────────────┐
+│         [Top Handle]                │  ← Dra för att ändra minY
+├─[L]─────────────────────────────[R]─┤  ← Sidohandtag
+│                                     │
+│         Walk Area                   │
+│                                     │
+├─────────────────────────────────────┤
+│         [Bottom Handle]             │  ← Dra för att ändra maxY
+└─────────────────────────────────────┘
+```
+
+### Depth Scaling
+
+Perspektiv-skalning gör att karaktärer ser mindre ut längre bort:
+
+- **scaleTop**: Storlek vid walk area topp (t.ex. 0.5 = 50%)
+- **scaleBottom**: Storlek vid walk area botten (t.ex. 1.0 = 100%)
+
+Visuell indikator visar två figurer med olika storlekar.
+
+## EditorState vs Editor Panels
+
+- **EditorState** (`src/states/EditorState.cpp`): Legacy fullskärmseditor
+- **Editor Panels** (`src/editor/panels/`): Modulära, utbyggbara panels
+
+Båda system fungerar parallellt. EditorState hanterar visuell redigering, 
+medan Editor Panels används för mer komplexa operationer med undo/redo.
 
 ## Framtida Utökningar
 
@@ -115,3 +152,5 @@ EditorCore::instance().getContext().saveToFiles();
 - [ ] Copy/Paste mellan rum
 - [ ] Multi-selection
 - [ ] Snap to other hotspots
+- [x] Walk area visual editing
+- [x] Depth scaling editing

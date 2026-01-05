@@ -13,6 +13,8 @@ Ett point-and-click adventure-spel för Windows, byggt med C++17 och SDL2.
 - **Save/Load** - JSON serialization med flags och counters
 - **Cutscene System** - Scripted sequences med fade och text
 - **UI Widgets** - Button, Label, Panel, ProgressBar
+- **Depth Scaling** - Perspektiv-skalning av karaktärer baserat på Y-position
+- **In-Game Editor** - Visuell redigering av rum, hotspots och walk areas
 
 ## Krav
 
@@ -56,6 +58,8 @@ cmake --build . --config Release
 | ESC | Pausmeny |
 | I | Inventory |
 | J | Quest Log |
+| M | Mute/Unmute ljud |
+| F1 | Öppna Editor |
 
 ## Projektstruktur
 

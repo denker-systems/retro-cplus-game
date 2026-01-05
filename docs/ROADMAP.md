@@ -113,6 +113,7 @@
 - [x] MenuState (huvudmeny)
 - [x] OptionsState (volym, fullscreen)
 - [x] PauseState (overlay)
+- [x] Global mute toggle (M-tangent)
 - [ ] SaveLoadState (save/load meny)
 
 ### 3.4 UI System ✅
@@ -121,6 +122,7 @@
 - [x] Label med fonts
 - [x] Panel (container)
 - [x] ProgressBar
+- [x] Mute status indikator
 
 ### 3.5 Cutscene System ✅
 - [x] CutsceneSystem singleton
@@ -128,6 +130,20 @@
 - [x] Text overlay med speaker
 - [x] FadeIn/FadeOut
 - [x] Factory methods för enkel skapning
+
+### 3.6 Editor System ✅
+- [x] EditorState (F1 för att öppna)
+- [x] Visuell hotspot-redigering (drag, resize)
+- [x] Walk area editing med handles
+- [x] Depth scaling redigering (+/- tangenter)
+- [x] JSON save/load av ändringar
+- [x] Command pattern för undo/redo
+
+### 3.7 Depth Scaling ✅
+- [x] WalkArea med scaleTop/scaleBottom
+- [x] PlayerCharacter::renderScaled()
+- [x] Animation/SpriteSheet scaled rendering
+- [x] Perspektiv-effekt baserat på Y-position
 
 **Estimerad tid: 4-5 sessioner**
 
