@@ -5,8 +5,8 @@
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Fas 1: Core       │ Fas 2: Systems  │ Fas 3: Content │ Fas 4: Polish│
-│ ▓▓▓▓░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░│
-│ 20%               │ 0%              │ 0%             │ 0%           │
+│ ▓▓▓▓▓▓▓▓░░░░░░░░ │ ░░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░│
+│ 50%               │ 0%              │ 0%             │ 0%           │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -21,17 +21,17 @@
 - [x] Basic rendering
 - [x] Input handling
 
-### 1.2 State Management
-- [ ] IState interface
-- [ ] StateManager klass
-- [ ] MenuState
-- [ ] PlayState
+### 1.2 State Management ✅
+- [x] IState interface
+- [x] StateManager klass
+- [x] MenuState
+- [x] PlayState
 - [ ] PauseState
 
-### 1.3 Resource Management
-- [ ] TextureManager (singleton/service)
-- [ ] SpriteSheet loading (PNG)
-- [ ] Animation system
+### 1.3 Resource Management ✅
+- [x] TextureManager (singleton/service)
+- [x] SpriteSheet loading (PNG)
+- [x] Animation system
 - [ ] Font rendering (SDL_ttf eller bitmap)
 
 ### 1.4 Audio Foundation
@@ -191,26 +191,20 @@
 
 ---
 
-## Nästa session: StateManager
+## Nästa session: AudioManager
 
 ### Filer att skapa:
 ```
-src/states/
-├── IState.h
-├── StateManager.h
-├── StateManager.cpp
-├── MenuState.h
-├── MenuState.cpp
-├── PlayState.h
-└── PlayState.cpp
+src/audio/
+├── AudioManager.h
+├── AudioManager.cpp
 ```
 
 ### Mål:
-1. Abstrakt IState interface
-2. StateManager med push/pop/change
-3. MenuState med "Start Game" och "Quit"
-4. PlayState med nuvarande gameplay
-5. ESC växlar mellan Play och Pause
+1. AudioManager singleton
+2. Music playback (looping background music)
+3. Sound effects (click, pickup, etc.)
+4. Volume control
 
 ---
 
@@ -233,8 +227,8 @@ src/states/
 | Milstolpe | Beskrivning | Status |
 |-----------|-------------|--------|
 | M1 | Fönster + rendering | ✅ |
-| M2 | State system + meny | ⏳ |
-| M3 | Rum med spelare | ⬜ |
+| M2 | State system + meny | ✅ |
+| M3 | Rum med spelare | ⏳ |
 | M4 | Dialog med NPC | ⬜ |
 | M5 | Inventory fungerar | ⬜ |
 | M6 | Quest system | ⬜ |

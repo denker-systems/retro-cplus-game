@@ -17,27 +17,41 @@ Ett skalbart point-and-click adventure-spel byggt med modern C++17 och SDL2.
 
 ## Modulstruktur
 
+### Implementerat ✅
+
 ```
 src/
-├── core/                 # Kärnfunktionalitet
-│   ├── Game.cpp/h        # Huvudloop, koordinering
-│   ├── Window.cpp/h      # SDL fönsterhantering
-│   ├── Renderer.cpp/h    # Rendering, texturer
-│   ├── Input.cpp/h       # Tangentbord, mus
-│   └── Timer.cpp/h       # Delta time, FPS
+├── Game.cpp/h            # Huvudloop, SDL init, state koordinering ✅
+├── Input.cpp/h           # Tangentbordshantering ✅
+├── Player.cpp/h          # Spelarkaraktär (placeholder) ✅
+├── Room.cpp/h            # Rum med hotspots (placeholder) ✅
+├── Renderer.cpp/h        # Utility (unused) ✅
+├── main.cpp              # Entry point ✅
 │
-├── states/               # Game states (State Pattern)
-│   ├── StateManager.cpp/h
-│   ├── IState.h          # Interface
-│   ├── MenuState.cpp/h
-│   ├── PlayState.cpp/h
+├── states/               # Game states (State Pattern) ✅
+│   ├── StateManager.cpp/h  # Push/pop/change states ✅
+│   ├── IState.h            # Abstract interface ✅
+│   ├── MenuState.cpp/h     # Huvudmeny ✅
+│   └── PlayState.cpp/h     # Gameplay ✅
+│
+└── graphics/             # Grafiksystem ✅
+    ├── TextureManager.cpp/h  # Singleton, texture caching ✅
+    ├── SpriteSheet.cpp/h     # Frame-baserad rendering ✅
+    └── Animation.cpp/h       # Tidsbaserad animation ✅
+```
+
+### Planerat (ej implementerat)
+
+```
+src/
+├── states/               # Fler states
 │   ├── PauseState.cpp/h
 │   ├── InventoryState.cpp/h
 │   └── DialogState.cpp/h
 │
 ├── entities/             # Spelobjekt (Entity-Component)
 │   ├── Entity.cpp/h      # Basklass
-│   ├── Player.cpp/h
+│   ├── Player.cpp/h      # (refactor från nuvarande)
 │   ├── NPC.cpp/h
 │   ├── Item.cpp/h
 │   └── Hotspot.cpp/h
@@ -55,10 +69,7 @@ src/
 │   ├── Music.cpp/h
 │   └── SoundEffect.cpp/h
 │
-├── graphics/             # Grafiksystem
-│   ├── TextureManager.cpp/h
-│   ├── SpriteSheet.cpp/h
-│   ├── Animation.cpp/h
+├── graphics/             # Mer grafik
 │   ├── ParticleSystem.cpp/h
 │   └── Camera.cpp/h
 │
