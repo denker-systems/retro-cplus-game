@@ -9,6 +9,14 @@ Kronologisk logg av alla ändringar sedan projektets start.
 ## 2026-01-05
 
 ### Kväll
+- `cf1940c` feat(editor): implement drag-and-drop editing with safe save workflow
+  - Drag-and-drop för hotspots, player spawn och walk area i ViewportPanel
+  - Fixade MSVC C2597 bug (ImVec2 → float parametrar)
+  - Tog bort hot reload från spelet (restart-workflow istället)
+  - Automatisk backup (.bak) vid sparning
+  - Säkerhetsvalidering: förhindrar sparning av tom data
+  - Session: [2026-01-05](sessions/2026-01-05.md)
+
 - `41c68e1` docs: add robust documentation system with CHANGELOG, ADR, and restructured folders
   - CHANGELOG.md (Keep a Changelog standard)
   - ADR i docs/dev/decisions/

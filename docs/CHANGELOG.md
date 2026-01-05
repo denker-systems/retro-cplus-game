@@ -10,6 +10,9 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- **Drag-and-drop editing** i ViewportPanel för hotspots, player spawn och walk area
+- **Automatisk backup** (.bak-fil) vid sparning
+- **Säkerhetsvalidering** förhindrar sparning av tom data
 - ImGui-baserad editor med docking support
 - 5 editor-paneler: Hierarchy, Properties, Viewport, AssetBrowser, Console
 - Standalone editor executable (RetroEditor.exe)
@@ -19,6 +22,10 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Changed
 - Editor öppnas nu i windowed mode (max 1600x900)
 - Spelet öppnas i fullscreen
+- **Hot reload borttaget** - Använd restart-workflow istället (enklare, stabilare)
+
+### Fixed
+- MSVC C2597 compiler bug (ImVec2 → float parametrar i ViewportPanel)
 
 ---
 

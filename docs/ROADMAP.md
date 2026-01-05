@@ -147,6 +147,9 @@
 - [x] ViewportPanel - Rum-preview med zoom
 - [x] AssetBrowserPanel - Grid/List view, filter, search
 - [x] ConsolePanel - Logg med timestamps
+- [x] **Drag-and-drop editing** - Hotspots, player spawn, walk area
+- [x] **Safe save workflow** - Automatisk backup, validering
+- [x] **Removed hot reload** - Restart-workflow istället (enklare, stabilare)
 - [x] Docking layout - Flyttbara paneler
 - [x] Windowed mode (1600x900 max, resizable)
 
