@@ -1,17 +1,17 @@
 ========================================
-  Game Log - 2026-01-05 16:48:50.523
+  Game Log - 2026-01-05 16:53:04.066
 ========================================
 
-[2026-01-05 16:48:50.523] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-05 16:48:50.635] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-05 16:48:50.657] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-05 16:48:50.676] [INFO ] [Game.cpp:82] Window created
-[2026-01-05 16:48:50.824] [INFO ] [Game.cpp:92] Renderer created
-[2026-01-05 16:48:50.824] [INFO ] [Game.cpp:208] Viewport: 1440x900 at (80,0)
-[2026-01-05 16:48:50.825] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
-[2026-01-05 16:48:50.832] [INFO ] [Game.cpp:129] Game initialized successfully!
-[2026-01-05 16:48:50.832] [INFO ] [EditorState.cpp:32] EditorState created
-[2026-01-05 16:48:50.833] [INFO ] [EditorState.cpp:36] EditorState::enter()
-[2026-01-05 16:48:50.834] [INFO ] [EditorState.cpp:61] EditorState: Loading game data...
-[2026-01-05 16:48:50.848] [INFO ] [EditorContext.cpp:78] EditorContext loaded 7 rooms, 8 dialogs
-[2026-01-05 16:48:50.848] [INFO ] [EditorState.cpp:67] EditorContext loaded with 8 dialogs
+[2026-01-05 16:53:04.066] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-05 16:53:04.171] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-05 16:53:04.193] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-05 16:53:04.211] [INFO ] [Game.cpp:82] Window created
+[2026-01-05 16:53:04.358] [INFO ] [Game.cpp:92] Renderer created
+[2026-01-05 16:53:04.359] [INFO ] [Game.cpp:208] Viewport: 1440x900 at (80,0)
+[2026-01-05 16:53:04.360] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-05 16:53:04.366] [INFO ] [Game.cpp:129] Game initialized successfully!
+[2026-01-05 16:53:04.366] [INFO ] [EditorState.cpp:32] EditorState created
+[2026-01-05 16:53:04.367] [INFO ] [EditorState.cpp:36] EditorState::enter()
+[2026-01-05 16:53:04.367] [INFO ] [EditorState.cpp:61] EditorState: Loading game data...
+[2026-01-05 16:53:04.383] [INFO ] [EditorContext.cpp:78] EditorContext loaded 7 rooms, 8 dialogs
+[2026-01-05 16:53:04.383] [INFO ] [EditorState.cpp:67] EditorContext loaded with 8 dialogs
