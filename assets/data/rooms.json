@@ -3,7 +3,16 @@
     {
       "id": "tavern",
       "name": "The Rusty Anchor",
-      "background": "tavern_bg",
+      "background": "assets/backgrounds/tavern-inside.png",
+      "layers": [
+        {
+          "image": "assets/backgrounds/tavern-inside.png",
+          "zIndex": -1,
+          "parallaxX": 1.0,
+          "parallaxY": 1.0,
+          "opacity": 1.0
+        }
+      ],
       "walkArea": { "minX": 0, "maxX": 640, "minY": 260, "maxY": 350 },
       "hotspots": [
         {
