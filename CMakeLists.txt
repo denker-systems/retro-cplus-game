@@ -27,6 +27,7 @@ set(SOURCES
     src/states/InventoryState.cpp
     src/states/QuestLogState.cpp
     src/states/SaveLoadState.cpp
+    src/states/EditorState.cpp
     src/systems/DialogSystem.cpp
     src/systems/InventorySystem.cpp
     src/systems/RoomManager.cpp
