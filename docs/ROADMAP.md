@@ -163,52 +163,207 @@
 
 ---
 
-## Fas 4: Content & Polish
+## Fas 4: Editor Development & Content Creation
 
-### 4.0 Editor Tools ✅ (2026-01-05)
-- [x] Professionell ImGui-editor
-- [x] Asset Browser
-- [x] Console med loggning
-- [x] Viewport med zoom/overlays
-- [ ] Undo/Redo system
-- [ ] Dialog node editor
-- [ ] Asset preview (sprites, sounds)
-- [ ] Hot reload
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│ Fas 4A: Property Editing │ Fas 4B: Visual Editors │ Fas 4C: Workflow  │
+│ █████░░░░░░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░░░░ │
+│ 20%                      │ 0%                     │ 0%                │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
-### 4.1 Game Content
-- [ ] Komplett storyline
+### 4A: Property Editing (Grundläggande Redigering) 🔴 PÅGÅENDE
+
+**Mål:** Alla data-typer kan redigeras via Properties-panelen
+
+#### 4A.1 Room Properties Editor 🔴 Hög prioritet
+- [ ] InputText för room namn
+- [ ] InputText för background path
+- [ ] InputFloat2 för player spawn position
+- [ ] Slider för walk area bounds
+- [ ] Slider för depth scale (top/bottom)
+- [ ] Button: "Add Hotspot"
+- [ ] Button: "Delete Room" (med bekräftelse)
+
+#### 4A.2 Hotspot Editor 🔴 Hög prioritet
+- [ ] Dropdown för hotspot type (Exit, NPC, Item, Examine)
+- [ ] InputText för id, name
+- [ ] InputInt4 för position/size (x, y, w, h)
+- [ ] InputText för targetRoom (om Exit)
+- [ ] InputText för dialogId (om NPC)
+- [ ] InputText för itemId (om Item)
+- [ ] TextArea för examineText
+- [ ] Button: "Delete Hotspot"
+
+#### 4A.3 Dialog Node Editor 🔴 Hög prioritet
+- [ ] InputText för dialog id
+- [ ] InputText för npc name
+- [ ] Lista över noder (selectable)
+- [ ] InputText för speaker
+- [ ] TextArea för node text
+- [ ] Lista över choices (add/remove)
+- [ ] InputText för choice text
+- [ ] InputInt för nextNodeId
+- [ ] Button: "Add Node", "Delete Node"
+- [ ] Button: "Add Choice", "Delete Choice"
+
+#### 4A.4 Quest Editor 🟡 Medium prioritet
+- [ ] InputText för quest id, title
+- [ ] TextArea för description
+- [ ] Lista över objectives (add/remove)
+- [ ] Dropdown för objective type
+- [ ] InputText för objective description
+- [ ] InputText för target (targetId, targetRoom, etc)
+- [ ] Button: "Add Objective", "Delete Objective"
+
+#### 4A.5 Item Editor 🟡 Medium prioritet
+- [ ] InputText för item id, name
+- [ ] TextArea för description
+- [ ] InputText för icon path
+- [ ] Checkbox för combinable
+- [ ] Lista över combinations (add/remove)
+- [ ] Button: "Add Item", "Delete Item"
+
+#### 4A.6 NPC Editor 🟡 Medium prioritet
+- [ ] InputText för npc id, name
+- [ ] Dropdown för AI behavior type
+- [ ] Lista över waypoints (add/remove)
+- [ ] Lista över schedules (add/remove)
+- [ ] InputText för dialog id
+- [ ] Button: "Add NPC", "Delete NPC"
+
+#### 4A.7 Create/Delete Functionality 🔴 Hög prioritet
+- [ ] "New Room" button i HierarchyPanel
+- [ ] "New Dialog" button i HierarchyPanel
+- [ ] "New Quest" button i HierarchyPanel
+- [ ] "New Item" button i HierarchyPanel
+- [ ] Delete confirmation dialog
+- [ ] Validering av dependencies (varna om brutna länkar)
+
+#### 4A.8 Save System 🔴 Hög prioritet
+- [ ] EditorContext::saveToFiles() implementation
+- [ ] Save alla rooms.json ändringar
+- [ ] Save alla dialogs.json ändringar
+- [ ] Save alla quests.json ändringar
+- [ ] Save alla items.json ändringar
+- [ ] Save alla npcs.json ändringar
+- [ ] Backup före sparning (.bak)
+- [ ] Status message efter save
+- [ ] Ctrl+S shortcut
+
+**Estimerad tid: 2-3 sessioner**
+
+---
+
+### 4B: Visual Editors (Avancerade Verktyg) 🟡 PLANERAD
+
+**Mål:** Visuella verktyg för komplexa datatyper
+
+#### 4B.1 Dialog Graph Editor 🔴 Hög prioritet
+- [ ] vcpkg: imnodes dependency
+- [ ] Node-baserad dialog editor
+- [ ] Visuella kopplingar mellan noder
+- [ ] Drag-and-drop noder
+- [ ] Zoom och pan
+- [ ] Export till JSON
+
+#### 4B.2 Room Flowchart 🟡 Medium prioritet
+- [ ] Visuell karta över alla rum
+- [ ] Visa exits som pilar
+- [ ] Click för att öppna rum
+- [ ] Overview av hela spelet
+
+#### 4B.3 Quest Chain Editor 🟡 Medium prioritet
+- [ ] Visuell quest-sekvens
+- [ ] Visa dependencies
+- [ ] Trigger-visualisering
+
+#### 4B.4 Animation Preview 🟢 Låg prioritet
+- [ ] Förhandsvisning av sprites
+- [ ] Animation playback
+- [ ] Frame-by-frame stepping
+
+#### 4B.5 Audio Preview 🟢 Låg prioritet
+- [ ] Spela upp ljud i editorn
+- [ ] Waveform-visualisering
+- [ ] Volume test
+
+**Estimerad tid: 3-4 sessioner**
+
+---
+
+### 4C: Workflow & Polish 🟢 FRAMTIDA
+
+**Mål:** Professionell arbetsflödesupplevelse
+
+#### 4C.1 Undo/Redo System 🔴 Hög prioritet
+- [ ] Command pattern för alla ändringar
+- [ ] Undo stack (Ctrl+Z)
+- [ ] Redo stack (Ctrl+Y)
+- [ ] History panel (visa alla commands)
+
+#### 4C.2 Hot Reload 🟡 Medium prioritet
+- [ ] FileWatcher för JSON-filer
+- [ ] Automatisk reload vid ändringar
+- [ ] Notification vid reload
+
+#### 4C.3 Validation System 🟡 Medium prioritet
+- [ ] Validera alla dialogId-referenser
+- [ ] Validera alla targetRoom-referenser
+- [ ] Validera alla itemId-referenser
+- [ ] Varna för saknade assets
+- [ ] Validation panel med errors/warnings
+
+#### 4C.4 Search & Filter 🟡 Medium prioritet
+- [ ] Global search (Ctrl+F)
+- [ ] Sök i alla data-typer
+- [ ] Filter i HierarchyPanel
+- [ ] "Find references" för objekt
+
+#### 4C.5 Project Settings 🟢 Låg prioritet
+- [ ] Game settings panel
+- [ ] Build configuration
+- [ ] Export settings
+
+#### 4C.6 Play-in-Editor 🟢 Låg prioritet
+- [ ] Starta spelet från editorn
+- [ ] Quick test av rum
+- [ ] Debug overlay
+
+**Estimerad tid: 2-3 sessioner**
+
+---
+
+### 4D: Game Content (Efter Editor är Klar)
+
+#### 4D.1 Storyline & Design
+- [ ] Komplett story outline
+- [ ] Character designs
+- [ ] Puzzle designs
+
+#### 4D.2 Content Creation
 - [ ] Alla rum (5-10 för demo)
 - [ ] Alla NPCs med dialoger
 - [ ] Alla items
 - [ ] Alla quests
 
-### 4.2 Art Assets
+#### 4D.3 Art Assets
 - [ ] Character sprites
 - [ ] NPC sprites
 - [ ] Background art
 - [ ] UI grafik
 - [ ] Item ikoner
-- [ ] Portraits
 
-### 4.3 Audio Assets
-- [ ] Background music (per rum)
+#### 4D.4 Audio Assets
+- [ ] Background music
 - [ ] Ambient sounds
 - [ ] UI sounds
-- [ ] Dialog sounds (optional TTS)
 
-### 4.4 Polish
-- [ ] Transitions och animations
-- [ ] Particle effects
-- [ ] Screen shake
-- [ ] Achievement system
-- [ ] Statistics tracking
-
-### 4.5 Testing & Release
+#### 4D.5 Polish & Testing
 - [ ] Bug fixes
 - [ ] Balancing
-- [ ] Localization support
-- [ ] Installer
-- [ ] Steam integration (optional)
+- [ ] Playtesting
 
 **Estimerad tid: 5-10 sessioner**
 
@@ -236,13 +391,13 @@
 
 ---
 
-## Nästa session: Fas 4 - Content & Polish
+## Nästa session: Fas 4A - Property Editing
 
 ### Fokus:
-1. Sprite/textur assets
-2. Bakgrundsbilder för rum
-3. Ljudeffekter och musik
-4. Komplett spelinnehåll
+1. Gör PropertiesPanel editerbar (InputText, sliders, buttons)
+2. Room properties: namn, background, spawn, walk area
+3. Hotspot properties: typ, position, länkar
+4. Save-funktionalitet för alla ändringar
 
 ---
 

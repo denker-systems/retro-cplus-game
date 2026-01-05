@@ -21,6 +21,13 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\PropertiesPan
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\AssetBrowserPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\AssetBrowserPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ConsolePanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ConsolePanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\PropertyEditorUtils.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\PropertyEditorUtils.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\RoomPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\RoomPropertyEditor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\HotspotPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\HotspotPropertyEditor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\DialogPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\DialogPropertyEditor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\QuestPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\QuestPropertyEditor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\ItemPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ItemPropertyEditor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\NPCPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\NPCPropertyEditor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\ImGuiManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ImGuiManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_sdl2.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\imgui_impl_sdl2.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_sdlrenderer2.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\imgui_impl_sdlrenderer2.obj

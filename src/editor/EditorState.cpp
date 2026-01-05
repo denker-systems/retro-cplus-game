@@ -60,6 +60,10 @@ void EditorState::enter() {
         loader.loadAll();
     }
     
+    // Ladda data till EditorContext (mutable copies för editing)
+    m_editorContext.loadFromDataLoader();
+    LOG_INFO("EditorContext loaded with " + std::to_string(m_editorContext.dialogs.size()) + " dialogs");
+    
     // Bygg rum-flowchart positioner
     m_roomNodes.clear();
     auto& rooms = loader.getRooms();

@@ -139,6 +139,13 @@ set(EDITOR_SOURCES
     src/editor/panels/ViewportPanel.cpp
     src/editor/panels/AssetBrowserPanel.cpp
     src/editor/panels/ConsolePanel.cpp
+    src/editor/properties/PropertyEditorUtils.cpp
+    src/editor/properties/RoomPropertyEditor.cpp
+    src/editor/properties/HotspotPropertyEditor.cpp
+    src/editor/properties/DialogPropertyEditor.cpp
+    src/editor/properties/QuestPropertyEditor.cpp
+    src/editor/properties/ItemPropertyEditor.cpp
+    src/editor/properties/NPCPropertyEditor.cpp
     src/editor/ImGuiManager.cpp
     ${IMGUI_BACKEND_SOURCES}
 )

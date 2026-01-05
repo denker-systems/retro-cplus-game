@@ -28,11 +28,23 @@ void HierarchyPanel::render() {
         // Rooms
         if (ImGui::CollapsingHeader("Rooms", ImGuiTreeNodeFlags_DefaultOpen)) {
             for (const auto& room : rooms) {
-                bool selected = (m_context.selectedRoomId == room.id);
+                bool selected = (m_context.selectedType == EditorContext::SelectionType::Room && 
+                                m_context.selectedRoomId == room.id);
                 if (ImGui::Selectable(room.name.c_str(), selected)) {
-                    m_context.selectedRoomId = room.id;
-                    m_context.selectedType = EditorContext::SelectionType::Room;
-                    if (m_onRoomSelected) m_onRoomSelected(room.id);
+                    // Deselect om samma item klickas igen
+                    if (selected) {
+                        m_context.selectedType = EditorContext::SelectionType::None;
+                        m_context.selectedRoomId.clear();
+                    } else {
+                        // Rensa alla andra selections
+                        m_context.selectedRoomId = room.id;
+                        m_context.selectedDialogId.clear();
+                        m_context.selectedQuestId.clear();
+                        m_context.selectedItemId.clear();
+                        m_context.selectedHotspotIndex = -1;
+                        m_context.selectedType = EditorContext::SelectionType::Room;
+                        if (m_onRoomSelected) m_onRoomSelected(room.id);
+                    }
                 }
             }
         }
@@ -40,11 +52,23 @@ void HierarchyPanel::render() {
         // Dialogs
         if (ImGui::CollapsingHeader("Dialogs")) {
             for (const auto& dialog : dialogs) {
-                bool selected = (m_context.selectedDialogId == dialog.id);
+                bool selected = (m_context.selectedType == EditorContext::SelectionType::Dialog && 
+                                m_context.selectedDialogId == dialog.id);
                 if (ImGui::Selectable(dialog.id.c_str(), selected)) {
-                    m_context.selectedDialogId = dialog.id;
-                    m_context.selectedType = EditorContext::SelectionType::Dialog;
-                    if (m_onDialogSelected) m_onDialogSelected(dialog.id);
+                    // Deselect om samma item klickas igen
+                    if (selected) {
+                        m_context.selectedType = EditorContext::SelectionType::None;
+                        m_context.selectedDialogId.clear();
+                    } else {
+                        // Rensa alla andra selections
+                        m_context.selectedRoomId.clear();
+                        m_context.selectedDialogId = dialog.id;
+                        m_context.selectedQuestId.clear();
+                        m_context.selectedItemId.clear();
+                        m_context.selectedHotspotIndex = -1;
+                        m_context.selectedType = EditorContext::SelectionType::Dialog;
+                        if (m_onDialogSelected) m_onDialogSelected(dialog.id);
+                    }
                 }
             }
         }
@@ -52,11 +76,23 @@ void HierarchyPanel::render() {
         // Quests
         if (ImGui::CollapsingHeader("Quests")) {
             for (const auto& quest : quests) {
-                bool selected = (m_context.selectedQuestId == quest.id);
+                bool selected = (m_context.selectedType == EditorContext::SelectionType::Quest && 
+                                m_context.selectedQuestId == quest.id);
                 if (ImGui::Selectable(quest.title.c_str(), selected)) {
-                    m_context.selectedQuestId = quest.id;
-                    m_context.selectedType = EditorContext::SelectionType::Quest;
-                    if (m_onQuestSelected) m_onQuestSelected(quest.id);
+                    // Deselect om samma item klickas igen
+                    if (selected) {
+                        m_context.selectedType = EditorContext::SelectionType::None;
+                        m_context.selectedQuestId.clear();
+                    } else {
+                        // Rensa alla andra selections
+                        m_context.selectedRoomId.clear();
+                        m_context.selectedDialogId.clear();
+                        m_context.selectedQuestId = quest.id;
+                        m_context.selectedItemId.clear();
+                        m_context.selectedHotspotIndex = -1;
+                        m_context.selectedType = EditorContext::SelectionType::Quest;
+                        if (m_onQuestSelected) m_onQuestSelected(quest.id);
+                    }
                 }
             }
         }
@@ -64,11 +100,23 @@ void HierarchyPanel::render() {
         // Items
         if (ImGui::CollapsingHeader("Items")) {
             for (const auto& item : items) {
-                bool selected = (m_context.selectedItemId == item.id);
+                bool selected = (m_context.selectedType == EditorContext::SelectionType::Item && 
+                                m_context.selectedItemId == item.id);
                 if (ImGui::Selectable(item.name.c_str(), selected)) {
-                    m_context.selectedItemId = item.id;
-                    m_context.selectedType = EditorContext::SelectionType::Item;
-                    if (m_onItemSelected) m_onItemSelected(item.id);
+                    // Deselect om samma item klickas igen
+                    if (selected) {
+                        m_context.selectedType = EditorContext::SelectionType::None;
+                        m_context.selectedItemId.clear();
+                    } else {
+                        // Rensa alla andra selections
+                        m_context.selectedRoomId.clear();
+                        m_context.selectedDialogId.clear();
+                        m_context.selectedQuestId.clear();
+                        m_context.selectedItemId = item.id;
+                        m_context.selectedHotspotIndex = -1;
+                        m_context.selectedType = EditorContext::SelectionType::Item;
+                        if (m_onItemSelected) m_onItemSelected(item.id);
+                    }
                 }
             }
         }

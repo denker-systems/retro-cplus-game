@@ -4,6 +4,12 @@
  */
 #include "PropertiesPanel.h"
 #include "editor/EditorContext.h"
+#include "editor/properties/RoomPropertyEditor.h"
+#include "editor/properties/HotspotPropertyEditor.h"
+#include "editor/properties/DialogPropertyEditor.h"
+#include "editor/properties/QuestPropertyEditor.h"
+#include "editor/properties/ItemPropertyEditor.h"
+#include "editor/properties/NPCPropertyEditor.h"
 #include "engine/data/DataLoader.h"
 
 #ifdef HAS_IMGUI
@@ -12,39 +18,372 @@
 
 PropertiesPanel::PropertiesPanel(EditorContext& context)
     : m_context(context) {
+    // Skapa alla property editors
+    m_roomEditor = std::make_unique<RoomPropertyEditor>(context);
+    m_hotspotEditor = std::make_unique<HotspotPropertyEditor>(context);
+    m_dialogEditor = std::make_unique<DialogPropertyEditor>(context);
+    m_questEditor = std::make_unique<QuestPropertyEditor>(context);
+    m_itemEditor = std::make_unique<ItemPropertyEditor>(context);
+    m_npcEditor = std::make_unique<NPCPropertyEditor>(context);
 }
+
+PropertiesPanel::~PropertiesPanel() = default;
 
 void PropertiesPanel::render() {
 #ifdef HAS_IMGUI
     if (!m_visible) return;
     
     if (ImGui::Begin(m_title.c_str(), &m_visible)) {
-        switch (m_context.selectedType) {
-            case EditorContext::SelectionType::Room:
-                renderRoomProperties();
-                break;
-            case EditorContext::SelectionType::Dialog:
-                renderDialogProperties();
-                break;
-            case EditorContext::SelectionType::Quest:
-                renderQuestProperties();
-                break;
-            case EditorContext::SelectionType::Item:
-                renderItemProperties();
-                break;
-            case EditorContext::SelectionType::Hotspot:
-                renderHotspotProperties();
-                break;
-            default:
-                ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), 
-                    "Select an item to view properties");
-                break;
+        // Uppdatera vilken editor som är aktiv
+        updateEditorSelection();
+        
+        // Rendera breadcrumb navigation
+        renderBreadcrumb();
+        
+        ImGui::Separator();
+        
+        // Rendera toolbar med Save/Revert buttons
+        renderToolbar();
+        
+        ImGui::Separator();
+        ImGui::Spacing();
+        
+        // Rendera aktuell editor
+        IPropertyEditor* editor = getCurrentEditor();
+        if (editor) {
+            editor->render();
+        } else {
+            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), 
+                "Select an item to view properties");
         }
     }
     ImGui::End();
 #endif
 }
 
+void PropertiesPanel::renderBreadcrumb() {
+#ifdef HAS_IMGUI
+    // Bygg breadcrumb baserat på selection type
+    std::vector<std::pair<std::string, std::function<void()>>> breadcrumbItems;
+    
+    switch (m_context.selectedType) {
+        case EditorContext::SelectionType::Room:
+            if (!m_context.selectedRoomId.empty()) {
+                // Root level
+                breadcrumbItems.push_back({"Rooms", [this]() {
+                    m_context.selectedType = EditorContext::SelectionType::None;
+                    m_context.selectedRoomId.clear();
+                }});
+                
+                // Current room
+                RoomData* room = nullptr;
+                for (auto& r : m_context.rooms) {
+                    if (r.id == m_context.selectedRoomId) {
+                        room = &r;
+                        break;
+                    }
+                }
+                if (room) {
+                    breadcrumbItems.push_back({room->name, nullptr}); // Current item (not clickable)
+                }
+            }
+            break;
+            
+        case EditorContext::SelectionType::Hotspot:
+            if (!m_context.selectedRoomId.empty()) {
+                // Root level
+                breadcrumbItems.push_back({"Rooms", [this]() {
+                    m_context.selectedType = EditorContext::SelectionType::None;
+                    m_context.selectedRoomId.clear();
+                    m_context.selectedHotspotIndex = -1;
+                }});
+                
+                // Parent room
+                RoomData* room = nullptr;
+                for (auto& r : m_context.rooms) {
+                    if (r.id == m_context.selectedRoomId) {
+                        room = &r;
+                        break;
+                    }
+                }
+                if (room) {
+                    breadcrumbItems.push_back({room->name, [this]() {
+                        m_context.selectedType = EditorContext::SelectionType::Room;
+                        m_context.selectedHotspotIndex = -1;
+                    }});
+                    
+                    // Current hotspot
+                    if (m_context.selectedHotspotIndex >= 0 && 
+                        m_context.selectedHotspotIndex < (int)room->hotspots.size()) {
+                        breadcrumbItems.push_back({room->hotspots[m_context.selectedHotspotIndex].name, nullptr});
+                    }
+                }
+            }
+            break;
+            
+        case EditorContext::SelectionType::Dialog:
+            if (!m_context.selectedDialogId.empty()) {
+                breadcrumbItems.push_back({"Dialogs", [this]() {
+                    m_context.selectedType = EditorContext::SelectionType::None;
+                    m_context.selectedDialogId.clear();
+                }});
+                
+                DialogData* dialog = nullptr;
+                for (auto& d : m_context.dialogs) {
+                    if (d.id == m_context.selectedDialogId) {
+                        dialog = &d;
+                        break;
+                    }
+                }
+                if (dialog) {
+                    breadcrumbItems.push_back({dialog->id, nullptr});
+                }
+            }
+            break;
+            
+        case EditorContext::SelectionType::Quest:
+            if (!m_context.selectedQuestId.empty()) {
+                breadcrumbItems.push_back({"Quests", [this]() {
+                    m_context.selectedType = EditorContext::SelectionType::None;
+                    m_context.selectedQuestId.clear();
+                }});
+                
+                QuestData* quest = nullptr;
+                for (auto& q : m_context.quests) {
+                    if (q.id == m_context.selectedQuestId) {
+                        quest = &q;
+                        break;
+                    }
+                }
+                if (quest) {
+                    breadcrumbItems.push_back({quest->title, nullptr});
+                }
+            }
+            break;
+            
+        case EditorContext::SelectionType::Item:
+            if (!m_context.selectedItemId.empty()) {
+                breadcrumbItems.push_back({"Items", [this]() {
+                    m_context.selectedType = EditorContext::SelectionType::None;
+                    m_context.selectedItemId.clear();
+                }});
+                
+                ItemData* item = nullptr;
+                for (auto& i : m_context.items) {
+                    if (i.id == m_context.selectedItemId) {
+                        item = &i;
+                        break;
+                    }
+                }
+                if (item) {
+                    breadcrumbItems.push_back({item->name, nullptr});
+                }
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+    // Rendera breadcrumb
+    if (!breadcrumbItems.empty()) {
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
+        
+        for (size_t i = 0; i < breadcrumbItems.size(); i++) {
+            const auto& item = breadcrumbItems[i];
+            
+            // Klickbar länk (om inte sista item)
+            if (item.second) {
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.4f, 0.7f, 1.0f, 1.0f));
+                if (ImGui::SmallButton(item.first.c_str())) {
+                    item.second(); // Anropa navigation callback
+                }
+                ImGui::PopStyleColor();
+            } else {
+                // Sista item (current) - inte klickbar
+                ImGui::Text("%s", item.first.c_str());
+            }
+            
+            // Separator (om inte sista)
+            if (i < breadcrumbItems.size() - 1) {
+                ImGui::SameLine();
+                ImGui::Text(">");
+                ImGui::SameLine();
+            }
+        }
+        
+        ImGui::PopStyleColor();
+    }
+#endif
+}
+
+void PropertiesPanel::renderToolbar() {
+#ifdef HAS_IMGUI
+    IPropertyEditor* editor = getCurrentEditor();
+    if (!editor) return;
+    
+    // Save button
+    bool canSave = editor->isDirty();
+    if (!canSave) {
+        ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 0.5f);
+    }
+    
+    if (ImGui::Button("Save", ImVec2(100, 0)) && canSave) {
+        std::string error;
+        if (editor->validate(error)) {
+            editor->apply();
+            m_context.saveToFiles();
+        } else {
+            m_context.statusMessage = "Validation error: " + error;
+            m_context.statusTimer = 5.0f;
+        }
+    }
+    
+    if (!canSave) {
+        ImGui::PopStyleVar();
+    }
+    
+    if (ImGui::IsItemHovered()) {
+        if (canSave) {
+            ImGui::SetTooltip("Save changes (Ctrl+S)");
+        } else {
+            ImGui::SetTooltip("No changes to save");
+        }
+    }
+    
+    // Revert button
+    ImGui::SameLine();
+    if (!canSave) {
+        ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 0.5f);
+    }
+    
+    if (ImGui::Button("Revert", ImVec2(100, 0)) && canSave) {
+        editor->revert();
+        m_context.statusMessage = "Changes reverted";
+        m_context.statusTimer = 2.0f;
+    }
+    
+    if (!canSave) {
+        ImGui::PopStyleVar();
+    }
+    
+    if (ImGui::IsItemHovered() && canSave) {
+        ImGui::SetTooltip("Discard all changes");
+    }
+    
+    // Dirty indicator
+    if (canSave) {
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(1.0f, 0.7f, 0.3f, 1.0f), "*");
+        if (ImGui::IsItemHovered()) {
+            ImGui::SetTooltip("Unsaved changes");
+        }
+    }
+#endif
+}
+
+IPropertyEditor* PropertiesPanel::getCurrentEditor() {
+    switch (m_context.selectedType) {
+        case EditorContext::SelectionType::Room:
+            return m_roomEditor.get();
+        case EditorContext::SelectionType::Hotspot:
+            return m_hotspotEditor.get();
+        case EditorContext::SelectionType::Dialog:
+            return m_dialogEditor.get();
+        case EditorContext::SelectionType::Quest:
+            return m_questEditor.get();
+        case EditorContext::SelectionType::Item:
+            return m_itemEditor.get();
+        case EditorContext::SelectionType::NPC:
+            return m_npcEditor.get();
+        default:
+            return nullptr;
+    }
+}
+
+void PropertiesPanel::updateEditorSelection() {
+    // Uppdatera room editor
+    if (m_context.selectedType == EditorContext::SelectionType::Room && !m_context.selectedRoomId.empty()) {
+        RoomData* room = nullptr;
+        for (auto& r : m_context.rooms) {
+            if (r.id == m_context.selectedRoomId) {
+                room = &r;
+                break;
+            }
+        }
+        if (room && m_roomEditor->getRoom() != room) {
+            m_roomEditor->setRoom(room);
+        }
+    }
+    
+    // Uppdatera hotspot editor
+    if (m_context.selectedType == EditorContext::SelectionType::Hotspot && 
+        !m_context.selectedRoomId.empty() && m_context.selectedHotspotIndex >= 0) {
+        RoomData* room = nullptr;
+        for (auto& r : m_context.rooms) {
+            if (r.id == m_context.selectedRoomId) {
+                room = &r;
+                break;
+            }
+        }
+        if (room && m_context.selectedHotspotIndex < (int)room->hotspots.size()) {
+            HotspotData* hotspot = &room->hotspots[m_context.selectedHotspotIndex];
+            if (m_hotspotEditor->getHotspot() != hotspot) {
+                m_hotspotEditor->setHotspot(hotspot, room);
+            }
+        }
+    }
+    
+    // Uppdatera dialog editor
+    if (m_context.selectedType == EditorContext::SelectionType::Dialog && !m_context.selectedDialogId.empty()) {
+        DialogData* dialog = nullptr;
+        for (auto& d : m_context.dialogs) {
+            if (d.id == m_context.selectedDialogId) {
+                dialog = &d;
+                break;
+            }
+        }
+        if (dialog && m_dialogEditor->getDialog() != dialog) {
+            m_dialogEditor->setDialog(dialog);
+        }
+    }
+    
+    // Uppdatera quest editor
+    if (m_context.selectedType == EditorContext::SelectionType::Quest && !m_context.selectedQuestId.empty()) {
+        QuestData* quest = nullptr;
+        for (auto& q : m_context.quests) {
+            if (q.id == m_context.selectedQuestId) {
+                quest = &q;
+                break;
+            }
+        }
+        if (quest && m_questEditor->getQuest() != quest) {
+            m_questEditor->setQuest(quest);
+        }
+    }
+    
+    // Uppdatera item editor
+    if (m_context.selectedType == EditorContext::SelectionType::Item && !m_context.selectedItemId.empty()) {
+        ItemData* item = nullptr;
+        for (auto& i : m_context.items) {
+            if (i.id == m_context.selectedItemId) {
+                item = &i;
+                break;
+            }
+        }
+        if (item && m_itemEditor->getItem() != item) {
+            m_itemEditor->setItem(item);
+        }
+    }
+    
+    // Uppdatera NPC editor
+    if (m_context.selectedType == EditorContext::SelectionType::NPC) {
+        // TODO: Implementera när NPC selection finns i EditorContext
+    }
+}
+
+// Gamla metoder borttagna - ersatta av PropertyEditor-systemet
+/*
 void PropertiesPanel::renderRoomProperties() {
 #ifdef HAS_IMGUI
     if (m_context.selectedRoomId.empty()) return;
@@ -230,3 +569,4 @@ void PropertiesPanel::renderHotspotProperties() {
     }
 #endif
 }
+*/
