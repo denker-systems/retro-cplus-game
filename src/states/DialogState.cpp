@@ -4,6 +4,7 @@
  */
 #include "DialogState.h"
 #include "../systems/DialogSystem.h"
+#include "../systems/ConditionSystem.h"
 #include "../graphics/FontManager.h"
 #include "../audio/AudioManager.h"
 #include "../Game.h"
@@ -173,9 +174,26 @@ void DialogState::handleEvent(const SDL_Event& event) {
                 
             case SDL_SCANCODE_SPACE:
             case SDL_SCANCODE_RETURN:
-                AudioManager::instance().playSound("select");
-                DialogSystem::instance().selectChoice(m_selectedChoice);
-                m_selectedChoice = 0;
+                {
+                    AudioManager::instance().playSound("select");
+                    
+                    // Kör actions för valt val
+                    if (m_selectedChoice < static_cast<int>(choices.size())) {
+                        const auto& selectedChoice = choices[m_selectedChoice];
+                        if (!selectedChoice.actions.empty()) {
+                            ActionExecutor::instance().executeAll(selectedChoice.actions);
+                        }
+                    }
+                    
+                    DialogSystem::instance().selectChoice(m_selectedChoice);
+                    m_selectedChoice = 0;
+                    
+                    // Återställ text reveal för nästa nod
+                    m_textRevealTimer = 0.0f;
+                    m_revealedChars = 0;
+                    m_textFullyRevealed = false;
+                    m_skipRequested = false;
+                }
                 break;
                 
             default:

@@ -41,6 +41,7 @@ set(SOURCES
     src/systems/WorldState.cpp
     src/systems/ConditionSystem.cpp
     src/systems/EventBus.cpp
+    src/systems/WorldQuery.cpp
     src/data/DataLoader.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp

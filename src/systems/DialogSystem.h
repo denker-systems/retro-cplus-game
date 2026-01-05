@@ -8,6 +8,7 @@
 #include <vector>
 #include <unordered_map>
 #include <functional>
+#include "ConditionSystem.h"
 
 /**
  * @brief Ett val i en dialog
@@ -15,9 +16,13 @@
 struct DialogChoice {
     std::string text;           // Valtexten som visas
     int nextNodeId = -1;        // Nästa nod att gå till (-1 = avsluta)
-    std::string condition;      // Villkor för att visa valet (optional)
+    std::string condition;      // LEGACY: Villkor som sträng (deprecated)
     std::string tone;           // Ton: "friendly", "aggressive", "sarcastic", "neutral"
     std::string preview;        // Kort preview av intention (valfritt)
+    
+    // Data-driven conditions/actions (nya)
+    std::vector<struct Condition> conditions;  // Strukturerade villkor
+    std::vector<struct Action> actions;        // Actions att köra vid val
 };
 
 /**
