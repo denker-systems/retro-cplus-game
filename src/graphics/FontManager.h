@@ -22,7 +22,10 @@ public:
     /** @brief Stäng ner TTF */
     void shutdown();
     
-    /** @brief Ladda font med given storlek */
+    /** @brief Sätt skala för DPI-korrekt font-laddning */
+    void setScale(float scale) { m_scale = scale; }
+    
+    /** @brief Ladda font med given storlek (skalas automatiskt för DPI) */
     bool loadFont(const std::string& name, const std::string& path, int size);
     
     /** @brief Rendera text till renderer */
@@ -44,5 +47,7 @@ private:
     FontManager& operator=(const FontManager&) = delete;
     
     std::unordered_map<std::string, TTF_Font*> m_fonts;
+    std::unordered_map<std::string, int> m_fontBaseSizes;  // Bas-storlek för skalning
     bool m_initialized = false;
+    float m_scale = 1.0f;
 };

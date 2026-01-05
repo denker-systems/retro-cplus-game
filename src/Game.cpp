@@ -66,18 +66,29 @@ bool Game::init(const std::string& title, int width, int height) {
         return false;
     }
     
-    // Sätt logisk upplösning för skalning
+    // Beräkna viewport och skala
+    calculateViewport();
+    
+    // Använd logisk upplösning för enkel koordinat-hantering
+    // SDL sköter skalning och letterboxing automatiskt
     SDL_RenderSetLogicalSize(m_renderer, GAME_WIDTH, GAME_HEIGHT);
     
-    // Beräkna viewport för letterboxing
-    calculateViewport();
+    // Aktivera linjär skalning för mjukare grafik
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
     // Initiera managers
     TextureManager::instance().init(m_renderer);
     AudioManager::instance().init();
     FontManager::instance().init();
+    
+    // Sätt skala för DPI-korrekt font-rendering
+    FontManager::instance().setScale(m_scale);
+    
+    // Ladda fonter - FontManager skalar upp internt för skarp text
     FontManager::instance().loadFont("default", "assets/fonts/arial.ttf", 18);
     FontManager::instance().loadFont("title", "assets/fonts/arial.ttf", 32);
+    
+    std::cout << "Scale: " << m_scale << " (fonts scaled for sharp rendering)" << std::endl;
 
     // Skapa StateManager och starta med MenuState
     m_stateManager = std::make_unique<StateManager>();

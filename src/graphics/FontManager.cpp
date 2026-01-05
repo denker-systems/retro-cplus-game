@@ -42,7 +42,12 @@ void FontManager::shutdown() {
 }
 
 bool FontManager::loadFont(const std::string& name, const std::string& path, int size) {
-    TTF_Font* font = TTF_OpenFont(path.c_str(), size);
+    // Ladda font med skalad storlek för hög DPI
+    // Detta ger skarpare text än att låta SDL skala upp en liten font
+    int scaledSize = static_cast<int>(size * m_scale);
+    if (scaledSize < size) scaledSize = size;  // Minimum original size
+    
+    TTF_Font* font = TTF_OpenFont(path.c_str(), scaledSize);
     if (!font) {
         std::cerr << "Failed to load font " << path << ": " << TTF_GetError() << std::endl;
         return false;
@@ -54,7 +59,8 @@ bool FontManager::loadFont(const std::string& name, const std::string& path, int
     }
     
     m_fonts[name] = font;
-    std::cout << "Loaded font: " << name << " (" << path << ", " << size << "pt)" << std::endl;
+    m_fontBaseSizes[name] = size;  // Spara bas-storlek för skalning vid rendering
+    std::cout << "Loaded font: " << name << " (" << path << ", " << size << "pt scaled to " << scaledSize << "pt)" << std::endl;
     return true;
 }
 
@@ -74,7 +80,11 @@ void FontManager::renderText(SDL_Renderer* renderer, const std::string& fontName
         return;
     }
     
-    SDL_Rect destRect = { x, y, surface->w, surface->h };
+    // Skala ner till logiska koordinater (font är skalad upp, men vi renderar i 640x400)
+    int destW = static_cast<int>(surface->w / m_scale);
+    int destH = static_cast<int>(surface->h / m_scale);
+    
+    SDL_Rect destRect = { x, y, destW, destH };
     SDL_RenderCopy(renderer, texture, nullptr, &destRect);
     
     SDL_DestroyTexture(texture);
@@ -98,4 +108,8 @@ void FontManager::getTextSize(const std::string& fontName, const std::string& te
     }
     
     TTF_SizeText(it->second, text.c_str(), width, height);
+    
+    // Returnera skalade värden (för logiska koordinater)
+    *width = static_cast<int>(*width / m_scale);
+    *height = static_cast<int>(*height / m_scale);
 }

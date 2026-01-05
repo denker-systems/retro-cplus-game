@@ -42,10 +42,17 @@ public:
     
     SDL_Renderer* getRenderer() const { return m_renderer; }
     
+    /** @brief Hämta renderingsskala */
+    float getScale() const { return m_scale; }
+    
+    /** @brief Hämta viewport offset */
+    int getViewportX() const { return m_viewport.x; }
+    int getViewportY() const { return m_viewport.y; }
+    
     /** @brief Konvertera skärmkoordinater till spelkoordinater */
     void screenToGame(int screenX, int screenY, int& gameX, int& gameY) const;
 
-    // Logisk spelupplösning (16:10 retro-stil)
+    // Bas-spelupplösning (design-koordinater)
     static constexpr int GAME_WIDTH = 640;
     static constexpr int GAME_HEIGHT = 400;
 

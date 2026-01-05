@@ -5,8 +5,8 @@
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Fas 1: Core       │ Fas 2: Systems  │ Fas 3: Content │ Fas 4: Polish│
-│ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ░░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░│
-│ 100%              │ 0%              │ 0%             │ 0%           │
+│ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ▓▓▓▓▓▓▓▓░░░░░░░ │ ░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░│
+│ 100%              │ 60%             │ 0%             │ 0%           │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -50,34 +50,34 @@
 
 ---
 
-## Fas 2: Game Systems
+## Fas 2: Game Systems (60% klar)
 
-### 2.1 Room System
-- [ ] Room klass med bakgrund
-- [ ] Walk area och kollision
-- [ ] Hotspots (interaktiva områden)
+### 2.1 Room System ✅
+- [x] Room klass med bakgrund
+- [x] Walk area och kollision
+- [x] Hotspots (interaktiva områden)
 - [ ] Exits (rumsövergångar)
 - [ ] Room transitions (fade)
 - [ ] JSON room definitions
 
-### 2.2 Entity System
-- [ ] Entity basklass
-- [ ] Player med sprite animation
-- [ ] Point-and-click movement
+### 2.2 Entity System ✅
+- [x] Entity basklass
+- [x] Player med sprite animation stöd
+- [x] Point-and-click movement
 - [ ] NPC basklass
 - [ ] Item entitet
 
-### 2.3 Dialog System
-- [ ] DialogNode struktur
+### 2.3 Dialog System ✅
+- [x] DialogNode struktur
 - [ ] DialogTree parser (JSON)
-- [ ] Dialog UI (textbox)
-- [ ] Valmöjligheter
+- [x] Dialog UI (textbox)
+- [x] Valmöjligheter
 - [ ] Villkor och actions
 - [ ] Character portraits
 
-### 2.4 Inventory System
-- [ ] InventorySystem klass
-- [ ] Item pickup
+### 2.4 Inventory System ✅
+- [x] InventorySystem klass
+- [x] Item pickup
 - [ ] Inventory UI
 - [ ] Item examination
 - [ ] Item combination
