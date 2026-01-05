@@ -7,6 +7,7 @@
 #include "states/IState.h"
 #include "states/MenuState.h"
 #include "graphics/TextureManager.h"
+#include "audio/AudioManager.h"
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <iostream>
@@ -60,8 +61,9 @@ bool Game::init(const std::string& title, int width, int height) {
         return false;
     }
 
-    // Initiera TextureManager
+    // Initiera managers
     TextureManager::instance().init(m_renderer);
+    AudioManager::instance().init();
 
     // Skapa StateManager och starta med MenuState
     m_stateManager = std::make_unique<StateManager>();
@@ -123,6 +125,7 @@ void Game::changeState(std::unique_ptr<IState> state) {
 
 void Game::quit() {
     m_stateManager.reset();
+    AudioManager::instance().shutdown();
     TextureManager::instance().shutdown();
 
     if (m_renderer) {

@@ -23,6 +23,7 @@ set(SOURCES
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp
     src/graphics/Animation.cpp
+    src/audio/AudioManager.cpp
 )
 
 # Skapa executable

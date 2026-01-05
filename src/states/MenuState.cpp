@@ -6,6 +6,7 @@
 #include "StateManager.h"
 #include "PlayState.h"
 #include "../Game.h"
+#include "../audio/AudioManager.h"
 #include <iostream>
 
 MenuState::MenuState() {
@@ -53,15 +54,18 @@ void MenuState::handleEvent(const SDL_Event& event) {
             case SDL_SCANCODE_UP:
             case SDL_SCANCODE_W:
                 m_selectedOption = (m_selectedOption - 1 + NUM_OPTIONS) % NUM_OPTIONS;
+                AudioManager::instance().playSound("navigate");
                 break;
                 
             case SDL_SCANCODE_DOWN:
             case SDL_SCANCODE_S:
                 m_selectedOption = (m_selectedOption + 1) % NUM_OPTIONS;
+                AudioManager::instance().playSound("navigate");
                 break;
                 
             case SDL_SCANCODE_RETURN:
             case SDL_SCANCODE_SPACE:
+                AudioManager::instance().playSound("select");
                 if (m_selectedOption == 0) {
                     // Start Game
                     if (m_game) {
