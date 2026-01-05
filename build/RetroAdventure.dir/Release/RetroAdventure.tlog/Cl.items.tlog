@@ -10,6 +10,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\PlayState.cpp;C:\Use
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\OptionsState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\OptionsState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\PauseState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\PauseState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\DialogState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\DialogState.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\states\InventoryState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\InventoryState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\DialogSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\DialogSystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\InventorySystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\InventorySystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\RoomManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\RoomManager.obj

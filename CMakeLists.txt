@@ -24,6 +24,7 @@ set(SOURCES
     src/states/OptionsState.cpp
     src/states/PauseState.cpp
     src/states/DialogState.cpp
+    src/states/InventoryState.cpp
     src/systems/DialogSystem.cpp
     src/systems/InventorySystem.cpp
     src/systems/RoomManager.cpp
