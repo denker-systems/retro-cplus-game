@@ -10,6 +10,7 @@
 #include "graphics/TextureManager.h"
 #include "graphics/FontManager.h"
 #include "audio/AudioManager.h"
+#include "utils/Logger.h"
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <iostream>
@@ -21,23 +22,29 @@ Game::~Game() {
 }
 
 bool Game::init(const std::string& title, int width, int height) {
+    // Initiera Logger först
+    Logger::instance().init("game.log");
+    LOG_INFO("=== Game Starting ===");
+    
     // Initiera SDL (med gamecontroller-stöd)
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER) < 0) {
-        std::cerr << "SDL init failed: " << SDL_GetError() << std::endl;
+        LOG_ERROR(std::string("SDL init failed: ") + SDL_GetError());
         return false;
     }
 
     // Initiera SDL_image
     if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
-        std::cerr << "SDL_image init failed: " << IMG_GetError() << std::endl;
+        LOG_ERROR(std::string("SDL_image init failed: ") + IMG_GetError());
         return false;
     }
+    LOG_INFO("SDL_image initialized");
 
     // Initiera SDL_mixer
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-        std::cerr << "SDL_mixer init failed: " << Mix_GetError() << std::endl;
+        LOG_ERROR(std::string("SDL_mixer init failed: ") + Mix_GetError());
         return false;
     }
+    LOG_INFO("SDL_mixer initialized");
     
     // Detektera optimal upplösning
     VideoSettings::instance().detectOptimalSettings();
@@ -53,18 +60,20 @@ bool Game::init(const std::string& title, int width, int height) {
     );
 
     if (!m_window) {
-        std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;
+        LOG_ERROR(std::string("Window creation failed: ") + SDL_GetError());
         return false;
     }
+    LOG_INFO("Window created");
 
     // Skapa renderer
     m_renderer = SDL_CreateRenderer(m_window, -1, 
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     if (!m_renderer) {
-        std::cerr << "Renderer creation failed: " << SDL_GetError() << std::endl;
+        LOG_ERROR(std::string("Renderer creation failed: ") + SDL_GetError());
         return false;
     }
+    LOG_INFO("Renderer created");
     
     // Beräkna viewport och skala
     calculateViewport();
@@ -88,7 +97,7 @@ bool Game::init(const std::string& title, int width, int height) {
     FontManager::instance().loadFont("default", "assets/fonts/arial.ttf", 18);
     FontManager::instance().loadFont("title", "assets/fonts/arial.ttf", 32);
     
-    std::cout << "Scale: " << m_scale << " (fonts scaled for sharp rendering)" << std::endl;
+    LOG_INFO("Scale: " + std::to_string(m_scale) + " (fonts scaled for sharp rendering)");
 
     // Skapa StateManager och starta med MenuState
     m_stateManager = std::make_unique<StateManager>();
@@ -99,7 +108,7 @@ bool Game::init(const std::string& title, int width, int height) {
     m_running = true;
     m_lastFrameTime = SDL_GetTicks();
 
-    std::cout << "Game initialized successfully!" << std::endl;
+    LOG_INFO("Game initialized successfully!");
     return true;
 }
 
@@ -171,8 +180,8 @@ void Game::calculateViewport() {
     }
     
     m_scale = static_cast<float>(m_viewport.w) / GAME_WIDTH;
-    std::cout << "Viewport: " << m_viewport.w << "x" << m_viewport.h 
-              << " at (" << m_viewport.x << "," << m_viewport.y << ")" << std::endl;
+    LOG_INFO("Viewport: " + std::to_string(m_viewport.w) + "x" + std::to_string(m_viewport.h) 
+             + " at (" + std::to_string(m_viewport.x) + "," + std::to_string(m_viewport.y) + ")");
 }
 
 void Game::screenToGame(int screenX, int screenY, int& gameX, int& gameY) const {
@@ -181,6 +190,7 @@ void Game::screenToGame(int screenX, int screenY, int& gameX, int& gameY) const 
 }
 
 void Game::quit() {
+    LOG_INFO("=== Game Shutting Down ===");
     m_stateManager.reset();
     AudioManager::instance().shutdown();
     FontManager::instance().shutdown();
@@ -199,4 +209,6 @@ void Game::quit() {
     Mix_Quit();
     IMG_Quit();
     SDL_Quit();
+    
+    Logger::instance().shutdown();
 }

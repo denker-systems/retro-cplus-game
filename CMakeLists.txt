@@ -46,6 +46,7 @@ set(SOURCES
     src/entities/PlayerCharacter.cpp
     src/entities/NPC.cpp
     src/ui/Widget.cpp
+    src/utils/Logger.cpp
 )
 
 # Skapa executable
