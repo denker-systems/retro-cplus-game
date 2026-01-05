@@ -1,0 +1,117 @@
+/**
+ * @file PauseState.cpp
+ * @brief Implementation av pausmeny
+ */
+#include "PauseState.h"
+#include "MenuState.h"
+#include "OptionsState.h"
+#include "../Game.h"
+#include "../audio/AudioManager.h"
+#include <iostream>
+
+PauseState::PauseState() {
+    std::cout << "PauseState created" << std::endl;
+}
+
+void PauseState::enter() {
+    std::cout << "PauseState::enter()" << std::endl;
+    m_selectedOption = 0;
+}
+
+void PauseState::exit() {
+    std::cout << "PauseState::exit()" << std::endl;
+}
+
+void PauseState::update(float deltaTime) {
+    (void)deltaTime;
+}
+
+void PauseState::render(SDL_Renderer* renderer) {
+    // Semi-transparent overlay
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 180);
+    SDL_Rect overlay = { 0, 0, 640, 400 };
+    SDL_RenderFillRect(renderer, &overlay);
+    
+    // Pausruta
+    SDL_Rect pauseBox = { 170, 100, 300, 200 };
+    SDL_SetRenderDrawColor(renderer, 40, 40, 60, 255);
+    SDL_RenderFillRect(renderer, &pauseBox);
+    
+    // Ram
+    SDL_SetRenderDrawColor(renderer, 100, 100, 140, 255);
+    SDL_RenderDrawRect(renderer, &pauseBox);
+    
+    // Titel "PAUSED"
+    SDL_Rect titleRect = { 270, 115, 100, 30 };
+    SDL_SetRenderDrawColor(renderer, 200, 180, 100, 255);
+    SDL_RenderFillRect(renderer, &titleRect);
+    
+    // Menyalternativ
+    for (int i = 0; i < NUM_OPTIONS; i++) {
+        renderOption(renderer, i, 165 + i * 40, i == m_selectedOption);
+    }
+}
+
+void PauseState::renderOption(SDL_Renderer* renderer, int index, int y, bool selected) {
+    (void)index;
+    
+    SDL_Rect rect = { 220, y, 200, 30 };
+    
+    if (selected) {
+        SDL_SetRenderDrawColor(renderer, 255, 200, 50, 255);
+        SDL_RenderFillRect(renderer, &rect);
+    } else {
+        SDL_SetRenderDrawColor(renderer, 80, 80, 100, 255);
+        SDL_RenderFillRect(renderer, &rect);
+    }
+}
+
+void PauseState::handleEvent(const SDL_Event& event) {
+    if (event.type == SDL_KEYDOWN) {
+        switch (event.key.keysym.scancode) {
+            case SDL_SCANCODE_UP:
+            case SDL_SCANCODE_W:
+                m_selectedOption = (m_selectedOption - 1 + NUM_OPTIONS) % NUM_OPTIONS;
+                AudioManager::instance().playSound("navigate");
+                break;
+                
+            case SDL_SCANCODE_DOWN:
+            case SDL_SCANCODE_S:
+                m_selectedOption = (m_selectedOption + 1) % NUM_OPTIONS;
+                AudioManager::instance().playSound("navigate");
+                break;
+                
+            case SDL_SCANCODE_RETURN:
+            case SDL_SCANCODE_SPACE:
+                AudioManager::instance().playSound("select");
+                if (m_selectedOption == 0) {
+                    // Resume - pop this state
+                    if (m_game) {
+                        m_game->popState();
+                    }
+                } else if (m_selectedOption == 1) {
+                    // Options
+                    if (m_game) {
+                        m_game->pushState(std::make_unique<OptionsState>());
+                    }
+                } else if (m_selectedOption == 2) {
+                    // Quit to Menu
+                    if (m_game) {
+                        m_game->changeState(std::make_unique<MenuState>());
+                    }
+                }
+                break;
+                
+            case SDL_SCANCODE_ESCAPE:
+                // Resume
+                if (m_game) {
+                    m_game->popState();
+                }
+                break;
+                
+            default:
+                break;
+        }
+    }
+}

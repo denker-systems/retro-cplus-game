@@ -4,6 +4,7 @@
  */
 #include "PlayState.h"
 #include "MenuState.h"
+#include "PauseState.h"
 #include "../Game.h"
 #include "../entities/PlayerCharacter.h"
 #include "../Room.h"
@@ -76,9 +77,9 @@ void PlayState::handleEvent(const SDL_Event& event) {
     
     if (event.type == SDL_KEYDOWN) {
         if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
-            // Tillbaka till meny
+            // Öppna pausmeny (overlay)
             if (m_game) {
-                m_game->changeState(std::make_unique<MenuState>());
+                m_game->pushState(std::make_unique<PauseState>());
             }
         }
     }

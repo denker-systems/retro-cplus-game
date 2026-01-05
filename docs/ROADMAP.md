@@ -5,40 +5,46 @@
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Fas 1: Core       │ Fas 2: Systems  │ Fas 3: Content │ Fas 4: Polish│
-│ ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ │ ░░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░│
-│ 75%               │ 0%              │ 0%             │ 0%           │
+│ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ░░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░░░ │ ░░░░░░░░░░░░│
+│ 100%              │ 0%              │ 0%             │ 0%           │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Fas 1: Core Foundation ⏳ (Pågående)
+## Fas 1: Core Foundation ✅ (Klar)
 
 ### 1.1 Grundläggande arkitektur ✅
 - [x] SDL2 projekt setup
 - [x] CMake + vcpkg
 - [x] Game loop
 - [x] Basic rendering
-- [x] Input handling
+- [x] Input handling (keyboard, mouse, gamepad)
 
 ### 1.2 State Management ✅
 - [x] IState interface
 - [x] StateManager klass
 - [x] MenuState
 - [x] PlayState
-- [ ] PauseState
+- [x] PauseState
+- [x] OptionsState
 
 ### 1.3 Resource Management ✅
-- [x] TextureManager (singleton/service)
+- [x] TextureManager (singleton)
 - [x] SpriteSheet loading (PNG)
 - [x] Animation system
-- [ ] Font rendering (SDL_ttf eller bitmap)
+- [ ] Font rendering (framtida - SDL_ttf)
 
 ### 1.4 Audio Foundation ✅
 - [x] AudioManager klass
 - [x] Music playback
 - [x] Sound effects
 - [x] Volume kontroll
+
+### 1.5 Entity System ✅
+- [x] Entity base class
+- [x] Character base class
+- [x] PlayerCharacter
 
 **Estimerad tid: 2-3 sessioner**
 
