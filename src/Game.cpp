@@ -3,6 +3,7 @@
  * @brief Implementation av huvudspelloop och SDL-initiering
  */
 #include "Game.h"
+#include "VideoSettings.h"
 #include "states/StateManager.h"
 #include "states/IState.h"
 #include "states/MenuState.h"
@@ -37,13 +38,17 @@ bool Game::init(const std::string& title, int width, int height) {
         std::cerr << "SDL_mixer init failed: " << Mix_GetError() << std::endl;
         return false;
     }
+    
+    // Detektera optimal upplösning
+    VideoSettings::instance().detectOptimalSettings();
 
-    // Skapa fullscreen fönster
+    // Skapa fönster (börjar fullscreen)
     m_window = SDL_CreateWindow(
         title.c_str(),
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        0, 0,  // Storlek ignoreras för fullscreen desktop
+        VideoSettings::instance().getWidth(),
+        VideoSettings::instance().getHeight(),
         SDL_WINDOW_FULLSCREEN_DESKTOP
     );
 

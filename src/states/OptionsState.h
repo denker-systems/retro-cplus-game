@@ -35,5 +35,5 @@ private:
     float m_musicVolume = 0.7f;
     float m_sfxVolume = 1.0f;
     
-    static constexpr int NUM_OPTIONS = 4;  // Input, Music, SFX, Back
+    static constexpr int NUM_OPTIONS = 5;  // Resolution, Input, Music, SFX, Back
 };

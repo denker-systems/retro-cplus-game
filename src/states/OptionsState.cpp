@@ -5,6 +5,7 @@
 #include "OptionsState.h"
 #include "MenuState.h"
 #include "../Game.h"
+#include "../VideoSettings.h"
 #include "../audio/AudioManager.h"
 #include "../graphics/FontManager.h"
 #include <iostream>
@@ -41,23 +42,27 @@ void OptionsState::render(SDL_Renderer* renderer) {
     
     // Titel
     FontManager::instance().renderTextCentered(renderer, "title", 
-        "OPTIONS", 320, 60, {180, 160, 100, 255});
+        "OPTIONS", 320, 50, {180, 160, 100, 255});
+    
+    // Resolution
+    std::string resStr = VideoSettings::getResolutionName(VideoSettings::instance().getResolution());
+    renderOption(renderer, "Resolution:", resStr, 110, m_selectedOption == 0);
     
     // Input Mode
     std::string inputStr = (m_inputMode == InputMode::KeyboardMouse) 
                            ? "Keyboard + Mouse" : "Gamepad";
-    renderOption(renderer, "Input:", inputStr, 140, m_selectedOption == 0);
+    renderOption(renderer, "Input:", inputStr, 160, m_selectedOption == 1);
     
     // Music Volume
     int musicPct = static_cast<int>(m_musicVolume * 100);
-    renderOption(renderer, "Music:", std::to_string(musicPct) + "%", 200, m_selectedOption == 1);
+    renderOption(renderer, "Music:", std::to_string(musicPct) + "%", 210, m_selectedOption == 2);
     
     // SFX Volume
     int sfxPct = static_cast<int>(m_sfxVolume * 100);
-    renderOption(renderer, "SFX:", std::to_string(sfxPct) + "%", 260, m_selectedOption == 2);
+    renderOption(renderer, "SFX:", std::to_string(sfxPct) + "%", 260, m_selectedOption == 3);
     
     // Back
-    renderOption(renderer, "Back", "", 340, m_selectedOption == 3);
+    renderOption(renderer, "Back", "", 320, m_selectedOption == 4);
     
     // Instruktioner
     FontManager::instance().renderTextCentered(renderer, "default",
@@ -127,13 +132,17 @@ void OptionsState::handleEvent(const SDL_Event& event) {
             case SDL_SCANCODE_A:
                 // Minska värde
                 if (m_selectedOption == 0) {
+                    // Föregående upplösning
+                    VideoSettings::instance().setResolution(
+                        VideoSettings::instance().prevResolution());
+                } else if (m_selectedOption == 1) {
                     // Toggle input mode
                     m_inputMode = (m_inputMode == InputMode::KeyboardMouse) 
                                   ? InputMode::Gamepad : InputMode::KeyboardMouse;
-                } else if (m_selectedOption == 1) {
+                } else if (m_selectedOption == 2) {
                     m_musicVolume = std::max(0.0f, m_musicVolume - 0.1f);
                     AudioManager::instance().setMusicVolume(m_musicVolume);
-                } else if (m_selectedOption == 2) {
+                } else if (m_selectedOption == 3) {
                     m_sfxVolume = std::max(0.0f, m_sfxVolume - 0.1f);
                     AudioManager::instance().setSFXVolume(m_sfxVolume);
                 }
@@ -143,12 +152,16 @@ void OptionsState::handleEvent(const SDL_Event& event) {
             case SDL_SCANCODE_D:
                 // Öka värde
                 if (m_selectedOption == 0) {
+                    // Nästa upplösning
+                    VideoSettings::instance().setResolution(
+                        VideoSettings::instance().nextResolution());
+                } else if (m_selectedOption == 1) {
                     m_inputMode = (m_inputMode == InputMode::KeyboardMouse) 
                                   ? InputMode::Gamepad : InputMode::KeyboardMouse;
-                } else if (m_selectedOption == 1) {
+                } else if (m_selectedOption == 2) {
                     m_musicVolume = std::min(1.0f, m_musicVolume + 0.1f);
                     AudioManager::instance().setMusicVolume(m_musicVolume);
-                } else if (m_selectedOption == 2) {
+                } else if (m_selectedOption == 3) {
                     m_sfxVolume = std::min(1.0f, m_sfxVolume + 0.1f);
                     AudioManager::instance().setSFXVolume(m_sfxVolume);
                 }
@@ -156,7 +169,7 @@ void OptionsState::handleEvent(const SDL_Event& event) {
                 
             case SDL_SCANCODE_RETURN:
             case SDL_SCANCODE_SPACE:
-                if (m_selectedOption == 3) {
+                if (m_selectedOption == 4) {
                     // Back to menu
                     AudioManager::instance().playSound("select");
                     if (m_game) {

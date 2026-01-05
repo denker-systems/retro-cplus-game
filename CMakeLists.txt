@@ -17,6 +17,7 @@ set(SOURCES
     src/Renderer.cpp
     src/Input.cpp
     src/Room.cpp
+    src/VideoSettings.cpp
     src/states/StateManager.cpp
     src/states/MenuState.cpp
     src/states/PlayState.cpp
