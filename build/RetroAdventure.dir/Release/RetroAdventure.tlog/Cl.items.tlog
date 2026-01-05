@@ -24,6 +24,9 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\HintSystem.cpp;C:\U
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\RecapSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\RecapSystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\GateSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\GateSystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\JournalSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\JournalSystem.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\WorldState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\WorldState.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\ConditionSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\ConditionSystem.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\systems\EventBus.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\EventBus.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\data\DataLoader.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\DataLoader.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\TextureManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\TextureManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\graphics\SpriteSheet.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\SpriteSheet.obj
@@ -37,3 +40,4 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\PlayerCharacter.cp
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\entities\NPC.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\NPC.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ui\Widget.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Widget.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\utils\Logger.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\Logger.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\DebugEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroAdventure.dir\Release\DebugEditor.obj

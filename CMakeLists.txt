@@ -38,6 +38,9 @@ set(SOURCES
     src/systems/RecapSystem.cpp
     src/systems/GateSystem.cpp
     src/systems/JournalSystem.cpp
+    src/systems/WorldState.cpp
+    src/systems/ConditionSystem.cpp
+    src/systems/EventBus.cpp
     src/data/DataLoader.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp
@@ -51,6 +54,7 @@ set(SOURCES
     src/entities/NPC.cpp
     src/ui/Widget.cpp
     src/utils/Logger.cpp
+    src/editor/DebugEditor.cpp
 )
 
 # Skapa executable
@@ -62,6 +66,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE src)
 # Hitta nlohmann_json
 find_package(nlohmann_json CONFIG REQUIRED)
 
+# Hitta imgui (för framtida full debug editor)
+find_package(imgui CONFIG QUIET)
+
 # Länka bibliotek (vcpkg targets)
 target_link_libraries(${PROJECT_NAME} PRIVATE
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
@@ -70,6 +77,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>
     $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
     nlohmann_json::nlohmann_json
+    $<TARGET_NAME_IF_EXISTS:imgui::imgui>
 )
 
 # Kopiera assets till build-mappen
