@@ -1,78 +1,62 @@
 ﻿# DEVLOG - Retro Adventure
 
-Kronologisk logg av alla ändringar. Uppdateras vid varje commit.
+Kronologisk logg av alla ändringar sedan projektets start.
 
-Format: [DATUM] [HASH] TYPE(SCOPE): Beskrivning
+**Format:** `[HASH]` type(scope): beskrivning
 
 ---
 
 ## 2026-01-05
 
 ### Kväll
-- `9f8cb09` docs: add robust documentation system with CHANGELOG, ADR, and restructured folders
-  - Add CHANGELOG.md following Keep a Changelog standard
-  - Move sessions to docs/dev/sessions/
-  - Add ADR (Architecture Decision Records) in docs/dev/decisions/
-  - Add docs/dev/DEVLOG.md for commit tracking
-  - Add git-policy rules and generate-pr workflow
-  - Session: [2026-01-05](sessions/2026-01-05.md)
+- `41c68e1` docs: add robust documentation system with CHANGELOG, ADR, and restructured folders
+  - CHANGELOG.md (Keep a Changelog standard)
+  - ADR i docs/dev/decisions/
+  - Flyttat sessions till docs/dev/sessions/
+  - Git-policy rules och synkade workflows
 
 ### Eftermiddag
 - `401647c` feat(editor): ImGui panel-based editor architecture
-  - Dear ImGui integration med docking support (vcpkg)
+  - Dear ImGui integration med docking support
   - 5 nya paneler: Hierarchy, Properties, Viewport, AssetBrowser, Console
   - EditorContext för shared panel state
   - Windowed mode för editor (1600x900 max)
-  - Komplett editor-dokumentation (docs/editor/)
-  - Session: [2026-01-05](docs/sessions/2026-01-05.md)
 
 - `5bdfd02` feat(build): separate editor into standalone executable
-  - RetroCore static library (shared code)
-  - RetroEditor standalone executable
-  - Session: [2026-01-05](docs/sessions/2026-01-05.md)
+  - RetroCore static library
+  - RetroEditor standalone exe
 
 ### Förmiddag
 - `cbc0ce3` docs: update session report with evening work
-- `22b59b4` refactor(editor): extract EditorState into smaller components
+- `22b59b4` refactor: extract EditorState into smaller components
   - VisualRoomEditor, RoomDataManager, EditorTabRenderer, TiledIntegration
   - EditorState.cpp: 1567  600 rader (-61%)
-  - Session: [2026-01-05](docs/sessions/2026-01-05.md)
-
-- `b97942e` fix(editor): enable dragging player spawn marker in editor
-- `17f2bf0` feat(editor): add player spawn editing and NPC hotspot positioning
-  - Player spawn system - playerSpawnX/Y per rum
-  - NPC hotspot spawning - NPCs vid hotspot-positioner
-  - Session: [2026-01-05](docs/sessions/2026-01-05.md)
+- `b97942e` fix: enable dragging player spawn marker in editor
+- `17f2bf0` feat: add player spawn editing and NPC hotspot positioning
+- `1f69fa6` fix: use room walk area instead of hardcoded values
 
 ### Morgon
-- `1f69fa6` fix: use room walk area instead of hardcoded values
 - `a692225` docs: add comprehensive project documentation
 - `29a2744` docs: update documentation for depth scaling and editor features
+- `a37ab7c` fix: adjust walkArea, depth scaling and font sizes
+- `6f4c5f4` feat: add perspective depth scaling for characters
+  - WalkArea med scaleTop/scaleBottom
+  - PlayerCharacter::renderScaled()
+- `832a399` fix: save hotspots to rooms.json
 
 ---
 
 ## 2026-01-04
 
-### Kväll
-- `a37ab7c` fix: adjust walkArea, depth scaling and font sizes
-- `6f4c5f4` feat(graphics): add perspective depth scaling for characters
-  - WalkArea med scaleTop/scaleBottom
-  - PlayerCharacter::renderScaled()
-  - Session: [2026-01-04](docs/sessions/2026-01-04.md)
-
-- `832a399` fix(editor): save hotspots to rooms.json
-- `a782a4b` feat(editor): add mute toggle and visual editor resize/walk area
+### Kväll - Editor & Visual Tools
+- `a782a4b` feat: add mute toggle and visual editor resize/walk area
 - `f9dfa41` feat(editor): complete visual hotspot editor with drag-and-drop
 - `6530af2` feat(editor): add modular editor architecture
 - `3da956b` feat(editor): add visual room editor
-
-### Eftermiddag
 - `36b725c` fix(rendering): load and render room layers correctly
 - `f5bc119` feat(editor): complete room editor with full functionality
 - `1b74459` feat(editor): implement room editor UI
 - `8b07728` feat(content): add tavern-inside.png as tavern background
-
-### Förmiddag
 - `32c06d4` feat(editor): make Tiled workflow optional
 - `c3c397f` feat(rendering): add multi-layer rendering with depth
 - `0b29b0b` feat(editor): add Import/Export Tiled buttons
@@ -80,26 +64,84 @@ Format: [DATUM] [HASH] TYPE(SCOPE): Beskrivning
 - `867e524` fix(editor): load game data when entering EditorState
 - `1854c1d` feat(editor): add EditorState accessible from main menu
 
-### Morgon
+### Eftermiddag - Advanced Systems (Fas 3)
 - `35e8ba3` feat(systems): add IWorldQuery/IWorldMutator interfaces
 - `88ecb02` feat(systems): add WorldState, Conditions, EventBus
 - `6171de2` feat(systems): implement Fas C - Polish & Feel features
-- `5981329` feat(systems): implement Fas B.3 - Recap barks system
+- `6c1fbf1` feat(systems): implement Fas B.3 - Recap barks system
+- `5981329` feat(systems): implement Fas B - Immersion features
 - `7b46774` feat(systems): implement Fas A - Anti-Frustration features
+- `c33f8d1` docs(design): add LucasArts-inspired extensions roadmap
+- `8336771` docs(design): add LucasArts insights applied to our game
+- `6cf8e3c` docs(workflow): enhance git-commit workflow
+
+### Förmiddag - Debugging & Logger
+- `ef7b6f1` fix(states): prevent PlayState from reloading data on resume
+- `a3a5781` feat(debug): add detailed logging to PlayState, RoomManager, DialogSystem
+- `ad29f4f` fix(font): add fallback text rendering when font is missing
+- `049e73f` fix(logger): create log directory automatically
+- `eee6d20` feat(utils): add Logger system with file and console output
+- `9999155` feat(input): add E key proximity interaction for hotspots
+- `9d62273` content: add extensive test content (7 rooms, 8 NPCs, 20 items, 7 quests, 8 dialogs)
+
+### Morgon - Core Systems (Fas 2 & 3)
+- `33b8b29` docs: update session report with Fas 4 progress
+- `87eed69` fix(audio): silence missing sound warnings
+- `06369b9` feat(state): add SaveLoadState with save slot UI
+- `05ed215` docs: update documentation for Fas 3 completion
+- `b261ffa` docs: add session report 2026-01-05
+- `23136ab` feat(ui): add Widget system with Label, Button, Panel, ProgressBar
+- `10ea0d1` feat(cutscene): add CutsceneSystem for scripted sequences
+- `8c0bb9a` feat(save): add SaveSystem with JSON serialization
+- `5182333` feat(ai): add AISystem with NPC behaviors and schedules
+- `00eb620` docs: add session report 2026-01-04
+
+### Tidig Morgon - Fas 1 & 2 Foundation
+- `b166e1b` feat(data): add JSON-based data loading system with nlohmann/json
+- `24e34ff` feat(quests): add Quest System with objectives and quest log
+- `1fe9f34` feat(inventory): add Inventory UI overlay
+- `6590f56` feat(rooms): add RoomManager, room transitions, and NPC class
+- `ab94bfd` feat(graphics): implement DPI-aware font rendering
+- `b418585` feat(video): add resolution settings with auto-detection
+- `3c8ffe0` feat: add Inventory System and fullscreen mode
+- `ea1c89b` feat(dialog): implement Dialog System with choices
+- `e8603a3` feat(player): add sprite sheet and animation support
+- `87a62cd` feat(room): implement Room System with hotspots
+- `d6c2112` feat: add FontManager and fix state change crash
+- `9118f70` feat(states): add PauseState - Fas 1 complete!
+- `379355f` refactor(entities): implement Entity hierarchy with OOP
+- `e28bb11` docs: add documentation structure and rules
+- `3432e17` docs: add workspace rules and update sdl2-patterns trigger
+- `fe1dc52` feat: add gamepad support, options menu, and OOP architecture docs
+- `340f33a` feat(audio): add menu music with fade out on exit
+- `7603933` docs: update ROADMAP - Fas 1 now 75%, Audio done
+- `2466194` feat(audio): add AudioManager with music and SFX support
+- `031acc2` docs: update ROADMAP and ARCHITECTURE progress
+- `94d250e` feat(graphics): add TextureManager, SpriteSheet, Animation
+- `e411fa3` feat: initial C++ SDL2 project with StateManager
+  - **PROJEKTSTART**
+  - SDL2, SDL2_image, SDL2_mixer setup
+  - CMake + vcpkg integration
+  - Game loop, StateManager, MenuState, PlayState
 
 ---
 
-## Äldre Commits
+## Statistik
 
-Se `git log` för komplett historik före 2026-01-04.
+| Datum | Commits | Highlights |
+|-------|---------|------------|
+| 2026-01-04 | 63 | Fas 1-3 komplett, Editor, Test content |
+| 2026-01-05 | 13 | ImGui editor, Dokumentationssystem |
+| **Totalt** | **76** | |
 
 ---
 
-## Format Guide
+## Fas-progress
 
-Varje entry ska ha:
-1. **Commit hash** - Länk till specifik ändring
-2. **Conventional commit** - type(scope): beskrivning
-3. **Detaljer** (för större ändringar) - Bullet points
-4. **Session-referens** - Länk till session report
+| Fas | Status | Datum |
+|-----|--------|-------|
+| Fas 1: Core |  100% | 2026-01-04 |
+| Fas 2: Systems |  100% | 2026-01-04 |
+| Fas 3: Advanced |  100% | 2026-01-04 |
+| Fas 4: Content |  15% | Pågående |
 
