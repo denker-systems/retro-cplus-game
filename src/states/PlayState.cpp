@@ -32,30 +32,37 @@ PlayState::PlayState() {
 PlayState::~PlayState() = default;
 
 void PlayState::enter() {
-    std::cout << "PlayState::enter()" << std::endl;
+    LOG_DEBUG("PlayState::enter() - initialized=" + std::string(m_initialized ? "true" : "false"));
     
-    // Skapa spelkomponenter
-    m_input = std::make_unique<Input>();
-    m_player = std::make_unique<PlayerCharacter>(160.0f, 300.0f);
-    
-    // Ladda all speldata från JSON-filer
-    GameDataLoader::loadAll();
-    
-    // Sätt callback för rumsbyte
-    RoomManager::instance().setOnRoomChange([this](const std::string& roomId) {
-        onRoomChange(roomId);
-    });
-    
-    // Starta i tavern
-    RoomManager::instance().changeRoom("tavern");
+    // Första gången - ladda allt
+    if (!m_initialized) {
+        LOG_INFO("PlayState initializing for first time");
+        
+        // Skapa spelkomponenter
+        m_input = std::make_unique<Input>();
+        m_player = std::make_unique<PlayerCharacter>(160.0f, 300.0f);
+        
+        // Ladda all speldata från JSON-filer
+        GameDataLoader::loadAll();
+        
+        // Sätt callback för rumsbyte
+        RoomManager::instance().setOnRoomChange([this](const std::string& roomId) {
+            onRoomChange(roomId);
+        });
+        
+        // Starta i tavern
+        RoomManager::instance().changeRoom("tavern");
+        
+        m_initialized = true;
+    } else {
+        LOG_DEBUG("PlayState resuming (already initialized)");
+    }
 }
 
 void PlayState::exit() {
-    std::cout << "PlayState::exit()" << std::endl;
-    
-    // Frigör resurser
-    m_player.reset();
-    m_input.reset();
+    LOG_DEBUG("PlayState::exit()");
+    // OBS: Frigör INTE resurser här - de behövs när vi resumar från overlay
+    // Resurser frigörs i destruktorn
 }
 
 void PlayState::onRoomChange(const std::string& roomId) {
