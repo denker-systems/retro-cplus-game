@@ -718,6 +718,19 @@ void EditorState::handleEvent(const SDL_Event& event) {
         }
     }
     
+    // Toggle player spawn editing (P key)
+    if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_P && m_visualEditor) {
+        m_editingPlayerSpawn = !m_editingPlayerSpawn;
+        if (m_editingPlayerSpawn) {
+            m_selectedHotspot = -1;  // Avmarkera hotspots
+            m_editingWalkArea = false;
+            m_statusMessage = "Click to set player spawn position";
+        } else {
+            m_statusMessage = "Player spawn editing disabled";
+        }
+        m_statusTimer = 2.0f;
+    }
+    
     // Depth scale adjustment (+/- keys)
     if (event.type == SDL_KEYDOWN && m_visualEditor && m_selectedHotspot < 0) {
         bool shift = (event.key.keysym.mod & KMOD_SHIFT) != 0;
@@ -877,6 +890,20 @@ void EditorState::handleMouseClick(int x, int y) {
                         m_selectedHotspot = -1;
                         return;
                     }
+                }
+                
+                // Om player spawn editing är aktivt, sätt spawn position
+                if (m_editingPlayerSpawn) {
+                    // Konvertera från preview-koordinater till game-koordinater
+                    float gameX = (x - 10) / scaleX;
+                    float gameY = (y - 90) / scaleY;
+                    m_editRoomData.playerSpawnX = gameX;
+                    m_editRoomData.playerSpawnY = gameY;
+                    m_statusMessage = "Player spawn set to (" + std::to_string(static_cast<int>(gameX)) + 
+                                     ", " + std::to_string(static_cast<int>(gameY)) + ")";
+                    m_statusTimer = 2.0f;
+                    m_editingPlayerSpawn = false;
+                    return;
                 }
                 
                 // Sist: Kolla om vi klickar på en hotspot
@@ -1124,6 +1151,8 @@ void EditorState::openRoomEditor() {
             m_editRoomData.layers = room.layers;
             m_editRoomData.walkArea = room.walkArea;
             m_editRoomData.hotspots = room.hotspots;
+            m_editRoomData.playerSpawnX = room.playerSpawnX;
+            m_editRoomData.playerSpawnY = room.playerSpawnY;
             
             m_editingRoom = true;
             m_selectedField = 0;
@@ -1262,6 +1291,10 @@ void EditorState::saveRoomChanges() {
                 room["walkArea"]["maxY"] = m_editRoomData.walkArea.maxY;
                 room["walkArea"]["scaleTop"] = m_editRoomData.walkArea.scaleTop;
                 room["walkArea"]["scaleBottom"] = m_editRoomData.walkArea.scaleBottom;
+                
+                // Uppdatera player spawn
+                room["playerSpawnX"] = m_editRoomData.playerSpawnX;
+                room["playerSpawnY"] = m_editRoomData.playerSpawnY;
                 
                 // Uppdatera hotspots
                 room["hotspots"] = json::array();
@@ -1508,7 +1541,16 @@ void EditorState::renderVisualEditor(SDL_Renderer* renderer) {
     SDL_RenderFillRect(renderer, &figTop);
     SDL_RenderFillRect(renderer, &figBot);
     
+    // Rita player spawn position
+    int spawnX = 10 + static_cast<int>(m_editRoomData.playerSpawnX * scaleX);
+    int spawnY = 90 + static_cast<int>(m_editRoomData.playerSpawnY * scaleY);
+    SDL_SetRenderDrawColor(renderer, 255, 100, 255, m_editingPlayerSpawn ? 255 : 150);
+    SDL_Rect spawnRect = {spawnX - 8, spawnY - 12, 16, 24};  // Liten figur
+    SDL_RenderFillRect(renderer, &spawnRect);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderDrawRect(renderer, &spawnRect);
+    
     // Instruktioner
-    std::string instructions = "[+/-] Adjust depth scale | Drag cyan handles for walk area | Right-click: Add";
+    std::string instructions = "[+/-] Adjust depth scale | [P] Edit player spawn | Drag cyan handles for walk area | Right-click: Add";
     FontManager::instance().renderText(renderer, "default", instructions, 10, 375, green);
 }

@@ -127,6 +127,9 @@ private:
     bool m_editingWalkArea = false;
     int m_walkAreaHandle = -1;  // 0-3 = sidor (top, bottom, left, right)
     
+    // Player spawn editing
+    bool m_editingPlayerSpawn = false;
+    
     // Edit room data (kopierad från DataLoader)
     struct EditRoomData {
         std::string id;
@@ -135,6 +138,8 @@ private:
         std::vector<LayerData> layers;
         WalkAreaData walkArea;
         std::vector<HotspotData> hotspots;
+        float playerSpawnX = 320.0f;
+        float playerSpawnY = 300.0f;
     };
     EditRoomData m_editRoomData;
 };

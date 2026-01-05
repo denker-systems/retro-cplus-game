@@ -100,6 +100,12 @@ public:
     /** @brief Sätt walk area med depth scale */
     void setWalkArea(int minX, int maxX, int minY, int maxY, float scaleTop = 0.5f, float scaleBottom = 1.0f);
     
+    /** @brief Sätt player spawn position */
+    void setPlayerSpawn(float x, float y) { m_playerSpawnX = x; m_playerSpawnY = y; }
+    
+    /** @brief Hämta player spawn position */
+    void getPlayerSpawn(float& x, float& y) const { x = m_playerSpawnX; y = m_playerSpawnY; }
+    
     /** @brief Kolla om position är inom walk area */
     bool isInWalkArea(float x, float y) const;
     
@@ -129,6 +135,8 @@ private:
     std::vector<Hotspot> m_hotspots;
     std::vector<std::unique_ptr<NPC>> m_npcs;
     WalkArea m_walkArea = {0, 640, 260, 350};
+    float m_playerSpawnX = 320.0f;
+    float m_playerSpawnY = 300.0f;
     
     void renderDebugInfo(SDL_Renderer* renderer);
 };

@@ -14,6 +14,8 @@
         }
       ],
       "walkArea": { "minX": 0, "maxX": 640, "minY": 220, "maxY": 380, "scaleTop": 0.6, "scaleBottom": 1.0 },
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
       "hotspots": [
         {
           "id": "bartender",
@@ -86,6 +88,8 @@
       "name": "Town Square",
       "background": "street_bg",
       "walkArea": { "minX": 0, "maxX": 640, "minY": 240, "maxY": 380, "scaleTop": 0.5, "scaleBottom": 1.0 },
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 310.0,
       "hotspots": [
         {
           "id": "door_tavern",
@@ -134,6 +138,8 @@
       "name": "General Store",
       "background": "shop_bg",
       "walkArea": { "minX": 0, "maxX": 640, "minY": 220, "maxY": 380, "scaleTop": 0.5, "scaleBottom": 1.0 },
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
       "hotspots": [
         {
           "id": "shopkeeper",
@@ -168,6 +174,8 @@
       "name": "Town Library",
       "background": "library_bg",
       "walkArea": { "minX": 0, "maxX": 640, "minY": 220, "maxY": 380, "scaleTop": 0.5, "scaleBottom": 1.0 },
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
       "hotspots": [
         {
           "id": "librarian",
@@ -208,6 +216,8 @@
       "name": "Tavern Cellar",
       "background": "cellar_bg",
       "walkArea": { "minX": 0, "maxX": 640, "minY": 220, "maxY": 380, "scaleTop": 0.5, "scaleBottom": 1.0 },
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
       "hotspots": [
         {
           "id": "barrel_pile",
@@ -241,6 +251,8 @@
       "name": "Dark Forest",
       "background": "forest_bg",
       "walkArea": { "minX": 0, "maxX": 640, "minY": 220, "maxY": 380, "scaleTop": 0.4, "scaleBottom": 1.0 },
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
       "hotspots": [
         {
           "id": "hermit",
@@ -282,6 +294,8 @@
       "name": "Mysterious Cave",
       "background": "cave_bg",
       "walkArea": { "minX": 0, "maxX": 640, "minY": 220, "maxY": 380, "scaleTop": 0.5, "scaleBottom": 1.0 },
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
       "hotspots": [
         {
           "id": "treasure_chest",

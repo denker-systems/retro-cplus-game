@@ -74,12 +74,12 @@ void PlayState::onRoomChange(const std::string& roomId) {
     if (room) {
         const auto& wa = room->getWalkArea();
         m_player->setWalkArea(wa.minX, wa.maxX, wa.minY, wa.maxY);
+        
+        // Använd rummets player spawn position
+        float spawnX, spawnY;
+        room->getPlayerSpawn(spawnX, spawnY);
+        m_player->setPosition(spawnX, spawnY);
     }
-    
-    // Sätt spelarens position baserat på vilket rum
-    float spawnX, spawnY;
-    RoomManager::instance().getSpawnPosition(spawnX, spawnY);
-    m_player->setPosition(spawnX, spawnY);
     
     // Uppdatera quest objective för GoTo
     QuestSystem::instance().updateObjective(ObjectiveType::GoTo, roomId);

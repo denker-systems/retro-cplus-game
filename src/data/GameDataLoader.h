@@ -131,6 +131,7 @@ private:
             room->setWalkArea(data.walkArea.minX, data.walkArea.maxX,
                              data.walkArea.minY, data.walkArea.maxY,
                              data.walkArea.scaleTop, data.walkArea.scaleBottom);
+            room->setPlayerSpawn(data.playerSpawnX, data.playerSpawnY);
             
             // Ladda layers om de finns
             if (!data.layers.empty()) {
@@ -171,11 +172,21 @@ private:
                 continue;
             }
             
-            auto npc = std::make_unique<NPC>(
-                static_cast<float>(data.x),
-                static_cast<float>(data.y),
-                data.name
-            );
+            // Hitta hotspot med samma ID för att få position
+            const auto& hotspots = room->getHotspots();
+            float npcX = static_cast<float>(data.x);
+            float npcY = static_cast<float>(data.y);
+            
+            for (const auto& hs : hotspots) {
+                if (hs.id == data.id && hs.type == HotspotType::NPC) {
+                    // Använd hotspot-position (centrera NPC i hotspot)
+                    npcX = static_cast<float>(hs.rect.x + hs.rect.w / 2 - 16);  // 16 = halva NPC-bredden
+                    npcY = static_cast<float>(hs.rect.y + hs.rect.h - 48);      // 48 = NPC-höjd (fötter vid botten)
+                    break;
+                }
+            }
+            
+            auto npc = std::make_unique<NPC>(npcX, npcY, data.name);
             npc->setDialogId(data.dialogId);
             npc->setSpeed(data.moveSpeed);
             
