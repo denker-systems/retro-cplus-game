@@ -1,8 +1,8 @@
 ﻿---
-description: Commit ändringar till git med konventionell commit-format
+description: Commit och push ändringar med detaljerad information
 ---
 
-# Git Commit Workflow
+# Git Commit & Push Workflow
 
 ## 1. Kolla status
 // turbo
@@ -10,19 +10,19 @@ description: Commit ändringar till git med konventionell commit-format
 git status --short
 `
 
-## 2. Se ändringar
+## 2. Se detaljerade ändringar
 // turbo
 `powershell
-git diff --stat
+git diff --stat; Write-Host ""; git diff --name-status
 `
 
-## 3. Stage ändringar
+## 3. Stage alla ändringar
 `powershell
-git add .
+git add -A
 `
 
-## 4. Commit med konventionellt format
-Format: `type(scope): description`
+## 4. Commit med konventionellt format och body
+Format: `type(scope): kort beskrivning`
 
 **Types:**
 - `feat` - Ny feature
@@ -32,24 +32,58 @@ Format: `type(scope): description`
 - `style` - Formatering
 - `test` - Tester
 - `chore` - Övrigt
+- `perf` - Prestandaförbättring
+- `content` - Spelinnehåll (JSON data)
 
 **Scopes för detta projekt:**
 - `core` - Game, Window, Renderer
-- `states` - StateManager, MenuState
+- `states` - StateManager, States
 - `entities` - Player, NPC, Item
-- `systems` - Dialog, Quest, Inventory
+- `systems` - Dialog, Quest, Inventory, Room
 - `audio` - AudioManager
+- `graphics` - TextureManager, FontManager
 - `ui` - UI widgets
+- `utils` - Logger, Config
+- `data` - JSON data, DataLoader
 - `build` - CMake, vcpkg
+- `input` - Input handling
 
-**Exempel:**
+**Commit med multi-line body:**
 `powershell
-git commit -m "feat(states): add StateManager with push/pop"
-git commit -m "fix(player): correct delta time movement"
-git commit -m "docs: update ROADMAP with milestones"
+git commit -m "feat(scope): kort beskrivning" -m "- Detalj 1" -m "- Detalj 2" -m "- Detalj 3"
 `
 
-## 5. Push (valfritt)
+**Enkelt commit:**
 `powershell
-git push origin main
+git commit -m "fix(player): correct delta time movement"
+`
+
+## 5. Visa commit-detaljer
+// turbo
+`powershell
+git log -1 --stat --format="Commit: %h%nAuthor: %an%nDate: %ad%nBranch: $(git branch --show-current)%n%nMessage:%n%B"
+`
+
+## 6. Push till remote
+`powershell
+git push origin $(git branch --show-current)
+`
+
+## 7. Visa push-status
+// turbo
+`powershell
+Write-Host "=== Push Complete ===" -ForegroundColor Green; git log origin/$(git branch --show-current)..HEAD --oneline; if ($LASTEXITCODE -eq 0 -and (git log origin/$(git branch --show-current)..HEAD --oneline).Count -eq 0) { Write-Host "All commits pushed!" -ForegroundColor Green }
+`
+
+---
+
+## Quick Commit & Push (allt i ett)
+`powershell
+git add -A; git commit -m "TYPE(SCOPE): MESSAGE" -m "DETAILS"; git push origin $(git branch --show-current)
+`
+
+## Se senaste commits innan PR
+// turbo
+`powershell
+git log --oneline -10 --decorate
 `
