@@ -4,10 +4,13 @@
  */
 #include "Logger.h"
 #include <iostream>
+#include <filesystem>
 
 #ifdef _WIN32
 #include <windows.h>
 #endif
+
+namespace fs = std::filesystem;
 
 Logger& Logger::instance() {
     static Logger inst;
@@ -26,6 +29,12 @@ bool Logger::init(const std::string& filename, bool appendMode) {
     }
     
     m_filename = filename;
+    
+    // Skapa mappen om den inte finns
+    fs::path filepath(filename);
+    if (filepath.has_parent_path()) {
+        fs::create_directories(filepath.parent_path());
+    }
     
     auto mode = std::ios::out;
     if (appendMode) {

@@ -23,7 +23,7 @@ Game::~Game() {
 
 bool Game::init(const std::string& title, int width, int height) {
     // Initiera Logger först
-    Logger::instance().init("game.log");
+    Logger::instance().init("assets/logs/game.log");
     LOG_INFO("=== Game Starting ===");
     
     // Initiera SDL (med gamecontroller-stöd)
