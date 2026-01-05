@@ -114,11 +114,18 @@ private:
     int m_selectedHotspot = -1;  // Index av vald hotspot
     bool m_draggingHotspot = false;
     bool m_resizingHotspot = false;
+    int m_resizeHandle = -1;  // 0-3 = hörn (TL, TR, BL, BR)
     int m_dragStartX = 0;
     int m_dragStartY = 0;
     int m_hotspotOrigX = 0;  // Original position för drag
     int m_hotspotOrigY = 0;
+    int m_hotspotOrigW = 0;  // Original storlek för resize
+    int m_hotspotOrigH = 0;
     SDL_Texture* m_roomPreviewTexture = nullptr;  // Cached room texture
+    
+    // Walk area editing
+    bool m_editingWalkArea = false;
+    int m_walkAreaHandle = -1;  // 0-3 = sidor (top, bottom, left, right)
     
     // Edit room data (kopierad från DataLoader)
     struct EditRoomData {

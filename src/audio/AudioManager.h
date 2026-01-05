@@ -94,6 +94,9 @@ public:
     /** @brief Återställ ljud */
     void unmute();
     
+    /** @brief Toggle mute */
+    void toggleMute() { m_muted ? unmute() : mute(); }
+    
     bool isMuted() const { return m_muted; }
 
 private:

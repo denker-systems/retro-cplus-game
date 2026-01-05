@@ -131,6 +131,12 @@ void Game::handleEvents() {
         if (event.type == SDL_QUIT) {
             m_running = false;
         }
+        
+        // Global mute toggle (M key)
+        if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_M) {
+            AudioManager::instance().toggleMute();
+        }
+        
         m_stateManager->handleEvent(event);
     }
 }

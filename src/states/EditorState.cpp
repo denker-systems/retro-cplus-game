@@ -565,11 +565,46 @@ void EditorState::handleEvent(const SDL_Event& event) {
         m_mouseX = event.motion.x;
         m_mouseY = event.motion.y;
         
-        // Drag hotspot i visual editor
-        if (m_visualEditor && m_draggingHotspot && m_selectedHotspot >= 0) {
-            float scaleX = 640.0f / 620.0f;
-            float scaleY = 400.0f / 260.0f;
+        float scaleX = 640.0f / 620.0f;
+        float scaleY = 400.0f / 260.0f;
+        
+        // Resize hotspot
+        if (m_visualEditor && m_resizingHotspot && m_selectedHotspot >= 0) {
+            int deltaX = static_cast<int>((m_mouseX - m_dragStartX) * scaleX);
+            int deltaY = static_cast<int>((m_mouseY - m_dragStartY) * scaleY);
             
+            auto& hs = m_editRoomData.hotspots[m_selectedHotspot];
+            
+            // Handle baserat på vilket hörn (0=TL, 1=TR, 2=BL, 3=BR)
+            switch (m_resizeHandle) {
+                case 0: // Top-Left
+                    hs.x = m_hotspotOrigX + deltaX;
+                    hs.y = m_hotspotOrigY + deltaY;
+                    hs.w = m_hotspotOrigW - deltaX;
+                    hs.h = m_hotspotOrigH - deltaY;
+                    break;
+                case 1: // Top-Right
+                    hs.y = m_hotspotOrigY + deltaY;
+                    hs.w = m_hotspotOrigW + deltaX;
+                    hs.h = m_hotspotOrigH - deltaY;
+                    break;
+                case 2: // Bottom-Left
+                    hs.x = m_hotspotOrigX + deltaX;
+                    hs.w = m_hotspotOrigW - deltaX;
+                    hs.h = m_hotspotOrigH + deltaY;
+                    break;
+                case 3: // Bottom-Right
+                    hs.w = m_hotspotOrigW + deltaX;
+                    hs.h = m_hotspotOrigH + deltaY;
+                    break;
+            }
+            
+            // Min storlek
+            if (hs.w < 10) hs.w = 10;
+            if (hs.h < 10) hs.h = 10;
+        }
+        // Drag hotspot
+        else if (m_visualEditor && m_draggingHotspot && m_selectedHotspot >= 0) {
             int deltaX = static_cast<int>((m_mouseX - m_dragStartX) * scaleX);
             int deltaY = static_cast<int>((m_mouseY - m_dragStartY) * scaleY);
             
@@ -582,6 +617,36 @@ void EditorState::handleEvent(const SDL_Event& event) {
             if (hs.y < 0) hs.y = 0;
             if (hs.x + hs.w > 640) hs.x = 640 - hs.w;
             if (hs.y + hs.h > 400) hs.y = 400 - hs.h;
+        }
+        // Drag walk area handle
+        else if (m_visualEditor && m_editingWalkArea && m_walkAreaHandle >= 0) {
+            int deltaX = static_cast<int>((m_mouseX - m_dragStartX) * scaleX);
+            int deltaY = static_cast<int>((m_mouseY - m_dragStartY) * scaleY);
+            
+            auto& wa = m_editRoomData.walkArea;
+            
+            switch (m_walkAreaHandle) {
+                case 0: // Top
+                    wa.minY = m_hotspotOrigY + deltaY;
+                    break;
+                case 1: // Bottom
+                    wa.maxY = m_hotspotOrigH + deltaY;
+                    break;
+                case 2: // Left
+                    wa.minX = m_hotspotOrigX + deltaX;
+                    break;
+                case 3: // Right
+                    wa.maxX = m_hotspotOrigW + deltaX;
+                    break;
+            }
+            
+            // Clamp walk area
+            if (wa.minX < 0) wa.minX = 0;
+            if (wa.minY < 0) wa.minY = 0;
+            if (wa.maxX > 640) wa.maxX = 640;
+            if (wa.maxY > 400) wa.maxY = 400;
+            if (wa.minX > wa.maxX - 20) wa.minX = wa.maxX - 20;
+            if (wa.minY > wa.maxY - 20) wa.minY = wa.maxY - 20;
         }
     }
     
@@ -625,6 +690,18 @@ void EditorState::handleEvent(const SDL_Event& event) {
         if (m_draggingHotspot) {
             m_draggingHotspot = false;
             m_statusMessage = "Moved hotspot";
+            m_statusTimer = 1.5f;
+        }
+        if (m_resizingHotspot) {
+            m_resizingHotspot = false;
+            m_resizeHandle = -1;
+            m_statusMessage = "Resized hotspot";
+            m_statusTimer = 1.5f;
+        }
+        if (m_editingWalkArea) {
+            m_editingWalkArea = false;
+            m_walkAreaHandle = -1;
+            m_statusMessage = "Updated walk area";
             m_statusTimer = 1.5f;
         }
     }
@@ -703,8 +780,75 @@ void EditorState::handleMouseClick(int x, int y) {
             if (x >= 10 && x < 630 && y >= 90 && y < 350) {
                 float scaleX = 620.0f / 640.0f;
                 float scaleY = 260.0f / 400.0f;
+                int hs_size = 6;
+                int wh_size = 8;
                 
-                // Kolla om vi klickar på en hotspot
+                // Först: Kolla resize handles på vald hotspot
+                if (m_selectedHotspot >= 0) {
+                    const auto& hs = m_editRoomData.hotspots[m_selectedHotspot];
+                    SDL_Rect rect = {
+                        10 + static_cast<int>(hs.x * scaleX),
+                        90 + static_cast<int>(hs.y * scaleY),
+                        static_cast<int>(hs.w * scaleX),
+                        static_cast<int>(hs.h * scaleY)
+                    };
+                    
+                    SDL_Rect handles[4] = {
+                        {rect.x - hs_size/2, rect.y - hs_size/2, hs_size, hs_size},
+                        {rect.x + rect.w - hs_size/2, rect.y - hs_size/2, hs_size, hs_size},
+                        {rect.x - hs_size/2, rect.y + rect.h - hs_size/2, hs_size, hs_size},
+                        {rect.x + rect.w - hs_size/2, rect.y + rect.h - hs_size/2, hs_size, hs_size}
+                    };
+                    
+                    for (int h = 0; h < 4; h++) {
+                        if (x >= handles[h].x && x < handles[h].x + handles[h].w &&
+                            y >= handles[h].y && y < handles[h].y + handles[h].h) {
+                            m_resizingHotspot = true;
+                            m_resizeHandle = h;
+                            m_dragStartX = x;
+                            m_dragStartY = y;
+                            m_hotspotOrigX = hs.x;
+                            m_hotspotOrigY = hs.y;
+                            m_hotspotOrigW = hs.w;
+                            m_hotspotOrigH = hs.h;
+                            return;
+                        }
+                    }
+                }
+                
+                // Sedan: Kolla walk area handles
+                const auto& wa = m_editRoomData.walkArea;
+                SDL_Rect walkRect = {
+                    10 + static_cast<int>(wa.minX * scaleX),
+                    90 + static_cast<int>(wa.minY * scaleY),
+                    static_cast<int>((wa.maxX - wa.minX) * scaleX),
+                    static_cast<int>((wa.maxY - wa.minY) * scaleY)
+                };
+                
+                SDL_Rect walkHandles[4] = {
+                    {walkRect.x + walkRect.w/2 - wh_size/2, walkRect.y - wh_size/2, wh_size, wh_size},
+                    {walkRect.x + walkRect.w/2 - wh_size/2, walkRect.y + walkRect.h - wh_size/2, wh_size, wh_size},
+                    {walkRect.x - wh_size/2, walkRect.y + walkRect.h/2 - wh_size/2, wh_size, wh_size},
+                    {walkRect.x + walkRect.w - wh_size/2, walkRect.y + walkRect.h/2 - wh_size/2, wh_size, wh_size}
+                };
+                
+                for (int h = 0; h < 4; h++) {
+                    if (x >= walkHandles[h].x && x < walkHandles[h].x + walkHandles[h].w &&
+                        y >= walkHandles[h].y && y < walkHandles[h].y + walkHandles[h].h) {
+                        m_editingWalkArea = true;
+                        m_walkAreaHandle = h;
+                        m_dragStartX = x;
+                        m_dragStartY = y;
+                        m_hotspotOrigX = wa.minX;
+                        m_hotspotOrigY = wa.minY;
+                        m_hotspotOrigW = wa.maxX;
+                        m_hotspotOrigH = wa.maxY;
+                        m_selectedHotspot = -1;
+                        return;
+                    }
+                }
+                
+                // Sist: Kolla om vi klickar på en hotspot
                 int clickedHotspot = -1;
                 for (int i = static_cast<int>(m_editRoomData.hotspots.size()) - 1; i >= 0; i--) {
                     const auto& hs = m_editRoomData.hotspots[i];
@@ -729,6 +873,8 @@ void EditorState::handleMouseClick(int x, int y) {
                     m_dragStartY = y;
                     m_hotspotOrigX = m_editRoomData.hotspots[clickedHotspot].x;
                     m_hotspotOrigY = m_editRoomData.hotspots[clickedHotspot].y;
+                    m_hotspotOrigW = m_editRoomData.hotspots[clickedHotspot].w;
+                    m_hotspotOrigH = m_editRoomData.hotspots[clickedHotspot].h;
                     AudioManager::instance().playSound("select");
                 } else {
                     m_selectedHotspot = -1;
@@ -1230,6 +1376,19 @@ void EditorState::renderVisualEditor(SDL_Renderer* renderer) {
             // Rita dubbel ram för tydlighet
             SDL_Rect outerRect = {rect.x - 1, rect.y - 1, rect.w + 2, rect.h + 2};
             SDL_RenderDrawRect(renderer, &outerRect);
+            
+            // Rita resize handles (hörn)
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            int hs_size = 6;
+            SDL_Rect handles[4] = {
+                {rect.x - hs_size/2, rect.y - hs_size/2, hs_size, hs_size},  // TL
+                {rect.x + rect.w - hs_size/2, rect.y - hs_size/2, hs_size, hs_size},  // TR
+                {rect.x - hs_size/2, rect.y + rect.h - hs_size/2, hs_size, hs_size},  // BL
+                {rect.x + rect.w - hs_size/2, rect.y + rect.h - hs_size/2, hs_size, hs_size}  // BR
+            };
+            for (int h = 0; h < 4; h++) {
+                SDL_RenderFillRect(renderer, &handles[h]);
+            }
         } else {
             SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
             SDL_RenderDrawRect(renderer, &rect);
@@ -1241,15 +1400,54 @@ void EditorState::renderVisualEditor(SDL_Renderer* renderer) {
         }
     }
     
+    // Rita walk area
+    float scaleX = 620.0f / 640.0f;
+    float scaleY = 260.0f / 400.0f;
+    const auto& wa = m_editRoomData.walkArea;
+    SDL_Rect walkRect = {
+        10 + static_cast<int>(wa.minX * scaleX),
+        90 + static_cast<int>(wa.minY * scaleY),
+        static_cast<int>((wa.maxX - wa.minX) * scaleX),
+        static_cast<int>((wa.maxY - wa.minY) * scaleY)
+    };
+    
+    // Walk area outline (streckad effekt)
+    SDL_SetRenderDrawColor(renderer, 0, 255, 200, m_editingWalkArea ? 200 : 100);
+    SDL_RenderDrawRect(renderer, &walkRect);
+    // Rita inre streckad linje
+    SDL_Rect innerWalk = {walkRect.x + 1, walkRect.y + 1, walkRect.w - 2, walkRect.h - 2};
+    SDL_RenderDrawRect(renderer, &innerWalk);
+    
+    // Walk area handles (mitt på varje sida)
+    if (m_editingWalkArea || m_selectedHotspot < 0) {
+        SDL_SetRenderDrawColor(renderer, 0, 255, 200, 255);
+        int wh_size = 8;
+        SDL_Rect walkHandles[4] = {
+            {walkRect.x + walkRect.w/2 - wh_size/2, walkRect.y - wh_size/2, wh_size, wh_size},  // Top
+            {walkRect.x + walkRect.w/2 - wh_size/2, walkRect.y + walkRect.h - wh_size/2, wh_size, wh_size},  // Bottom
+            {walkRect.x - wh_size/2, walkRect.y + walkRect.h/2 - wh_size/2, wh_size, wh_size},  // Left
+            {walkRect.x + walkRect.w - wh_size/2, walkRect.y + walkRect.h/2 - wh_size/2, wh_size, wh_size}   // Right
+        };
+        for (int h = 0; h < 4; h++) {
+            SDL_RenderFillRect(renderer, &walkHandles[h]);
+        }
+    }
+    
     // Visa vald hotspot info
     if (m_selectedHotspot >= 0 && m_selectedHotspot < static_cast<int>(m_editRoomData.hotspots.size())) {
         const auto& hs = m_editRoomData.hotspots[m_selectedHotspot];
-        std::string info = "Selected: " + hs.name + " [" + hs.type + "] (" + 
+        std::string info = "Selected: " + hs.name + " [" + hs.type + "] " + 
+                          std::to_string(hs.w) + "x" + std::to_string(hs.h) + " at (" + 
                           std::to_string(hs.x) + "," + std::to_string(hs.y) + ")";
         FontManager::instance().renderText(renderer, "default", info, 10, 355, yellow);
+    } else {
+        // Visa walk area info
+        std::string walkInfo = "Walk Area: (" + std::to_string(wa.minX) + "," + std::to_string(wa.minY) + 
+                              ") to (" + std::to_string(wa.maxX) + "," + std::to_string(wa.maxY) + ")";
+        FontManager::instance().renderText(renderer, "default", walkInfo, 10, 355, cyan);
     }
     
     // Instruktioner
-    std::string instructions = "Click hotspot to select | Drag to move | Right-click: Add | DEL: Delete";
+    std::string instructions = "Drag corners to resize | Drag cyan handles for walk area | Right-click: Add | DEL: Delete";
     FontManager::instance().renderText(renderer, "default", instructions, 10, 375, green);
 }

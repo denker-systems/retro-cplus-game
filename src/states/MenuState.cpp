@@ -50,6 +50,12 @@ void MenuState::render(SDL_Renderer* renderer) {
         renderText(renderer, m_options[i], 320, startY + i * 50, i == m_selectedOption);
     }
     
+    // Mute status
+    bool muted = AudioManager::instance().isMuted();
+    SDL_Color muteColor = muted ? SDL_Color{255, 100, 100, 255} : SDL_Color{100, 255, 100, 255};
+    std::string muteText = muted ? "[M] Sound: OFF" : "[M] Sound: ON";
+    FontManager::instance().renderText(renderer, "default", muteText, 10, 375, muteColor);
+    
     // Instruktioner
     FontManager::instance().renderTextCentered(renderer, "default",
         "Use UP/DOWN and ENTER to select", 320, 360, {100, 100, 120, 255});
