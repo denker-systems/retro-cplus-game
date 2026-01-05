@@ -30,7 +30,6 @@ public:
     void handleEvent(const SDL_Event& event) override;
 
 private:
-    void setupRooms();
     void onRoomChange(const std::string& roomId);
     
     std::unique_ptr<PlayerCharacter> m_player;

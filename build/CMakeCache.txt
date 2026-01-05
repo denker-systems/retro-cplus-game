@@ -279,6 +279,9 @@ Z_VCPKG_PWSH_PATH:FILEPATH=Z_VCPKG_PWSH_PATH-NOTFOUND
 // triplet
 _VCPKG_INSTALLED_DIR:PATH=C:/vcpkg/installed
 
+//The directory containing a CMake configuration file for nlohmann_json.
+nlohmann_json_DIR:PATH=C:/vcpkg/installed/x64-windows/share/nlohmann_json
+
 
 ########################
 # INTERNAL cache entries
@@ -406,6 +409,8 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 FIND_PACKAGE_MESSAGE_DETAILS_PNG:INTERNAL=[optimized;C:/vcpkg/installed/x64-windows/lib/libpng16.lib;debug;C:/vcpkg/installed/x64-windows/debug/lib/libpng16d.lib][C:/vcpkg/installed/x64-windows/include][v1.6.53()]
 //Details about finding ZLIB
 FIND_PACKAGE_MESSAGE_DETAILS_ZLIB:INTERNAL=[optimized;C:/vcpkg/installed/x64-windows/lib/zlib.lib;debug;C:/vcpkg/installed/x64-windows/debug/lib/zlibd.lib][C:/vcpkg/installed/x64-windows/include][ ][v1.3.1()]
+//Details about finding nlohmann_json
+FIND_PACKAGE_MESSAGE_DETAILS_nlohmann_json:INTERNAL=[C:/vcpkg/installed/x64-windows/share/nlohmann_json/nlohmann_jsonConfig.cmake][v3.12.0()]
 //ADVANCED property for variable: PNG_LIBRARY_DEBUG
 PNG_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PNG_LIBRARY_RELEASE

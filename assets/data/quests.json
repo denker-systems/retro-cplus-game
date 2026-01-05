@@ -1,0 +1,58 @@
+{
+  "quests": [
+    {
+      "id": "find_the_key",
+      "title": "The Rusty Key",
+      "description": "Find the old key hidden in the tavern.",
+      "autoStart": true,
+      "objectives": [
+        {
+          "id": "talk_bartender",
+          "description": "Talk to the Bartender",
+          "type": "talk",
+          "targetId": "bartender",
+          "requiredCount": 1
+        },
+        {
+          "id": "find_key",
+          "description": "Find the rusty key",
+          "type": "collect",
+          "targetId": "rusty_key",
+          "requiredCount": 1
+        },
+        {
+          "id": "visit_shop",
+          "description": "Visit the General Store",
+          "type": "goto",
+          "targetId": "shop",
+          "requiredCount": 1
+        }
+      ],
+      "rewardXP": 50
+    },
+    {
+      "id": "light_the_way",
+      "title": "Light the Way",
+      "description": "Find a way to light the dark cellar.",
+      "autoStart": false,
+      "objectives": [
+        {
+          "id": "get_lantern",
+          "description": "Find a lantern",
+          "type": "collect",
+          "targetId": "lantern",
+          "requiredCount": 1
+        },
+        {
+          "id": "get_matches",
+          "description": "Find matches",
+          "type": "collect",
+          "targetId": "matches",
+          "requiredCount": 1
+        }
+      ],
+      "rewardItem": "gold_coin",
+      "rewardXP": 100
+    }
+  ]
+}

@@ -30,6 +30,7 @@ set(SOURCES
     src/systems/InventorySystem.cpp
     src/systems/RoomManager.cpp
     src/systems/QuestSystem.cpp
+    src/data/DataLoader.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp
     src/graphics/Animation.cpp
@@ -48,6 +49,9 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 # Inkludera headers
 target_include_directories(${PROJECT_NAME} PRIVATE src)
 
+# Hitta nlohmann_json
+find_package(nlohmann_json CONFIG REQUIRED)
+
 # Länka bibliotek (vcpkg targets)
 target_link_libraries(${PROJECT_NAME} PRIVATE
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
@@ -55,6 +59,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
     $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>
     $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+    nlohmann_json::nlohmann_json
 )
 
 # Kopiera assets till build-mappen

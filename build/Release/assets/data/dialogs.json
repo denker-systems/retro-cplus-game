@@ -1,0 +1,64 @@
+{
+  "dialogs": [
+    {
+      "id": "bartender_intro",
+      "npcName": "Bartender",
+      "startNodeId": 0,
+      "nodes": [
+        {
+          "id": 0,
+          "speaker": "Bartender",
+          "text": "Welcome to the Rusty Anchor! What can I get ya?",
+          "choices": [
+            { "text": "I'm looking for information.", "nextNodeId": 1 },
+            { "text": "Just passing through.", "nextNodeId": 2 },
+            { "text": "Nothing, thanks.", "nextNodeId": -1 }
+          ]
+        },
+        {
+          "id": 1,
+          "speaker": "Bartender",
+          "text": "Information, eh? Well, I hear things. What do you want to know?",
+          "choices": [
+            { "text": "Have you seen anything unusual lately?", "nextNodeId": 3 },
+            { "text": "Never mind.", "nextNodeId": -1 }
+          ]
+        },
+        {
+          "id": 2,
+          "speaker": "Bartender",
+          "text": "Safe travels then, stranger. The roads can be dangerous at night.",
+          "nextNodeId": -1
+        },
+        {
+          "id": 3,
+          "speaker": "Bartender",
+          "text": "Unusual? Hmm... There's an old chest in the corner. Been there for years. Rumor says there's something inside.",
+          "nextNodeId": -1
+        }
+      ]
+    },
+    {
+      "id": "shopkeeper_intro",
+      "npcName": "Shopkeeper",
+      "startNodeId": 0,
+      "nodes": [
+        {
+          "id": 0,
+          "speaker": "Shopkeeper",
+          "text": "Welcome to my humble shop! Browse as you like.",
+          "choices": [
+            { "text": "What do you sell?", "nextNodeId": 1 },
+            { "text": "Just looking around.", "nextNodeId": -1 }
+          ]
+        },
+        {
+          "id": 1,
+          "speaker": "Shopkeeper",
+          "text": "A bit of everything! Tools, supplies, and the occasional curiosity.",
+          "nextNodeId": -1
+        }
+      ]
+    }
+  ]
+}

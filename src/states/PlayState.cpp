@@ -18,6 +18,7 @@
 #include "../systems/RoomManager.h"
 #include "../systems/QuestSystem.h"
 #include "../graphics/Transition.h"
+#include "../data/GameDataLoader.h"
 #include <iostream>
 
 PlayState::PlayState() {
@@ -33,8 +34,8 @@ void PlayState::enter() {
     m_input = std::make_unique<Input>();
     m_player = std::make_unique<PlayerCharacter>(160.0f, 300.0f);
     
-    // Skapa rum och registrera i RoomManager
-    setupRooms();
+    // Ladda all speldata från JSON-filer
+    GameDataLoader::loadAll();
     
     // Sätt callback för rumsbyte
     RoomManager::instance().setOnRoomChange([this](const std::string& roomId) {
@@ -43,88 +44,6 @@ void PlayState::enter() {
     
     // Starta i tavern
     RoomManager::instance().changeRoom("tavern");
-    
-    // Registrera Bartender-dialog
-    DialogTree bartenderDialog;
-    bartenderDialog.id = "bartender_intro";
-    bartenderDialog.npcName = "Bartender";
-    bartenderDialog.startNodeId = 0;
-    
-    DialogNode node0;
-    node0.id = 0;
-    node0.speaker = "Bartender";
-    node0.text = "Welcome to the Rusty Anchor! What can I get ya?";
-    node0.choices = {
-        {"I'm looking for information.", 1},
-        {"Just passing through.", 2},
-        {"Nothing, thanks.", -1}
-    };
-    bartenderDialog.nodes.push_back(node0);
-    
-    DialogNode node1;
-    node1.id = 1;
-    node1.speaker = "Bartender";
-    node1.text = "Information, eh? Well, I hear things... What do you want to know?";
-    node1.nextNodeId = -1;
-    bartenderDialog.nodes.push_back(node1);
-    
-    DialogNode node2;
-    node2.id = 2;
-    node2.speaker = "Bartender";
-    node2.text = "Safe travels then, stranger.";
-    node2.nextNodeId = -1;
-    bartenderDialog.nodes.push_back(node2);
-    
-    DialogSystem::instance().addDialog(bartenderDialog);
-    
-    // Registrera items
-    Item key;
-    key.id = "rusty_key";
-    key.name = "Rusty Key";
-    key.description = "An old rusty key. Wonder what it opens?";
-    InventorySystem::instance().registerItem(key);
-    
-    Item coin;
-    coin.id = "gold_coin";
-    coin.name = "Gold Coin";
-    coin.description = "A shiny gold coin.";
-    InventorySystem::instance().registerItem(coin);
-    
-    Item letter;
-    letter.id = "old_letter";
-    letter.name = "Old Letter";
-    letter.description = "A faded letter with barely readable text.";
-    InventorySystem::instance().registerItem(letter);
-    
-    // === REGISTRERA QUESTS ===
-    Quest mainQuest;
-    mainQuest.id = "find_the_key";
-    mainQuest.title = "The Rusty Key";
-    mainQuest.description = "Find the old key hidden in the tavern.";
-    
-    Objective obj1;
-    obj1.id = "talk_bartender";
-    obj1.description = "Talk to the Bartender";
-    obj1.type = ObjectiveType::Talk;
-    obj1.targetId = "bartender";
-    mainQuest.objectives.push_back(obj1);
-    
-    Objective obj2;
-    obj2.id = "find_key";
-    obj2.description = "Find the rusty key";
-    obj2.type = ObjectiveType::Collect;
-    obj2.targetId = "rusty_key";
-    mainQuest.objectives.push_back(obj2);
-    
-    Objective obj3;
-    obj3.id = "visit_shop";
-    obj3.description = "Visit the General Store";
-    obj3.type = ObjectiveType::GoTo;
-    obj3.targetId = "shop";
-    mainQuest.objectives.push_back(obj3);
-    
-    QuestSystem::instance().addQuest(mainQuest);
-    QuestSystem::instance().startQuest("find_the_key");
 }
 
 void PlayState::exit() {
@@ -133,31 +52,6 @@ void PlayState::exit() {
     // Frigör resurser
     m_player.reset();
     m_input.reset();
-}
-
-void PlayState::setupRooms() {
-    // === TAVERN ===
-    auto tavern = std::make_unique<Room>("tavern", "Tavern");
-    tavern->setWalkArea(0, 640, 260, 350);
-    tavern->addHotspot("bartender", "Bartender", 80, 270, 40, 60, HotspotType::NPC);
-    tavern->addHotspot("chest", "Old Chest", 400, 300, 40, 40, HotspotType::Item);
-    tavern->addExit("door_street", "Exit to Street", 580, 260, 50, 90, "street");
-    RoomManager::instance().addRoom(std::move(tavern));
-    
-    // === STREET ===
-    auto street = std::make_unique<Room>("street", "Town Street");
-    street->setWalkArea(0, 640, 280, 360);
-    street->addExit("door_tavern", "Tavern Door", 20, 270, 50, 90, "tavern");
-    street->addExit("door_shop", "Shop Door", 300, 260, 50, 90, "shop");
-    street->addHotspot("well", "Old Well", 500, 300, 50, 50, HotspotType::Examine);
-    RoomManager::instance().addRoom(std::move(street));
-    
-    // === SHOP ===
-    auto shop = std::make_unique<Room>("shop", "General Store");
-    shop->setWalkArea(0, 640, 260, 350);
-    shop->addHotspot("shopkeeper", "Shopkeeper", 400, 270, 40, 60, HotspotType::NPC);
-    shop->addExit("door_street", "Exit to Street", 20, 260, 50, 90, "street");
-    RoomManager::instance().addRoom(std::move(shop));
 }
 
 void PlayState::onRoomChange(const std::string& roomId) {

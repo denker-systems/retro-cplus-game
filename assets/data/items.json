@@ -1,0 +1,50 @@
+{
+  "items": [
+    {
+      "id": "rusty_key",
+      "name": "Rusty Key",
+      "description": "An old rusty key. Might open something.",
+      "icon": "key",
+      "combinable": false
+    },
+    {
+      "id": "gold_coin",
+      "name": "Gold Coin",
+      "description": "A shiny gold coin.",
+      "icon": "coin",
+      "combinable": false
+    },
+    {
+      "id": "old_letter",
+      "name": "Old Letter",
+      "description": "A faded letter with barely readable text.",
+      "icon": "letter",
+      "combinable": false
+    },
+    {
+      "id": "lantern",
+      "name": "Lantern",
+      "description": "A small oil lantern. Currently unlit.",
+      "icon": "lantern",
+      "combinable": true,
+      "combinesWith": "matches",
+      "combineResult": "lit_lantern"
+    },
+    {
+      "id": "matches",
+      "name": "Matches",
+      "description": "A box of matches.",
+      "icon": "matches",
+      "combinable": true,
+      "combinesWith": "lantern",
+      "combineResult": "lit_lantern"
+    },
+    {
+      "id": "lit_lantern",
+      "name": "Lit Lantern",
+      "description": "A glowing lantern that illuminates the darkness.",
+      "icon": "lantern_lit",
+      "combinable": false
+    }
+  ]
+}
