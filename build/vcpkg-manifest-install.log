@@ -1,0 +1,112 @@
+Detecting compiler hash for triplet x64-windows...
+Compiler found: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+The following packages are already installed:
+  * brotli:x64-windows@1.2.0
+  * bzip2[core,tool]:x64-windows@1.0.8#6
+  * freetype[brotli,bzip2,core,png,zlib]:x64-windows@2.13.3
+  * libogg:x64-windows@1.3.6#1
+  * libpng:x64-windows@1.6.53
+  * libvorbis:x64-windows@1.3.7#4
+    nlohmann-json:x64-windows@3.12.0#1
+    sdl2:x64-windows@2.32.10
+    sdl2-image:x64-windows@2.8.8#2
+    sdl2-mixer[core,wavpack]:x64-windows@2.8.1#2
+    sdl2-ttf:x64-windows@2.24.0
+  * vcpkg-cmake:x64-windows@2024-04-23
+  * vcpkg-cmake-config:x64-windows@2024-05-23
+  * wavpack:x64-windows@5.8.1#2
+  * zlib:x64-windows@1.3.1
+The following packages will be built and installed:
+    imgui[core,docking-experimental]:x64-windows@1.91.9
+    imgui-node-editor:x64-windows@0.9.3#2
+    imguizmo:x64-windows@2024-05-29#1
+    implot:x64-windows@0.17
+    nativefiledialog-extended:x64-windows@1.2.1
+Restored 5 package(s) from C:\Users\Calle\AppData\Local\vcpkg\archives in 88.6 ms. Use --debug to see more details.
+Installing 1/5 imgui[core,docking-experimental]:x64-windows@1.91.9...
+Elapsed time to handle imgui:x64-windows: 5.51 ms
+imgui:x64-windows package ABI: a3d82aa3321e459d887b54df39d4c1d7ee6ad8da1d882425358e78ace933d38a
+Installing 2/5 imgui-node-editor:x64-windows@0.9.3#2...
+Elapsed time to handle imgui-node-editor:x64-windows: 4.98 ms
+imgui-node-editor:x64-windows package ABI: 2ef2b3b35a3bca51f173a9bee6b9609eb29220eb1d6b39ed25c7ba600447d430
+Installing 3/5 imguizmo:x64-windows@2024-05-29#1...
+Elapsed time to handle imguizmo:x64-windows: 4.07 ms
+imguizmo:x64-windows package ABI: 762591e9c954a8cc711f1edd06c6762325d2a48d089752264398e8f83243a2f0
+Installing 4/5 implot:x64-windows@0.17...
+Elapsed time to handle implot:x64-windows: 3.4 ms
+implot:x64-windows package ABI: 32b19865f017b8fa36fbb36d600265f1b787813277eb4d3085ed44e68f55c634
+Installing 5/5 nativefiledialog-extended:x64-windows@1.2.1...
+Elapsed time to handle nativefiledialog-extended:x64-windows: 17.2 ms
+nativefiledialog-extended:x64-windows package ABI: 57dec10a9d09fbeff796ac1340acec429027c743def998eb2cb3627526d1a663
+Installed contents are licensed to you by owners. Microsoft is not responsible for, nor does it grant any licenses to, third-party packages.
+Packages installed in this vcpkg installation declare the following licenses:
+MIT
+Zlib
+imgui provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(imgui CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE imgui::imgui)
+
+imgui-node-editor provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(unofficial-imgui-node-editor CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE unofficial::imgui-node-editor::imgui-node-editor)
+
+imguizmo provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(imguizmo CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE imguizmo::imguizmo)
+
+implot provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(implot CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE implot::implot)
+
+nativefiledialog-extended provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(nfd CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE nfd::nfd)
+
+The package nlohmann-json provides CMake targets:
+
+    find_package(nlohmann_json CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)
+
+The package nlohmann-json can be configured to not provide implicit conversions via a custom triplet file:
+
+    set(nlohmann-json_IMPLICIT_CONVERSIONS OFF)
+
+For more information, see the docs here:
+    
+    https://json.nlohmann.me/api/macros/json_use_implicit_conversions/
+
+sdl2 provides CMake targets:
+
+    find_package(SDL2 CONFIG REQUIRED)
+    target_link_libraries(main
+        PRIVATE
+        $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+        $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+    )
+
+sdl2-image provides CMake targets:
+
+    find_package(SDL2_image CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>)
+
+sdl2-mixer provides CMake targets:
+
+    find_package(SDL2_mixer CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>)
+
+sdl2-ttf provides CMake targets:
+
+    find_package(SDL2_ttf CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
+
+All requested installations completed successfully in: 37.4 ms

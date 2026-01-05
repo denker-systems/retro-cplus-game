@@ -9,7 +9,7 @@
 #endif
 
 #ifdef HAS_IMGUI_NODE_EDITOR
-#include <imgui_node_editor.h>
+#include <imgui-node-editor/imgui_node_editor.h>
 namespace ed = ax::NodeEditor;
 #endif
 

@@ -8,7 +8,15 @@
     "sdl2-image",
     "sdl2-mixer",
     "sdl2-ttf",
-    "nlohmann-json"
+    "nlohmann-json",
+    {
+      "name": "imgui",
+      "features": ["docking-experimental"]
+    },
+    "imguizmo",
+    "implot",
+    "imgui-node-editor",
+    "nativefiledialog-extended"
   ],
   "features": {
     "editor": {
@@ -20,6 +28,7 @@
         },
         "imguizmo",
         "implot",
+        "imgui-node-editor",
         "nativefiledialog-extended"
       ]
     },
