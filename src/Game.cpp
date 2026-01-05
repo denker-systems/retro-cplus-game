@@ -94,8 +94,8 @@ bool Game::init(const std::string& title, int width, int height) {
     FontManager::instance().setScale(m_scale);
     
     // Ladda fonter - FontManager skalar upp internt för skarp text
-    FontManager::instance().loadFont("default", "assets/fonts/arial.ttf", 18);
-    FontManager::instance().loadFont("title", "assets/fonts/arial.ttf", 32);
+    FontManager::instance().loadFont("default", "assets/fonts/arial.ttf", 12);
+    FontManager::instance().loadFont("title", "assets/fonts/arial.ttf", 24);
     
     LOG_INFO("Scale: " + std::to_string(m_scale) + " (fonts scaled for sharp rendering)");
 
