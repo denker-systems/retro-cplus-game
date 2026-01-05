@@ -109,7 +109,13 @@ private:
                 node.nextNodeId = nodeData.nextNodeId;
                 
                 for (const auto& choiceData : nodeData.choices) {
-                    node.choices.push_back({choiceData.text, choiceData.nextNodeId});
+                    DialogChoice choice;
+                    choice.text = choiceData.text;
+                    choice.nextNodeId = choiceData.nextNodeId;
+                    choice.condition = choiceData.condition;
+                    choice.tone = choiceData.tone;
+                    choice.preview = choiceData.preview;
+                    node.choices.push_back(choice);
                 }
                 
                 tree.nodes.push_back(node);

@@ -93,7 +93,20 @@ void DialogState::renderChoices(SDL_Renderer* renderer) {
         
         std::string prefix = selected ? "> " : "  ";
         SDL_Color color = selected ? SDL_Color{255, 255, 100, 255} : SDL_Color{200, 200, 220, 255};
-        FontManager::instance().renderText(renderer, "default", prefix + choices[i].text, 35, y, color);
+        
+        // Visa preview om det finns, annars full text
+        std::string displayText = choices[i].preview.empty() ? choices[i].text : choices[i].preview;
+        
+        // Lägg till ton-ikon
+        std::string toneIcon = "";
+        if (!choices[i].tone.empty()) {
+            if (choices[i].tone == "friendly") toneIcon = "[😊] ";
+            else if (choices[i].tone == "aggressive") toneIcon = "[🔥] ";
+            else if (choices[i].tone == "sarcastic") toneIcon = "[😏] ";
+            else if (choices[i].tone == "neutral") toneIcon = "[💬] ";
+        }
+        
+        FontManager::instance().renderText(renderer, "default", prefix + toneIcon + displayText, 35, y, color);
         
         y += 20;
     }

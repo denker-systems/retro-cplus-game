@@ -77,10 +77,12 @@ struct DialogChoiceData {
     std::string text;
     int nextNodeId = -1;
     std::string condition;      // Villkor (t.ex. "has_item:rusty_key")
+    std::string tone;           // Ton: "friendly", "aggressive", "sarcastic", "neutral"
+    std::string preview;        // Kort preview av intention (valfritt)
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(DialogChoiceData,
-    text, nextNodeId, condition)
+    text, nextNodeId, condition, tone, preview)
 
 struct DialogNodeData {
     int id = 0;

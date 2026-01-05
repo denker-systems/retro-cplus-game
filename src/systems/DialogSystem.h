@@ -16,6 +16,8 @@ struct DialogChoice {
     std::string text;           // Valtexten som visas
     int nextNodeId = -1;        // Nästa nod att gå till (-1 = avsluta)
     std::string condition;      // Villkor för att visa valet (optional)
+    std::string tone;           // Ton: "friendly", "aggressive", "sarcastic", "neutral"
+    std::string preview;        // Kort preview av intention (valfritt)
 };
 
 /**

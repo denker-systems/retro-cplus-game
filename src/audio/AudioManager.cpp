@@ -79,6 +79,7 @@ void AudioManager::playMusic(const std::string& id, int loops) {
     // Sätt volym och spela
     Mix_VolumeMusic(static_cast<int>(m_musicVolume * MIX_MAX_VOLUME));
     Mix_PlayMusic(it->second, loops);
+    m_currentMusicId = id;
 }
 
 void AudioManager::pauseMusic() {
@@ -95,6 +96,49 @@ void AudioManager::stopMusic() {
 
 void AudioManager::fadeOutMusic(int ms) {
     Mix_FadeOutMusic(ms);
+}
+
+void AudioManager::crossfadeToMusic(const std::string& id, int fadeMs) {
+    if (m_currentMusicId == id) {
+        return; // Redan spelar denna musik
+    }
+    
+    // Fade ut nuvarande musik
+    if (Mix_PlayingMusic()) {
+        Mix_FadeOutMusic(fadeMs);
+    }
+    
+    // Vänta lite och spela ny musik med fade in
+    // OBS: Detta är en enkel implementation - för production skulle man
+    // använda en timer/callback för bättre timing
+    auto it = m_music.find(id);
+    if (it != m_music.end() && !m_muted) {
+        Mix_VolumeMusic(static_cast<int>(m_musicVolume * MIX_MAX_VOLUME));
+        Mix_FadeInMusic(it->second, -1, fadeMs);
+        m_currentMusicId = id;
+    }
+}
+
+void AudioManager::setMusicState(MusicState state) {
+    if (m_currentState == state) return;
+    
+    MusicState oldState = m_currentState;
+    m_currentState = state;
+    
+    // Här kan vi i framtiden lägga till logik för att byta musik-lager
+    // baserat på state (t.ex. lägga till tension-layer)
+    std::cout << "Music state changed: " << static_cast<int>(oldState) 
+              << " -> " << static_cast<int>(state) << std::endl;
+}
+
+void AudioManager::playMusicSting(const std::string& id) {
+    // Spela kort musikstycke (sting) utan att stoppa bakgrundsmusiken
+    // Detta kräver att stinget är laddat som ljudeffekt, inte musik
+    auto it = m_sounds.find(id);
+    if (it != m_sounds.end() && !m_muted) {
+        Mix_VolumeChunk(it->second, static_cast<int>(m_musicVolume * MIX_MAX_VOLUME));
+        Mix_PlayChannel(-1, it->second, 0);
+    }
 }
 
 // === Ljudeffekter ===
