@@ -87,7 +87,7 @@ events:
       The output was:
       0
       MSBuild version 17.15.0-preview-25421-07+49758e5ba for .NET Framework
-      Build started 1/4/2026 7:10:25 PM.
+      Build started 1/5/2026 10:56:56 AM.
       
       Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\4.2.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
       PrepareForBuild:
@@ -116,7 +116,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.59
+      Time Elapsed 00:00:00.55
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -451,6 +451,8 @@ events:
     search_context:
       CMAKE_PROGRAM_PATH:
         - "C:/vcpkg/installed/x64-windows/tools"
+        - "C:/vcpkg/installed/x64-windows/tools/brotli"
+        - "C:/vcpkg/installed/x64-windows/tools/bzip2"
       CMAKE_PREFIX_PATH:
         - "C:/vcpkg/installed/x64-windows/debug"
         - "C:/vcpkg/installed/x64-windows"
@@ -911,6 +913,8 @@ events:
     search_context:
       CMAKE_PROGRAM_PATH:
         - "C:/vcpkg/installed/x64-windows/tools"
+        - "C:/vcpkg/installed/x64-windows/tools/brotli"
+        - "C:/vcpkg/installed/x64-windows/tools/bzip2"
       CMAKE_PREFIX_PATH:
         - "C:/vcpkg/installed/x64-windows/debug"
         - "C:/vcpkg/installed/x64-windows"
@@ -1271,6 +1275,8 @@ events:
     search_context:
       CMAKE_PROGRAM_PATH:
         - "C:/vcpkg/installed/x64-windows/tools"
+        - "C:/vcpkg/installed/x64-windows/tools/brotli"
+        - "C:/vcpkg/installed/x64-windows/tools/bzip2"
       CMAKE_PREFIX_PATH:
         - "C:/vcpkg/installed/x64-windows/debug"
         - "C:/vcpkg/installed/x64-windows"
@@ -1729,6 +1735,8 @@ events:
     search_context:
       CMAKE_PROGRAM_PATH:
         - "C:/vcpkg/installed/x64-windows/tools"
+        - "C:/vcpkg/installed/x64-windows/tools/brotli"
+        - "C:/vcpkg/installed/x64-windows/tools/bzip2"
       CMAKE_PREFIX_PATH:
         - "C:/vcpkg/installed/x64-windows/debug"
         - "C:/vcpkg/installed/x64-windows"
@@ -2089,6 +2097,8 @@ events:
     search_context:
       CMAKE_PROGRAM_PATH:
         - "C:/vcpkg/installed/x64-windows/tools"
+        - "C:/vcpkg/installed/x64-windows/tools/brotli"
+        - "C:/vcpkg/installed/x64-windows/tools/bzip2"
       CMAKE_PREFIX_PATH:
         - "C:/vcpkg/installed/x64-windows/debug"
         - "C:/vcpkg/installed/x64-windows"
@@ -2156,6 +2166,8 @@ events:
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/sbin/"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/"
       - "C:/vcpkg/installed/x64-windows/debug/Windows/System32/"
@@ -2207,6 +2219,8 @@ events:
       - "C:/vcpkg/installed/x64-windows/sbin/"
       - "C:/vcpkg/installed/x64-windows/"
       - "C:/vcpkg/installed/x64-windows/tools/"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/"
       - "C:/vcpkg/installed/x64-windows/Python314/"
       - "C:/vcpkg/installed/x64-windows/Windows/System32/"
@@ -2258,6 +2272,8 @@ events:
       - "C:/vcpkg/installed/x64-windows/sbin/"
       - "C:/vcpkg/installed/x64-windows/"
       - "C:/vcpkg/installed/x64-windows/tools/"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/"
       - "C:/Python314/Scripts/"
       - "C:/Python314/"
       - "C:/Windows/System32/"
@@ -2324,6 +2340,12 @@ events:
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/rc.com"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/rc.exe"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/rc"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/rc.com"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/rc.exe"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/rc"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/rc.com"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/rc.exe"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/rc"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/rc.com"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/rc.exe"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/rc"
@@ -2477,6 +2499,12 @@ events:
       - "C:/vcpkg/installed/x64-windows/tools/rc.com"
       - "C:/vcpkg/installed/x64-windows/tools/rc.exe"
       - "C:/vcpkg/installed/x64-windows/tools/rc"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/rc.com"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/rc.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/rc"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/rc.com"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/rc.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/rc"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/rc.com"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/rc.exe"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/rc"
@@ -2630,6 +2658,12 @@ events:
       - "C:/vcpkg/installed/x64-windows/tools/rc.com"
       - "C:/vcpkg/installed/x64-windows/tools/rc.exe"
       - "C:/vcpkg/installed/x64-windows/tools/rc"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/rc.com"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/rc.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/rc"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/rc.com"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/rc.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/rc"
       - "C:/Python314/Scripts/rc.com"
       - "C:/Python314/Scripts/rc.exe"
       - "C:/Python314/Scripts/rc"
@@ -2766,6 +2800,8 @@ events:
     search_context:
       CMAKE_PROGRAM_PATH:
         - "C:/vcpkg/installed/x64-windows/tools"
+        - "C:/vcpkg/installed/x64-windows/tools/brotli"
+        - "C:/vcpkg/installed/x64-windows/tools/bzip2"
       CMAKE_PREFIX_PATH:
         - "C:/vcpkg/installed/x64-windows/debug"
         - "C:/vcpkg/installed/x64-windows"
@@ -2818,8 +2854,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-yywshg"
-      binary: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-yywshg"
+      source: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-zr7dok"
+      binary: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-zr7dok"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -2833,39 +2869,39 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-yywshg'
+        Change Dir: 'C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-zr7dok'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Insiders/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_ee944.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Insiders/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_fbb2d.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
         MSBuild version 17.15.0-preview-25421-07+49758e5ba for .NET Framework
-        Build started 1/4/2026 7:10:26 PM.
+        Build started 1/5/2026 10:56:57 AM.
         
-        Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yywshg\\cmTC_ee944.vcxproj" on node 1 (default targets).
+        Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zr7dok\\cmTC_fbb2d.vcxproj" on node 1 (default targets).
         PrepareForBuild:
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yywshg\\Debug\\".
-          Creating directory "cmTC_ee944.dir\\Debug\\cmTC_ee944.tlog\\".
+          Creating directory "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zr7dok\\Debug\\".
+          Creating directory "cmTC_fbb2d.dir\\Debug\\cmTC_fbb2d.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_ee944.dir\\Debug\\cmTC_ee944.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_ee944.dir\\Debug\\cmTC_ee944.tlog\\unsuccessfulbuild".
+          Creating "cmTC_fbb2d.dir\\Debug\\cmTC_fbb2d.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_fbb2d.dir\\Debug\\cmTC_fbb2d.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_ee944.dir\\Debug\\\\" /Fd"cmTC_ee944.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_fbb2d.dir\\Debug\\\\" /Fd"cmTC_fbb2d.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.50.35503 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_ee944.dir\\Debug\\\\" /Fd"cmTC_ee944.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_fbb2d.dir\\Debug\\\\" /Fd"cmTC_fbb2d.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
           CMakeCXXCompilerABI.cpp
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yywshg\\Debug\\cmTC_ee944.exe" /INCREMENTAL /ILK:"cmTC_ee944.dir\\Debug\\cmTC_ee944.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-yywshg/Debug/cmTC_ee944.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-yywshg/Debug/cmTC_ee944.lib" /MACHINE:X64  /machine:x64 cmTC_ee944.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_ee944.vcxproj -> C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yywshg\\Debug\\cmTC_ee944.exe
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zr7dok\\Debug\\cmTC_fbb2d.exe" /INCREMENTAL /ILK:"cmTC_fbb2d.dir\\Debug\\cmTC_fbb2d.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-zr7dok/Debug/cmTC_fbb2d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-zr7dok/Debug/cmTC_fbb2d.lib" /MACHINE:X64  /machine:x64 cmTC_fbb2d.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_fbb2d.vcxproj -> C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zr7dok\\Debug\\cmTC_fbb2d.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_ee944.dir\\Debug\\cmTC_ee944.tlog\\unsuccessfulbuild".
-          Touching "cmTC_ee944.dir\\Debug\\cmTC_ee944.tlog\\cmTC_ee944.lastbuildstate".
-        Done Building Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yywshg\\cmTC_ee944.vcxproj" (default targets).
+          Deleting file "cmTC_fbb2d.dir\\Debug\\cmTC_fbb2d.tlog\\unsuccessfulbuild".
+          Touching "cmTC_fbb2d.dir\\Debug\\cmTC_fbb2d.tlog\\cmTC_fbb2d.lastbuildstate".
+        Done Building Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zr7dok\\cmTC_fbb2d.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:00.33
+        Time Elapsed 00:00:00.29
         
       exitCode: 0
   -
@@ -2954,6 +2990,14 @@ events:
         reason: "no_exist"
       -
         path: "C:/vcpkg/installed/x64-windows/sdl2-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/share/sdl2-ttf/SDL2Config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/share/sdl2-ttf/sdl2-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
@@ -5024,11 +5068,339 @@ events:
         - "C:/Program Files (x86)/RetroAdventure"
       CMAKE_FIND_ROOT_PATH: "C:/vcpkg/installed/x64-windows/debug;C:/vcpkg/installed/x64-windows"
   -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:11 (find_package)"
+    name: "SDL2_ttf"
+    configs:
+      -
+        filename: "SDL2_ttfConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "sdl2_ttf-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "SDL2_ttf"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/SDL2_ttfConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/sdl2_ttf-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/SDL2_ttfConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/sdl2_ttf-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/SDL2_ttfConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/sdl2_ttf-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "C:/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfig.cmake"
+      mode: "config"
+      version: "2.24.0"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/vcpkg/installed/x64-windows/debug"
+        - "C:/vcpkg/installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/vcpkg/installed/x64-windows/debug;C:/vcpkg/installed/x64-windows"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:12 (find_package)"
+    name: "nlohmann_json"
+    configs:
+      -
+        filename: "nlohmann_jsonConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "nlohmann_json-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "nlohmann_json"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/nlohmann_jsonConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/nlohmann_json-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/nlohmann_jsonConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/nlohmann_json-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/nlohmann_jsonConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/nlohmann_json-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "C:/vcpkg/installed/x64-windows/share/nlohmann_json/nlohmann_jsonConfig.cmake"
+      mode: "config"
+      version: "3.12.0"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/vcpkg/installed/x64-windows/debug"
+        - "C:/vcpkg/installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/vcpkg/installed/x64-windows/debug;C:/vcpkg/installed/x64-windows"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:13 (find_package)"
+    name: "imgui"
+    configs:
+      -
+        filename: "imguiConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "imgui-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "optional"
+      quiet: true
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "imgui"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/imguiConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/imgui-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/imguiConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/imgui-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/imguiConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/imgui-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/share/imgui/imguiConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "C:/vcpkg/installed/x64-windows/share/imgui/imgui-config.cmake"
+      mode: "config"
+      version: ""
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/vcpkg/installed/x64-windows/debug"
+        - "C:/vcpkg/installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/vcpkg/installed/x64-windows/debug;C:/vcpkg/installed/x64-windows"
+  -
     kind: "find-v1"
     backtrace:
       - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:188 (find_program)"
       - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:621 (z_vcpkg_set_powershell_path)"
-      - "CMakeLists.txt:23 (add_executable)"
+      - "CMakeLists.txt:82 (add_executable)"
     mode: "program"
     variable: "Z_VCPKG_PWSH_PATH"
     description: "Path to a program."
@@ -5050,6 +5422,8 @@ events:
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/sbin/"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/"
       - "C:/vcpkg/installed/x64-windows/debug/Windows/System32/"
@@ -5101,6 +5475,8 @@ events:
       - "C:/vcpkg/installed/x64-windows/sbin/"
       - "C:/vcpkg/installed/x64-windows/"
       - "C:/vcpkg/installed/x64-windows/tools/"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/"
       - "C:/vcpkg/installed/x64-windows/Python314/"
       - "C:/vcpkg/installed/x64-windows/Windows/System32/"
@@ -5152,6 +5528,8 @@ events:
       - "C:/vcpkg/installed/x64-windows/sbin/"
       - "C:/vcpkg/installed/x64-windows/"
       - "C:/vcpkg/installed/x64-windows/tools/"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/"
       - "C:/Python314/Scripts/"
       - "C:/Python314/"
       - "C:/Windows/System32/"
@@ -5218,6 +5596,12 @@ events:
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/pwsh.com"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/pwsh.exe"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/pwsh"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/pwsh.com"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/pwsh.exe"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/pwsh"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/pwsh.com"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/pwsh.exe"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/pwsh"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/pwsh.com"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/pwsh.exe"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/pwsh"
@@ -5371,6 +5755,12 @@ events:
       - "C:/vcpkg/installed/x64-windows/tools/pwsh.com"
       - "C:/vcpkg/installed/x64-windows/tools/pwsh.exe"
       - "C:/vcpkg/installed/x64-windows/tools/pwsh"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/pwsh.com"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/pwsh.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/pwsh"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/pwsh.com"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/pwsh.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/pwsh"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/pwsh.com"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/pwsh.exe"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/pwsh"
@@ -5524,6 +5914,12 @@ events:
       - "C:/vcpkg/installed/x64-windows/tools/pwsh.com"
       - "C:/vcpkg/installed/x64-windows/tools/pwsh.exe"
       - "C:/vcpkg/installed/x64-windows/tools/pwsh"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/pwsh.com"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/pwsh.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/pwsh"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/pwsh.com"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/pwsh.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/pwsh"
       - "C:/Python314/Scripts/pwsh.com"
       - "C:/Python314/Scripts/pwsh.exe"
       - "C:/Python314/Scripts/pwsh"
@@ -5660,6 +6056,8 @@ events:
     search_context:
       CMAKE_PROGRAM_PATH:
         - "C:/vcpkg/installed/x64-windows/tools"
+        - "C:/vcpkg/installed/x64-windows/tools/brotli"
+        - "C:/vcpkg/installed/x64-windows/tools/bzip2"
       CMAKE_PREFIX_PATH:
         - "C:/vcpkg/installed/x64-windows/debug"
         - "C:/vcpkg/installed/x64-windows"
@@ -5708,7 +6106,7 @@ events:
     backtrace:
       - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:193 (find_program)"
       - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:621 (z_vcpkg_set_powershell_path)"
-      - "CMakeLists.txt:23 (add_executable)"
+      - "CMakeLists.txt:82 (add_executable)"
     mode: "program"
     variable: "Z_VCPKG_BUILTIN_POWERSHELL_PATH"
     description: "Path to a program."
@@ -5730,6 +6128,8 @@ events:
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/sbin/"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/"
       - "C:/vcpkg/installed/x64-windows/debug/Windows/System32/"
@@ -5781,6 +6181,8 @@ events:
       - "C:/vcpkg/installed/x64-windows/sbin/"
       - "C:/vcpkg/installed/x64-windows/"
       - "C:/vcpkg/installed/x64-windows/tools/"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/"
       - "C:/vcpkg/installed/x64-windows/Python314/"
       - "C:/vcpkg/installed/x64-windows/Windows/System32/"
@@ -5832,6 +6234,8 @@ events:
       - "C:/vcpkg/installed/x64-windows/sbin/"
       - "C:/vcpkg/installed/x64-windows/"
       - "C:/vcpkg/installed/x64-windows/tools/"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/"
       - "C:/Python314/Scripts/"
       - "C:/Python314/"
       - "C:/Windows/System32/"
@@ -5898,6 +6302,12 @@ events:
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/powershell.com"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/powershell.exe"
       - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/powershell"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/powershell.com"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/powershell.exe"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/brotli/powershell"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/powershell.com"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/powershell.exe"
+      - "C:/vcpkg/installed/x64-windows/debug/vcpkg/installed/x64-windows/tools/bzip2/powershell"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/powershell.com"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/powershell.exe"
       - "C:/vcpkg/installed/x64-windows/debug/Python314/Scripts/powershell"
@@ -6051,6 +6461,12 @@ events:
       - "C:/vcpkg/installed/x64-windows/tools/powershell.com"
       - "C:/vcpkg/installed/x64-windows/tools/powershell.exe"
       - "C:/vcpkg/installed/x64-windows/tools/powershell"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/powershell.com"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/powershell.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/powershell"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/powershell.com"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/powershell.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/powershell"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/powershell.com"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/powershell.exe"
       - "C:/vcpkg/installed/x64-windows/Python314/Scripts/powershell"
@@ -6204,6 +6620,12 @@ events:
       - "C:/vcpkg/installed/x64-windows/tools/powershell.com"
       - "C:/vcpkg/installed/x64-windows/tools/powershell.exe"
       - "C:/vcpkg/installed/x64-windows/tools/powershell"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/powershell.com"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/powershell.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/brotli/powershell"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/powershell.com"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/powershell.exe"
+      - "C:/vcpkg/installed/x64-windows/tools/bzip2/powershell"
       - "C:/Python314/Scripts/powershell.com"
       - "C:/Python314/Scripts/powershell.exe"
       - "C:/Python314/Scripts/powershell"
@@ -6224,6 +6646,8 @@ events:
     search_context:
       CMAKE_PROGRAM_PATH:
         - "C:/vcpkg/installed/x64-windows/tools"
+        - "C:/vcpkg/installed/x64-windows/tools/brotli"
+        - "C:/vcpkg/installed/x64-windows/tools/bzip2"
       CMAKE_PREFIX_PATH:
         - "C:/vcpkg/installed/x64-windows/debug"
         - "C:/vcpkg/installed/x64-windows"
@@ -6275,25 +6699,25 @@ events:
     kind: "find_package-v1"
     backtrace:
       - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
-      - "CMakeLists.txt:11 (find_package)"
-    name: "SDL2_ttf"
+      - "CMakeLists.txt:19 (find_package)"
+    name: "imguizmo"
     configs:
       -
-        filename: "SDL2_ttfConfig.cmake"
+        filename: "imguizmoConfig.cmake"
         kind: "cmake"
       -
-        filename: "sdl2_ttf-config.cmake"
+        filename: "imguizmo-config.cmake"
         kind: "cmake"
     version_request:
       exact: false
     settings:
-      required: "required_explicit"
-      quiet: false
+      required: "optional"
+      quiet: true
       global: false
       policy_scope: true
       bypass_provider: false
       names:
-        - "SDL2_ttf"
+        - "imguizmo"
       path_suffixes:
         - ""
       paths:
@@ -6308,33 +6732,318 @@ events:
         CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
     candidates:
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/SDL2_ttfConfig.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/imguizmoConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/sdl2_ttf-config.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/imguizmo-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/SDL2_ttfConfig.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/imguizmoConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/sdl2_ttf-config.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/imguizmo-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/SDL2_ttfConfig.cmake"
+        path: "C:/vcpkg/installed/x64-windows/imguizmoConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/sdl2_ttf-config.cmake"
+        path: "C:/vcpkg/installed/x64-windows/imguizmo-config.cmake"
         mode: "config"
         reason: "no_exist"
-    found:
-      path: "C:/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfig.cmake"
-      mode: "config"
-      version: "2.24.0"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/imguizmoConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/imguizmo-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found: null
     search_context:
       CMAKE_PREFIX_PATH:
         - "C:/vcpkg/installed/x64-windows/debug"
@@ -6379,33 +7088,29 @@ events:
         - "C:/Program Files/CMake"
         - "C:/Program Files (x86)/RetroAdventure"
       CMAKE_FIND_ROOT_PATH: "C:/vcpkg/installed/x64-windows/debug;C:/vcpkg/installed/x64-windows"
-...
-
----
-events:
   -
     kind: "find_package-v1"
     backtrace:
       - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
-      - "CMakeLists.txt:53 (find_package)"
-    name: "nlohmann_json"
+      - "CMakeLists.txt:20 (find_package)"
+    name: "implot"
     configs:
       -
-        filename: "nlohmann_jsonConfig.cmake"
+        filename: "implotConfig.cmake"
         kind: "cmake"
       -
-        filename: "nlohmann_json-config.cmake"
+        filename: "implot-config.cmake"
         kind: "cmake"
     version_request:
       exact: false
     settings:
-      required: "required_explicit"
-      quiet: false
+      required: "optional"
+      quiet: true
       global: false
       policy_scope: true
       bypass_provider: false
       names:
-        - "nlohmann_json"
+        - "implot"
       path_suffixes:
         - ""
       paths:
@@ -6420,33 +7125,318 @@ events:
         CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
     candidates:
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/nlohmann_jsonConfig.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/implotConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/nlohmann_json-config.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/implot-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/nlohmann_jsonConfig.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/implotConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/nlohmann_json-config.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/implot-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/nlohmann_jsonConfig.cmake"
+        path: "C:/vcpkg/installed/x64-windows/implotConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/nlohmann_json-config.cmake"
+        path: "C:/vcpkg/installed/x64-windows/implot-config.cmake"
         mode: "config"
         reason: "no_exist"
-    found:
-      path: "C:/vcpkg/installed/x64-windows/share/nlohmann_json/nlohmann_jsonConfig.cmake"
-      mode: "config"
-      version: "3.12.0"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/implotConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/implot-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found: null
     search_context:
       CMAKE_PREFIX_PATH:
         - "C:/vcpkg/installed/x64-windows/debug"
@@ -6491,33 +7481,29 @@ events:
         - "C:/Program Files/CMake"
         - "C:/Program Files (x86)/RetroAdventure"
       CMAKE_FIND_ROOT_PATH: "C:/vcpkg/installed/x64-windows/debug;C:/vcpkg/installed/x64-windows"
-...
-
----
-events:
   -
     kind: "find_package-v1"
     backtrace:
       - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
-      - "CMakeLists.txt:70 (find_package)"
-    name: "imgui"
+      - "CMakeLists.txt:21 (find_package)"
+    name: "nfd"
     configs:
       -
-        filename: "imguiConfig.cmake"
+        filename: "nfdConfig.cmake"
         kind: "cmake"
       -
-        filename: "imgui-config.cmake"
+        filename: "nfd-config.cmake"
         kind: "cmake"
     version_request:
       exact: false
     settings:
-      required: "required_explicit"
-      quiet: false
+      required: "optional"
+      quiet: true
       global: false
       policy_scope: true
       bypass_provider: false
       names:
-        - "imgui"
+        - "nfd"
       path_suffixes:
         - ""
       paths:
@@ -6532,37 +7518,1104 @@ events:
         CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
     candidates:
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/imguiConfig.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/nfdConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/imgui-config.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/nfd-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/imguiConfig.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/nfdConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/debug/imgui-config.cmake"
+        path: "C:/vcpkg/installed/x64-windows/debug/nfd-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/imguiConfig.cmake"
+        path: "C:/vcpkg/installed/x64-windows/nfdConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/imgui-config.cmake"
+        path: "C:/vcpkg/installed/x64-windows/nfd-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "C:/vcpkg/installed/x64-windows/share/imgui/imguiConfig.cmake"
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/nfdConfig.cmake"
         mode: "config"
         reason: "no_exist"
-    found:
-      path: "C:/vcpkg/installed/x64-windows/share/imgui/imgui-config.cmake"
-      mode: "config"
-      version: ""
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/nfdConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/nfd-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found: null
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/vcpkg/installed/x64-windows/debug"
+        - "C:/vcpkg/installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/vcpkg/installed/x64-windows/debug;C:/vcpkg/installed/x64-windows"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:24 (find_package)"
+    name: "spdlog"
+    configs:
+      -
+        filename: "spdlogConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "spdlog-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "optional"
+      quiet: true
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "spdlog"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/spdlogConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/spdlog-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found: null
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/vcpkg/installed/x64-windows/debug"
+        - "C:/vcpkg/installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/vcpkg/installed/x64-windows/debug;C:/vcpkg/installed/x64-windows"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:25 (find_package)"
+    name: "efsw"
+    configs:
+      -
+        filename: "efswConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "efsw-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "optional"
+      quiet: true
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "efsw"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/debug/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/vcpkg/installed/x64-windows/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/efswConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/efsw-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found: null
     search_context:
       CMAKE_PREFIX_PATH:
         - "C:/vcpkg/installed/x64-windows/debug"

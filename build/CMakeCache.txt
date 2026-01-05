@@ -279,11 +279,26 @@ Z_VCPKG_PWSH_PATH:FILEPATH=Z_VCPKG_PWSH_PATH-NOTFOUND
 // triplet
 _VCPKG_INSTALLED_DIR:PATH=C:/vcpkg/installed
 
+//The directory containing a CMake configuration file for efsw.
+efsw_DIR:PATH=efsw_DIR-NOTFOUND
+
 //The directory containing a CMake configuration file for imgui.
 imgui_DIR:PATH=C:/vcpkg/installed/x64-windows/share/imgui
 
+//The directory containing a CMake configuration file for imguizmo.
+imguizmo_DIR:PATH=imguizmo_DIR-NOTFOUND
+
+//The directory containing a CMake configuration file for implot.
+implot_DIR:PATH=implot_DIR-NOTFOUND
+
+//The directory containing a CMake configuration file for nfd.
+nfd_DIR:PATH=nfd_DIR-NOTFOUND
+
 //The directory containing a CMake configuration file for nlohmann_json.
 nlohmann_json_DIR:PATH=C:/vcpkg/installed/x64-windows/share/nlohmann_json
+
+//The directory containing a CMake configuration file for spdlog.
+spdlog_DIR:PATH=spdlog_DIR-NOTFOUND
 
 
 ########################

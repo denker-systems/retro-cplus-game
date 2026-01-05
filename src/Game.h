@@ -41,6 +41,7 @@ public:
     void changeState(std::unique_ptr<IState> state);
     
     SDL_Renderer* getRenderer() const { return m_renderer; }
+    SDL_Window* getWindow() const { return m_window; }
     
     /** @brief Hämta renderingsskala */
     float getScale() const { return m_scale; }
@@ -51,8 +52,12 @@ public:
     
     /** @brief Konvertera skärmkoordinater till spelkoordinater */
     void screenToGame(int screenX, int screenY, int& gameX, int& gameY) const;
+    
+    /** @brief Hämta skärmupplösning */
+    int getScreenWidth() const;
+    int getScreenHeight() const;
 
-    // Bas-spelupplösning (design-koordinater)
+    // Bas-spelupplösning (används för bakåtkompatibilitet med spel-content)
     static constexpr int GAME_WIDTH = 640;
     static constexpr int GAME_HEIGHT = 400;
 

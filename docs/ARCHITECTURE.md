@@ -69,15 +69,24 @@ src/
 ├── ui/                   # Widget-system
 │   └── Widget.cpp/h          # Label, Button, Panel, ProgressBar
 │
-└── editor/               # In-game editor system
-    ├── EditorCore.cpp/h      # Singleton coordinator, undo/redo
-    ├── EditorContext.cpp/h   # Shared state, data copies
-    ├── IEditorCommand.h      # Command interface
-    ├── IEditorPanel.h        # Panel interface
-    ├── commands/             # Undoable commands
-    │   └── HotspotCommands.cpp/h
-    └── panels/               # Editor panels
-        └── RoomPanel.cpp/h
+├── editor/               # ImGui-baserad editor (2026-01-05)
+│   ├── ImGuiManager.cpp/h    # ImGui lifecycle management
+│   ├── EditorContext.cpp/h   # Shared state mellan paneler
+│   ├── IEditorPanel.h        # Panel interface
+│   ├── VisualRoomEditor.cpp/h # Visuell rum-redigering
+│   ├── RoomDataManager.cpp/h  # Room data persistence
+│   ├── EditorTabRenderer.cpp/h # Legacy tab rendering
+│   ├── TiledIntegration.cpp/h # Tiled import/export
+│   └── panels/               # ImGui panels
+│       ├── HierarchyPanel.cpp/h   # Objektträd
+│       ├── PropertiesPanel.cpp/h  # Inspector
+│       ├── ViewportPanel.cpp/h    # Rum-preview med zoom
+│       ├── AssetBrowserPanel.cpp/h # Asset browser
+│       └── ConsolePanel.cpp/h     # Logg console
+│
+└── vendor/               # Vendored dependencies
+    ├── imgui_impl_sdl2.cpp/h         # SDL2 backend
+    └── imgui_impl_sdlrenderer2.cpp/h # SDL2 renderer backend
 ```
 
 ### Planerat (ny OOP-struktur)

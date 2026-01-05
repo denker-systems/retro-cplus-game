@@ -15,7 +15,7 @@ EditorContext::~EditorContext() {
     clearTextureCache();
 }
 
-void EditorContext::setSelection(SelectionType type, const std::string& id, int index) {
+void EditorContext::setSelection(::SelectionType type, const std::string& id, int index) {
     m_selection.type = type;
     m_selection.primaryId = id;
     m_selection.secondaryIndex = index;

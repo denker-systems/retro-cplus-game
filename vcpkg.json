@@ -1,0 +1,40 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "retro-adventure",
+  "version": "1.0.0",
+  "description": "Retro Adventure - Point & Click Adventure Game",
+  "dependencies": [
+    "sdl2",
+    "sdl2-image",
+    "sdl2-mixer",
+    "sdl2-ttf",
+    "nlohmann-json"
+  ],
+  "features": {
+    "editor": {
+      "description": "Editor tools and dependencies",
+      "dependencies": [
+        {
+          "name": "imgui",
+          "features": ["docking-experimental"]
+        },
+        "imguizmo",
+        "implot",
+        "nativefiledialog-extended"
+      ]
+    },
+    "dev": {
+      "description": "Development and debugging tools",
+      "dependencies": [
+        "spdlog",
+        "efsw"
+      ]
+    },
+    "validation": {
+      "description": "Data validation",
+      "dependencies": [
+        "json-schema-validator"
+      ]
+    }
+  }
+}

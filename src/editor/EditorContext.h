@@ -57,10 +57,23 @@ public:
     EditorContext() = default;
     ~EditorContext();
     
-    // Selection
+    // Selection type enum
+    enum class SelectionType {
+        None, Room, Dialog, Quest, Item, NPC, Hotspot
+    };
+    
+    // Current selection (direkt åtkomst för enkelhets skull)
+    SelectionType selectedType = SelectionType::None;
+    std::string selectedRoomId;
+    std::string selectedDialogId;
+    std::string selectedQuestId;
+    std::string selectedItemId;
+    int selectedHotspotIndex = -1;
+    
+    // Selection helpers
     EditorSelection& getSelection() { return m_selection; }
     const EditorSelection& getSelection() const { return m_selection; }
-    void setSelection(SelectionType type, const std::string& id, int index = -1);
+    void setSelection(::SelectionType type, const std::string& id, int index = -1);
     void clearSelection();
     
     // Clipboard
@@ -78,6 +91,10 @@ public:
     int gridSize = 10;
     bool showHotspotNames = true;
     bool showWalkArea = true;
+    
+    // Status message
+    std::string statusMessage;
+    float statusTimer = 0.0f;
     
     // Current editing data (mutable copies)
     std::vector<RoomData> rooms;
