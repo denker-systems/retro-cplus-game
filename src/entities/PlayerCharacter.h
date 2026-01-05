@@ -31,12 +31,20 @@ public:
     
     /** @brief Flytta med tangentbord (dx/dy: -1, 0, 1) */
     void move(int dx, int dy, float deltaTime);
+    
+    /** @brief Sätt walk area för clamping */
+    void setWalkArea(int minX, int maxX, int minY, int maxY);
 
 private:
+    void clampToWalkArea() override;
     void updateAnimation(float deltaTime);
     void renderPlaceholder(SDL_Renderer* renderer);
     
     std::unique_ptr<SpriteSheet> m_spriteSheet;
     std::unique_ptr<Animation> m_walkAnim;
     std::unique_ptr<Animation> m_idleAnim;
+    
+    // Walk area bounds
+    int m_walkMinX, m_walkMaxX;
+    int m_walkMinY, m_walkMaxY;
 };

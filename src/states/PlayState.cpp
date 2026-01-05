@@ -69,6 +69,13 @@ void PlayState::exit() {
 void PlayState::onRoomChange(const std::string& roomId) {
     std::cout << "Player entered: " << roomId << std::endl;
     
+    // Uppdatera spelarens walk area från rummet
+    Room* room = RoomManager::instance().getCurrentRoom();
+    if (room) {
+        const auto& wa = room->getWalkArea();
+        m_player->setWalkArea(wa.minX, wa.maxX, wa.minY, wa.maxY);
+    }
+    
     // Sätt spelarens position baserat på vilket rum
     float spawnX, spawnY;
     RoomManager::instance().getSpawnPosition(spawnX, spawnY);

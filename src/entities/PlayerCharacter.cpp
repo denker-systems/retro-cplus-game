@@ -8,9 +8,28 @@
 #include <iostream>
 
 PlayerCharacter::PlayerCharacter(float x, float y)
-    : Character(x, y, 32, 48, "Player") {}
+    : Character(x, y, 32, 48, "Player")
+    , m_walkMinX(0)
+    , m_walkMaxX(640)
+    , m_walkMinY(0)
+    , m_walkMaxY(400) {}
 
 PlayerCharacter::~PlayerCharacter() = default;
+
+void PlayerCharacter::setWalkArea(int minX, int maxX, int minY, int maxY) {
+    m_walkMinX = minX;
+    m_walkMaxX = maxX;
+    m_walkMinY = minY;
+    m_walkMaxY = maxY;
+}
+
+void PlayerCharacter::clampToWalkArea() {
+    // Använd rummets walk area
+    if (m_x < m_walkMinX) m_x = static_cast<float>(m_walkMinX);
+    if (m_x > m_walkMaxX - m_width) m_x = static_cast<float>(m_walkMaxX - m_width);
+    if (m_y < m_walkMinY) m_y = static_cast<float>(m_walkMinY);
+    if (m_y > m_walkMaxY - m_height) m_y = static_cast<float>(m_walkMaxY - m_height);
+}
 
 bool PlayerCharacter::loadSprite(SDL_Renderer* renderer, const std::string& path) {
     m_spriteSheet = std::make_unique<SpriteSheet>();

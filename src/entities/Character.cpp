@@ -50,9 +50,11 @@ void Character::updateMovement(float deltaTime) {
 }
 
 void Character::clampToWalkArea() {
-    // Default walk area - subklasser kan override:a
+    // Använd rummets walk area istället för hårdkodade värden
+    // Detta gör att editerade walk areas fungerar korrekt
+    // Default: hela skärmen om inget rum finns
     if (m_x < 0) m_x = 0;
     if (m_x > 640 - m_width) m_x = 640 - m_width;
-    if (m_y < 260) m_y = 260;
-    if (m_y > 400 - m_height - 25) m_y = 400 - m_height - 25;
+    if (m_y < 0) m_y = 0;
+    if (m_y > 400 - m_height) m_y = 400 - m_height;
 }
