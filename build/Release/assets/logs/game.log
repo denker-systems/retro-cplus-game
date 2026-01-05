@@ -1,46 +1,41 @@
 ========================================
-  Game Log - 2026-01-04 23:17:19.440
+  Game Log - 2026-01-04 23:30:16.122
 ========================================
 
-[2026-01-04 23:17:19.440] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-04 23:17:19.551] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-04 23:17:19.572] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-04 23:17:19.591] [INFO ] [Game.cpp:66] Window created
-[2026-01-04 23:17:19.682] [INFO ] [Game.cpp:76] Renderer created
-[2026-01-04 23:17:19.682] [INFO ] [Game.cpp:184] Viewport: 2304x1440 at (568,0)
-[2026-01-04 23:17:19.688] [INFO ] [Game.cpp:100] Scale: 3.600000 (fonts scaled for sharp rendering)
-[2026-01-04 23:17:19.691] [INFO ] [Game.cpp:111] Game initialized successfully!
-[2026-01-04 23:17:21.757] [INFO ] [EditorState.cpp:21] EditorState created
-[2026-01-04 23:17:21.757] [INFO ] [EditorState.cpp:25] EditorState::enter()
-[2026-01-04 23:17:21.757] [INFO ] [EditorState.cpp:32] EditorState: Loading game data...
-[2026-01-04 23:17:29.018] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/tavern.json
-[2026-01-04 23:17:29.019] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/street.json
-[2026-01-04 23:17:29.019] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/shop.json
-[2026-01-04 23:17:29.021] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/library.json
-[2026-01-04 23:17:29.021] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/cellar.json
-[2026-01-04 23:17:29.022] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/forest.json
-[2026-01-04 23:17:29.022] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/cave.json
-[2026-01-04 23:17:29.023] [INFO ] [EditorState.cpp:609] Exported 7 room(s) to Tiled format
-[2026-01-04 23:17:34.363] [INFO ] [TiledImporter.cpp:102] Imported Tiled room: cave with 4 hotspots
-[2026-01-04 23:17:34.363] [INFO ] [TiledImporter.cpp:102] Imported Tiled room: cellar with 4 hotspots
-[2026-01-04 23:17:34.364] [INFO ] [TiledImporter.cpp:102] Imported Tiled room: forest with 5 hotspots
-[2026-01-04 23:17:34.364] [INFO ] [TiledImporter.cpp:102] Imported Tiled room: library with 5 hotspots
-[2026-01-04 23:17:34.364] [INFO ] [TiledImporter.cpp:102] Imported Tiled room: shop with 4 hotspots
-[2026-01-04 23:17:34.364] [INFO ] [TiledImporter.cpp:102] Imported Tiled room: street with 6 hotspots
-[2026-01-04 23:17:34.364] [INFO ] [TiledImporter.cpp:102] Imported Tiled room: tavern with 6 hotspots
-[2026-01-04 23:17:34.364] [INFO ] [EditorState.cpp:25] EditorState::enter()
-[2026-01-04 23:17:34.365] [INFO ] [EditorState.cpp:556] Imported 7 room(s) from Tiled
-[2026-01-04 23:17:37.606] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/tavern.json
-[2026-01-04 23:17:37.607] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/street.json
-[2026-01-04 23:17:37.607] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/shop.json
-[2026-01-04 23:17:37.607] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/library.json
-[2026-01-04 23:17:37.608] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/cellar.json
-[2026-01-04 23:17:37.608] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/forest.json
-[2026-01-04 23:17:37.608] [INFO ] [TiledImporter.cpp:312] Exported room to Tiled: assets/tiled/cave.json
-[2026-01-04 23:17:37.609] [INFO ] [EditorState.cpp:609] Exported 7 room(s) to Tiled format
-[2026-01-04 23:17:38.436] [INFO ] [EditorState.cpp:62] EditorState::exit()
-[2026-01-04 23:17:39.539] [INFO ] [Game.cpp:193] === Game Shutting Down ===
+[2026-01-04 23:30:16.123] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-04 23:30:16.231] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-04 23:30:16.254] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-04 23:30:16.275] [INFO ] [Game.cpp:66] Window created
+[2026-01-04 23:30:16.364] [INFO ] [Game.cpp:76] Renderer created
+[2026-01-04 23:30:16.364] [INFO ] [Game.cpp:184] Viewport: 2304x1440 at (568,0)
+[2026-01-04 23:30:16.370] [INFO ] [Game.cpp:100] Scale: 3.600000 (fonts scaled for sharp rendering)
+[2026-01-04 23:30:16.374] [INFO ] [Game.cpp:111] Game initialized successfully!
+[2026-01-04 23:30:17.049] [DEBUG] [PlayState.cpp:35] PlayState::enter() - initialized=false
+[2026-01-04 23:30:17.049] [INFO ] [PlayState.cpp:39] PlayState initializing for first time
+[2026-01-04 23:30:17.053] [INFO ] [DialogSystem.cpp:16] Added dialog: bartender_intro with 6 nodes
+[2026-01-04 23:30:17.053] [INFO ] [DialogSystem.cpp:16] Added dialog: shopkeeper_intro with 4 nodes
+[2026-01-04 23:30:17.053] [INFO ] [DialogSystem.cpp:16] Added dialog: drunk_hints with 4 nodes
+[2026-01-04 23:30:17.053] [INFO ] [DialogSystem.cpp:16] Added dialog: stranger_intro with 3 nodes
+[2026-01-04 23:30:17.053] [INFO ] [DialogSystem.cpp:16] Added dialog: guard_intro with 4 nodes
+[2026-01-04 23:30:17.053] [INFO ] [DialogSystem.cpp:16] Added dialog: librarian_intro with 5 nodes
+[2026-01-04 23:30:17.053] [INFO ] [DialogSystem.cpp:16] Added dialog: hermit_intro with 5 nodes
+[2026-01-04 23:30:17.053] [INFO ] [DialogSystem.cpp:16] Added dialog: cat_meow with 3 nodes
+[2026-01-04 23:30:17.053] [INFO ] [RoomManager.cpp:16] Adding room: tavern
+[2026-01-04 23:30:17.053] [INFO ] [RoomManager.cpp:16] Adding room: street
+[2026-01-04 23:30:17.053] [INFO ] [RoomManager.cpp:16] Adding room: shop
+[2026-01-04 23:30:17.053] [INFO ] [RoomManager.cpp:16] Adding room: library
+[2026-01-04 23:30:17.054] [INFO ] [RoomManager.cpp:16] Adding room: cellar
+[2026-01-04 23:30:17.054] [INFO ] [RoomManager.cpp:16] Adding room: forest
+[2026-01-04 23:30:17.054] [INFO ] [RoomManager.cpp:16] Adding room: cave
+[2026-01-04 23:30:17.054] [INFO ] [RoomManager.cpp:30] changeRoom called: tavern
+[2026-01-04 23:30:17.054] [INFO ] [RoomManager.cpp:37] Changing to room: tavern
+[2026-01-04 23:30:17.055] [DEBUG] [RoomManager.cpp:41] Calling onRoomChange callback
+[2026-01-04 23:30:21.175] [DEBUG] [PlayState.cpp:63] PlayState::exit()
+[2026-01-04 23:30:21.757] [INFO ] [EditorState.cpp:21] EditorState created
+[2026-01-04 23:30:21.757] [INFO ] [EditorState.cpp:25] EditorState::enter()
+[2026-01-04 23:30:43.746] [INFO ] [EditorState.cpp:62] EditorState::exit()
+[2026-01-04 23:30:44.588] [INFO ] [Game.cpp:193] === Game Shutting Down ===
 
 ========================================
-  Log ended - 2026-01-04 23:17:39.593
+  Log ended - 2026-01-04 23:30:44.637
 ========================================

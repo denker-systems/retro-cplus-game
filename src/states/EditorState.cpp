@@ -200,6 +200,12 @@ void EditorState::renderRoomFlowchart(SDL_Renderer* renderer) {
 }
 
 void EditorState::renderRoomsTab(SDL_Renderer* renderer) {
+    // Om vi redigerar ett rum, visa room editor istället
+    if (m_editingRoom) {
+        renderRoomEditor(renderer);
+        return;
+    }
+    
     SDL_Color white = {255, 255, 255, 255};
     SDL_Color cyan = {100, 255, 255, 255};
     SDL_Color green = {100, 255, 100, 255};
@@ -218,7 +224,7 @@ void EditorState::renderRoomsTab(SDL_Renderer* renderer) {
         renderButton(renderer, "Export All", 550, 65, 80, 18, false);
     } else {
         renderButton(renderer, "Add Room", 450, 65, 80, 18, false);
-        renderButton(renderer, "Edit Room", 550, 65, 80, 18, false);
+        renderButton(renderer, "Edit Room", 550, 65, 80, 18, !m_selectedRoom.empty());
     }
     
     auto& rooms = DataLoader::instance().getRooms();
@@ -229,6 +235,16 @@ void EditorState::renderRoomsTab(SDL_Renderer* renderer) {
         SDL_Color color = selected ? SDL_Color{255, 255, 100, 255} : white;
         
         std::string text = (selected ? "> " : "  ") + room.id + " (" + room.name + ")";
+        
+        // Klickbar area för att välja rum
+        SDL_Rect clickArea = {20, y, 300, 15};
+        if (m_mouseX >= clickArea.x && m_mouseX <= clickArea.x + clickArea.w &&
+            m_mouseY >= clickArea.y && m_mouseY <= clickArea.y + clickArea.h) {
+            // Hover effect
+            SDL_SetRenderDrawColor(renderer, 60, 60, 80, 100);
+            SDL_RenderFillRect(renderer, &clickArea);
+        }
+        
         FontManager::instance().renderText(renderer, "default", text, 20, y, color);
         y += 15;
         
@@ -433,17 +449,28 @@ void EditorState::handleEvent(const SDL_Event& event) {
                 break;
                 
             case SDL_SCANCODE_T:
-                // Toggle Tiled workflow
-                m_useTiledWorkflow = !m_useTiledWorkflow;
-                m_statusMessage = m_useTiledWorkflow ? 
-                    "Switched to Tiled workflow" : "Switched to Manual editing";
-                m_statusTimer = 2.0f;
-                AudioManager::instance().playSound("select");
+                // Toggle Tiled workflow (bara om inte i room editor)
+                if (!m_editingRoom) {
+                    m_useTiledWorkflow = !m_useTiledWorkflow;
+                    m_statusMessage = m_useTiledWorkflow ? 
+                        "Switched to Tiled workflow" : "Switched to Manual editing";
+                    m_statusTimer = 2.0f;
+                    AudioManager::instance().playSound("select");
+                }
                 break;
                 
             case SDL_SCANCODE_UP:
+                if (m_editingRoom && m_selectedField > 0) {
+                    m_selectedField--;
+                    AudioManager::instance().playSound("navigate");
+                }
+                break;
+                
             case SDL_SCANCODE_DOWN:
-                // Navigation i listor - implementeras senare
+                if (m_editingRoom && m_selectedField < 1) {
+                    m_selectedField++;
+                    AudioManager::instance().playSound("navigate");
+                }
                 break;
                 
             default:
@@ -494,8 +521,27 @@ void EditorState::handleMouseClick(int x, int y) {
         }
     }
     
+    // Room editor knappar
+    if (m_currentTab == EditorTab::Rooms && m_editingRoom) {
+        // Save knapp
+        if (isButtonClicked(450, 65, 60, 18, x, y)) {
+            saveRoomChanges();
+            AudioManager::instance().playSound("select");
+            return;
+        }
+        // Cancel knapp
+        if (isButtonClicked(520, 65, 60, 18, x, y)) {
+            m_editingRoom = false;
+            m_statusMessage = "Cancelled editing";
+            m_statusTimer = 2.0f;
+            AudioManager::instance().playSound("select");
+            return;
+        }
+        return;  // Ignorera andra klick när vi redigerar
+    }
+    
     // Kolla workflow mode toggle (klicka på Mode-texten)
-    if (m_currentTab == EditorTab::Rooms) {
+    if (m_currentTab == EditorTab::Rooms && !m_editingRoom) {
         if (x >= 350 && x <= 450 && y >= 65 && y <= 80) {
             m_useTiledWorkflow = !m_useTiledWorkflow;
             m_statusMessage = m_useTiledWorkflow ? 
@@ -503,10 +549,22 @@ void EditorState::handleMouseClick(int x, int y) {
             m_statusTimer = 2.0f;
             AudioManager::instance().playSound("select");
         }
+        
+        // Klicka på rum för att välja
+        int checkY = 90;
+        auto& rooms = DataLoader::instance().getRooms();
+        for (const auto& room : rooms) {
+            if (x >= 20 && x <= 320 && y >= checkY && y <= checkY + 15) {
+                m_selectedRoom = room.id;
+                AudioManager::instance().playSound("select");
+                break;
+            }
+            checkY += 15;
+        }
     }
     
     // Kolla knapp-klick i Rooms tab
-    if (m_currentTab == EditorTab::Rooms) {
+    if (m_currentTab == EditorTab::Rooms && !m_editingRoom) {
         if (m_useTiledWorkflow) {
             // Tiled workflow knappar
             if (isButtonClicked(450, 65, 90, 18, x, y)) {
@@ -525,8 +583,7 @@ void EditorState::handleMouseClick(int x, int y) {
                 AudioManager::instance().playSound("select");
             }
             if (isButtonClicked(550, 65, 80, 18, x, y)) {
-                m_statusMessage = "Edit Room: Not yet implemented";
-                m_statusTimer = 2.0f;
+                openRoomEditor();
                 AudioManager::instance().playSound("select");
             }
         }
@@ -650,4 +707,134 @@ void EditorState::exportAllToTiled() {
     m_statusMessage = "Exported " + std::to_string(count) + " room(s) to Tiled format";
     m_statusTimer = 3.0f;
     LOG_INFO(m_statusMessage);
+}
+
+void EditorState::openRoomEditor() {
+    if (m_selectedRoom.empty()) {
+        m_statusMessage = "Select a room first";
+        m_statusTimer = 2.0f;
+        return;
+    }
+    
+    // Hitta valt rum
+    auto& rooms = DataLoader::instance().getRooms();
+    for (const auto& room : rooms) {
+        if (room.id == m_selectedRoom) {
+            // Kopiera data
+            m_editRoomData.id = room.id;
+            m_editRoomData.name = room.name;
+            m_editRoomData.background = room.background;
+            m_editRoomData.layers = room.layers;
+            m_editRoomData.walkArea = room.walkArea;
+            m_editRoomData.hotspots = room.hotspots;
+            
+            m_editingRoom = true;
+            m_selectedField = 0;
+            m_statusMessage = "Editing: " + room.name;
+            m_statusTimer = 2.0f;
+            LOG_INFO("Opening room editor for: " + room.id);
+            return;
+        }
+    }
+}
+
+void EditorState::renderRoomEditor(SDL_Renderer* renderer) {
+    SDL_Color white = {255, 255, 255, 255};
+    SDL_Color cyan = {100, 255, 255, 255};
+    SDL_Color yellow = {255, 255, 100, 255};
+    SDL_Color green = {100, 255, 100, 255};
+    
+    FontManager::instance().renderText(renderer, "default", 
+        "[Edit Room: " + m_editRoomData.name + "]", 10, 65, cyan);
+    
+    // Knappar
+    renderButton(renderer, "Save", 450, 65, 60, 18, false);
+    renderButton(renderer, "Cancel", 520, 65, 60, 18, false);
+    
+    int y = 90;
+    
+    // Room ID (read-only)
+    FontManager::instance().renderText(renderer, "default", "ID: " + m_editRoomData.id, 20, y, white);
+    y += 20;
+    
+    // Room Name
+    renderTextField(renderer, "Name:", m_editRoomData.name, 20, y, 300, m_selectedField == 0);
+    y += 25;
+    
+    // Background
+    renderTextField(renderer, "Background:", m_editRoomData.background, 20, y, 400, m_selectedField == 1);
+    y += 25;
+    
+    // Walk Area
+    FontManager::instance().renderText(renderer, "default", "Walk Area:", 20, y, yellow);
+    y += 15;
+    std::string walkAreaText = "  X: " + std::to_string(m_editRoomData.walkArea.minX) + 
+                               " to " + std::to_string(m_editRoomData.walkArea.maxX) +
+                               " | Y: " + std::to_string(m_editRoomData.walkArea.minY) +
+                               " to " + std::to_string(m_editRoomData.walkArea.maxY);
+    FontManager::instance().renderText(renderer, "default", walkAreaText, 20, y, white);
+    y += 20;
+    
+    // Layers
+    FontManager::instance().renderText(renderer, "default", 
+        "Layers: " + std::to_string(m_editRoomData.layers.size()), 20, y, yellow);
+    y += 15;
+    for (size_t i = 0; i < m_editRoomData.layers.size(); i++) {
+        const auto& layer = m_editRoomData.layers[i];
+        std::string layerText = "  [" + std::to_string(i) + "] " + layer.image + 
+                               " (z:" + std::to_string(layer.zIndex) + ")";
+        FontManager::instance().renderText(renderer, "default", layerText, 20, y, white);
+        y += 12;
+    }
+    y += 10;
+    
+    // Hotspots
+    FontManager::instance().renderText(renderer, "default",
+        "Hotspots: " + std::to_string(m_editRoomData.hotspots.size()), 20, y, yellow);
+    y += 15;
+    for (size_t i = 0; i < m_editRoomData.hotspots.size() && y < 350; i++) {
+        const auto& hs = m_editRoomData.hotspots[i];
+        std::string hsText = "  [" + std::to_string(i) + "] " + hs.name + " (" + hs.type + ")";
+        FontManager::instance().renderText(renderer, "default", hsText, 20, y, white);
+        y += 12;
+    }
+    
+    // Instruktioner
+    FontManager::instance().renderText(renderer, "default",
+        "UP/DOWN: Navigate | ENTER: Edit field | ESC: Cancel", 10, 365, green);
+}
+
+void EditorState::saveRoomChanges() {
+    // TODO: Implementera sparning till rooms.json
+    m_statusMessage = "Saved changes to " + m_editRoomData.id;
+    m_statusTimer = 2.0f;
+    m_editingRoom = false;
+    LOG_INFO("Saved room: " + m_editRoomData.id);
+}
+
+void EditorState::renderTextField(SDL_Renderer* renderer, const std::string& label, 
+                                  const std::string& value, int x, int y, int w, bool selected) {
+    SDL_Color white = {255, 255, 255, 255};
+    SDL_Color yellow = {255, 255, 100, 255};
+    SDL_Color cyan = {100, 255, 255, 255};
+    
+    // Label
+    FontManager::instance().renderText(renderer, "default", label, x, y, cyan);
+    
+    // Value box
+    SDL_Rect box = {x + 100, y - 2, w, 16};
+    
+    if (selected) {
+        SDL_SetRenderDrawColor(renderer, 80, 80, 120, 255);
+    } else {
+        SDL_SetRenderDrawColor(renderer, 40, 40, 60, 255);
+    }
+    SDL_RenderFillRect(renderer, &box);
+    
+    SDL_SetRenderDrawColor(renderer, 100, 150, 200, 255);
+    SDL_RenderDrawRect(renderer, &box);
+    
+    // Value text
+    FontManager::instance().renderText(renderer, "default", value, x + 105, y, 
+                                      selected ? yellow : white);
 }

@@ -7,6 +7,7 @@
 #pragma once
 
 #include "IState.h"
+#include "../data/GameData.h"
 #include <SDL.h>
 #include <string>
 #include <vector>
@@ -61,8 +62,15 @@ private:
     void importFromTiled();
     void exportToTiled();
     void exportAllToTiled();
+    
+    // Manual room editing
+    void openRoomEditor();
+    void renderRoomEditor(SDL_Renderer* renderer);
+    void saveRoomChanges();
+    
     void renderButton(SDL_Renderer* renderer, const char* text, int x, int y, int w, int h, bool highlight = false);
     bool isButtonClicked(int btnX, int btnY, int btnW, int btnH, int clickX, int clickY);
+    void renderTextField(SDL_Renderer* renderer, const std::string& label, const std::string& value, int x, int y, int w, bool selected);
     
     EditorTab m_currentTab = EditorTab::Overview;
     std::string m_statusMessage;
@@ -92,4 +100,19 @@ private:
     bool m_isDragging = false;
     int m_dragOffsetX = 0;
     int m_dragOffsetY = 0;
+    
+    // Room editor state
+    bool m_editingRoom = false;
+    int m_selectedField = 0;  // Vilket fält som är valt för redigering
+    
+    // Edit room data (kopierad från DataLoader)
+    struct EditRoomData {
+        std::string id;
+        std::string name;
+        std::string background;
+        std::vector<LayerData> layers;
+        WalkAreaData walkArea;
+        std::vector<HotspotData> hotspots;
+    };
+    EditRoomData m_editRoomData;
 };
