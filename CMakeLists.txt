@@ -22,6 +22,8 @@ set(SOURCES
     src/states/PlayState.cpp
     src/states/OptionsState.cpp
     src/states/PauseState.cpp
+    src/states/DialogState.cpp
+    src/systems/DialogSystem.cpp
     src/graphics/TextureManager.cpp
     src/graphics/SpriteSheet.cpp
     src/graphics/Animation.cpp

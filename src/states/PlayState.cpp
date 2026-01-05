@@ -5,11 +5,13 @@
 #include "PlayState.h"
 #include "MenuState.h"
 #include "PauseState.h"
+#include "DialogState.h"
 #include "../Game.h"
 #include "../entities/PlayerCharacter.h"
 #include "../Room.h"
 #include "../Input.h"
 #include "../graphics/FontManager.h"
+#include "../systems/DialogSystem.h"
 #include <iostream>
 
 PlayState::PlayState() {
@@ -31,6 +33,39 @@ void PlayState::enter() {
     m_room->addHotspot("bartender", "Bartender", 80, 270, 40, 60, HotspotType::NPC);
     m_room->addHotspot("chest", "Old Chest", 400, 300, 40, 40, HotspotType::Item);
     m_room->addHotspot("door", "Exit Door", 580, 260, 50, 90, HotspotType::Exit);
+    
+    // Registrera Bartender-dialog
+    DialogTree bartenderDialog;
+    bartenderDialog.id = "bartender_intro";
+    bartenderDialog.npcName = "Bartender";
+    bartenderDialog.startNodeId = 0;
+    
+    DialogNode node0;
+    node0.id = 0;
+    node0.speaker = "Bartender";
+    node0.text = "Welcome to the Rusty Anchor! What can I get ya?";
+    node0.choices = {
+        {"I'm looking for information.", 1},
+        {"Just passing through.", 2},
+        {"Nothing, thanks.", -1}
+    };
+    bartenderDialog.nodes.push_back(node0);
+    
+    DialogNode node1;
+    node1.id = 1;
+    node1.speaker = "Bartender";
+    node1.text = "Information, eh? Well, I hear things... What do you want to know?";
+    node1.nextNodeId = -1;
+    bartenderDialog.nodes.push_back(node1);
+    
+    DialogNode node2;
+    node2.id = 2;
+    node2.speaker = "Bartender";
+    node2.text = "Safe travels then, stranger.";
+    node2.nextNodeId = -1;
+    bartenderDialog.nodes.push_back(node2);
+    
+    DialogSystem::instance().addDialog(bartenderDialog);
 }
 
 void PlayState::exit() {
@@ -62,7 +97,21 @@ void PlayState::update(float deltaTime) {
     if (m_input->isMouseClicked(SDL_BUTTON_LEFT)) {
         if (hs) {
             // Klickade på hotspot - interagera
-            std::cout << "Clicked on: " << hs->name << std::endl;
+            std::cout << "Clicked on: " << hs->name << " (" << hs->id << ")" << std::endl;
+            
+            if (hs->type == HotspotType::NPC) {
+                // Starta dialog med NPC
+                if (hs->id == "bartender") {
+                    DialogSystem::instance().startDialog("bartender_intro");
+                    if (m_game) {
+                        m_game->pushState(std::make_unique<DialogState>());
+                    }
+                }
+            } else if (hs->type == HotspotType::Item) {
+                std::cout << "You examine the " << hs->name << std::endl;
+            } else if (hs->type == HotspotType::Exit) {
+                std::cout << "You look at the exit..." << std::endl;
+            }
         } else if (my > 260 && my < 375) {
             // Klickade i walk area - gå dit
             m_player->setTarget(static_cast<float>(mx), static_cast<float>(my));
