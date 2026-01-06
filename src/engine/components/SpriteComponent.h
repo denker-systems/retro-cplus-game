@@ -30,6 +30,10 @@ public:
     void setTexture(SDL_Texture* texture) { m_texture = texture; }
     SDL_Texture* getTexture() const { return m_texture; }
     
+    bool loadTexture(const std::string& path, SDL_Renderer* renderer);
+    bool loadTextureCached(const std::string& path);
+    const std::string& getTexturePath() const { return m_texturePath; }
+    
     void setSourceRect(SDL_Rect rect) { m_sourceRect = rect; }
     SDL_Rect getSourceRect() const { return m_sourceRect; }
     
@@ -85,6 +89,7 @@ public:
     
 private:
     SDL_Texture* m_texture = nullptr;
+    std::string m_texturePath;
     SDL_Rect m_sourceRect{0, 0, 32, 32};
     int m_width = 32;
     int m_height = 32;

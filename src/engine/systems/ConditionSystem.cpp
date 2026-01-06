@@ -6,7 +6,7 @@
 #include "WorldState.h"
 #include "InventorySystem.h"
 #include "QuestSystem.h"
-#include "RoomManager.h"
+#include "SceneManager.h"
 #include "DialogSystem.h"
 #include "CutsceneSystem.h"
 #include "GateSystem.h"
@@ -55,8 +55,8 @@ bool ConditionEvaluator::evaluate(const Condition& condition) const {
         }
             
         case ConditionType::InRoom: {
-            auto* room = RoomManager::instance().getCurrentRoom();
-            return room && room->getId() == condition.key;
+            auto* scene = SceneManager::instance().getCurrentScene();
+            return scene && scene->getId() == condition.key;
         }
             
         case ConditionType::And:
@@ -205,7 +205,7 @@ void ActionExecutor::execute(const Action& action) {
             break;
             
         case ActionType::ChangeRoom:
-            RoomManager::instance().changeRoom(action.target);
+            SceneManager::instance().changeScene(action.target);
             break;
             
         case ActionType::StartDialog:

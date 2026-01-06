@@ -3,8 +3,8 @@
  * @brief Implementation av AI-systemet
  */
 #include "AISystem.h"
-#include "entities/NPC.h"
-#include "RoomManager.h"
+#include "actors/NPC.h"
+#include "SceneManager.h"
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
@@ -31,7 +31,7 @@ void AISystem::update(float deltaTime) {
     }
     
     // Uppdatera alla NPC:s beteenden
-    for (NPC* npc : m_npcs) {
+    for (engine::actors::NPC* npc : m_npcs) {
         if (!npc) continue;
         
         auto it = m_behaviors.find(npc->getName());
@@ -41,7 +41,7 @@ void AISystem::update(float deltaTime) {
     }
 }
 
-void AISystem::registerNPC(NPC* npc) {
+void AISystem::registerNPC(engine::actors::NPC* npc) {
     if (!npc) return;
     
     // Kolla om redan registrerad
@@ -56,7 +56,7 @@ void AISystem::registerNPC(NPC* npc) {
     }
 }
 
-void AISystem::unregisterNPC(NPC* npc) {
+void AISystem::unregisterNPC(engine::actors::NPC* npc) {
     if (!npc) return;
     m_npcs.erase(std::remove(m_npcs.begin(), m_npcs.end(), npc), m_npcs.end());
 }
@@ -104,7 +104,7 @@ Behavior* AISystem::getBehavior(const std::string& npcId) {
 // BEHAVIOR UPDATES
 // ============================================================================
 
-void AISystem::updateBehavior(NPC* npc, Behavior& behavior, float deltaTime) {
+void AISystem::updateBehavior(engine::actors::NPC* npc, Behavior& behavior, float deltaTime) {
     switch (behavior.type) {
         case BehaviorType::Idle:
             updateIdle(npc, behavior, deltaTime);
@@ -124,14 +124,14 @@ void AISystem::updateBehavior(NPC* npc, Behavior& behavior, float deltaTime) {
     }
 }
 
-void AISystem::updateIdle(NPC* npc, Behavior& behavior, float deltaTime) {
+void AISystem::updateIdle(engine::actors::NPC* npc, Behavior& behavior, float deltaTime) {
     // Idle gör inget speciellt, NPC står still
     (void)npc;
     (void)behavior;
     (void)deltaTime;
 }
 
-void AISystem::updatePatrol(NPC* npc, Behavior& behavior, float deltaTime) {
+void AISystem::updatePatrol(engine::actors::NPC* npc, Behavior& behavior, float deltaTime) {
     if (behavior.waypoints.empty()) return;
     
     // Vänta vid waypoint?
@@ -167,7 +167,7 @@ void AISystem::updatePatrol(NPC* npc, Behavior& behavior, float deltaTime) {
     }
 }
 
-void AISystem::updateWander(NPC* npc, Behavior& behavior, float deltaTime) {
+void AISystem::updateWander(engine::actors::NPC* npc, Behavior& behavior, float deltaTime) {
     behavior.wanderTimer -= deltaTime;
     
     if (behavior.wanderTimer <= 0.0f) {
@@ -197,7 +197,7 @@ void AISystem::updateWander(NPC* npc, Behavior& behavior, float deltaTime) {
     }
 }
 
-void AISystem::updateGoTo(NPC* npc, Behavior& behavior, float deltaTime) {
+void AISystem::updateGoTo(engine::actors::NPC* npc, Behavior& behavior, float deltaTime) {
     if (behavior.waypoints.empty()) {
         behavior.type = BehaviorType::Idle;
         return;
@@ -229,7 +229,7 @@ void AISystem::updateSchedules() {
         for (const auto& entry : schedule.entries) {
             if (m_gameHour >= entry.startHour && m_gameHour < entry.endHour) {
                 // Hitta NPC
-                for (NPC* npc : m_npcs) {
+                for (engine::actors::NPC* npc : m_npcs) {
                     if (npc && npc->getName() == npcId) {
                         applyScheduleEntry(npc, entry);
                         break;
@@ -241,9 +241,9 @@ void AISystem::updateSchedules() {
     }
 }
 
-void AISystem::applyScheduleEntry(NPC* npc, const ScheduleEntry& entry) {
+void AISystem::applyScheduleEntry(engine::actors::NPC* npc, const ScheduleEntry& entry) {
     // Kolla om NPC behöver byta rum
-    std::string currentRoom = RoomManager::instance().getCurrentRoomId();
+    std::string currentRoom = SceneManager::instance().getCurrentSceneId();
     
     if (entry.roomId != currentRoom) {
         // NPC är i ett annat rum, sätt bara position för när spelaren går dit

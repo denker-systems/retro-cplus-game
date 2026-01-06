@@ -31,6 +31,13 @@ public:
     void setMoveSpeed(float speed) { m_moveSpeed = speed; }
     float getMoveSpeed() const { return m_moveSpeed; }
     
+    // Legacy movement support (temporary during migration)
+    void move(int dx, int dy, float deltaTime);
+    void setTarget(float x, float y);
+    float getX() const;
+    float getY() const;
+    void renderScaled(SDL_Renderer* renderer, float scale);
+    
     // ========================================================================
     // CHARACTER STATE
     // ========================================================================
@@ -62,6 +69,21 @@ public:
     virtual ~PlayerActor() = default;
     
     void update(float deltaTime) override;
+    
+    // Movement methods
+    void moveWithInput(int dx, int dy, float deltaTime);
+    void setMoveTarget(float x, float y);
+    bool isMovingToTarget() const { return m_isMovingToTarget; }
+    
+    // Inventory methods
+    bool addItem(const std::string& itemId, int quantity = 1);
+    bool removeItem(const std::string& itemId, int quantity = 1);
+    int getItemCount(const std::string& itemId) const;
+    bool hasItem(const std::string& itemId) const;
+    
+private:
+    bool m_isMovingToTarget = false;
+    Vec2 m_targetPosition{0, 0};
 };
 
 /**
@@ -69,16 +91,29 @@ public:
  */
 class NPCActor : public CharacterActor {
 public:
-    NPCActor(const std::string& name);
+    NPCActor(const std::string& name = "NPC");
     virtual ~NPCActor() = default;
-    
-    void setDialogId(const std::string& dialogId) { m_dialogId = dialogId; }
-    const std::string& getDialogId() const { return m_dialogId; }
     
     void update(float deltaTime) override;
     
-protected:
-    std::string m_dialogId;
+    // Dialog methods
+    void setDialogId(const std::string& dialogId);
+    const std::string& getDialogId() const;
+    bool canTalk() const;
+    
+    // Interaction methods
+    void setInteractionText(const std::string& text);
+    const std::string& getInteractionText() const;
+    void setInteractionRange(float range);
+    float getInteractionRange() const;
+    void interact();
+    
+    // Speed methods
+    void setSpeed(float speed) { m_moveSpeed = speed; }
+    float getSpeed() const { return m_moveSpeed; }
+    
+private:
+    float m_moveSpeed = 80.0f;
 };
 
 } // namespace engine

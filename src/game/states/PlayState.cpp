@@ -9,18 +9,22 @@
 #include "InventoryState.h"
 #include "QuestLogState.h"
 #include "game/Game.h"
-#include "engine/entities/PlayerCharacter.h"
-#include "engine/Room.h"
-#include "engine/input/Input.h"
-#include "engine/graphics/FontManager.h"
+#include "engine/actors/NPC.h"
+#include "engine/actors/CharacterActor.h"
+#include "engine/components/MovementComponent.h"
+#include "engine/components/DialogComponent.h"
+#include "engine/components/InventoryComponent.h"
+#include "engine/components/InteractionComponent.h"
+#include "engine/Scene.h"
+#include "engine/Hotspot.h"
+#include "engine/systems/SceneManager.h"
 #include "engine/systems/DialogSystem.h"
 #include "engine/systems/InventorySystem.h"
-#include "engine/systems/RoomManager.h"
 #include "engine/systems/QuestSystem.h"
 #include "engine/systems/AISystem.h"
 #include "engine/graphics/Transition.h"
+#include "engine/graphics/FontManager.h"
 #include "engine/data/GameDataLoader.h"
-#include "engine/entities/NPC.h"
 #include "engine/utils/Logger.h"
 #include <iostream>
 #include <cmath>
@@ -40,19 +44,19 @@ void PlayState::enter() {
         
         // Skapa spelkomponenter
         m_input = std::make_unique<Input>();
-        m_player = std::make_unique<PlayerCharacter>(160.0f, 300.0f);
+        m_player = std::make_unique<engine::PlayerActor>();
         
         // Ladda all speldata från JSON-filer (skicka renderer för att ladda texturer)
         SDL_Renderer* renderer = m_game->getRenderer();
         GameDataLoader::loadAll(renderer);
         
-        // Sätt callback för rumsbyte
-        RoomManager::instance().setOnRoomChange([this](const std::string& roomId) {
-            onRoomChange(roomId);
+        // Sätt callback för scenebyte
+        SceneManager::instance().setOnSceneChange([this](const std::string& sceneId) {
+            onRoomChange(sceneId);
         });
         
         // Starta i tavern
-        RoomManager::instance().changeRoom("tavern");
+        SceneManager::instance().changeScene("tavern");
         
         // Setup hot reload för JSON-filer
         // Hot reload removed - restart game to see editor changes
@@ -70,16 +74,23 @@ void PlayState::exit() {
 void PlayState::onRoomChange(const std::string& roomId) {
     std::cout << "Player entered: " << roomId << std::endl;
     
-    // Uppdatera spelarens walk area från rummet
-    Room* room = RoomManager::instance().getCurrentRoom();
-    if (room) {
-        const auto& wa = room->getWalkArea();
-        m_player->setWalkArea(wa.minX, wa.maxX, wa.minY, wa.maxY);
-        
-        // Använd rummets player spawn position
+    // Uppdatera spelarens position och walk area från scene
+    Scene* scene = SceneManager::instance().getCurrentScene();
+    if (scene) {
+        // Använd scenens player spawn position
         float spawnX, spawnY;
-        room->getPlayerSpawn(spawnX, spawnY);
+        scene->getPlayerSpawn(spawnX, spawnY);
         m_player->setPosition(spawnX, spawnY);
+        
+        // Sätt walk area på MovementComponent
+        const auto& wa = scene->getWalkArea();
+        auto movement = m_player->getComponent<engine::MovementComponent>();
+        if (movement) {
+            movement->setWalkArea(static_cast<float>(wa.minX), 
+                                 static_cast<float>(wa.maxX), 
+                                 static_cast<float>(wa.minY), 
+                                 static_cast<float>(wa.maxY));
+        }
     }
     
     // Uppdatera quest objective för GoTo
@@ -87,8 +98,8 @@ void PlayState::onRoomChange(const std::string& roomId) {
 }
 
 void PlayState::update(float deltaTime) {
-    Room* room = RoomManager::instance().getCurrentRoom();
-    if (!room) return;
+    Scene* scene = SceneManager::instance().getCurrentScene();
+    if (!scene) return;
     
     // Tangentbord-rörelse
     int dx = 0, dy = 0;
@@ -97,12 +108,12 @@ void PlayState::update(float deltaTime) {
     if (m_input->isKeyDown(SDL_SCANCODE_UP) || m_input->isKeyDown(SDL_SCANCODE_W)) dy = -1;
     if (m_input->isKeyDown(SDL_SCANCODE_DOWN) || m_input->isKeyDown(SDL_SCANCODE_S)) dy = 1;
     
-    m_player->move(dx, dy, deltaTime);
+    m_player->moveWithInput(dx, dy, deltaTime);
     
     // Kolla hotspot under musen
     int mx = m_input->getMouseX();
     int my = m_input->getMouseY();
-    Hotspot* hs = room->getHotspotAt(mx, my);
+    Hotspot* hs = scene->getHotspotAt(mx, my);
     m_hoveredHotspot = hs ? hs->name : "";
     
     // Hitta närmaste hotspot för E-interaktion
@@ -112,8 +123,14 @@ void PlayState::update(float deltaTime) {
     if (m_input->isMouseClicked(SDL_BUTTON_LEFT)) {
         if (hs) {
             interactWithHotspot(hs);
-        } else if (my > 260 && my < 375) {
-            m_player->setTarget(static_cast<float>(mx), static_cast<float>(my));
+        } else {
+            // Kolla NPC-klick
+            engine::actors::NPC* npc = getNPCAt(mx, my);
+            if (npc) {
+                interactWithNPC(npc);
+            } else if (my > 260 && my < 375) {
+                m_player->setMoveTarget(static_cast<float>(mx), static_cast<float>(my));
+            }
         }
     }
     
@@ -123,9 +140,9 @@ void PlayState::update(float deltaTime) {
     // Uppdatera AI-system (NPC beteenden och scheman)
     AISystem::instance().update(deltaTime);
     
-    // Uppdatera NPCs i aktuellt rum
-    if (room) {
-        room->updateNPCs(deltaTime);
+    // Uppdatera NPCs i aktuell scene
+    if (scene) {
+        scene->updateNPCs(deltaTime);
     }
     
     // Uppdatera transition
@@ -133,22 +150,22 @@ void PlayState::update(float deltaTime) {
 }
 
 void PlayState::render(SDL_Renderer* renderer) {
-    Room* room = RoomManager::instance().getCurrentRoom();
+    Scene* scene = SceneManager::instance().getCurrentScene();
     
     // Bakgrund
     SDL_SetRenderDrawColor(renderer, 20, 20, 60, 255);
     SDL_RenderClear(renderer);
     
-    // Rita rum
-    if (room) {
-        room->render(renderer);
-        room->renderNPCs(renderer);
+    // Rita scene
+    if (scene) {
+        scene->render(renderer);
+        scene->renderNPCs(renderer);
     }
     
     // Rita spelare med depth scale
     float playerScale = 1.0f;
-    if (room) {
-        const auto& wa = room->getWalkArea();
+    if (scene) {
+        const auto& wa = scene->getWalkArea();
         float playerY = m_player->getY();
         
         // Beräkna scale baserat på Y-position inom walk area
@@ -169,9 +186,9 @@ void PlayState::render(SDL_Renderer* renderer) {
         std::string prompt = "[E] " + m_nearbyHotspot->name;
         FontManager::instance().renderText(renderer, "default",
             prompt, 10, 378, {100, 255, 100, 255});
-    } else if (room) {
+    } else if (scene) {
         FontManager::instance().renderText(renderer, "default",
-            room->getName(), 10, 378, {150, 150, 180, 255});
+            scene->getName(), 10, 378, {150, 150, 180, 255});
     }
     
     // Visa inventory count
@@ -211,8 +228,8 @@ void PlayState::handleEvent(const SDL_Event& event) {
 }
 
 Hotspot* PlayState::getNearbyHotspot(float maxDistance) {
-    Room* room = RoomManager::instance().getCurrentRoom();
-    if (!room || !m_player) return nullptr;
+    Scene* scene = SceneManager::instance().getCurrentScene();
+    if (!scene || !m_player) return nullptr;
     
     float playerX = m_player->getX() + 16;  // Center of player
     float playerY = m_player->getY() + 32;
@@ -220,7 +237,7 @@ Hotspot* PlayState::getNearbyHotspot(float maxDistance) {
     Hotspot* nearest = nullptr;
     float nearestDist = maxDistance;
     
-    for (auto& hotspot : room->getHotspots()) {
+    for (auto& hotspot : scene->getHotspots()) {
         // Beräkna centrum av hotspot
         float hsX = hotspot.rect.x + hotspot.rect.w / 2.0f;
         float hsY = hotspot.rect.y + hotspot.rect.h / 2.0f;
@@ -278,14 +295,70 @@ void PlayState::interactWithHotspot(Hotspot* hotspot) {
             LOG_INFO("Room transition to: " + target);
             Transition::instance().fadeToBlack(0.5f, [target, spawnX]() {
                 LOG_DEBUG("Fade complete, changing room to: " + target);
-                RoomManager::instance().setSpawnPosition(spawnX, 300.0f);
-                RoomManager::instance().changeRoom(target);
+                SceneManager::instance().setSpawnPosition(spawnX, 300.0f);
+                SceneManager::instance().changeScene(target);
             });
         }
     } else if (hotspot->type == HotspotType::Examine) {
         LOG_DEBUG("Examine: " + hotspot->name);
         QuestSystem::instance().updateObjective(ObjectiveType::Examine, hotspot->id);
     }
+}
+
+// ============================================================================
+// NPC INTERACTIONS
+// ============================================================================
+
+engine::actors::NPC* PlayState::getNPCAt(int x, int y) {
+    Scene* scene = SceneManager::instance().getCurrentScene();
+    if (!scene) return nullptr;
+    
+    for (auto& npc : scene->getNPCs()) {
+        if (!npc) continue;
+        
+        float npcX, npcY;
+        npc->getPosition(npcX, npcY);
+        
+        // Simple bounding box check (assuming 64x64 NPC size)
+        SDL_Rect npcRect = {
+            static_cast<int>(npcX),
+            static_cast<int>(npcY),
+            64,
+            96
+        };
+        
+        if (x >= npcRect.x && x < npcRect.x + npcRect.w &&
+            y >= npcRect.y && y < npcRect.y + npcRect.h) {
+            return npc.get();
+        }
+    }
+    
+    return nullptr;
+}
+
+void PlayState::interactWithNPC(engine::actors::NPC* npc) {
+    if (!npc) {
+        LOG_WARNING("interactWithNPC called with null npc");
+        return;
+    }
+    
+    LOG_INFO("Interact with NPC: " + npc->getName());
+    
+    // Check if NPC can talk
+    if (npc->canTalk()) {
+        std::string dialogId = npc->getDialogId();
+        if (!dialogId.empty()) {
+            LOG_DEBUG("Starting NPC dialog: " + dialogId);
+            DialogSystem::instance().startDialog(dialogId);
+            QuestSystem::instance().updateObjective(ObjectiveType::Talk, npc->getName());
+            if (m_game) {
+                m_game->pushState(std::make_unique<DialogState>());
+            }
+        }
+    }
+    
+    // Trigger NPC's interaction component
+    npc->interact();
 }
 
 // Hot reload removed - restart game to see editor changes

@@ -9,66 +9,15 @@
 #include <vector>
 #include <memory>
 
-class NPC;
+#include "engine/Hotspot.h"
 
-/**
- * @brief Typ av hotspot
- */
-enum class HotspotType {
-    None = 0,
-    NPC,
-    Item,
-    Exit,
-    Examine
-};
-
-/**
- * @brief Interaktivt område i ett rum
- */
-struct Hotspot {
-    std::string id;         // Unik identifierare
-    std::string name;       // Visningsnamn
-    SDL_Rect rect;          // Klickbart område
-    HotspotType type;       // Typ av hotspot
-    std::string targetRoom; // För exits - vilken rum att gå till
-    std::string dialogId;   // För NPCs - dialog att starta
-    bool active = true;     // Om hotspot är synlig/interaktiv
-    
-    // Reaktivitet (LucasArts-inspirerat)
-    std::string examineText;              // "Titta på" beskrivning
-    std::vector<std::string> funnyFails;  // Roliga svar på dumma försök
-    
-    /** @brief Hämta slumpmässigt funny fail-svar */
-    std::string getRandomFunnyFail() const {
-        if (funnyFails.empty()) return "";
-        return funnyFails[rand() % funnyFails.size()];
-    }
-};
-
-/**
- * @brief Walk area - rektangulär för enkelhet
- */
-struct WalkArea {
-    int minX, maxX;
-    int minY, maxY;
-    float scaleTop = 0.5f;      // Skala vid minY (längre bort)
-    float scaleBottom = 1.0f;   // Skala vid maxY (närmare)
-};
+namespace engine { namespace actors {
+    class NPC;
+}}
 
 /**
  * @brief Ett spelrum med bakgrund och hotspots
  */
-/**
- * @brief Layer för multi-layer rendering
- */
-struct RoomLayer {
-    SDL_Texture* texture = nullptr;
-    int zIndex = 0;             // Negativa = bakom spelare, positiva = framför
-    float parallaxX = 1.0f;
-    float parallaxY = 1.0f;
-    float opacity = 1.0f;
-};
-
 class Room {
 public:
     Room(const std::string& id, const std::string& name);
@@ -121,9 +70,9 @@ public:
     const std::vector<Hotspot>& getHotspots() const { return m_hotspots; }
     
     /** @brief NPC-hantering */
-    void addNPC(std::unique_ptr<NPC> npc);
-    NPC* getNPC(const std::string& id);
-    const std::vector<std::unique_ptr<NPC>>& getNPCs() const { return m_npcs; }
+    void addNPC(std::unique_ptr<engine::actors::NPC> npc);
+    engine::actors::NPC* getNPC(const std::string& id);
+    const std::vector<std::unique_ptr<engine::actors::NPC>>& getNPCs() const { return m_npcs; }
     void updateNPCs(float deltaTime);
     void renderNPCs(SDL_Renderer* renderer);
 
@@ -133,7 +82,7 @@ private:
     SDL_Texture* m_background = nullptr;  // Legacy
     std::vector<RoomLayer> m_layers;      // Multi-layer rendering
     std::vector<Hotspot> m_hotspots;
-    std::vector<std::unique_ptr<NPC>> m_npcs;
+    std::vector<std::unique_ptr<engine::actors::NPC>> m_npcs;
     WalkArea m_walkArea = {0, 640, 260, 350};
     float m_playerSpawnX = 320.0f;
     float m_playerSpawnY = 300.0f;

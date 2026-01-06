@@ -6,7 +6,7 @@
 #include "WorldState.h"
 #include "InventorySystem.h"
 #include "QuestSystem.h"
-#include "RoomManager.h"
+#include "SceneManager.h"
 #include "DialogSystem.h"
 #include "CutsceneSystem.h"
 #include "audio/AudioManager.h"
@@ -52,8 +52,8 @@ bool WorldBridge::isObjectiveComplete(std::string_view questId, std::string_view
 }
 
 std::string WorldBridge::getCurrentRoomId() const {
-    auto* room = RoomManager::instance().getCurrentRoom();
-    return room ? room->getId() : "";
+    auto* scene = SceneManager::instance().getCurrentScene();
+    return scene ? scene->getId() : "";
 }
 
 // === IWorldMutator ===
@@ -91,7 +91,7 @@ void WorldBridge::completeQuest(std::string_view questId) {
 }
 
 void WorldBridge::changeRoom(std::string_view roomId) {
-    RoomManager::instance().changeRoom(std::string(roomId));
+    SceneManager::instance().changeScene(std::string(roomId));
 }
 
 void WorldBridge::startDialog(std::string_view dialogId) {

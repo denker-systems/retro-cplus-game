@@ -3,6 +3,8 @@
  * @brief Sprite Component Implementation
  */
 #include "SpriteComponent.h"
+#include <SDL_image.h>
+#include "engine/graphics/TextureManager.h"
 
 namespace engine {
 
@@ -57,6 +59,50 @@ void SpriteComponent::render(SDL_Renderer* renderer) {
     // Render
     SDL_RenderCopyEx(renderer, m_texture, &m_sourceRect, &destRect, 
                      angleDeg, &center, flip);
+}
+
+bool SpriteComponent::loadTexture(const std::string& path, SDL_Renderer* renderer) {
+    if (!renderer) return false;
+    
+    // Free existing texture
+    if (m_texture) {
+        SDL_DestroyTexture(m_texture);
+        m_texture = nullptr;
+    }
+    
+    // Load new texture
+    m_texture = IMG_LoadTexture(renderer, path.c_str());
+    if (!m_texture) {
+        return false;
+    }
+    
+    // Store path and get dimensions
+    m_texturePath = path;
+    SDL_QueryTexture(m_texture, nullptr, nullptr, &m_width, &m_height);
+    
+    // Update source rect to full texture
+    m_sourceRect = {0, 0, m_width, m_height};
+    
+    return true;
+}
+
+bool SpriteComponent::loadTextureCached(const std::string& path) {
+    // Use TextureManager for cached loading
+    SDL_Texture* texture = TextureManager::instance().get(path);
+    if (!texture) {
+        return false;
+    }
+    
+    m_texture = texture;
+    m_texturePath = path;
+    
+    // Get dimensions
+    SDL_QueryTexture(m_texture, nullptr, nullptr, &m_width, &m_height);
+    
+    // Update source rect to full texture
+    m_sourceRect = {0, 0, m_width, m_height};
+    
+    return true;
 }
 
 } // namespace engine

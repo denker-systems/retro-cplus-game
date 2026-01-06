@@ -9,9 +9,11 @@
 #include "systems/QuestSystem.h"
 #include "systems/DialogSystem.h"
 #include "systems/RoomManager.h"
+#include "systems/SceneManager.h"
 #include "systems/AISystem.h"
 #include "Room.h"
-#include "entities/NPC.h"
+#include "Scene.h"
+#include "actors/NPC.h"
 #include <iostream>
 
 /**
@@ -28,8 +30,8 @@ public:
         loadItems();
         loadQuests();
         loadDialogs();
-        loadRooms(renderer);
-        loadNPCs();
+        loadScenes(renderer);  // Ladda endast till SceneManager
+        loadNPCsToScenes();    // Ladda NPCs till SceneManager
         
         return true;
     }
@@ -164,6 +166,87 @@ public:
         }
     }
     
+    static void loadScenes(SDL_Renderer* renderer) {
+        for (const auto& data : DataLoader::instance().getRooms()) {
+            auto scene = std::make_unique<Scene>(data.id, data.name);
+            scene->setWalkArea(data.walkArea.minX, data.walkArea.maxX,
+                             data.walkArea.minY, data.walkArea.maxY,
+                             data.walkArea.scaleTop, data.walkArea.scaleBottom);
+            scene->setPlayerSpawn(data.playerSpawnX, data.playerSpawnY);
+            
+            // Ladda layers om de finns
+            if (!data.layers.empty()) {
+                for (const auto& layer : data.layers) {
+                    scene->loadLayer(renderer, layer.image, layer.zIndex, 
+                                   layer.parallaxX, layer.parallaxY, layer.opacity);
+                }
+            }
+            // Legacy: Ladda background om inga layers finns
+            else if (!data.background.empty()) {
+                scene->loadBackground(renderer, data.background);
+            }
+            
+            for (const auto& hs : data.hotspots) {
+                HotspotType type = HotspotType::None;
+                if (hs.type == "npc") type = HotspotType::NPC;
+                else if (hs.type == "item") type = HotspotType::Item;
+                else if (hs.type == "exit") type = HotspotType::Exit;
+                else if (hs.type == "examine") type = HotspotType::Examine;
+                
+                if (type == HotspotType::Exit) {
+                    scene->addExit(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, hs.targetRoom);
+                } else {
+                    scene->addHotspot(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, type, 
+                                     hs.dialogId, hs.examineText, hs.funnyFails);
+                }
+            }
+            
+            SceneManager::instance().addScene(std::move(scene));
+        }
+    }
+    
+    static void loadNPCsToScenes() {
+        for (const auto& data : DataLoader::instance().getNPCs()) {
+            Scene* scene = SceneManager::instance().getScene(data.room);
+            if (!scene) {
+                std::cerr << "Scene not found for NPC: " << data.id << std::endl;
+                continue;
+            }
+            
+            // Hitta hotspot med samma ID för att få position
+            const auto& hotspots = scene->getHotspots();
+            float npcX = static_cast<float>(data.x);
+            float npcY = static_cast<float>(data.y);
+            
+            for (const auto& hs : hotspots) {
+                if (hs.id == data.id && hs.type == HotspotType::NPC) {
+                    // Använd hotspot-position (centrera NPC i hotspot)
+                    npcX = static_cast<float>(hs.rect.x + hs.rect.w / 2 - 16);
+                    npcY = static_cast<float>(hs.rect.y + hs.rect.h - 48);
+                    break;
+                }
+            }
+            
+            auto npc = std::make_unique<engine::actors::NPC>(npcX, npcY, data.name);
+            npc->setDialogId(data.dialogId);
+            npc->setSpeed(data.moveSpeed);
+            
+            // Registrera NPC med AISystem
+            AISystem::instance().registerNPC(npc.get());
+            
+            // Sätt beteende baserat på canMove
+            if (data.canMove) {
+                AISystem::instance().setBehavior(data.name, BehaviorType::Wander);
+            } else {
+                AISystem::instance().setBehavior(data.name, BehaviorType::Idle);
+            }
+            
+            scene->addNPC(std::move(npc));
+            std::cout << "Loaded NPC: " << data.name << " in " << data.room << std::endl;
+        }
+    }
+    
+    // Legacy - behålls för bakåtkompatibilitet med RoomManager
     static void loadNPCs() {
         for (const auto& data : DataLoader::instance().getNPCs()) {
             Room* room = RoomManager::instance().getRoom(data.room);
@@ -186,7 +269,7 @@ public:
                 }
             }
             
-            auto npc = std::make_unique<NPC>(npcX, npcY, data.name);
+            auto npc = std::make_unique<engine::actors::NPC>(npcX, npcY, data.name);
             npc->setDialogId(data.dialogId);
             npc->setSpeed(data.moveSpeed);
             

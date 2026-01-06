@@ -3,7 +3,7 @@
  * @brief Implementation av CutsceneSystem
  */
 #include "CutsceneSystem.h"
-#include "RoomManager.h"
+#include "SceneManager.h"
 #include "AISystem.h"
 #include "SaveSystem.h"
 #include "graphics/Transition.h"
@@ -178,7 +178,7 @@ void CutsceneSystem::executeAction(const CutsceneAction& action) {
             break;
             
         case CutsceneActionType::ChangeRoom:
-            RoomManager::instance().changeRoom(action.targetId);
+            SceneManager::instance().changeScene(action.targetId);
             break;
             
         case CutsceneActionType::SetFlag:

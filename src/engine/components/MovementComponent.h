@@ -26,6 +26,10 @@ public:
     void setFriction(float friction) { m_friction = friction; }
     float getFriction() const { return m_friction; }
     
+    // Walk area constraints
+    void setWalkArea(float minX, float maxX, float minY, float maxY);
+    void clearWalkArea();
+    
     void addForce(Vec2 force);
     void stop();
     
@@ -36,6 +40,11 @@ private:
     Vec2 m_acceleration{0, 0};
     float m_maxSpeed = 200.0f;
     float m_friction = 0.9f;
+    
+    // Walk area constraints
+    bool m_hasWalkArea = false;
+    float m_walkMinX = 0, m_walkMaxX = 640;
+    float m_walkMinY = 0, m_walkMaxY = 400;
 };
 
 } // namespace engine

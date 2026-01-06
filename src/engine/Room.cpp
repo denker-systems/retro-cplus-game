@@ -3,10 +3,12 @@
  * @brief Implementation av rum och hotspots
  */
 #include "Room.h"
-#include "entities/NPC.h"
-#include <SDL_image.h>
-#include <algorithm>
+#include "engine/actors/NPC.h"
+#include "engine/graphics/TextureManager.h"
+#include "engine/utils/Logger.h"
 #include <iostream>
+#include <algorithm>
+#include <SDL_image.h>
 
 Room::Room(const std::string& id, const std::string& name) 
     : m_id(id), m_name(name) {
@@ -165,13 +167,13 @@ Hotspot* Room::getHotspotAt(int x, int y) {
 // NPC MANAGEMENT
 // ============================================================================
 
-void Room::addNPC(std::unique_ptr<NPC> npc) {
+void Room::addNPC(std::unique_ptr<engine::actors::NPC> npc) {
     if (npc) {
         m_npcs.push_back(std::move(npc));
     }
 }
 
-NPC* Room::getNPC(const std::string& id) {
+engine::actors::NPC* Room::getNPC(const std::string& id) {
     for (auto& npc : m_npcs) {
         if (npc && npc->getName() == id) {
             return npc.get();
@@ -200,7 +202,7 @@ bool Room::loadLayer(SDL_Renderer* renderer, const std::string& imagePath, int z
                      float parallaxX, float parallaxY, float opacity) {
     SDL_Texture* texture = IMG_LoadTexture(renderer, imagePath.c_str());
     if (!texture) {
-        std::cerr << "Failed to load layer: " << imagePath << " - " << IMG_GetError() << std::endl;
+        std::cerr << "Failed to load layer: " << imagePath << " - " << (IMG_GetError() ? IMG_GetError() : "Unknown error") << std::endl;
         return false;
     }
     

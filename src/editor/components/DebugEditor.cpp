@@ -9,7 +9,7 @@
  */
 #include "DebugEditor.h"
 #include "engine/systems/WorldState.h"
-#include "engine/systems/RoomManager.h"
+#include "engine/systems/SceneManager.h"
 #include "engine/systems/DialogSystem.h"
 #include "engine/systems/QuestSystem.h"
 #include "engine/systems/InventorySystem.h"
@@ -167,13 +167,13 @@ void DebugEditor::renderRoomsPanel() {
     FontManager::instance().renderText(m_renderer, "default", "[Rooms]", x, y, cyan);
     y += 15;
     
-    auto* room = RoomManager::instance().getCurrentRoom();
-    if (room) {
+    auto* scene = SceneManager::instance().getCurrentScene();
+    if (scene) {
         FontManager::instance().renderText(m_renderer, "default",
-            "Current: " + room->getId(), x, y, white);
+            "Current: " + scene->getId(), x, y, white);
         y += 12;
         
-        auto& hotspots = room->getHotspots();
+        auto& hotspots = scene->getHotspots();
         FontManager::instance().renderText(m_renderer, "default",
             "Hotspots: " + std::to_string(hotspots.size()), x, y, white);
         y += 12;

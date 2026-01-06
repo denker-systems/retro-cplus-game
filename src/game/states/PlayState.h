@@ -4,18 +4,21 @@
  */
 #pragma once
 
-#include "IState.h"
+#include "game/states/IState.h"
+#include "engine/actors/NPC.h"
+#include "engine/Scene.h"
+#include "engine/input/Input.h"
 #include <memory>
 #include <string>
+#include "engine/actors/CharacterActor.h"
 
-class PlayerCharacter;
-class Room;
+class Scene;
 class Input;
 
 /**
  * @brief Gameplay state där spelaren interagerar med världen
  * 
- * Hanterar spelare, rum och input under gameplay.
+ * Hanterar spelare, scener och input under gameplay.
  * ESC återgår till MenuState.
  */
 class PlayState : public IState {
@@ -33,8 +36,10 @@ private:
     void onRoomChange(const std::string& roomId);
     void interactWithHotspot(struct Hotspot* hotspot);
     struct Hotspot* getNearbyHotspot(float maxDistance = 60.0f);
+    void interactWithNPC(engine::actors::NPC* npc);
+    engine::actors::NPC* getNPCAt(int x, int y);
     
-    std::unique_ptr<PlayerCharacter> m_player;
+    std::unique_ptr<engine::PlayerActor> m_player;
     std::unique_ptr<Input> m_input;
     
     std::string m_hoveredHotspot;    // Namn på hotspot under musen

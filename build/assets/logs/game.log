@@ -1,0 +1,24 @@
+========================================
+  Game Log - 2026-01-06 15:08:43.012
+========================================
+
+[2026-01-06 15:08:43.012] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-06 15:08:43.183] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-06 15:08:43.196] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-06 15:08:43.213] [INFO ] [Game.cpp:82] Window created
+[2026-01-06 15:08:43.349] [INFO ] [Game.cpp:92] Renderer created
+[2026-01-06 15:08:43.350] [INFO ] [Game.cpp:208] Viewport: 1920x1200 at (0,0)
+[2026-01-06 15:08:43.350] [INFO ] [Game.cpp:118] Scale: 3.000000 (fonts scaled for sharp rendering)
+[2026-01-06 15:08:43.351] [INFO ] [Game.cpp:129] Game initialized successfully!
+[2026-01-06 15:08:45.610] [DEBUG] [PlayState.cpp:39] PlayState::enter() - initialized=false
+[2026-01-06 15:08:45.610] [INFO ] [PlayState.cpp:43] PlayState initializing for first time
+[2026-01-06 15:08:45.611] [INFO ] [SceneManager.cpp:36] changeScene called: tavern
+[2026-01-06 15:08:45.611] [WARN ] [SceneManager.cpp:29] Scene not found: tavern
+[2026-01-06 15:08:45.611] [ERROR] [SceneManager.cpp:39] Failed to change scene - not found: tavern
+[2026-01-06 15:08:46.907] [DEBUG] [PlayState.cpp:71] PlayState::exit()
+[2026-01-06 15:08:47.463] [INFO ] [main.cpp:17] === RetroAdventure Game Shutdown ===
+[2026-01-06 15:08:47.464] [INFO ] [Game.cpp:229] === Game Shutting Down ===
+
+========================================
+  Log ended - 2026-01-06 15:08:47.526
+========================================

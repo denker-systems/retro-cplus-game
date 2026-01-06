@@ -753,7 +753,24 @@ void ViewportPanel::renderSceneActors(ImDrawList* drawList, ImVec2 offset) {
             // Different colors for different actor types
             ImU32 color = IM_COL32(200, 200, 200, 255);
             
-            if (name == "PlayerSpawn") {
+            if (name == "Player") {
+                color = IM_COL32(255, 100, 100, 255);
+                // Draw player as a filled rectangle with border
+                drawList->AddRectFilled(
+                    ImVec2(worldX - 16 * m_zoom, worldY - 24 * m_zoom),
+                    ImVec2(worldX + 16 * m_zoom, worldY + 24 * m_zoom),
+                    color
+                );
+                drawList->AddRect(
+                    ImVec2(worldX - 16 * m_zoom, worldY - 24 * m_zoom),
+                    ImVec2(worldX + 16 * m_zoom, worldY + 24 * m_zoom),
+                    IM_COL32(255, 255, 255, 255), 0, 0, 2.0f
+                );
+                drawList->AddText(ImVec2(worldX - 20, worldY + 30 * m_zoom), 
+                                IM_COL32(255, 255, 255, 255), 
+                                "Player");
+            }
+            else if (name == "PlayerSpawn") {
                 color = IM_COL32(255, 0, 255, 255);
                 drawList->AddCircleFilled(ImVec2(worldX, worldY), 8.0f * m_zoom, color);
                 drawList->AddText(ImVec2(worldX + 10, worldY - 8), color, "Spawn");

@@ -21,6 +21,18 @@ void MovementComponent::stop() {
     m_acceleration = Vec2(0, 0);
 }
 
+void MovementComponent::setWalkArea(float minX, float maxX, float minY, float maxY) {
+    m_hasWalkArea = true;
+    m_walkMinX = minX;
+    m_walkMaxX = maxX;
+    m_walkMinY = minY;
+    m_walkMaxY = maxY;
+}
+
+void MovementComponent::clearWalkArea() {
+    m_hasWalkArea = false;
+}
+
 void MovementComponent::update(float deltaTime) {
     if (!m_owner) return;
     
@@ -40,7 +52,17 @@ void MovementComponent::update(float deltaTime) {
     
     // Update position
     Vec2 currentPos = m_owner->getPosition();
-    m_owner->setPosition(currentPos + m_velocity * deltaTime);
+    Vec2 newPos = currentPos + m_velocity * deltaTime;
+    
+    // Apply walk area constraints
+    if (m_hasWalkArea) {
+        if (newPos.x < m_walkMinX) newPos.x = m_walkMinX;
+        if (newPos.x > m_walkMaxX) newPos.x = m_walkMaxX;
+        if (newPos.y < m_walkMinY) newPos.y = m_walkMinY;
+        if (newPos.y > m_walkMaxY) newPos.y = m_walkMaxY;
+    }
+    
+    m_owner->setPosition(newPos);
     
     // Reset acceleration
     m_acceleration = Vec2(0, 0);

@@ -1,6 +1,6 @@
-ï»¿# DEVLOG - Retro Adventure
+# DEVLOG - Retro Adventure
 
-Kronologisk logg av alla Ã¤ndringar sedan projektets start.
+Kronologisk logg av alla ändringar sedan projektets start.
 
 **Format:** `[HASH]` type(scope): beskrivning
 
@@ -8,13 +8,13 @@ Kronologisk logg av alla Ã¤ndringar sedan projektets start.
 
 ## 2026-01-05
 
-### KvÃ¤ll (Sen)
+### Kväll (Sen)
 
 - `e28d059` feat(editor): add FileBrowser and enhance HierarchyPanel for Actor system
-  - **Editor:** FileBrowser.h/cpp fÃ¶r native file dialogs
-  - **Editor:** HierarchyPanel utÃ¶kad med ActorObjectExtended support
-  - **Engine:** Scene.h utÃ¶kad med Actor management metoder
-  - **Editor:** PropertyEditorUtils fÃ¶rbÃ¤ttrad fÃ¶r better editing
+  - **Editor:** FileBrowser.h/cpp för native file dialogs
+  - **Editor:** HierarchyPanel utökad med ActorObjectExtended support
+  - **Engine:** Scene.h utökad med Actor management metoder
+  - **Editor:** PropertyEditorUtils förbättrad för better editing
   - Session: [2026-01-05](sessions/2026-01-05.md)
 
 - `1a473eb` refactor(core): remove Node system, migrate to ActorObject
@@ -22,43 +22,43 @@ Kronologisk logg av alla Ã¤ndringar sedan projektets start.
   - **Arkitektur:** Object base class (abstract root)
   - **Arkitektur:** ActorObject base class (replaces Node2D)
   - **Nya Actors:** CharacterActor, EnvironmentActor, SpriteActor
-  - **Migrering:** Camera2D, PhysicsBody, Layer, KinematicBody â†’ ActorObject
-  - **Migrering:** SceneGraphPanel: renderNodeTree â†’ renderActorTree
+  - **Migrering:** Camera2D, PhysicsBody, Layer, KinematicBody ? ActorObject
+  - **Migrering:** SceneGraphPanel: renderNodeTree ? renderActorTree
   - **Migrering:** ViewportPanel: renderSceneNode borttagen
-  - **Components:** SpriteComponent, AnimationComponent fÃ¶rbÃ¤ttrade
+  - **Components:** SpriteComponent, AnimationComponent förbättrade
   - **Build:** Alla Node-relaterade filer kommenterade ut i CMakeLists.txt
   - Session: [2026-01-05](sessions/2026-01-05.md)
 
-- `8404603` refactor(architecture): implement Worldâ†’Levelâ†’Scene hierarchy with WorldContainer base
-  - **Arkitektur:** WorldContainer abstract base class - gemensam funktionalitet fÃ¶r World/Level/Scene
+- `8404603` refactor(architecture): implement World?Level?Scene hierarchy with WorldContainer base
+  - **Arkitektur:** WorldContainer abstract base class - gemensam funktionalitet för World/Level/Scene
   - **Arkitektur:** World : public WorldContainer - hanterar Levels och scene stack
   - **Arkitektur:** Level : public WorldContainer - ny klass som mellanled, hanterar Scenes
   - **Arkitektur:** Scene : public WorldContainer - INGEN Node-koppling, ren Actor-container
-  - **Breaking Change:** Scene Ã¤rver inte lÃ¤ngre frÃ¥n Node - all Node-funktionalitet borttagen
+  - **Breaking Change:** Scene ärver inte längre från Node - all Node-funktionalitet borttagen
   - **Pattern:** Template Method Pattern i WorldContainer med pure virtual update()/render()
-  - **Migration:** RoomToSceneConverter skapar ActorObjectExtended istÃ¤llet fÃ¶r Nodes
-  - **Migration:** ViewportPanel hybridlÃ¶sning - renderar via RoomData tills SpriteComponents klara
-  - **Migration:** Disabled LayerEditorPanel (krÃ¤ver omskrivning fÃ¶r Actor-system)
-  - **Migration:** SceneGraphPanel disabled Node tree rendering, visar Actor count istÃ¤llet
-  - **Editor:** WorldViewPanel fÃ¶r World/Level navigation
-  - **Editor:** LevelViewPanel fÃ¶r Level/Scene navigation
+  - **Migration:** RoomToSceneConverter skapar ActorObjectExtended istället för Nodes
+  - **Migration:** ViewportPanel hybridlösning - renderar via RoomData tills SpriteComponents klara
+  - **Migration:** Disabled LayerEditorPanel (kräver omskrivning för Actor-system)
+  - **Migration:** SceneGraphPanel disabled Node tree rendering, visar Actor count istället
+  - **Editor:** WorldViewPanel för World/Level navigation
+  - **Editor:** LevelViewPanel för Level/Scene navigation
   - **Build:** WorldContainer.h (header-only), Level.cpp/h, RoomToSceneConverter.cpp/h
-  - **Cleanup:** NodeExample.cpp borttagen (oanvÃ¤nd)
+  - **Cleanup:** NodeExample.cpp borttagen (oanvänd)
   - **Cleanup:** getting-started.md borttagen (obsolete guide)
   - **Problems Solved:** 4 stora migrations-problem (se session rapport)
-  - **Statistik:** 90+ filer Ã¤ndrade, 1,215 insertions, 531 deletions, 7 nya filer
+  - **Statistik:** 90+ filer ändrade, 1,215 insertions, 531 deletions, 7 nya filer
   - **UE5 Alignment:** World=UWorld, Level=ULevel, Scene=Sub-level, Actor=AActor
   - Session: [2026-01-05](sessions/2026-01-05.md)
 
-### KvÃ¤ll
+### Kväll
 - `4783d89` feat(engine): complete Fas 4 Node Scene Graph system with advanced features
   - **Arkitektur:** Nya mappar src/engine/physics/, src/editor/panels/ med 7 nya filer
   - **Build:** SpatialGrid, SceneGraphPanel, LayerEditorPanel, TileMapEditorPanel i CMakeLists.txt
-  - **Physics:** SpatialGrid fÃ¶r spatial partitioning och broad-phase collision detection
+  - **Physics:** SpatialGrid för spatial partitioning och broad-phase collision detection
   - **SceneGraphPanel:** Drag-and-drop re-parenting med ownership transfer (unique_ptr)
   - **LayerEditorPanel:** Parallax preview med scroll slider och visuell representation
   - **TileMapEditorPanel:** Interactive grid painting med mouse input och auto-tiling
-  - **Features:** Auto-tiling algorithm baserat pÃ¥ neighbor detection (4 cardinal directions)
+  - **Features:** Auto-tiling algorithm baserat på neighbor detection (4 cardinal directions)
   - Session: [2026-01-05](sessions/2026-01-05.md)
 
 - `f260c3b` feat(engine): implement Node Scene Graph system with physics
@@ -74,11 +74,11 @@ Kronologisk logg av alla Ã¤ndringar sedan projektets start.
 - `f073beb` feat(editor): migrate to imnodes for node graph system
   - **Arkitektur:** Ny `src/editor/graphs/` struktur med base classes
   - **imnodes:** Ersatte imgui-node-editor med imnodes (lokal kopia i vendor/)
-  - **Base classes:** IGraphNode, INodeGraphPanel, Link fÃ¶r Ã¥teranvÃ¤ndbar kod
+  - **Base classes:** IGraphNode, INodeGraphPanel, Link för återanvändbar kod
   - **DialogGraphPanel:** Dialog-noder med tree layout
   - **QuestGraphPanel:** Quest header + objective-noder
   - **BehaviorGraphPanel:** NPC-beteende med dialog/room-kopplingar
-  - **Tree Layout:** Horisontell layout baserad pÃ¥ djup
+  - **Tree Layout:** Horisontell layout baserad på djup
   - **NPC Selection:** Fixat val i HierarchyPanel + PropertyEditor
   - **Dock Layout:** Alla graph panels som tabs i center
   - Session: [2026-01-05](sessions/2026-01-05.md)
@@ -89,7 +89,7 @@ Kronologisk logg av alla Ã¤ndringar sedan projektets start.
   - **Breadcrumb Navigation:** Hierarkisk navigation (Rooms > The Rusty Anchor > Bartender)
   - **Selection Management:** Fixed multi-selection bug, added deselect on re-click
   - **Dropdown Improvements:** ID references now use dropdowns (NPCs, Items, Rooms, Dialogs)
-  - **Helper Functions:** PropertyEditorUtils::IdCombo fÃ¶r Ã¥teranvÃ¤ndbar dropdown-logik
+  - **Helper Functions:** PropertyEditorUtils::IdCombo för återanvändbar dropdown-logik
   - **Data Loading:** Fixed EditorContext.loadFromDataLoader() i EditorState::enter()
   - **UX:** Validation, dirty tracking, save/revert per editor
   - **Files:** 14 nya filer i src/editor/properties/, uppdaterade PropertiesPanel + HierarchyPanel
@@ -97,13 +97,13 @@ Kronologisk logg av alla Ã¤ndringar sedan projektets start.
 
 - `5c4fd4d` docs(workflows): enforce complete change analysis in all workflows
   - Uppdaterade git-commit, update-docs, end-session workflows
-  - Obligatorisk `git diff --stat` och Ã¤ndringsanalys
-  - Krav pÃ¥ dokumentation av arkitektur, build och features
+  - Obligatorisk `git diff --stat` och ändringsanalys
+  - Krav på dokumentation av arkitektur, build och features
   - Session: [2026-01-05](sessions/2026-01-05.md)
 
 - `2c38bfa` docs: add complete architecture documentation for engine/game/editor split
   - ADR 005: Separate Engine, Game and Editor
-  - Dokumenterade modulÃ¤r projektstruktur (300+ filer)
+  - Dokumenterade modulär projektstruktur (300+ filer)
   - Dokumenterade build-system
   - Session: [2026-01-05](sessions/2026-01-05.md)
 
@@ -115,8 +115,8 @@ Kronologisk logg av alla Ã¤ndringar sedan projektets start.
   - **Arkitektur:** Separerade `src/` i `engine/`, `game/`, `editor/`
   - **Build:** RetroCore (static lib), RetroGame (exe), RetroEditor (exe)
   - **Drag-and-drop:** Hotspots, player spawn och walk area i ViewportPanel
-  - **MSVC fix:** C2597 bug (ImVec2 â†’ float parametrar)
-  - **Hot reload borttaget:** Restart-workflow istÃ¤llet (enklare, stabilare)
+  - **MSVC fix:** C2597 bug (ImVec2 ? float parametrar)
+  - **Hot reload borttaget:** Restart-workflow istället (enklare, stabilare)
   - **Safe save:** Automatisk backup (.bak), validering mot tom data
   - Session: [2026-01-05](sessions/2026-01-05.md)
 
@@ -130,14 +130,14 @@ Kronologisk logg av alla Ã¤ndringar sedan projektets start.
 - `401647c` feat(editor): ImGui panel-based editor architecture
   - Dear ImGui integration med docking support
   - 5 nya paneler: Hierarchy, Properties, Viewport, AssetBrowser, Console
-  - EditorContext fÃ¶r shared panel state
-  - Windowed mode fÃ¶r editor (1600x900 max)
+  - EditorContext för shared panel state
+  - Windowed mode för editor (1600x900 max)
 
 - `5bdfd02` feat(build): separate editor into standalone executable
   - RetroCore static library
   - RetroEditor standalone exe
 
-### FÃ¶rmiddag
+### Förmiddag
 - `cbc0ce3` docs: update session report with evening work
 - `22b59b4` refactor: extract EditorState into smaller components
   - VisualRoomEditor, RoomDataManager, EditorTabRenderer, TiledIntegration
@@ -159,7 +159,7 @@ Kronologisk logg av alla Ã¤ndringar sedan projektets start.
 
 ## 2026-01-04
 
-### KvÃ¤ll - Editor & Visual Tools
+### Kväll - Editor & Visual Tools
 - `a782a4b` feat: add mute toggle and visual editor resize/walk area
 - `f9dfa41` feat(editor): complete visual hotspot editor with drag-and-drop
 - `6530af2` feat(editor): add modular editor architecture
@@ -186,7 +186,7 @@ Kronologisk logg av alla Ã¤ndringar sedan projektets start.
 - `8336771` docs(design): add LucasArts insights applied to our game
 - `6cf8e3c` docs(workflow): enhance git-commit workflow
 
-### FÃ¶rmiddag - Debugging & Logger
+### Förmiddag - Debugging & Logger
 - `ef7b6f1` fix(states): prevent PlayState from reloading data on resume
 - `a3a5781` feat(debug): add detailed logging to PlayState, RoomManager, DialogSystem
 - `ad29f4f` fix(font): add fallback text rendering when font is missing
@@ -254,5 +254,6 @@ Kronologisk logg av alla Ã¤ndringar sedan projektets start.
 | Fas 1: Core |  100% | 2026-01-04 |
 | Fas 2: Systems |  100% | 2026-01-04 |
 | Fas 3: Advanced |  100% | 2026-01-04 |
-| Fas 4: Content |  15% | PÃ¥gÃ¥ende |
+| Fas 4: Content |  15% | Pågående |
+
 

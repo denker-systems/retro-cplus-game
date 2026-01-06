@@ -68,6 +68,7 @@ set(CORE_SOURCES
     src/engine/actors/CharacterActor.cpp
     src/engine/actors/EnvironmentActor.cpp
     src/engine/actors/SpriteActor.cpp
+    src/engine/actors/NPC.cpp
     # LEGACY NODES - PARTIALLY DISABLED (Node system replaced by Actor system)
     # src/engine/nodes/Sprite.cpp
     # src/engine/nodes/AnimatedSprite.cpp
@@ -92,10 +93,12 @@ set(CORE_SOURCES
     src/engine/Renderer.cpp
     src/engine/input/Input.cpp
     src/engine/Room.cpp
+    src/engine/Scene.cpp
     src/engine/VideoSettings.cpp
     src/engine/systems/DialogSystem.cpp
     src/engine/systems/InventorySystem.cpp
     src/engine/systems/RoomManager.cpp
+    src/engine/systems/SceneManager.cpp
     src/engine/systems/QuestSystem.cpp
     src/engine/systems/AISystem.cpp
     src/engine/systems/SaveSystem.cpp
@@ -119,7 +122,7 @@ set(CORE_SOURCES
     src/engine/entities/Entity.cpp
     src/engine/entities/Character.cpp
     src/engine/entities/PlayerCharacter.cpp
-    src/engine/entities/NPC.cpp
+    # src/engine/entities/NPC.cpp  # Migrated to src/engine/actors/NPC.cpp
     src/engine/ui/Widget.cpp
     src/engine/utils/Logger.cpp
     src/engine/utils/FileWatcher.cpp

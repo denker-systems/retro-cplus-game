@@ -5,7 +5,7 @@
 #include "SaveSystem.h"
 #include "InventorySystem.h"
 #include "QuestSystem.h"
-#include "RoomManager.h"
+#include "SceneManager.h"
 #include "AISystem.h"
 #include <fstream>
 #include <filesystem>
@@ -159,10 +159,10 @@ SaveData SaveSystem::gatherSaveData() const {
     data.playTimeSeconds = m_playTimeSeconds;
     
     // Aktuellt rum och spelarposition
-    data.currentRoom = RoomManager::instance().getCurrentRoomId();
+    data.currentRoom = SceneManager::instance().getCurrentSceneId();
     // Spelarposition hämtas via callback (PlayState äger spelaren)
     // För nu, använd spawn-position
-    RoomManager::instance().getSpawnPosition(data.playerX, data.playerY);
+    SceneManager::instance().getSpawnPosition(data.playerX, data.playerY);
     
     // Inventory
     const auto& items = InventorySystem::instance().getItems();
@@ -213,8 +213,8 @@ void SaveSystem::applySaveData(const SaveData& data) {
     m_playTimeSeconds = data.playTimeSeconds;
     
     // Byt rum
-    RoomManager::instance().setSpawnPosition(data.playerX, data.playerY);
-    RoomManager::instance().changeRoom(data.currentRoom);
+    SceneManager::instance().setSpawnPosition(data.playerX, data.playerY);
+    SceneManager::instance().changeScene(data.currentRoom);
     
     // Återställ inventory
     InventorySystem::instance().clear();

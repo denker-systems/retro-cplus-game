@@ -10,7 +10,9 @@
 #include <functional>
 #include <memory>
 
-class NPC;
+namespace engine { namespace actors {
+    class NPC;
+}}
 
 // ============================================================================
 // BEHAVIOR TYPES
@@ -85,10 +87,10 @@ public:
     void update(float deltaTime);
     
     /** @brief Registrera en NPC för AI-hantering */
-    void registerNPC(NPC* npc);
+    void registerNPC(engine::actors::NPC* npc);
     
     /** @brief Avregistrera NPC */
-    void unregisterNPC(NPC* npc);
+    void unregisterNPC(engine::actors::NPC* npc);
     
     /** @brief Sätt beteende för en NPC */
     void setBehavior(const std::string& npcId, BehaviorType type);
@@ -119,16 +121,16 @@ private:
     AISystem(const AISystem&) = delete;
     AISystem& operator=(const AISystem&) = delete;
     
-    void updateBehavior(NPC* npc, Behavior& behavior, float deltaTime);
-    void updateIdle(NPC* npc, Behavior& behavior, float deltaTime);
-    void updatePatrol(NPC* npc, Behavior& behavior, float deltaTime);
-    void updateWander(NPC* npc, Behavior& behavior, float deltaTime);
-    void updateGoTo(NPC* npc, Behavior& behavior, float deltaTime);
+    void updateBehavior(engine::actors::NPC* npc, Behavior& behavior, float deltaTime);
+    void updateIdle(engine::actors::NPC* npc, Behavior& behavior, float deltaTime);
+    void updatePatrol(engine::actors::NPC* npc, Behavior& behavior, float deltaTime);
+    void updateWander(engine::actors::NPC* npc, Behavior& behavior, float deltaTime);
+    void updateGoTo(engine::actors::NPC* npc, Behavior& behavior, float deltaTime);
     
     void updateSchedules();
-    void applyScheduleEntry(NPC* npc, const ScheduleEntry& entry);
+    void applyScheduleEntry(engine::actors::NPC* npc, const ScheduleEntry& entry);
     
-    std::vector<NPC*> m_npcs;
+    std::vector<engine::actors::NPC*> m_npcs;
     std::unordered_map<std::string, Behavior> m_behaviors;
     std::unordered_map<std::string, Schedule> m_schedules;
     
