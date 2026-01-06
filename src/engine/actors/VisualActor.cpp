@@ -7,7 +7,7 @@
 namespace engine {
 
 VisualActor::VisualActor(const std::string& name)
-    : ActorObject(name)
+    : ActorObjectExtended(name)
     , m_opacity(1.0f)
     , m_zIndex(0)
 {

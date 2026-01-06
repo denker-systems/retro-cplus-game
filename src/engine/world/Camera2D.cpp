@@ -9,16 +9,18 @@
 
 namespace engine {
 
-Camera2D::Camera2D() : Node2D("Camera2D") {}
+Camera2D::Camera2D()
+    : ActorObject("Camera2D") {}
 
-Camera2D::Camera2D(const std::string& name) : Node2D(name) {}
+Camera2D::Camera2D(const std::string& name)
+    : ActorObject(name) {}
 
 void Camera2D::update(float deltaTime) {
     updateFollow(deltaTime);
     updateShake(deltaTime);
     applyLimits();
     
-    Node2D::update(deltaTime);
+    ActorObject::update(deltaTime);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

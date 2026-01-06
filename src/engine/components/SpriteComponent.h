@@ -48,18 +48,58 @@ public:
     void render(SDL_Renderer* renderer) override;
     
     // ========================================================================
-    // FLIP
+    // FLIP & TRANSFORM
     // ========================================================================
     
     void setFlip(SDL_RendererFlip flip) { m_flip = flip; }
     SDL_RendererFlip getFlip() const { return m_flip; }
+    
+    void setFlipX(bool flip) { m_flipX = flip; }
+    void setFlipY(bool flip) { m_flipY = flip; }
+    bool isFlipX() const { return m_flipX; }
+    bool isFlipY() const { return m_flipY; }
+    
+    // ========================================================================
+    // ORIGIN (Pivot point for rotation/scale)
+    // ========================================================================
+    
+    void setOrigin(float x, float y) { m_originX = x; m_originY = y; }
+    void setOriginNormalized(float nx, float ny) { 
+        m_originX = nx * m_width;
+        m_originY = ny * m_height;
+    }
+    
+    // ========================================================================
+    // COLOR & OPACITY
+    // ========================================================================
+    
+    void setTint(SDL_Color color) { m_tint = color; }
+    SDL_Color getTint() const { return m_tint; }
+    
+    void setOpacity(float opacity) { 
+        m_tint.a = static_cast<Uint8>(opacity * 255.0f); 
+    }
+    float getOpacity() const { 
+        return m_tint.a / 255.0f; 
+    }
     
 private:
     SDL_Texture* m_texture = nullptr;
     SDL_Rect m_sourceRect{0, 0, 32, 32};
     int m_width = 32;
     int m_height = 32;
+    
+    // Flip
     SDL_RendererFlip m_flip = SDL_FLIP_NONE;
+    bool m_flipX = false;
+    bool m_flipY = false;
+    
+    // Origin (pivot point)
+    float m_originX = 0.0f;
+    float m_originY = 0.0f;
+    
+    // Tint & opacity
+    SDL_Color m_tint{255, 255, 255, 255};
 };
 
 } // namespace engine

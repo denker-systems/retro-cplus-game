@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "core/Node2D.h"
+#include "core/ActorObject.h"
 #include "CollisionShape.h"
 #include <vector>
 #include <memory>
@@ -15,7 +15,7 @@ namespace engine {
 /**
  * @brief Physics body with velocity and collision
  */
-class PhysicsBody : public Node2D {
+class PhysicsBody : public ActorObject {
 public:
     PhysicsBody();
     explicit PhysicsBody(const std::string& name);

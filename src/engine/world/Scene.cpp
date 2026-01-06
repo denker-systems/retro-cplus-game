@@ -28,8 +28,8 @@ void Scene::render(SDL_Renderer* renderer) {
     if (!renderer) return;
     
     // Render all actors
-    for (auto& actor : m_actors) {
-        if (actor->isActive() && actor->isVisible()) {
+    for (const auto& actor : m_actors) {
+        if (actor && actor->isActive()) {
             actor->render(renderer);
         }
     }

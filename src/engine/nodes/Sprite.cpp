@@ -48,10 +48,7 @@ int Sprite::getHeight() const {
 }
 
 void Sprite::render(SDL_Renderer* renderer) {
-    if (!m_texture || !renderer) {
-        Node2D::render(renderer);
-        return;
-    }
+    if (!renderer || !m_texture) return;
     
     // Get global transform
     Vec2 globalPos = getGlobalPosition();
@@ -101,9 +98,6 @@ void Sprite::render(SDL_Renderer* renderer) {
     
     // Render
     SDL_RenderCopyEx(renderer, m_texture, &srcRect, &dstRect, angleDeg, &center, flip);
-    
-    // Render children
-    Node2D::render(renderer);
 }
 
 } // namespace engine

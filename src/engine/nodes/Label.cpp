@@ -30,12 +30,10 @@ int Label::getTextHeight() const {
 }
 
 void Label::render(SDL_Renderer* renderer) {
-    if (m_text.empty() || !renderer) {
-        Node2D::render(renderer);
-        return;
-    }
+    if (!renderer || m_text.empty()) return;
     
-    Vec2 globalPos = getGlobalPosition();
+    // Get global position
+    Vec2 worldPos = getGlobalPosition();
     
     // Apply alignment offset
     Vec2 textSize = getTextSize();
@@ -53,7 +51,7 @@ void Label::render(SDL_Renderer* renderer) {
             break;
     }
     
-    Vec2 renderPos = globalPos + offset;
+    Vec2 renderPos = worldPos + offset;
     
     // Render text using FontManager
     // NOTE: FontManager is a singleton, need to include the header
@@ -67,9 +65,6 @@ void Label::render(SDL_Renderer* renderer) {
         static_cast<int>(renderPos.y),
         m_color
     );
-    
-    // Render children
-    Node2D::render(renderer);
 }
 
 } // namespace engine

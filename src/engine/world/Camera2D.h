@@ -4,22 +4,21 @@
  */
 #pragma once
 
-#include "core/Node2D.h"
+#include "core/ActorObject.h"
 #include <SDL.h>
 
 namespace engine {
 
 /**
- * @brief 2D camera for viewport control
+ * @brief 2D camera with viewport and follow behavior
  * 
  * Features:
- * - Follow target with smooth damping
- * - Zoom in/out
- * - World limits (bounds)
+ * - Smooth camera follow
+ * - Zoom support
  * - Screen shake
  * - World/screen coordinate conversion
  */
-class Camera2D : public Node2D {
+class Camera2D : public ActorObject {
 public:
     Camera2D();
     explicit Camera2D(const std::string& name);
@@ -52,8 +51,8 @@ public:
     // FOLLOW TARGET
     // ═══════════════════════════════════════════════════════════════════
     
-    Node2D* getTarget() const { return m_target; }
-    void setTarget(Node2D* target) { m_target = target; }
+    ActorObject* getTarget() const { return m_target; }
+    void setTarget(ActorObject* target) { m_target = target; }
     
     /** @brief Smoothing factor (0 = instant, 1 = very slow) */
     float getSmoothing() const { return m_smoothing; }
@@ -112,7 +111,7 @@ protected:
     float m_zoom = 1.0f;
     
     // Follow
-    Node2D* m_target = nullptr;
+    ActorObject* m_target = nullptr;
     float m_smoothing = 0.1f;
     Vec2 m_offset{0, 0};
     

@@ -8,14 +8,11 @@
 #include "engine/world/Level.h"
 #include "engine/world/Scene.h"
 #include "engine/data/DataLoader.h"
-#include "engine/core/Node.h"
-#include "engine/core/Node2D.h"
-#include "engine/nodes/Sprite.h"
-#include "engine/nodes/InteractiveArea.h"
-#include "engine/nodes/WalkArea.h"
-#include "engine/nodes/Marker.h"
+#include "engine/components/SpriteComponent.h"
 #include <SDL_image.h>
 #include <algorithm>
+
+// Note: Node.h and Node2D.h have been removed - using Actor system only
 
 #ifdef HAS_IMGUI
 #include <imgui.h>
@@ -257,117 +254,8 @@ void ViewportPanel::renderRoomPreview() {
 #endif
 }
 
-void ViewportPanel::renderSceneNode(engine::Node* node, ImDrawList* drawList, ImVec2 offset) {
-#ifdef HAS_IMGUI
-    if (!node || !node->isVisible()) return;
-    
-    // Calculate node position
-    float x = offset.x;
-    float y = offset.y;
-    
-    auto node2d = dynamic_cast<engine::Node2D*>(node);
-    if (node2d) {
-        x += node2d->getPosition().x * m_zoom;
-        y += node2d->getPosition().y * m_zoom;
-    }
-    
-    // Render based on node type
-    auto sprite = dynamic_cast<engine::Sprite*>(node);
-    if (sprite && sprite->getTexture()) {
-        SDL_Texture* tex = sprite->getTexture();
-        int texW, texH;
-        SDL_QueryTexture(tex, nullptr, nullptr, &texW, &texH);
-        
-        float w = texW * m_zoom;
-        float h = texH * m_zoom;
-        
-        drawList->AddImage(
-            (ImTextureID)(intptr_t)tex,
-            ImVec2(x, y),
-            ImVec2(x + w, y + h)
-        );
-        
-        drawList->AddRect(
-            ImVec2(x, y),
-            ImVec2(x + w, y + h),
-            IM_COL32(100, 255, 100, 128),
-            0.0f, 0, 1.0f);
-    }
-    
-    // Render InteractiveArea
-    auto hotspot = dynamic_cast<engine::InteractiveArea*>(node);
-    if (hotspot) {
-        float w = hotspot->getWidth() * m_zoom;
-        float h = hotspot->getHeight() * m_zoom;
-        
-        drawList->AddRectFilled(
-            ImVec2(x, y),
-            ImVec2(x + w, y + h),
-            IM_COL32(255, 100, 100, 80));
-        
-        drawList->AddRect(
-            ImVec2(x, y),
-            ImVec2(x + w, y + h),
-            IM_COL32(255, 255, 255, 200),
-            0.0f, 0, 2.0f);
-        
-        drawList->AddText(
-            ImVec2(x + 2, y + 2),
-            IM_COL32(255, 255, 255, 255),
-            node->getName().c_str());
-    }
-    
-    // Render WalkArea
-    auto walkArea = dynamic_cast<engine::WalkArea*>(node);
-    if (walkArea) {
-        const auto& bounds = walkArea->getBounds();
-        float minX = x + bounds.minX * m_zoom;
-        float minY = y + bounds.minY * m_zoom;
-        float maxX = x + bounds.maxX * m_zoom;
-        float maxY = y + bounds.maxY * m_zoom;
-        
-        drawList->AddRectFilled(
-            ImVec2(minX, minY),
-            ImVec2(maxX, maxY),
-            IM_COL32(0, 255, 255, 50));
-        
-        drawList->AddRect(
-            ImVec2(minX, minY),
-            ImVec2(maxX, maxY),
-            IM_COL32(0, 255, 255, 200),
-            0.0f, 0, 2.0f);
-    }
-    
-    // Render Marker
-    auto marker = dynamic_cast<engine::Marker*>(node);
-    if (marker) {
-        SDL_Color color = marker->getColor();
-        int radius = 8;
-        
-        drawList->AddCircleFilled(
-            ImVec2(x, y),
-            radius * m_zoom,
-            IM_COL32(color.r, color.g, color.b, 200));
-        
-        drawList->AddCircle(
-            ImVec2(x, y),
-            radius * m_zoom,
-            IM_COL32(255, 255, 255, 255),
-            0, 2.0f);
-        
-        drawList->AddText(
-            ImVec2(x + 10, y - 8),
-            IM_COL32(color.r, color.g, color.b, 255),
-            marker->getLabel());
-    }
-    
-    // Render children recursively
-    // const auto& children = node->getChildren();
-    // for (const auto& child : children) {
-    //     renderSceneNode(child.get(), drawList, ImVec2(x, y));
-    // }
-#endif
-}
+// DEPRECATED: renderSceneNode() removed - Node system has been replaced by Actor system
+// Use renderSceneActors() instead
 
 void ViewportPanel::renderBreadcrumbs() {
 #ifdef HAS_IMGUI
@@ -642,69 +530,10 @@ void ViewportPanel::renderSceneView() {
         ImVec2(cursorPos.x + contentSize.x, cursorPos.y + contentSize.y),
         IM_COL32(40, 40, 50, 255));
     
-    // Render room visually using RoomData (until SpriteComponents are ready)
+    // Render actors directly from Scene
     if (m_scene) {
-        // Find corresponding RoomData
-        const RoomData* room = nullptr;
-        auto& rooms = DataLoader::instance().getRooms();
-        for (const auto& r : rooms) {
-            if (r.id == m_scene->getName()) {
-                room = &r;
-                break;
-            }
-        }
-        
-        if (room) {
-            ImDrawList* drawList = ImGui::GetWindowDrawList();
-            ImVec2 offset = ImVec2(cursorPos.x + m_panX, cursorPos.y + m_panY);
-            
-            // Background (placeholder - grey rect)
-            if (!room->background.empty()) {
-                drawList->AddRectFilled(
-                    offset,
-                    ImVec2(offset.x + 640 * m_zoom, offset.y + 400 * m_zoom),
-                    IM_COL32(60, 60, 70, 255));
-                drawList->AddText(
-                    ImVec2(offset.x + 10, offset.y + 10),
-                    IM_COL32(150, 150, 150, 255),
-                    room->background.c_str());
-            }
-            
-            // Walk area (green box)
-            float waX = offset.x + room->walkArea.minX * m_zoom;
-            float waY = offset.y + room->walkArea.minY * m_zoom;
-            float waW = (room->walkArea.maxX - room->walkArea.minX) * m_zoom;
-            float waH = (room->walkArea.maxY - room->walkArea.minY) * m_zoom;
-            drawList->AddRect(
-                ImVec2(waX, waY),
-                ImVec2(waX + waW, waY + waH),
-                IM_COL32(100, 255, 100, 200), 0, 0, 2.0f);
-            
-            // Hotspots (cyan rects)
-            for (const auto& hs : room->hotspots) {
-                float hx = offset.x + hs.x * m_zoom;
-                float hy = offset.y + hs.y * m_zoom;
-                float hw = hs.w * m_zoom;
-                float hh = hs.h * m_zoom;
-                
-                drawList->AddRect(
-                    ImVec2(hx, hy),
-                    ImVec2(hx + hw, hy + hh),
-                    IM_COL32(100, 255, 255, 255), 0, 0, 2.0f);
-                drawList->AddText(
-                    ImVec2(hx + 5, hy + 5),
-                    IM_COL32(255, 255, 255, 255),
-                    hs.name.c_str());
-            }
-            
-            // Player spawn (magenta circle)
-            float spawnX = offset.x + room->playerSpawnX * m_zoom;
-            float spawnY = offset.y + room->playerSpawnY * m_zoom;
-            drawList->AddCircleFilled(
-                ImVec2(spawnX, spawnY),
-                8.0f * m_zoom,
-                IM_COL32(255, 0, 255, 255));
-        }
+        renderSceneActors(ImGui::GetWindowDrawList(), 
+                         ImVec2(cursorPos.x + m_panX, cursorPos.y + m_panY));
     }
     
     // Make area interactive
@@ -840,6 +669,75 @@ void ViewportPanel::handleMouseDrag(float roomX, float roomY) {
         else if (corner == 1) { wa.maxX = x; wa.minY = y; }
         else if (corner == 2) { wa.maxX = x; wa.maxY = y; }
         else if (corner == 3) { wa.minX = x; wa.maxY = y; }
+    }
+#endif
+}
+
+void ViewportPanel::renderSceneActors(ImDrawList* drawList, ImVec2 offset) {
+#ifdef HAS_IMGUI
+    if (!m_scene || !drawList) return;
+    
+    const auto& actors = m_scene->getActors();
+    
+    for (const auto& actor : actors) {
+        if (!actor || !actor->isActive()) continue;
+        
+        // Get actor transform
+        engine::Vec2 pos = actor->getPosition();
+        float worldX = offset.x + pos.x * m_zoom;
+        float worldY = offset.y + pos.y * m_zoom;
+        
+        // Try to get SpriteComponent
+        auto* spriteComp = actor->getComponent<engine::SpriteComponent>();
+        if (spriteComp) {
+            SDL_Texture* tex = spriteComp->getTexture();
+            if (tex) {
+                int w = spriteComp->getWidth();
+                int h = spriteComp->getHeight();
+                
+                // Render texture via ImGui
+                drawList->AddImage(
+                    (ImTextureID)(intptr_t)tex,
+                    ImVec2(worldX, worldY),
+                    ImVec2(worldX + w * m_zoom, worldY + h * m_zoom)
+                );
+            }
+        }
+        
+        // Debug visualization for actors without sprites
+        if (!spriteComp) {
+            std::string name = actor->getName();
+            
+            // Different colors for different actor types
+            ImU32 color = IM_COL32(200, 200, 200, 255);
+            
+            if (name == "PlayerSpawn") {
+                color = IM_COL32(255, 0, 255, 255);
+                drawList->AddCircleFilled(ImVec2(worldX, worldY), 8.0f * m_zoom, color);
+                drawList->AddText(ImVec2(worldX + 10, worldY - 8), color, "Spawn");
+            }
+            else if (name == "WalkArea") {
+                color = IM_COL32(100, 255, 100, 200);
+                // Draw box around typical walk area size
+                drawList->AddRect(
+                    ImVec2(worldX, worldY),
+                    ImVec2(worldX + 640 * m_zoom, worldY + 400 * m_zoom),
+                    color, 0, 0, 2.0f
+                );
+            }
+            else {
+                // Interactive actors (hotspots)
+                color = IM_COL32(100, 255, 255, 255);
+                drawList->AddRect(
+                    ImVec2(worldX, worldY),
+                    ImVec2(worldX + 64 * m_zoom, worldY + 64 * m_zoom),
+                    color, 0, 0, 2.0f
+                );
+                drawList->AddText(ImVec2(worldX + 5, worldY + 5), 
+                                IM_COL32(255, 255, 255, 255), 
+                                name.c_str());
+            }
+        }
     }
 #endif
 }

@@ -6,7 +6,7 @@
 
 #include "editor/IEditorPanel.h"
 #include "world/Scene.h"
-#include "core/Node.h"
+#include "core/ActorObject.h"
 #include <string>
 
 class EditorContext;
@@ -27,14 +27,14 @@ public:
     void setScene(engine::Scene* scene) { m_scene = scene; }
     
 private:
-    void renderNodeTree(engine::Node* node);
-    void renderNodeContextMenu(engine::Node* node);
+    void renderActorTree(engine::ActorObject* actor);
+    void renderActorContextMenu(engine::ActorObject* actor);
     
     EditorContext& m_context;
     std::string m_id = "SceneGraph";
     std::string m_title = "Scene Graph";
     
     engine::Scene* m_scene = nullptr;
-    engine::Node* m_selectedNode = nullptr;
+    engine::ActorObject* m_selectedActor = nullptr;
     bool m_showInactive = true;
 };

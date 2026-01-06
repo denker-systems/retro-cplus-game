@@ -1,60 +1,33 @@
 /**
  * @file CoreRedirects.h
- * @brief Core Redirects - Backward Compatibility Aliases
+ * @brief Type aliases for migration from Node to Actor system
  * 
- * This file provides type aliases for migrating from the legacy Node-based
- * hierarchy to the new UE5-style Object/ActorObject hierarchy.
+ * ⚠️ DEPRECATED: This file is for backward compatibility only.
  * 
- * The aliases allow old code to continue working while new code can use
- * the improved naming conventions.
+ * Migration Status (2026-01-05):
+ * - Object: Real class (src/engine/core/Object.h) - USE THIS
+ * - ActorObject: Real class (src/engine/core/ActorObject.h) - USE THIS
+ * - ActorObjectExtended: Real class with components - USE THIS
+ * - Node: DEPRECATED - Use ActorObject instead
+ * - Node2D: DEPRECATED - Use ActorObject instead
  * 
- * Migration Strategy: Strangler Fig Pattern
- * - Old code uses Node/Node2D → works via aliases
- * - New code uses Object/ActorObject → clearer naming
- * - Gradual migration over 6-8 weeks
+ * New code should NOT use Node or Node2D.
+ * Legacy nodes (Sprite, Label, etc.) still inherit from Node2D temporarily.
+ * STATUS: Object and ActorObject are now REAL classes (not aliases)
  */
 #pragma once
 
-#include "Node.h"
-#include "Node2D.h"
+#include "Object.h"
+#include "ActorObject.h"
+// Node.h and Node2D.h REMOVED from project - use ActorObject instead
 
 namespace engine {
 
 // ============================================================================
-// CORE REDIRECTS (UE5-style naming)
+// NODE SYSTEM REMOVED
 // ============================================================================
-
-/**
- * @brief Object is the universal base for everything (like UObject in UE5)
- * 
- * Currently aliased to Node for backward compatibility.
- * Future: Will become standalone base class with serialization, reflection.
- */
-using Object = Node;
-
-/**
- * @brief ActorObject is the base for objects in the world (like AActor in UE5)
- * 
- * Currently aliased to Node2D for backward compatibility.
- * Future: Will add component support and ownership semantics.
- */
-using ActorObject = Node2D;
-
-// ============================================================================
-// LEGACY TYPEDEFS (For explicit legacy code marking)
-// ============================================================================
-
-/**
- * @brief Legacy Node typedef - marks code for migration
- * @deprecated Use Object instead
- */
-using LegacyNode = Node;
-
-/**
- * @brief Legacy Node2D typedef - marks code for migration
- * @deprecated Use ActorObject instead
- */
-using LegacyNode2D = Node2D;
+// Node and Node2D have been completely removed from the project.
+// All code must use ActorObject instead.
 
 } // namespace engine
 

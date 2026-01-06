@@ -1,5 +1,5 @@
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\core\Node.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Node.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\core\Node2D.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Node2D.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\core\Object.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Object.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\core\ActorObject.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\ActorObject.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\core\ActorComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\ActorComponent.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\core\MigrationConfig.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\MigrationConfig.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\core\ActorObjectExtended.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\ActorObjectExtended.obj
@@ -24,14 +24,10 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\AIController.
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\ItemActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\ItemActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\VisualActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\VisualActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\InteractiveActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\InteractiveActor.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\nodes\Sprite.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Sprite.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\nodes\AnimatedSprite.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\AnimatedSprite.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\CharacterActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\CharacterActor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\EnvironmentActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\EnvironmentActor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\SpriteActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\SpriteActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\nodes\TileMapLayer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\TileMapLayer.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\nodes\ParallaxLayer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\ParallaxLayer.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\nodes\Label.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Label.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\nodes\InteractiveArea.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\InteractiveArea.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\nodes\WalkArea.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\WalkArea.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\nodes\Marker.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Marker.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\world\Camera2D.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Camera2D.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\world\Scene.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Scene.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\world\World.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\World.obj

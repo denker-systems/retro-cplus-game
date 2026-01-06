@@ -33,19 +33,19 @@ public:
     
 private:
     /** @brief Create background sprite from room data */
-    static std::unique_ptr<Node> createBackground(const RoomData& roomData, SDL_Renderer* renderer);
+    static std::unique_ptr<ActorObject> createBackground(const RoomData& roomData, SDL_Renderer* renderer);
     
     /** @brief Create walk area polygon from room data */
-    static std::unique_ptr<Node> createWalkArea(const RoomData& roomData);
+    static std::unique_ptr<ActorObject> createWalkArea(const RoomData& roomData);
     
     /** @brief Create hotspot interactive areas */
-    static std::vector<std::unique_ptr<Node>> createHotspots(const RoomData& roomData);
+    static std::vector<std::unique_ptr<ActorObject>> createHotspots(const RoomData& roomData);
     
     /** @brief Create player spawn marker */
-    static std::unique_ptr<Node> createPlayerSpawn(const RoomData& roomData);
+    static std::unique_ptr<ActorObject> createPlayerSpawn(const RoomData& roomData);
     
-    /** @brief Create container node for organization */
-    static std::unique_ptr<Node> createContainer(const std::string& name);
+    /** @brief Create container actor for organization */
+    static std::unique_ptr<ActorObject> createContainer(const std::string& name);
 };
 
 } // namespace engine

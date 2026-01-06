@@ -36,8 +36,11 @@ message(STATUS "NativeFileDialog found: ${nfd_FOUND}")
 # RETRO CORE LIBRARY - Delad kod mellan Game och Editor
 # ============================================================================
 set(CORE_SOURCES
-    src/engine/core/Node.cpp
-    src/engine/core/Node2D.cpp
+    src/engine/core/Object.cpp
+    src/engine/core/ActorObject.cpp
+    # LEGACY - Node system removed
+    # src/engine/core/Node.cpp
+    # src/engine/core/Node2D.cpp
     src/engine/core/ActorComponent.cpp
     src/engine/core/MigrationConfig.cpp
     src/engine/core/ActorObjectExtended.cpp
@@ -62,14 +65,18 @@ set(CORE_SOURCES
     src/engine/actors/ItemActor.cpp
     src/engine/actors/VisualActor.cpp
     src/engine/actors/InteractiveActor.cpp
-    src/engine/nodes/Sprite.cpp
-    src/engine/nodes/AnimatedSprite.cpp
-    src/engine/nodes/TileMapLayer.cpp
-    src/engine/nodes/ParallaxLayer.cpp
-    src/engine/nodes/Label.cpp
-    src/engine/nodes/InteractiveArea.cpp
-    src/engine/nodes/WalkArea.cpp
-    src/engine/nodes/Marker.cpp
+    src/engine/actors/CharacterActor.cpp
+    src/engine/actors/EnvironmentActor.cpp
+    src/engine/actors/SpriteActor.cpp
+    # LEGACY NODES - PARTIALLY DISABLED (Node system replaced by Actor system)
+    # src/engine/nodes/Sprite.cpp
+    # src/engine/nodes/AnimatedSprite.cpp
+    src/engine/nodes/TileMapLayer.cpp  # Needed by editor
+    # src/engine/nodes/ParallaxLayer.cpp
+    # src/engine/nodes/Label.cpp
+    # src/engine/nodes/InteractiveArea.cpp
+    # src/engine/nodes/WalkArea.cpp
+    # src/engine/nodes/Marker.cpp
     src/engine/world/Camera2D.cpp
     src/engine/world/Scene.cpp
     src/engine/world/World.cpp

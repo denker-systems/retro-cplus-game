@@ -136,7 +136,6 @@ SDL_Rect TileMapLayer::getTileSourceRect(int tileId) const {
 
 void TileMapLayer::render(SDL_Renderer* renderer) {
     if (!m_tileset || !renderer) {
-        Node2D::render(renderer);
         return;
     }
     
@@ -162,8 +161,7 @@ void TileMapLayer::render(SDL_Renderer* renderer) {
         }
     }
     
-    // Render children
-    Node2D::render(renderer);
+    // Render tiles
 }
 
 } // namespace engine

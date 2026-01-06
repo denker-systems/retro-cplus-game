@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "core/Node2D.h"
+#include "core/ActorObject.h"
 #include <vector>
 #include <memory>
 #include <string>
@@ -24,7 +24,7 @@ enum class LayerType {
 /**
  * @brief Single rendering layer
  */
-class Layer : public Node2D {
+class Layer : public ActorObject {
 public:
     Layer();
     explicit Layer(const std::string& name, LayerType type = LayerType::Main);

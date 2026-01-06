@@ -6,16 +6,17 @@
 
 namespace engine {
 
-PhysicsBody::PhysicsBody() : Node2D("PhysicsBody") {}
+PhysicsBody::PhysicsBody()
+    : ActorObject("PhysicsBody") {}
 
-PhysicsBody::PhysicsBody(const std::string& name) : Node2D(name) {}
+PhysicsBody::PhysicsBody(const std::string& name) : ActorObject(name) {}
 
 void PhysicsBody::update(float deltaTime) {
     if (!m_isStatic) {
         applyPhysics(deltaTime);
     }
     
-    Node2D::update(deltaTime);
+    ActorObject::update(deltaTime);
 }
 
 void PhysicsBody::applyPhysics(float deltaTime) {
@@ -26,7 +27,8 @@ void PhysicsBody::applyPhysics(float deltaTime) {
     m_velocity *= m_friction;
     
     // Apply velocity
-    translate(m_velocity * deltaTime);
+    setPosition(getPosition().x + m_velocity.x * deltaTime, 
+                getPosition().y + m_velocity.y * deltaTime);
 }
 
 void PhysicsBody::addShape(std::unique_ptr<CollisionShape> shape) {

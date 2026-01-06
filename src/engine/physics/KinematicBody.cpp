@@ -19,7 +19,7 @@ Vec2 KinematicBody::moveAndSlide(const Vec2& velocity, const std::vector<Collisi
     for (int i = 0; i < m_maxSlides && remainingMotion.lengthSquared() > m_stopThreshold; i++) {
         // Try to move
         Vec2 oldPos = getPosition();
-        translate(remainingMotion);
+        setPosition(oldPos.x + remainingMotion.x, oldPos.y + remainingMotion.y);
         
         // Check for collisions
         bool collided = false;
@@ -66,7 +66,7 @@ Vec2 KinematicBody::moveAndSlide(const Vec2& velocity, const std::vector<Collisi
 
 bool KinematicBody::moveAndCollide(const Vec2& motion, const std::vector<CollisionShape*>& obstacles) {
     Vec2 oldPos = getPosition();
-    translate(motion);
+    setPosition(oldPos.x + motion.x, oldPos.y + motion.y);
     
     // Check for collisions
     for (CollisionShape* obstacle : obstacles) {

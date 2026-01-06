@@ -11,7 +11,7 @@ namespace engine {
 // ============================================================================
 
 ItemActor::ItemActor(const std::string& name, const std::string& itemId)
-    : ActorObject(name)
+    : ActorObjectExtended(name)
     , m_itemId(itemId)
     , m_displayName(name)
     , m_pickable(true)

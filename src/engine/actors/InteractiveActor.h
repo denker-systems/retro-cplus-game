@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "engine/core/CoreRedirects.h"
+#include "engine/core/ActorObjectExtended.h"
 #include <string>
 #include <functional>
 
@@ -16,7 +16,7 @@ namespace engine {
  * This is the base for InteractiveArea, WalkArea, Marker, etc.
  * All interactive objects inherit from this.
  */
-class InteractiveActor : public ActorObject {
+class InteractiveActor : public ActorObjectExtended {
 public:
     using InteractionCallback = std::function<void()>;
     

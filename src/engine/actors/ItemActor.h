@@ -1,18 +1,18 @@
 /**
  * @file ItemActor.h
- * @brief Item Actor Hierarchy
+ * @brief Item actors for inventory and world items
  */
 #pragma once
 
-#include "engine/core/CoreRedirects.h"
+#include "engine/core/ActorObjectExtended.h"
 #include <string>
 
 namespace engine {
 
 /**
- * @brief Base class for all items
+ * @brief Base class for all item actors
  */
-class ItemActor : public ActorObject {
+class ItemActor : public ActorObjectExtended {
 public:
     ItemActor(const std::string& name, const std::string& itemId);
     virtual ~ItemActor() = default;

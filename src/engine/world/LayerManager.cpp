@@ -11,10 +11,11 @@ namespace engine {
 // LAYER
 // ═══════════════════════════════════════════════════════════════════════════
 
-Layer::Layer() : Node2D("Layer") {}
+Layer::Layer()
+    : ActorObject("Layer") {}
 
 Layer::Layer(const std::string& name, LayerType type)
-    : Node2D(name), m_layerType(type) {}
+    : ActorObject(name), m_layerType(type) {}
 
 void Layer::render(SDL_Renderer* renderer) {
     if (!renderer) return;
@@ -25,7 +26,7 @@ void Layer::render(SDL_Renderer* renderer) {
         // For now, just render normally
     }
     
-    Node2D::render(renderer);
+    ActorObject::render(renderer);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

@@ -1,38 +1,16 @@
 ========================================
-  Game Log - 2026-01-05 20:43:13.870
+  Game Log - 2026-01-05 22:16:20.350
 ========================================
 
-[2026-01-05 20:43:13.870] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-05 20:43:13.976] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-05 20:43:13.990] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-05 20:43:14.008] [INFO ] [Game.cpp:82] Window created
-[2026-01-05 20:43:14.108] [INFO ] [Game.cpp:92] Renderer created
-[2026-01-05 20:43:14.108] [INFO ] [Game.cpp:208] Viewport: 1920x1200 at (0,0)
-[2026-01-05 20:43:14.110] [INFO ] [Game.cpp:118] Scale: 3.000000 (fonts scaled for sharp rendering)
-[2026-01-05 20:43:14.110] [INFO ] [Game.cpp:129] Game initialized successfully!
-[2026-01-05 20:43:15.202] [DEBUG] [PlayState.cpp:35] PlayState::enter() - initialized=false
-[2026-01-05 20:43:15.202] [INFO ] [PlayState.cpp:39] PlayState initializing for first time
-[2026-01-05 20:43:15.205] [INFO ] [DialogSystem.cpp:16] Added dialog: bartender_intro with 6 nodes
-[2026-01-05 20:43:15.205] [INFO ] [DialogSystem.cpp:16] Added dialog: shopkeeper_intro with 4 nodes
-[2026-01-05 20:43:15.205] [INFO ] [DialogSystem.cpp:16] Added dialog: drunk_hints with 4 nodes
-[2026-01-05 20:43:15.206] [INFO ] [DialogSystem.cpp:16] Added dialog: stranger_intro with 3 nodes
-[2026-01-05 20:43:15.206] [INFO ] [DialogSystem.cpp:16] Added dialog: guard_intro with 4 nodes
-[2026-01-05 20:43:15.206] [INFO ] [DialogSystem.cpp:16] Added dialog: librarian_intro with 5 nodes
-[2026-01-05 20:43:15.206] [INFO ] [DialogSystem.cpp:16] Added dialog: hermit_intro with 5 nodes
-[2026-01-05 20:43:15.206] [INFO ] [DialogSystem.cpp:16] Added dialog: cat_meow with 3 nodes
-[2026-01-05 20:43:15.230] [INFO ] [RoomManager.cpp:16] Adding room: tavern
-[2026-01-05 20:43:15.230] [INFO ] [RoomManager.cpp:16] Adding room: street
-[2026-01-05 20:43:15.230] [INFO ] [RoomManager.cpp:16] Adding room: shop
-[2026-01-05 20:43:15.231] [INFO ] [RoomManager.cpp:16] Adding room: library
-[2026-01-05 20:43:15.231] [INFO ] [RoomManager.cpp:16] Adding room: cellar
-[2026-01-05 20:43:15.231] [INFO ] [RoomManager.cpp:16] Adding room: forest
-[2026-01-05 20:43:15.231] [INFO ] [RoomManager.cpp:16] Adding room: cave
-[2026-01-05 20:43:15.232] [INFO ] [RoomManager.cpp:36] changeRoom called: tavern
-[2026-01-05 20:43:15.232] [INFO ] [RoomManager.cpp:43] Changing to room: tavern
-[2026-01-05 20:43:15.232] [DEBUG] [RoomManager.cpp:47] Calling onRoomChange callback
-[2026-01-05 20:43:16.893] [INFO ] [main.cpp:17] === RetroAdventure Game Shutdown ===
-[2026-01-05 20:43:16.893] [INFO ] [Game.cpp:229] === Game Shutting Down ===
-
-========================================
-  Log ended - 2026-01-05 20:43:16.983
-========================================
+[2026-01-05 22:16:20.350] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-05 22:16:20.457] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-05 22:16:20.482] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-05 22:16:20.500] [INFO ] [Game.cpp:82] Window created
+[2026-01-05 22:16:20.607] [INFO ] [Game.cpp:92] Renderer created
+[2026-01-05 22:16:20.607] [INFO ] [Game.cpp:208] Viewport: 1440x900 at (80,0)
+[2026-01-05 22:16:20.608] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-05 22:16:20.608] [INFO ] [Game.cpp:129] Game initialized successfully!
+[2026-01-05 22:16:20.608] [INFO ] [EditorState.cpp:47] EditorState created
+[2026-01-05 22:16:20.609] [INFO ] [EditorState.cpp:51] EditorState::enter()
+[2026-01-05 22:16:20.613] [INFO ] [EditorContext.cpp:78] EditorContext loaded 7 rooms, 8 dialogs
+[2026-01-05 22:16:20.613] [INFO ] [EditorState.cpp:130] EditorContext loaded with 8 dialogs

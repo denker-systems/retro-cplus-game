@@ -25,14 +25,15 @@ void SceneGraphPanel::render() {
     ImGui::Separator();
     
     // Scene tree
-    // TODO: Update to render Actor tree instead of Node tree
-    // if (m_scene) {
-    //     renderActorTree(m_scene);
-    // }
     if (m_scene) {
         ImGui::Text("Scene: %s", m_scene->getName().c_str());
-        ImGui::Text("Actors: %zu", m_scene->getActors().size());
-        ImGui::TextDisabled("(Actor tree view coming soon)");
+        ImGui::Separator();
+        
+        // Render actors
+        const auto& actors = m_scene->getActors();
+        for (const auto& actor : actors) {
+            renderActorTree(actor.get());
+        }
     } else {
         ImGui::TextDisabled("No scene loaded");
     }
@@ -40,93 +41,56 @@ void SceneGraphPanel::render() {
     ImGui::End();
 }
 
-void SceneGraphPanel::renderNodeTree(engine::Node* node) {
-    if (!node) return;
+void SceneGraphPanel::renderActorTree(engine::ActorObject* actor) {
+    if (!actor) return;
     
-    // Skip inactive nodes if filter is on
-    if (!m_showInactive && !node->isActive()) {
+    // Skip inactive actors if filter is on
+    if (!m_showInactive && !actor->isActive()) {
         return;
     }
     
-    // Node flags
-    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+    // Actor flags (leaf since actors don't have children in flat list)
+    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_Leaf;
     
-    if (node == m_selectedNode) {
+    if (actor == m_selectedActor) {
         flags |= ImGuiTreeNodeFlags_Selected;
     }
     
-    if (node->getChildCount() == 0) {
-        flags |= ImGuiTreeNodeFlags_Leaf;
-    }
+    // Actor icon
+    const char* icon = "A";  // Actor
     
-    // Node icon based on type
-    const char* icon = "N";  // Default node
-    // TODO: Add type-specific icons
-    
-    // Node label
-    std::string label = std::string(icon) + " " + node->getName();
-    if (!node->isActive()) {
+    // Actor label
+    std::string label = std::string(icon) + " " + actor->getName();
+    if (!actor->isActive()) {
         label += " (inactive)";
     }
-    if (!node->isVisible()) {
+    if (!actor->isVisible()) {
         label += " (hidden)";
     }
     
     // Render tree node
-    bool nodeOpen = ImGui::TreeNodeEx(node, flags, "%s", label.c_str());
+    bool nodeOpen = ImGui::TreeNodeEx(actor, flags, "%s", label.c_str());
     
     // Click to select
     if (ImGui::IsItemClicked()) {
-        m_selectedNode = node;
-    }
-    
-    // Drag-and-drop source
-    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
-        ImGui::SetDragDropPayload("SCENE_NODE", &node, sizeof(engine::Node*));
-        ImGui::Text("Move: %s", node->getName().c_str());
-        ImGui::EndDragDropSource();
-    }
-    
-    // Drag-and-drop target (re-parenting)
-    if (ImGui::BeginDragDropTarget()) {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("SCENE_NODE")) {
-            engine::Node* draggedNode = *(engine::Node**)payload->Data;
-            if (draggedNode && draggedNode != node) {
-                // Re-parent: remove from old parent, add to new
-                if (draggedNode->getParent()) {
-                    // Transfer ownership from old parent to new parent
-                    auto nodeOwnership = draggedNode->getParent()->removeChild(draggedNode);
-                    if (nodeOwnership) {
-                        node->addChild(std::move(nodeOwnership));
-                    }
-                }
-            }
-        }
-        ImGui::EndDragDropTarget();
+        m_selectedActor = actor;
     }
     
     // Context menu
     if (ImGui::BeginPopupContextItem()) {
-        renderNodeContextMenu(node);
+        renderActorContextMenu(actor);
         ImGui::EndPopup();
     }
     
-    // Render children
     if (nodeOpen) {
-        for (size_t i = 0; i < node->getChildCount(); i++) {
-            engine::Node* child = node->getChildAt(i);
-            if (child) {
-                renderNodeTree(child);
-            }
-        }
         ImGui::TreePop();
     }
 }
 
-void SceneGraphPanel::renderNodeContextMenu(engine::Node* node) {
-    if (!node) return;
+void SceneGraphPanel::renderActorContextMenu(engine::ActorObject* actor) {
+    if (!actor) return;
     
-    ImGui::Text("Node: %s", node->getName().c_str());
+    ImGui::Text("Actor: %s", actor->getName().c_str());
     ImGui::Separator();
     
     if (ImGui::MenuItem("Rename")) {
@@ -134,24 +98,24 @@ void SceneGraphPanel::renderNodeContextMenu(engine::Node* node) {
     }
     
     if (ImGui::MenuItem("Duplicate")) {
-        // TODO: Duplicate node
+        // TODO: Duplicate actor
     }
     
     ImGui::Separator();
     
-    bool active = node->isActive();
+    bool active = actor->isActive();
     if (ImGui::MenuItem("Active", nullptr, &active)) {
-        node->setActive(active);
+        actor->setActive(active);
     }
     
-    bool visible = node->isVisible();
+    bool visible = actor->isVisible();
     if (ImGui::MenuItem("Visible", nullptr, &visible)) {
-        node->setVisible(visible);
+        actor->setVisible(visible);
     }
     
     ImGui::Separator();
     
     if (ImGui::MenuItem("Delete", "Del")) {
-        // TODO: Delete node
+        // TODO: Delete actor from scene
     }
 }

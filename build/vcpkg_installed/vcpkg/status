@@ -12,6 +12,50 @@ Multi-Arch: same
 Abi: d88dbc2bf42c2f256ad11bba791c788862022caeb151f55542401df76b980d48
 Status: install ok installed
 
+Package: imgui
+Version: 1.91.9
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: a3d82aa3321e459d887b54df39d4c1d7ee6ad8da1d882425358e78ace933d38a
+Description: Bloat-free Immediate Mode Graphical User interface for C++ with minimal dependencies.
+Status: install ok installed
+
+Package: imgui
+Feature: docking-experimental
+Architecture: x64-windows
+Multi-Arch: same
+Description: Build with docking support
+Status: install ok installed
+
+Package: imguizmo
+Version: 2024-05-29
+Port-Version: 1
+Depends: imgui, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 762591e9c954a8cc711f1edd06c6762325d2a48d089752264398e8f83243a2f0
+Description: Immediate mode 3D gizmo for scene editing and other controls based on Dear ImGui
+Status: install ok installed
+
+Package: implot
+Version: 0.17
+Depends: imgui, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 32b19865f017b8fa36fbb36d600265f1b787813277eb4d3085ed44e68f55c634
+Description: Advanced 2D Plotting for Dear ImGui
+Status: install ok installed
+
+Package: nativefiledialog-extended
+Version: 1.2.1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 57dec10a9d09fbeff796ac1340acec429027c743def998eb2cb3627526d1a663
+Description: Native File Dialog Extended
+Status: install ok installed
+
 Package: nlohmann-json
 Version: 3.12.0
 Port-Version: 1
@@ -184,59 +228,5 @@ Architecture: x64-windows
 Multi-Arch: same
 Abi: 564671ec2342e8df31b9b0bba2a6716f768c29d571841dc5775338226b205f44
 Description: A library for rendering TrueType fonts with SDL
-Status: install ok installed
-
-Package: imgui
-Version: 1.91.9
-Depends: vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-windows
-Multi-Arch: same
-Abi: a3d82aa3321e459d887b54df39d4c1d7ee6ad8da1d882425358e78ace933d38a
-Description: Bloat-free Immediate Mode Graphical User interface for C++ with minimal dependencies.
-Status: install ok installed
-
-Package: imgui
-Feature: docking-experimental
-Architecture: x64-windows
-Multi-Arch: same
-Description: Build with docking support
-Status: install ok installed
-
-Package: imgui-node-editor
-Version: 0.9.3
-Port-Version: 2
-Depends: imgui, vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-windows
-Multi-Arch: same
-Abi: 2ef2b3b35a3bca51f173a9bee6b9609eb29220eb1d6b39ed25c7ba600447d430
-Description: Node Editor built using Dear ImGui
-Status: purge ok not-installed
-
-Package: imguizmo
-Version: 2024-05-29
-Port-Version: 1
-Depends: imgui, vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-windows
-Multi-Arch: same
-Abi: 762591e9c954a8cc711f1edd06c6762325d2a48d089752264398e8f83243a2f0
-Description: Immediate mode 3D gizmo for scene editing and other controls based on Dear ImGui
-Status: install ok installed
-
-Package: implot
-Version: 0.17
-Depends: imgui, vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-windows
-Multi-Arch: same
-Abi: 32b19865f017b8fa36fbb36d600265f1b787813277eb4d3085ed44e68f55c634
-Description: Advanced 2D Plotting for Dear ImGui
-Status: install ok installed
-
-Package: nativefiledialog-extended
-Version: 1.2.1
-Depends: vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-windows
-Multi-Arch: same
-Abi: 57dec10a9d09fbeff796ac1340acec429027c743def998eb2cb3627526d1a663
-Description: Native File Dialog Extended
 Status: install ok installed
 

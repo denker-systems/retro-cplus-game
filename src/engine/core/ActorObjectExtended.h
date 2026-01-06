@@ -2,12 +2,12 @@
  * @file ActorObjectExtended.h
  * @brief ActorObject with Component Support
  * 
- * Extended version of ActorObject (Node2D) that supports components.
+ * Extended version of ActorObject that supports components.
  * This allows composition-based architecture alongside inheritance.
  */
 #pragma once
 
-#include "CoreRedirects.h"
+#include "ActorObject.h"
 #include "ActorComponent.h"
 #include <vector>
 #include <memory>
@@ -19,7 +19,7 @@ namespace engine {
 /**
  * @brief ActorObject with component system support
  * 
- * Extends Node2D (ActorObject) with UE5-style component management.
+ * Extends ActorObject with UE5-style component management.
  * Allows attaching components for composition-based functionality.
  * 
  * Example:

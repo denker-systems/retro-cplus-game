@@ -53,7 +53,8 @@ private:
     void renderWorldView();
     void renderLevelView();
     void renderSceneView();
-    void renderSceneNode(engine::Node* node, ImDrawList* drawList, ImVec2 offset);
+    // renderSceneNode() removed - Node system deprecated
+    void renderSceneActors(ImDrawList* drawList, ImVec2 offset);
     
     EditorContext& m_context;
     std::string m_id = "viewport";

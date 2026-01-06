@@ -1,10 +1,10 @@
 /**
  * @file VisualActor.h
- * @brief Base class for visual actors
+ * @brief Base class for actors with visual representation
  */
 #pragma once
 
-#include "engine/core/CoreRedirects.h"
+#include "engine/core/ActorObjectExtended.h"
 
 namespace engine {
 
@@ -14,7 +14,7 @@ namespace engine {
  * This is the base for Sprite, AnimatedSprite, Label, etc.
  * All visual objects inherit from this.
  */
-class VisualActor : public ActorObject {
+class VisualActor : public ActorObjectExtended {
 public:
     VisualActor(const std::string& name);
     virtual ~VisualActor() = default;

@@ -7,7 +7,7 @@
 namespace engine {
 
 InteractiveActor::InteractiveActor(const std::string& name)
-    : ActorObject(name)
+    : ActorObjectExtended(name)
 {
 }
 

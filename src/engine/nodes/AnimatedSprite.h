@@ -5,8 +5,11 @@
 #pragma once
 
 #include "Sprite.h"
-#include <unordered_map>
+#include <SDL.h>
 #include <string>
+#include <vector>
+#include <unordered_map>
+#include <functional>
 
 namespace engine {
 

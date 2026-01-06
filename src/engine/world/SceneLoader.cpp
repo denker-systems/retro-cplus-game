@@ -95,7 +95,7 @@ void SceneLoader::loadLayers(Scene* scene, const std::string& jsonStr, SDL_Rende
             
             // Create layer as a child node
             auto layer = std::make_unique<Layer>(name, type);
-            layer->setZIndex(zIndex);
+            // Note: Layer doesn't have setZIndex anymore (Actor-based)
             
             // TODO: Convert Layer to Actor-based system
             // scene->addActor(std::move(layer));

@@ -173,6 +173,142 @@
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
+## Fas 5: Actor-Based Architecture Migration ✅ STARTAT
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ Fas 5A: World Hierarchy │ Fas 5B: Actor System │ Fas 5C: Components │ Fas 5D: Migration│
+│ ████████████████████    │ ████████████████████ │ ████████████████████ │ ████████░░░░░░░░░░░░│
+│ 100%                    │ 100%                 │ 100%              │ 40%              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Arkitektur:** UE5-inspirerad Actor/Component-baserad design, migrerar bort från Node-systemet
+
+### 5A: World Container Hierarchy ✅ KLART (2026-01-05)
+
+#### 5A.1 WorldContainer Base Class ✅
+- [x] Abstract base class för World/Level/Scene
+- [x] Template Method Pattern för update()/render()
+- [x] Gemensam actor-management
+- [x] Gemensam name-management
+- [x] Pure virtual interface
+
+#### 5A.2 World Class Refactoring ✅
+- [x] World : public WorldContainer
+- [x] Hanterar Levels
+- [x] Scene stack för overlays
+- [x] Level transitions
+
+#### 5A.3 Level Class Creation ✅
+- [x] Level : public WorldContainer (NY KLASS)
+- [x] Mellanled mellan World och Scene
+- [x] Hanterar Scenes
+- [x] Scene transitions
+- [x] Lifecycle hooks (onLevelEnter/Exit)
+
+#### 5A.4 Scene Refactoring ✅
+- [x] Scene : public WorldContainer
+- [x] BREAKING: Tog bort Node inheritance
+- [x] Ren Actor-container
+- [x] Camera via CameraComponent
+- [x] Lifecycle hooks (onSceneEnter/Exit/Pause/Resume)
+
+#### 5A.5 Migration Tools ✅
+- [x] RoomToSceneConverter - RoomData → Actors
+- [x] Hybrid rendering via RoomData i ViewportPanel
+- [x] WorldViewPanel för navigation
+- [x] LevelViewPanel för navigation
+- [x] Disabled LayerEditorPanel (kräver Actor-omskrivning)
+
+**Status:** ✅ KOMPLETT - World→Level→Scene hierarki implementerad
+
+### 5B: Actor Base Classes ✅ KLART (2026-01-05)
+
+#### 5B.1 Object & ActorObject Foundation ✅
+- [x] `Object` - Root base class för alla objekt
+- [x] `ActorObject` - Base för alla actors (utan Node-arv)
+- [x] Transform (position, rotation, scale)
+- [x] Visibility & lifecycle hooks
+- [x] Compatibility med legacy Node2D (getGlobalPosition, isVisible)
+
+#### 5B.2 Specialized Actor Classes ✅
+- [x] `CharacterActor` - Base för Player/NPCs
+  - [x] `PlayerActor` - Spelarkaraktär
+  - [x] `NPCActor` - NPC karaktärer
+- [x] `EnvironmentActor` - Base för miljöobjekt
+  - [x] `TileMapActor` - Tile maps
+  - [x] `ParallaxActor` - Parallax layers
+  - [x] `PropActor` - Statiska props
+- [x] `SpriteActor` - Actor med SpriteComponent rendering
+
+#### 5B.3 Legacy Compatibility ✅
+- [x] VisualActor, InteractiveActor, ItemActor uppdaterade
+- [x] Legacy Nodes (Sprite, Label, etc) använder ActorObject via Node2D
+- [x] CoreRedirects uppdaterad (Object/ActorObject är riktiga klasser)
+
+**Status:** ✅ KOMPLETT - Actor class hierarchy implementerad
+
+### 5C: Component System ✅ KLART (2026-01-05)
+
+#### 5C.1 SpriteComponent - Fullständig Implementation ✅
+- [x] Texture management (setTexture, source rect)
+- [x] Origin/pivot point för rotation/scale
+- [x] Flip (horizontal/vertical)
+- [x] Tint & opacity support
+- [x] Scale support från owner actor
+- [x] Full SDL_RenderCopyEx rendering
+
+#### 5C.2 AnimationComponent - Fullständig Implementation ✅
+- [x] SDL_Rect frame-baserad animation
+- [x] Animation management (add, has, play, stop, pause)
+- [x] Speed control (playback speed multiplier)
+- [x] Loop vs one-shot animations
+- [x] Frame access (getCurrentFrameRect, frame index)
+- [x] Restart control för play()
+
+#### 5C.3 SpriteActor Integration ✅
+- [x] initializeSprite() laddar texturer via TextureManager
+- [x] Auto-query texture size
+- [x] Auto-setup source rect
+- [x] initializeAnimation() för animation support
+
+**Status:** ✅ KOMPLETT - Component-baserad rendering funktionell
+
+### 5D: Full Migration ⏳ PÅGÅENDE (40%)
+
+#### 5D.1 RoomToSceneConverter → SpriteActors ✅
+- [x] Background konverteras till SpriteActor med texture loading
+- [x] Hotspots konverteras till InteractiveActor
+- [x] Player spawn & walk area som PropActors
+
+#### 5D.2 ViewportPanel → Actor Rendering ✅
+- [x] renderSceneActors() implementation
+- [x] SpriteComponent rendering via ImGui
+- [x] Debug visualization för actors utan sprites
+- [x] Ta bort RoomData hybrid-rendering
+
+#### 5D.3 Legacy Node System Deprecation ✅
+- [x] Node.h markerad som DEPRECATED med #pragma message
+- [x] Node2D.h markerad som DEPRECATED med #pragma message
+- [x] CoreRedirects.h uppdaterad med deprecation warnings
+- [x] ViewportPanel includes organiserade (legacy nodes sist)
+- [x] LEGACY_NODES.md dokumentation skapad
+
+#### 5D.4 Actor Hierarchy Consolidation ✅
+- [x] VisualActor → ActorObjectExtended
+- [x] InteractiveActor → ActorObjectExtended
+- [x] ItemActor → ActorObjectExtended
+
+#### 5D.5 Kvarstående Migration ⏳
+- [ ] Migrera Sprite → SpriteActor + SpriteComponent
+- [ ] Migrera AnimatedSprite → SpriteActor + AnimationComponent
+- [ ] Migrera Label → TextActor + TextComponent (planerad)
+- [ ] Ta bort renderSceneNode() från ViewportPanel
+- [ ] Eventuellt flytta Node/Node2D till legacy/ mapp
+
+**Status:** ⏳ 40% - Actor rendering fungerar, legacy Node-system markerat för borttagning
+
 **Arkitektur:** OOP Scene Graph (inspirerat av Godot, Cocos2d-x, SFML)
 
 ### 4A: Core Node System 🔴 HÖG PRIORITET
