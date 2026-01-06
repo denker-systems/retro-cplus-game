@@ -23,7 +23,8 @@ Ett skalbart point-and-click adventure-spel byggt med modern C++17 och SDL2.
 src/
 ├── Game.cpp/h            # Huvudloop, SDL init, state koordinering
 ├── Input.cpp/h           # Tangentbordshantering
-├── Room.cpp/h            # Rum med hotspots och NPCs
+├── Room.cpp/h            # Rum med hotspots och NPCs (legacy)
+├── Scene.cpp/h           # Scener med hotspots och NPCs (nytt)
 │
 ├── states/               # Game states (State Pattern) 
 │   ├── StateManager.cpp/h  # Push/pop/change (deferred) 
@@ -37,7 +38,8 @@ src/
 │   └── QuestLogState.cpp/h # Quest log overlay
 │
 ├── systems/              # Spelsystem (singletons)
-│   ├── RoomManager.cpp/h    # Rumhantering och transitions
+│   ├── RoomManager.cpp/h    # Rumhantering och transitions (legacy)
+│   ├── SceneManager.cpp/h   # Scenehantering och transitions (nytt)
 │   ├── DialogSystem.cpp/h   # Dialog-träd och val
 │   ├── InventorySystem.cpp/h # Items och kombination
 │   ├── QuestSystem.cpp/h    # Quests och objectives
@@ -60,11 +62,17 @@ src/
 ├── audio/                # Ljudsystem 
 │   └── AudioManager.cpp/h    # Music, SFX, volume 
 │
-├── entities/             # Entity hierarki (OOP) 
+├── actors/               # Actor system (nytt)
+│   ├── ActorObjectExtended.cpp/h # Actor base class
+│   ├── CharacterActor.cpp/h      # Character implementation
+│   ├── NPC.cpp/h                 # Non-player characters
+│   └── [fler actors...]
+│
+├── entities/             # Entity hierarki (OOP) (legacy)
 │   ├── Entity.cpp/h          # Abstract base 
 │   ├── Character.cpp/h       # Character base 
 │   ├── PlayerCharacter.cpp/h # Spelaren
-│   └── NPC.cpp/h             # Non-player characters
+│   └── NPC.cpp/h             # Non-player characters (borttagen)
 │
 ├── ui/                   # Widget-system
 │   └── Widget.cpp/h          # Label, Button, Panel, ProgressBar
@@ -118,9 +126,12 @@ src/
 │   │   ├── ParallaxLayer.cpp/h  # Parallax scrolling
 │   │   └── Label.cpp/h          # Text rendering
 │   ├── world/            # World management
+│   │   ├── WorldContainer.h    # Abstract base for World/Level/Scene ✨ NEW
+│   │   ├── World.cpp/h         # Multi-scene manager
+│   │   ├── Level.cpp/h         # Scene container ✨ NEW
+│   │   ├── Scene.cpp/h         # Actor container (refactored) ✨ NEW
+│   │   ├── RoomToSceneConverter.cpp/h # Migration tool ✨ NEW
 │   │   ├── Camera2D.cpp/h       # Viewport med follow/zoom/shake
-│   │   ├── Scene.cpp/h          # Level container
-│   │   ├── World.cpp/h          # Multi-scene manager
 │   │   ├── LayerManager.cpp/h   # Layer system
 │   │   └── SceneLoader.cpp/h    # JSON serialization
 │   └── physics/          # Physics system

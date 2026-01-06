@@ -10,6 +10,9 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- **Scene** and **SceneManager** - New scene system replacing Room system
+- **actors/NPC** - New NPC class with getX/getY/setSpeed/getSpeed methods
+- **Hotspot.h** - Centralized hotspot definitions (HotspotType, Hotspot, WalkArea, RoomLayer)
 - **FileBrowser** - Native file dialog integration för editorn
 - **ActorObjectExtended support** - HierarchyPanel utökad för Actor system
 - **Actor management methods** - Scene.h utökad med Actor-funktionalitet
@@ -72,6 +75,11 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Git-policy rules och synkade workflows
 
 ### Changed
+- **Room system → Scene system** - All systems now use SceneManager instead of RoomManager
+- **GameDataLoader** - Now loads scenes only to SceneManager (removed double loading)
+- **PlayState** - Updated to use SceneManager for scene transitions
+- **All systems** - AISystem, SaveSystem, ConditionSystem, CutsceneSystem, WorldQuery, DebugEditor updated for SceneManager
+- **Legacy entities/NPC.h** - Removed and replaced with actors/NPC.h
 - **Camera2D** - Migrerad från Node2D till ActorObject
 - **PhysicsBody** - Migrerad från Node2D till ActorObject
 - **Layer** - Migrerad från Node2D till ActorObject
@@ -92,6 +100,7 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **Hot reload borttaget** - Använd restart-workflow istället (enklare, stabilare)
 
 ### Removed
+- **entities/NPC.h** - Legacy NPC class removed and replaced with actors/NPC.h
 - **Node.h/Node.cpp** - Legacy Node system helt borttaget
 - **Node2D.h/Node2D.cpp** - Legacy Node2D system helt borttaget
 - **renderSceneNode** - ViewportPanel Node rendering borttagen

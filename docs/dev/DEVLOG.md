@@ -257,3 +257,16 @@ Kronologisk logg av alla ändringar sedan projektets start.
 | Fas 4: Content |  15% | Pågående |
 
 
+
+## 2026-01-06
+
+- cc4e398 feat(engine): complete Room to Scene migration
+  - **Arkitektur:** Added Scene.h/cpp and SceneManager.h/cpp to replace Room system
+  - **Arkitektur:** All systems now use SceneManager instead of RoomManager
+  - **Actors:** Added actors/NPC.h/cpp with getX/getY/setSpeed/getSpeed methods
+  - **Actors:** Extended CharacterActor with setSpeed/getSpeed methods
+  - **Cleanup:** Removed legacy entities/NPC.h
+  - **Systems:** Updated PlayState, AISystem, SaveSystem, ConditionSystem, CutsceneSystem, WorldQuery, DebugEditor
+  - **Data:** GameDataLoader now loads scenes to SceneManager only (removed double loading)
+  - **Build:** Updated CMakeLists.txt to exclude entities/NPC.h
+  - Session: [2026-01-06](sessions/2026-01-06.md)

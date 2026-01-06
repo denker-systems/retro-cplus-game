@@ -60,6 +60,8 @@
 - [x] Fade transitions
 - [x] JSON room definitions
 - [x] NPC-hantering per rum
+- [x] **Scene System** - Migrated from Room to Scene system
+- [x] **SceneManager** - Replaced RoomManager
 
 ### 2.2 Entity System ✅
 - [x] Entity basklass
