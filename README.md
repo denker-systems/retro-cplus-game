@@ -6,7 +6,7 @@ Ett point-and-click adventure-spel för Windows, byggt med C++17 och SDL2.
 
 ### Spel
 - **State Management** - MenuState, PlayState, PauseState, DialogState
-- **Room System** - Rum med hotspots, NPCs, transitions
+- **Scene System** - Scener med hotspots, NPCs, transitions (ersätter Room system)
 - **Dialog System** - Dialogträd med val och villkor
 - **Inventory System** - Items, pickup, kombination
 - **Quest System** - Objectives med auto-completion

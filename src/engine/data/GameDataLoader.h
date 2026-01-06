@@ -174,6 +174,20 @@ public:
                              data.walkArea.scaleTop, data.walkArea.scaleBottom);
             scene->setPlayerSpawn(data.playerSpawnX, data.playerSpawnY);
             
+            // New: Load grid data if available
+            if (data.gridPosition) {
+                scene->setGridPosition(*data.gridPosition);
+                std::cout << "  Grid position: (" << data.gridPosition->gridX 
+                         << "," << data.gridPosition->gridY << ") "
+                         << data.gridPosition->pixelWidth << "x" 
+                         << data.gridPosition->pixelHeight << std::endl;
+            }
+            
+            if (data.camera) {
+                scene->setCameraConfig(*data.camera);
+                std::cout << "  Camera: zoom=" << data.camera->zoom << std::endl;
+            }
+            
             // Ladda layers om de finns
             if (!data.layers.empty()) {
                 for (const auto& layer : data.layers) {

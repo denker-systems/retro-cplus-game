@@ -4,13 +4,14 @@
  * 
  * Hierarchy:
  *   WorldContainer (abstract base)
- *   └── World
- *       └── Level
- *           └── Scene
+ *   └── World (grid of Levels)
+ *       └── Level (grid of Scenes)
+ *           └── Scene (grid of Actors)
  */
 #pragma once
 
 #include "engine/core/ActorObjectExtended.h"
+#include "GridTypes.h"
 #include <string>
 #include <memory>
 #include <vector>
@@ -24,6 +25,7 @@ namespace engine {
  * Provides shared functionality:
  * - Name management
  * - Actor container
+ * - Spatial grid positioning
  * - Update/Render lifecycle
  */
 class WorldContainer {
@@ -39,7 +41,30 @@ public:
     const std::string& getName() const { return m_name; }
     void setName(const std::string& name) { m_name = name; }
     
-    // Actors
+    // ═══════════════════════════════════════════════════════════════════
+    // SPATIAL GRID (inherited by World, Level, Scene)
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const GridPosition& getGridPosition() const { return m_gridPosition; }
+    void setGridPosition(const GridPosition& pos) { m_gridPosition = pos; }
+    void setGridPosition(int x, int y, int w = 1, int h = 1) { 
+        m_gridPosition = {x, y, w, h}; 
+    }
+    
+    int getGridX() const { return m_gridPosition.gridX; }
+    int getGridY() const { return m_gridPosition.gridY; }
+    int getWidth() const { return m_gridPosition.pixelWidth; }
+    int getHeight() const { return m_gridPosition.pixelHeight; }
+    
+    void setSize(int w, int h) { 
+        m_gridPosition.pixelWidth = w; 
+        m_gridPosition.pixelHeight = h; 
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // ACTORS
+    // ═══════════════════════════════════════════════════════════════════
+    
     void addActor(std::unique_ptr<ActorObjectExtended> actor) {
         if (actor) {
             m_actors.push_back(std::move(actor));
@@ -62,6 +87,7 @@ public:
 protected:
     std::string m_name;
     std::vector<std::unique_ptr<ActorObjectExtended>> m_actors;
+    GridPosition m_gridPosition = {0, 0, 640, 400};  // Default size
 };
 
 } // namespace engine

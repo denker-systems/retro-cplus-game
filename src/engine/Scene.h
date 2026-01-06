@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "engine/Hotspot.h"
+#include "engine/world/GridTypes.h"
 
 // Forward declaration
 namespace engine { namespace actors {
@@ -67,6 +68,22 @@ public:
     const WalkArea& getWalkArea() const { return m_walkArea; }
     const std::vector<Hotspot>& getHotspots() const { return m_hotspots; }
     
+    // Grid position (for spatial hierarchy)
+    const engine::GridPosition& getGridPosition() const { return m_gridPosition; }
+    void setGridPosition(const engine::GridPosition& pos) { m_gridPosition = pos; }
+    void setGridPosition(int x, int y, int w = 640, int h = 400) { 
+        m_gridPosition = {x, y, w, h}; 
+    }
+    
+    // Camera configuration
+    const engine::CameraConfig& getCameraConfig() const { return m_cameraConfig; }
+    void setCameraConfig(const engine::CameraConfig& config) { m_cameraConfig = config; }
+    
+    // Room size (can vary per room)
+    int getWidth() const { return m_gridPosition.pixelWidth; }
+    int getHeight() const { return m_gridPosition.pixelHeight; }
+    void setSize(int w, int h) { m_gridPosition.pixelWidth = w; m_gridPosition.pixelHeight = h; }
+    
     /** @brief NPC-hantering */
     void addNPC(std::unique_ptr<engine::actors::NPC> npc);
     engine::actors::NPC* getNPC(const std::string& id);
@@ -84,6 +101,10 @@ private:
     WalkArea m_walkArea = {0, 640, 260, 350};
     float m_playerSpawnX = 320.0f;
     float m_playerSpawnY = 300.0f;
+    
+    // Spatial grid data (new)
+    engine::GridPosition m_gridPosition = {0, 0, 640, 400};
+    engine::CameraConfig m_cameraConfig;
     
     void renderDebugInfo(SDL_Renderer* renderer);
 };

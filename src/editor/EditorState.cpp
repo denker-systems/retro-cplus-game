@@ -101,8 +101,21 @@ void EditorState::enter() {
     
     // Convert each RoomData to Scene
     const auto& rooms = loader.getRooms();
+    int gridX = 0;
+    int gridY = 0;
     for (const auto& roomData : rooms) {
         auto scene = engine::RoomToSceneConverter::convert(roomData, m_game->getRenderer());
+        
+        // If scene doesn't have explicit grid position, assign one based on index
+        if (!roomData.gridPosition) {
+            scene->setGridPosition(gridX, gridY, 640, 400);
+            gridX++;
+            if (gridX >= 4) {  // 4 columns
+                gridX = 0;
+                gridY++;
+            }
+        }
+        
         defaultLevel->addScene(std::move(scene));
     }
     
@@ -366,7 +379,22 @@ void EditorState::handleEvent(const SDL_Event& event) {
     // Låt ImGui processa events först
     ImGuiManager::instance().processEvent(event);
     
-    // Om ImGui vill ha input, skippa vår handling
+    // Handle global shortcuts BEFORE ImGui capture check
+    if (event.type == SDL_KEYDOWN) {
+        // Ctrl+S to save (global - works even when ImGui has focus)
+        if (event.key.keysym.scancode == SDL_SCANCODE_S && (event.key.keysym.mod & KMOD_CTRL)) {
+            LOG_INFO("Ctrl+S pressed - saving...");
+            syncScenesToRoomData();
+            m_editorContext.saveToFiles();
+            m_editorContext.isDirty = false;
+            m_statusMessage = "Saved all data!";
+            m_statusTimer = 2.0f;
+            AudioManager::instance().playSound("select");
+            return;
+        }
+    }
+    
+    // Om ImGui vill ha input, skippa resten av vår handling
     ImGuiIO& io = ImGui::GetIO();
     if (io.WantCaptureMouse || io.WantCaptureKeyboard) {
         return;
@@ -406,14 +434,7 @@ void EditorState::handleEvent(const SDL_Event& event) {
                 m_statusTimer = 2.0f;
                 return;
                 
-            case SDL_SCANCODE_S:
-                // Ctrl+S to save
-                if (event.key.keysym.mod & KMOD_CTRL) {
-                    m_editorContext.saveToFiles();
-                    AudioManager::instance().playSound("select");
-                    return;
-                }
-                break;
+            // Ctrl+S handled above (before ImGui capture check)
                 
             default:
                 break;
@@ -828,6 +849,74 @@ void EditorState::renderImGui() {
     m_selectedQuest = m_editorContext.selectedQuestId;
     m_selectedItem = m_editorContext.selectedItemId;
 #endif
+}
+
+void EditorState::syncScenesToRoomData() {
+    // Sync grid positions and actor positions from engine::Scene back to RoomData
+    if (!m_editorWorld) {
+        LOG_WARNING("syncScenesToRoomData: No editor world!");
+        return;
+    }
+    
+    auto& rooms = DataLoader::instance().getRooms();
+    LOG_INFO("syncScenesToRoomData: " + std::to_string(rooms.size()) + " rooms");
+    
+    for (auto& level : m_editorWorld->getLevels()) {
+        for (auto& scene : level->getScenes()) {
+            std::string sceneName = scene->getName();
+            LOG_INFO("Syncing scene: " + sceneName + " with " + std::to_string(scene->getActors().size()) + " actors");
+            
+            // Find matching RoomData by name (scene->getName() returns display name like "The Rusty Anchor")
+            for (auto& room : rooms) {
+                // Match by name OR id since scene might use either
+                if (room.name == sceneName || room.id == sceneName) {
+                    LOG_INFO("  Matched room: " + room.id + " (" + room.name + ")");
+                    
+                    // Sync grid position
+                    const auto& gridPos = scene->getGridPosition();
+                    room.gridPosition = engine::GridPosition{
+                        gridPos.gridX, gridPos.gridY,
+                        gridPos.pixelWidth, gridPos.pixelHeight
+                    };
+                    
+                    // Sync actor positions back to hotspots
+                    for (auto& actor : scene->getActors()) {
+                        std::string actorName = actor->getName();
+                        engine::Vec2 pos = actor->getPosition();
+                        
+                        // Find matching hotspot
+                        bool found = false;
+                        for (auto& hs : room.hotspots) {
+                            if (hs.name == actorName || hs.id == actorName) {
+                                LOG_INFO("  Matched actor '" + actorName + "' to hotspot '" + hs.name + "' -> (" + 
+                                        std::to_string((int)pos.x) + "," + std::to_string((int)pos.y) + ")");
+                                hs.x = static_cast<int>(pos.x);
+                                hs.y = static_cast<int>(pos.y);
+                                found = true;
+                                break;
+                            }
+                        }
+                        
+                        if (!found && actorName != "Background" && actorName != "WalkArea") {
+                            LOG_WARNING("  Actor '" + actorName + "' not matched to any hotspot");
+                        }
+                        
+                        // Check player spawn
+                        if (actorName == "PlayerSpawn" || actorName == "Spawn") {
+                            room.playerSpawnX = static_cast<int>(pos.x);
+                            room.playerSpawnY = static_cast<int>(pos.y);
+                            LOG_INFO("  Updated player spawn -> (" + std::to_string(room.playerSpawnX) + "," + 
+                                    std::to_string(room.playerSpawnY) + ")");
+                        }
+                    }
+                    
+                    break;
+                }
+            }
+        }
+    }
+    
+    LOG_INFO("Synced scene data to RoomData");
 }
 
 bool EditorState::isButtonClicked(int btnX, int btnY, int btnW, int btnH, int clickX, int clickY) {

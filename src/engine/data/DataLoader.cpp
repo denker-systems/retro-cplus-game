@@ -95,6 +95,16 @@ bool DataLoader::loadRooms(const std::string& path) {
         json data = json::parse(file);
         m_rooms = data["rooms"].get<std::vector<RoomData>>();
         std::cout << "Loaded rooms from: " << path << std::endl;
+        
+        // DEBUG: Print first room's hotspot positions
+        if (!m_rooms.empty()) {
+            const auto& firstRoom = m_rooms[0];
+            std::cout << "DEBUG: First room '" << firstRoom.name << "' hotspots:" << std::endl;
+            for (const auto& hs : firstRoom.hotspots) {
+                std::cout << "  - " << hs.name << " at (" << hs.x << ", " << hs.y << ")" << std::endl;
+            }
+        }
+        
         return true;
     } catch (const json::exception& e) {
         std::cerr << "JSON error in " << path << ": " << e.what() << std::endl;

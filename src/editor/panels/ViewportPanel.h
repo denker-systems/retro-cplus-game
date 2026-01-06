@@ -18,6 +18,7 @@ namespace engine {
     class Node;
     class World;
     class Level;
+    class ActorObjectExtended;
 }
 
 class EditorContext;
@@ -51,10 +52,14 @@ private:
     void renderToolbar();
     void renderBreadcrumbs();
     void renderWorldView();
+
+    void renderWorldSpatialView();  // NEW: Spatial view for World
     void renderLevelView();
     void renderSceneView();
+    void renderSpatialView();  // NEW: Spatial grid view for levels
     // renderSceneNode() removed - Node system deprecated
     void renderSceneActors(ImDrawList* drawList, ImVec2 offset);
+    void renderSceneGrid(ImDrawList* drawList, ImVec2 offset, ImVec2 size);  // NEW: Grid overlay
     
     EditorContext& m_context;
     std::string m_id = "viewport";
@@ -68,6 +73,37 @@ private:
     engine::World* m_world = nullptr;
     engine::Level* m_level = nullptr;
     engine::Scene* m_scene = nullptr;
+    
+    // World view mode: 0=Spatial, 1=Grid
+    int m_worldViewMode = 0;
+    float m_worldSpatialZoom = 1.0f;
+    float m_worldSpatialPanX = 0.0f;
+    float m_worldSpatialPanY = 0.0f;
+    
+    // Level view mode: 0=Spatial, 1=Grid, 2=List
+    int m_levelViewMode = 0;  // Default to Spatial
+    float m_spatialZoom = 1.0f;
+    float m_spatialPanX = 0.0f;
+    float m_spatialPanY = 0.0f;
+    
+    // Scene grid overlay
+    bool m_showSceneGrid = true;
+    int m_sceneGridSize = 32;  // Grid cell size in pixels
+    
+    // Spatial View editing state
+    engine::Scene* m_selectedScene = nullptr;
+    engine::Scene* m_draggedScene = nullptr;
+    float m_dragStartX = 0.0f;
+    float m_dragStartY = 0.0f;
+    int m_dragStartGridX = 0;
+    int m_dragStartGridY = 0;
+    bool m_snapToGrid = true;
+    
+    // Scene View actor editing state
+    engine::ActorObjectExtended* m_selectedActor = nullptr;
+    engine::ActorObjectExtended* m_draggedActor = nullptr;
+    float m_actorDragOffsetX = 0.0f;
+    float m_actorDragOffsetY = 0.0f;
     
     // Viewport state
     float m_zoom = 1.0f;

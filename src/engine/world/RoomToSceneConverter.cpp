@@ -13,6 +13,20 @@ namespace engine {
 
 std::unique_ptr<Scene> RoomToSceneConverter::convert(const RoomData& roomData, SDL_Renderer* renderer) {
     auto scene = std::make_unique<Scene>(roomData.id);
+    scene->setName(roomData.name);
+    
+    // Copy grid position if available
+    if (roomData.gridPosition) {
+        scene->setGridPosition(*roomData.gridPosition);
+    } else {
+        // Default grid position based on room index (will be overwritten later if needed)
+        scene->setGridPosition(0, 0, 640, 400);
+    }
+    
+    // Copy camera config if available
+    if (roomData.camera) {
+        scene->setCameraConfig(*roomData.camera);
+    }
     
     // Convert background to SpriteActor
     if (!roomData.background.empty()) {

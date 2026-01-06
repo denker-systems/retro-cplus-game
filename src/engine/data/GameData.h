@@ -10,6 +10,8 @@
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
+#include <optional>
+#include "engine/world/GridTypes.h"
 
 using json = nlohmann::json;
 
@@ -173,7 +175,12 @@ struct RoomData {
     std::vector<HotspotData> hotspots;
     float playerSpawnX = 320.0f;  // Player spawn X
     float playerSpawnY = 300.0f;  // Player spawn Y
+    
+    // New: Optional grid data (for spatial hierarchy)
+    std::optional<engine::GridPosition> gridPosition;
+    std::optional<engine::CameraConfig> camera;
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(RoomData,
-    id, name, background, layers, walkArea, hotspots, playerSpawnX, playerSpawnY)
+    id, name, background, layers, walkArea, hotspots, playerSpawnX, playerSpawnY,
+    gridPosition, camera)

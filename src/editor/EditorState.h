@@ -97,6 +97,7 @@ private:
     void renderVisualEditor(SDL_Renderer* renderer);
     void saveRoomChanges();
     void loadRoomPreview(SDL_Renderer* renderer);
+    void syncScenesToRoomData();  // Sync engine::Scene changes back to RoomData
     
     void renderButton(SDL_Renderer* renderer, const char* text, int x, int y, int w, int h, bool highlight = false);
     

@@ -8,6 +8,7 @@
 #pragma once
 
 #include "WorldContainer.h"
+#include "GridTypes.h"
 #include "engine/components/CameraComponent.h"
 #include <string>
 #include <memory>
@@ -125,6 +126,14 @@ public:
     virtual void onSceneResume();
     
     // addActor/getActors/findActor inherited from WorldContainer
+    // getGridPosition/setGridPosition inherited from WorldContainer
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // CAMERA CONFIG (Scene-specific)
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const CameraConfig& getCameraConfig() const { return m_cameraConfig; }
+    void setCameraConfig(const CameraConfig& config) { m_cameraConfig = config; }
     
 private:
     bool m_isPaused = false;
@@ -133,6 +142,9 @@ private:
     // Camera (actors inherited from WorldContainer)
     CameraComponent* m_activeCamera = nullptr;
     std::unique_ptr<ActorObjectExtended> m_cameraActor;
+    
+    // Scene-specific config
+    CameraConfig m_cameraConfig;
 };
 
 } // namespace engine

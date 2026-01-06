@@ -9,6 +9,7 @@
 #include "engine/world/Scene.h"
 #include "engine/data/DataLoader.h"
 #include "engine/components/SpriteComponent.h"
+#include "engine/core/ActorObjectExtended.h"
 #include <SDL_image.h>
 #include <algorithm>
 
@@ -320,23 +321,36 @@ void ViewportPanel::renderWorldView() {
     ImGui::Text("Levels in World:");
     ImGui::Separator();
     
+    // View mode toggle: Spatial, Grid
+    const char* viewModes[] = { "Spatial View", "Grid View" };
+    if (ImGui::Button(viewModes[m_worldViewMode])) {
+        m_worldViewMode = (m_worldViewMode + 1) % 2;
+    }
+    ImGui::SameLine();
+    ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "(Click to toggle)");
+    
+    ImGui::Separator();
+    
     const auto& levels = m_world->getLevels();
     
     if (levels.empty()) {
-        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "World.getLevels() not yet implemented");
+        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No levels in world");
         if (ImGui::Button("+ Create New Level")) {
             // TODO: Create level dialog
         }
         return;
     }
     
-    // Grid layout for level cards
-    float panelWidth = ImGui::GetContentRegionAvail().x;
-    int columns = std::max(1, (int)(panelWidth / 250.0f));
-    
-    ImGui::Columns(columns, nullptr, false);
-    
-    for (const auto& level : levels) {
+    if (m_worldViewMode == 0) {
+        renderWorldSpatialView();
+    } else {
+        // Grid layout for level cards
+        float panelWidth = ImGui::GetContentRegionAvail().x;
+        int columns = std::max(1, (int)(panelWidth / 250.0f));
+        
+        ImGui::Columns(columns, nullptr, false);
+        
+        for (const auto& level : levels) {
         // Level card
         ImVec2 cursorPos = ImGui::GetCursorScreenPos();
         ImVec2 cardSize(230, 120);
@@ -389,11 +403,125 @@ void ViewportPanel::renderWorldView() {
     }
     
     ImGui::Columns(1);
+    }  // end else (Grid View)
     
     ImGui::Separator();
     if (ImGui::Button("+ Create New Level")) {
         // TODO: Create level dialog
     }
+#endif
+}
+
+void ViewportPanel::renderWorldSpatialView() {
+#ifdef HAS_IMGUI
+    if (!m_world) return;
+    
+    const auto& levels = m_world->getLevels();
+    
+    // Zoom controls
+    ImGui::SliderFloat("Zoom", &m_worldSpatialZoom, 0.2f, 2.0f, "%.1f");
+    ImGui::SameLine();
+    if (ImGui::Button("Reset")) {
+        m_worldSpatialZoom = 1.0f;
+        m_worldSpatialPanX = 0.0f;
+        m_worldSpatialPanY = 0.0f;
+    }
+    
+    // Canvas
+    ImVec2 canvasPos = ImGui::GetCursorScreenPos();
+    ImVec2 canvasSize = ImGui::GetContentRegionAvail();
+    canvasSize.y = std::max(canvasSize.y, 300.0f);
+    
+    ImDrawList* drawList = ImGui::GetWindowDrawList();
+    
+    // Background
+    drawList->AddRectFilled(canvasPos, 
+        ImVec2(canvasPos.x + canvasSize.x, canvasPos.y + canvasSize.y),
+        IM_COL32(25, 30, 35, 255));
+    
+    // Grid
+    float cellSize = 100.0f * m_worldSpatialZoom;
+    ImU32 gridColor = IM_COL32(45, 50, 55, 255);
+    
+    for (float x = fmodf(m_worldSpatialPanX, cellSize); x < canvasSize.x; x += cellSize) {
+        drawList->AddLine(ImVec2(canvasPos.x + x, canvasPos.y),
+                         ImVec2(canvasPos.x + x, canvasPos.y + canvasSize.y), gridColor);
+    }
+    for (float y = fmodf(m_worldSpatialPanY, cellSize); y < canvasSize.y; y += cellSize) {
+        drawList->AddLine(ImVec2(canvasPos.x, canvasPos.y + y),
+                         ImVec2(canvasPos.x + canvasSize.x, canvasPos.y + y), gridColor);
+    }
+    
+    // Origin
+    float originX = canvasPos.x + canvasSize.x * 0.5f + m_worldSpatialPanX;
+    float originY = canvasPos.y + canvasSize.y * 0.5f + m_worldSpatialPanY;
+    drawList->AddCircleFilled(ImVec2(originX, originY), 5.0f, IM_COL32(255, 100, 100, 255));
+    
+    // Render levels
+    for (const auto& level : levels) {
+        const auto& gridPos = level->getGridPosition();
+        
+        float levelX = originX + gridPos.gridX * cellSize;
+        float levelY = originY + gridPos.gridY * cellSize;
+        float levelW = gridPos.pixelWidth * m_worldSpatialZoom * 0.5f;
+        float levelH = gridPos.pixelHeight * m_worldSpatialZoom * 0.5f;
+        
+        // Level rectangle
+        drawList->AddRectFilled(ImVec2(levelX, levelY), ImVec2(levelX + levelW, levelY + levelH),
+                               IM_COL32(70, 90, 120, 200), 4.0f);
+        drawList->AddRect(ImVec2(levelX, levelY), ImVec2(levelX + levelW, levelY + levelH),
+                         IM_COL32(100, 140, 180, 255), 4.0f, 0, 2.0f);
+        
+        // Name
+        drawList->AddText(ImVec2(levelX + 4, levelY + 4), IM_COL32(255, 255, 255, 255), 
+                         level->getName().c_str());
+        
+        // Scene count
+        char info[32];
+        snprintf(info, sizeof(info), "%zu scenes", level->getScenes().size());
+        drawList->AddText(ImVec2(levelX + 4, levelY + 20), IM_COL32(180, 180, 180, 200), info);
+    }
+    
+    // Interaction
+    ImGui::SetCursorScreenPos(canvasPos);
+    ImGui::InvisibleButton("world_spatial", canvasSize);
+    
+    if (ImGui::IsItemHovered()) {
+        if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle) || 
+            (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && ImGui::GetIO().KeyAlt)) {
+            m_worldSpatialPanX += ImGui::GetIO().MouseDelta.x;
+            m_worldSpatialPanY += ImGui::GetIO().MouseDelta.y;
+        }
+        
+        float wheel = ImGui::GetIO().MouseWheel;
+        if (wheel != 0.0f) {
+            m_worldSpatialZoom = std::clamp(m_worldSpatialZoom + wheel * 0.1f, 0.2f, 3.0f);
+        }
+        
+        // Click to select
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::GetIO().KeyAlt) {
+            ImVec2 mousePos = ImGui::GetIO().MousePos;
+            for (const auto& level : levels) {
+                const auto& gridPos = level->getGridPosition();
+                float levelX = originX + gridPos.gridX * cellSize;
+                float levelY = originY + gridPos.gridY * cellSize;
+                float levelW = gridPos.pixelWidth * m_worldSpatialZoom * 0.5f;
+                float levelH = gridPos.pixelHeight * m_worldSpatialZoom * 0.5f;
+                
+                if (mousePos.x >= levelX && mousePos.x <= levelX + levelW &&
+                    mousePos.y >= levelY && mousePos.y <= levelY + levelH) {
+                    setLevel(const_cast<engine::Level*>(level.get()));
+                    break;
+                }
+            }
+        }
+    }
+    
+    drawList->AddRect(canvasPos, ImVec2(canvasPos.x + canvasSize.x, canvasPos.y + canvasSize.y),
+                     IM_COL32(60, 60, 70, 255));
+    
+    ImGui::SetCursorScreenPos(ImVec2(canvasPos.x + 5, canvasPos.y + canvasSize.y - 20));
+    ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "Middle-mouse to pan, scroll to zoom");
 #endif
 }
 
@@ -408,11 +536,13 @@ void ViewportPanel::renderLevelView() {
     ImGui::Text("ID: %s", m_level->getId().c_str());
     ImGui::Separator();
     
-    // Toggle between grid and list view
-    static bool gridView = true;
-    if (ImGui::Button(gridView ? "Grid View" : "List View")) {
-        gridView = !gridView;
+    // View mode toggle: Spatial, Grid, List
+    const char* viewModes[] = { "Spatial View", "Grid View", "List View" };
+    if (ImGui::Button(viewModes[m_levelViewMode])) {
+        m_levelViewMode = (m_levelViewMode + 1) % 3;
     }
+    ImGui::SameLine();
+    ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "(Click to cycle)");
     
     ImGui::Separator();
     
@@ -426,7 +556,10 @@ void ViewportPanel::renderLevelView() {
         return;
     }
     
-    if (gridView) {
+    // Render based on view mode
+    if (m_levelViewMode == 0) {
+        renderSpatialView();
+    } else if (m_levelViewMode == 1) {
         // Grid layout
         float panelWidth = ImGui::GetContentRegionAvail().x;
         int columns = std::max(1, (int)(panelWidth / 200.0f));
@@ -510,6 +643,223 @@ void ViewportPanel::renderLevelView() {
 #endif
 }
 
+void ViewportPanel::renderSpatialView() {
+#ifdef HAS_IMGUI
+    if (!m_level) return;
+    
+    const auto& scenes = m_level->getScenes();
+    
+    // Zoom controls
+    ImGui::SliderFloat("Zoom", &m_spatialZoom, 0.2f, 2.0f, "%.1f");
+    ImGui::SameLine();
+    if (ImGui::Button("Reset")) {
+        m_spatialZoom = 1.0f;
+        m_spatialPanX = 0.0f;
+        m_spatialPanY = 0.0f;
+    }
+    
+    // Canvas area
+    ImVec2 canvasPos = ImGui::GetCursorScreenPos();
+    ImVec2 canvasSize = ImGui::GetContentRegionAvail();
+    canvasSize.y = std::max(canvasSize.y, 300.0f);
+    
+    ImDrawList* drawList = ImGui::GetWindowDrawList();
+    
+    // Background
+    drawList->AddRectFilled(canvasPos, 
+        ImVec2(canvasPos.x + canvasSize.x, canvasPos.y + canvasSize.y),
+        IM_COL32(25, 25, 30, 255));
+    
+    // Grid lines
+    float cellSize = 64.0f * m_spatialZoom;
+    ImU32 gridColor = IM_COL32(45, 45, 55, 255);
+    
+    float startX = fmodf(m_spatialPanX, cellSize);
+    float startY = fmodf(m_spatialPanY, cellSize);
+    
+    for (float x = startX; x < canvasSize.x; x += cellSize) {
+        drawList->AddLine(
+            ImVec2(canvasPos.x + x, canvasPos.y),
+            ImVec2(canvasPos.x + x, canvasPos.y + canvasSize.y),
+            gridColor);
+    }
+    for (float y = startY; y < canvasSize.y; y += cellSize) {
+        drawList->AddLine(
+            ImVec2(canvasPos.x, canvasPos.y + y),
+            ImVec2(canvasPos.x + canvasSize.x, canvasPos.y + y),
+            gridColor);
+    }
+    
+    // Origin point (center of canvas + pan offset)
+    float originX = canvasPos.x + canvasSize.x * 0.5f + m_spatialPanX;
+    float originY = canvasPos.y + canvasSize.y * 0.5f + m_spatialPanY;
+    
+    // Origin marker
+    drawList->AddCircleFilled(ImVec2(originX, originY), 5.0f, IM_COL32(255, 100, 100, 255));
+    drawList->AddText(ImVec2(originX + 8, originY - 8), IM_COL32(255, 100, 100, 200), "(0,0)");
+    
+    // Render scenes at their grid positions
+    for (const auto& scene : scenes) {
+        const auto& gridPos = scene->getGridPosition();
+        
+        // Calculate screen position (use drag position if dragging this scene)
+        float sceneX, sceneY;
+        if (m_draggedScene == scene.get()) {
+            ImVec2 mousePos = ImGui::GetIO().MousePos;
+            sceneX = mousePos.x - m_dragStartX;
+            sceneY = mousePos.y - m_dragStartY;
+        } else {
+            sceneX = originX + gridPos.gridX * cellSize;
+            sceneY = originY + gridPos.gridY * cellSize;
+        }
+        float sceneW = (gridPos.pixelWidth / 64.0f) * cellSize;
+        float sceneH = (gridPos.pixelHeight / 64.0f) * cellSize;
+        
+        // Skip if outside visible area
+        if (sceneX + sceneW < canvasPos.x || sceneX > canvasPos.x + canvasSize.x ||
+            sceneY + sceneH < canvasPos.y || sceneY > canvasPos.y + canvasSize.y) {
+            continue;
+        }
+        
+        // Room rectangle - highlight if selected or dragged
+        bool isSelected = (m_selectedScene == scene.get());
+        bool isDragging = (m_draggedScene == scene.get());
+        
+        ImU32 roomColor = isDragging ? IM_COL32(80, 120, 160, 180) : 
+                          isSelected ? IM_COL32(70, 100, 140, 220) : 
+                                       IM_COL32(60, 80, 110, 200);
+        ImU32 borderColor = isDragging ? IM_COL32(100, 200, 255, 255) :
+                            isSelected ? IM_COL32(100, 180, 255, 255) :
+                                         IM_COL32(80, 120, 160, 255);
+        
+        drawList->AddRectFilled(
+            ImVec2(sceneX, sceneY),
+            ImVec2(sceneX + sceneW, sceneY + sceneH),
+            roomColor, 4.0f);
+        drawList->AddRect(
+            ImVec2(sceneX, sceneY),
+            ImVec2(sceneX + sceneW, sceneY + sceneH),
+            borderColor, 4.0f, 0, isSelected || isDragging ? 3.0f : 2.0f);
+        
+        // Scene name
+        const char* name = scene->getName().c_str();
+        drawList->AddText(ImVec2(sceneX + 4, sceneY + 4), IM_COL32(255, 255, 255, 255), name);
+        
+        // Grid position
+        char posInfo[32];
+        if (isDragging && m_snapToGrid) {
+            // Show snap preview position
+            int snapX = (int)round((sceneX - originX) / cellSize);
+            int snapY = (int)round((sceneY - originY) / cellSize);
+            snprintf(posInfo, sizeof(posInfo), "(%d,%d) -> (%d,%d)", gridPos.gridX, gridPos.gridY, snapX, snapY);
+        } else {
+            snprintf(posInfo, sizeof(posInfo), "(%d,%d)", gridPos.gridX, gridPos.gridY);
+        }
+        drawList->AddText(ImVec2(sceneX + 4, sceneY + sceneH - 16), IM_COL32(180, 180, 180, 200), posInfo);
+        
+        // Size info
+        char sizeInfo[32];
+        snprintf(sizeInfo, sizeof(sizeInfo), "%dx%d", gridPos.pixelWidth, gridPos.pixelHeight);
+        ImVec2 sizeTextSize = ImGui::CalcTextSize(sizeInfo);
+        drawList->AddText(ImVec2(sceneX + sceneW - sizeTextSize.x - 4, sceneY + 4), 
+                         IM_COL32(150, 150, 150, 200), sizeInfo);
+    }
+    
+    // Handle interaction
+    ImGui::SetCursorScreenPos(canvasPos);
+    ImGui::InvisibleButton("spatial_canvas", canvasSize);
+    
+    if (ImGui::IsItemHovered() || m_draggedScene) {
+        ImVec2 mousePos = ImGui::GetIO().MousePos;
+        
+        // Pan with middle mouse or Alt+drag
+        if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle) || 
+            (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && ImGui::GetIO().KeyAlt && !m_draggedScene)) {
+            ImVec2 delta = ImGui::GetIO().MouseDelta;
+            m_spatialPanX += delta.x;
+            m_spatialPanY += delta.y;
+        }
+        
+        // Zoom with scroll
+        float wheel = ImGui::GetIO().MouseWheel;
+        if (wheel != 0.0f && !m_draggedScene) {
+            m_spatialZoom = std::clamp(m_spatialZoom + wheel * 0.1f, 0.2f, 3.0f);
+        }
+        
+        // Mouse down - start drag or select
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::GetIO().KeyAlt) {
+            m_selectedScene = nullptr;
+            m_draggedScene = nullptr;
+            
+            for (const auto& scene : scenes) {
+                const auto& gridPos = scene->getGridPosition();
+                float sceneX = originX + gridPos.gridX * cellSize;
+                float sceneY = originY + gridPos.gridY * cellSize;
+                float sceneW = (gridPos.pixelWidth / 64.0f) * cellSize;
+                float sceneH = (gridPos.pixelHeight / 64.0f) * cellSize;
+                
+                if (mousePos.x >= sceneX && mousePos.x <= sceneX + sceneW &&
+                    mousePos.y >= sceneY && mousePos.y <= sceneY + sceneH) {
+                    m_selectedScene = scene.get();
+                    m_draggedScene = scene.get();
+                    m_dragStartX = mousePos.x - sceneX;
+                    m_dragStartY = mousePos.y - sceneY;
+                    m_dragStartGridX = gridPos.gridX;
+                    m_dragStartGridY = gridPos.gridY;
+                    break;
+                }
+            }
+        }
+        
+        // Mouse released - finish drag
+        if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) && m_draggedScene) {
+            // Calculate new grid position
+            float sceneX = mousePos.x - m_dragStartX;
+            float sceneY = mousePos.y - m_dragStartY;
+            
+            int newGridX, newGridY;
+            if (m_snapToGrid) {
+                newGridX = (int)round((sceneX - originX) / cellSize);
+                newGridY = (int)round((sceneY - originY) / cellSize);
+            } else {
+                newGridX = (int)((sceneX - originX) / cellSize);
+                newGridY = (int)((sceneY - originY) / cellSize);
+            }
+            
+            // Update scene's grid position
+            if (newGridX != m_dragStartGridX || newGridY != m_dragStartGridY) {
+                m_draggedScene->setGridPosition(newGridX, newGridY, 
+                    m_draggedScene->getWidth(), m_draggedScene->getHeight());
+            }
+            
+            m_draggedScene = nullptr;
+        }
+        
+        // Double-click to open scene
+        if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) && m_selectedScene) {
+            setScene(m_selectedScene);
+        }
+    }
+    
+    // Cancel drag if mouse leaves or escape pressed
+    if (m_draggedScene && (ImGui::IsKeyPressed(ImGuiKey_Escape) || !ImGui::IsMouseDown(ImGuiMouseButton_Left))) {
+        m_draggedScene = nullptr;
+    }
+    
+    // Border
+    drawList->AddRect(canvasPos, 
+        ImVec2(canvasPos.x + canvasSize.x, canvasPos.y + canvasSize.y),
+        IM_COL32(60, 60, 70, 255));
+    
+    // Help text
+    ImGui::SetCursorScreenPos(ImVec2(canvasPos.x + 5, canvasPos.y + canvasSize.y - 20));
+    const char* helpText = m_draggedScene ? "Release to place, Escape to cancel" :
+                           m_selectedScene ? "Drag to move, Double-click to open" :
+                           "Click to select, Middle-mouse to pan, Scroll to zoom";
+    ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "%s", helpText);
+#endif
+}
+
 void ViewportPanel::renderSceneView() {
 #ifdef HAS_IMGUI
     if (!m_scene) {
@@ -538,6 +888,11 @@ void ViewportPanel::renderSceneView() {
         ImVec2(renderPos.x + roomSize.x, renderPos.y + roomSize.y),
         IM_COL32(40, 40, 50, 255));
     
+    // Draw grid overlay
+    if (m_showSceneGrid) {
+        renderSceneGrid(ImGui::GetWindowDrawList(), renderPos, roomSize);
+    }
+    
     // Draw room border
     ImGui::GetWindowDrawList()->AddRect(
         renderPos,
@@ -555,12 +910,61 @@ void ViewportPanel::renderSceneView() {
     ImGui::InvisibleButton("scene_canvas", contentSize);
     
     // Handle mouse interactions
-    if (ImGui::IsItemHovered()) {
+    if (ImGui::IsItemHovered() || m_draggedActor) {
         ImVec2 mousePos = ImGui::GetMousePos();
         
-        // Left click - select/drag nodes
-        if (ImGui::IsMouseClicked(0)) {
-            // TODO: Implement node selection and drag start
+        // Convert mouse to room coordinates
+        float roomX = (mousePos.x - renderPos.x - m_panX) / m_zoom;
+        float roomY = (mousePos.y - renderPos.y - m_panY) / m_zoom;
+        
+        // Left click - select actor
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+            m_selectedActor = nullptr;
+            m_draggedActor = nullptr;
+            
+            // Find actor under mouse
+            for (auto& actor : m_scene->getActors()) {
+                engine::Vec2 pos = actor->getPosition();
+                float ax = pos.x;
+                float ay = pos.y;
+                float aw = 64.0f;  // Default size
+                float ah = 64.0f;
+                
+                // Check sprite size if available
+                auto* sprite = actor->getComponent<engine::SpriteComponent>();
+                if (sprite) {
+                    aw = sprite->getWidth();
+                    ah = sprite->getHeight();
+                }
+                
+                if (roomX >= ax && roomX <= ax + aw &&
+                    roomY >= ay && roomY <= ay + ah) {
+                    m_selectedActor = actor.get();
+                    m_draggedActor = actor.get();
+                    m_actorDragOffsetX = roomX - ax;
+                    m_actorDragOffsetY = roomY - ay;
+                    break;
+                }
+            }
+        }
+        
+        // Drag actor
+        if (m_draggedActor && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
+            float newX = roomX - m_actorDragOffsetX;
+            float newY = roomY - m_actorDragOffsetY;
+            
+            // Snap to grid if enabled
+            if (m_snapToGrid) {
+                newX = round(newX / m_sceneGridSize) * m_sceneGridSize;
+                newY = round(newY / m_sceneGridSize) * m_sceneGridSize;
+            }
+            
+            m_draggedActor->setPosition(newX, newY);
+        }
+        
+        // Release drag
+        if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+            m_draggedActor = nullptr;
         }
         
         // Middle mouse drag - pan view
@@ -572,9 +976,14 @@ void ViewportPanel::renderSceneView() {
         
         // Mouse wheel - zoom
         float wheel = ImGui::GetIO().MouseWheel;
-        if (wheel != 0.0f) {
+        if (wheel != 0.0f && !m_draggedActor) {
             m_zoom = std::max(0.25f, std::min(4.0f, m_zoom + wheel * 0.1f));
         }
+    }
+    
+    // Cancel drag with Escape
+    if (m_draggedActor && ImGui::IsKeyPressed(ImGuiKey_Escape)) {
+        m_draggedActor = nullptr;
     }
     
     // Show info overlay
@@ -582,8 +991,14 @@ void ViewportPanel::renderSceneView() {
     ImGui::BeginGroup();
     ImGui::Text("Scene: %s", m_scene->getName().c_str());
     ImGui::Text("Actors: %zu", m_scene->getActors().size());
+    if (m_selectedActor) {
+        ImGui::Text("Selected: %s", m_selectedActor->getName().c_str());
+    }
     ImGui::Text("Zoom: %.0f%% | Pan: %.0f, %.0f", m_zoom * 100, m_panX, m_panY);
-    ImGui::Text("Tip: Middle-mouse to pan, scroll to zoom");
+    const char* tip = m_draggedActor ? "Drag to move, Escape to cancel" :
+                      m_selectedActor ? "Click to select, drag to move" :
+                      "Click actor to select, Middle-mouse to pan";
+    ImGui::Text("Tip: %s", tip);
     ImGui::EndGroup();
 #endif
 }
@@ -797,6 +1212,74 @@ void ViewportPanel::renderSceneActors(ImDrawList* drawList, ImVec2 offset) {
                                 name.c_str());
             }
         }
+        
+        // Draw selection highlight
+        if (actor.get() == m_selectedActor) {
+            engine::Vec2 pos = actor->getPosition();
+            float ax = offset.x + pos.x * m_zoom;
+            float ay = offset.y + pos.y * m_zoom;
+            float aw = 64.0f * m_zoom;
+            float ah = 64.0f * m_zoom;
+            
+            auto* sprite = actor->getComponent<engine::SpriteComponent>();
+            if (sprite) {
+                aw = sprite->getWidth() * m_zoom;
+                ah = sprite->getHeight() * m_zoom;
+            }
+            
+            // Selection border
+            ImU32 selColor = m_draggedActor == actor.get() ? 
+                             IM_COL32(255, 200, 100, 255) : 
+                             IM_COL32(100, 200, 255, 255);
+            drawList->AddRect(
+                ImVec2(ax - 2, ay - 2),
+                ImVec2(ax + aw + 2, ay + ah + 2),
+                selColor, 0, 0, 3.0f);
+            
+            // Corner handles
+            float handleSize = 6.0f;
+            ImU32 handleColor = IM_COL32(255, 255, 255, 255);
+            drawList->AddRectFilled(ImVec2(ax - handleSize/2, ay - handleSize/2), 
+                                   ImVec2(ax + handleSize/2, ay + handleSize/2), handleColor);
+            drawList->AddRectFilled(ImVec2(ax + aw - handleSize/2, ay - handleSize/2), 
+                                   ImVec2(ax + aw + handleSize/2, ay + handleSize/2), handleColor);
+            drawList->AddRectFilled(ImVec2(ax - handleSize/2, ay + ah - handleSize/2), 
+                                   ImVec2(ax + handleSize/2, ay + ah + handleSize/2), handleColor);
+            drawList->AddRectFilled(ImVec2(ax + aw - handleSize/2, ay + ah - handleSize/2), 
+                                   ImVec2(ax + aw + handleSize/2, ay + ah + handleSize/2), handleColor);
+        }
     }
+#endif
+}
+
+void ViewportPanel::renderSceneGrid(ImDrawList* drawList, ImVec2 offset, ImVec2 size) {
+#ifdef HAS_IMGUI
+    float gridSize = m_sceneGridSize * m_zoom;
+    ImU32 gridColor = IM_COL32(60, 60, 70, 100);
+    ImU32 majorGridColor = IM_COL32(80, 80, 90, 150);
+    
+    // Draw vertical lines
+    for (float x = 0; x <= size.x; x += gridSize) {
+        bool major = (int)(x / gridSize) % 4 == 0;
+        drawList->AddLine(
+            ImVec2(offset.x + x, offset.y),
+            ImVec2(offset.x + x, offset.y + size.y),
+            major ? majorGridColor : gridColor);
+    }
+    
+    // Draw horizontal lines
+    for (float y = 0; y <= size.y; y += gridSize) {
+        bool major = (int)(y / gridSize) % 4 == 0;
+        drawList->AddLine(
+            ImVec2(offset.x, offset.y + y),
+            ImVec2(offset.x + size.x, offset.y + y),
+            major ? majorGridColor : gridColor);
+    }
+    
+    // Grid size indicator
+    char gridInfo[32];
+    snprintf(gridInfo, sizeof(gridInfo), "Grid: %dpx", m_sceneGridSize);
+    drawList->AddText(ImVec2(offset.x + 5, offset.y + size.y - 18), 
+                     IM_COL32(100, 100, 100, 200), gridInfo);
 #endif
 }

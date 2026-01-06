@@ -49,7 +49,7 @@ bool Scene::loadBackground(SDL_Renderer* renderer, const std::string& path) {
 void Scene::render(SDL_Renderer* renderer) {
     // Rita layers om de finns
     if (!m_layers.empty()) {
-        // All rendering är nu i renderLayers()
+        renderLayers(renderer, 0, true);
     } else if (m_background) {
         // Legacy background rendering
         SDL_Rect dest = {0, 0, 640, 400};

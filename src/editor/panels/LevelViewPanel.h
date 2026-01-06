@@ -5,6 +5,7 @@
 #pragma once
 
 #include "editor/IEditorPanel.h"
+#include "engine/world/GridTypes.h"
 #include <string>
 
 class EditorContext;
@@ -40,6 +41,7 @@ public:
 
 private:
     void renderSceneGrid();
+    void renderSpatialGrid();  // New: Grid-based view with positions
     void renderSceneCard(engine::Scene* scene);
     void renderCreateSceneButton();
     void renderSceneProperties(engine::Scene* scene);
@@ -53,7 +55,11 @@ private:
     
     // UI state
     bool m_showCreateDialog = false;
-    bool m_showGridView = true;  // Toggle between grid and list view
+    bool m_showGridView = false;  // Toggle between grid and list view
+    bool m_showSpatialView = true;  // NEW DEFAULT: Start with Spatial grid view
+    float m_gridZoom = 1.0f;  // Zoom level for spatial view
+    float m_gridOffsetX = 0.0f;  // Pan offset
+    float m_gridOffsetY = 0.0f;
     char m_newSceneId[64] = "";
     char m_newSceneName[128] = "";
 };

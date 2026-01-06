@@ -132,6 +132,7 @@ void EditorContext::saveToFiles() {
                 hsJson["y"] = hs.y;
                 hsJson["w"] = hs.w;
                 hsJson["h"] = hs.h;
+                LOG_INFO("  Saving hotspot '" + hs.name + "' at (" + std::to_string(hs.x) + "," + std::to_string(hs.y) + ")");
                 
                 if (!hs.dialogId.empty()) hsJson["dialogId"] = hs.dialogId;
                 if (!hs.examineText.empty()) hsJson["examineText"] = hs.examineText;
@@ -142,6 +143,16 @@ void EditorContext::saveToFiles() {
                 }
                 
                 roomJson["hotspots"].push_back(hsJson);
+            }
+            
+            // Grid position (NEW)
+            if (room.gridPosition) {
+                roomJson["gridPosition"] = *room.gridPosition;
+            }
+            
+            // Camera config (NEW)
+            if (room.camera) {
+                roomJson["camera"] = *room.camera;
             }
             
             data["rooms"].push_back(roomJson);
@@ -247,8 +258,8 @@ void EditorContext::saveToFiles() {
         }
     }
     
-    // Reload DataLoader to sync
-    DataLoader::instance().loadAll();
+    // Reload DataLoader to sync - DISABLED: causes file overwrite issues
+    // DataLoader::instance().loadAll();
     
     // Clear dirty flag after successful save
     isDirty = false;

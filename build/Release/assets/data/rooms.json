@@ -2,6 +2,12 @@
   "rooms": [
     {
       "background": "assets/backgrounds/tavern-inside.png",
+      "gridPosition": {
+        "gridX": 0,
+        "gridY": 0,
+        "pixelHeight": 400,
+        "pixelWidth": 640
+      },
       "hotspots": [
         {
           "dialogId": "bartender_intro",
@@ -32,8 +38,8 @@
           "name": "Drunk Patron",
           "type": "npc",
           "w": 35,
-          "x": 139,
-          "y": 309
+          "x": 192,
+          "y": 288
         },
         {
           "examineText": "En gammal träkista med rostiga gångjärn. Den ser ut att ha varit här i årtionden.",
@@ -62,8 +68,8 @@
           "name": "Fireplace",
           "type": "examine",
           "w": 60,
-          "x": 297,
-          "y": 158
+          "x": 288,
+          "y": 96
         },
         {
           "h": 90,
@@ -72,8 +78,8 @@
           "targetRoom": "street",
           "type": "exit",
           "w": 50,
-          "x": 397,
-          "y": 134
+          "x": 0,
+          "y": 224
         },
         {
           "h": 30,
@@ -82,8 +88,8 @@
           "targetRoom": "cellar",
           "type": "exit",
           "w": 40,
-          "x": 300,
-          "y": 320
+          "x": 128,
+          "y": 64
         }
       ],
       "id": "tavern",
@@ -109,7 +115,13 @@
       }
     },
     {
-      "background": "street_bg",
+      "background": "assets/backgrounds/tavern-inside.png",
+      "gridPosition": {
+        "gridX": 1,
+        "gridY": 0,
+        "pixelHeight": 400,
+        "pixelWidth": 640
+      },
       "hotspots": [
         {
           "h": 90,
@@ -185,7 +197,13 @@
       }
     },
     {
-      "background": "shop_bg",
+      "background": "assets/backgrounds/tavern-inside.png",
+      "gridPosition": {
+        "gridX": 2,
+        "gridY": 0,
+        "pixelHeight": 400,
+        "pixelWidth": 640
+      },
       "hotspots": [
         {
           "dialogId": "shopkeeper_intro",
@@ -241,7 +259,13 @@
       }
     },
     {
-      "background": "library_bg",
+      "background": "assets/backgrounds/tavern-inside.png",
+      "gridPosition": {
+        "gridX": 3,
+        "gridY": 0,
+        "pixelHeight": 400,
+        "pixelWidth": 640
+      },
       "hotspots": [
         {
           "dialogId": "librarian_intro",
@@ -306,7 +330,13 @@
       }
     },
     {
-      "background": "cellar_bg",
+      "background": "assets/backgrounds/tavern-inside.png",
+      "gridPosition": {
+        "gridX": 0,
+        "gridY": 1,
+        "pixelHeight": 400,
+        "pixelWidth": 640
+      },
       "hotspots": [
         {
           "h": 60,
@@ -361,7 +391,13 @@
       }
     },
     {
-      "background": "forest_bg",
+      "background": "assets/backgrounds/tavern-inside.png",
+      "gridPosition": {
+        "gridX": 1,
+        "gridY": 1,
+        "pixelHeight": 400,
+        "pixelWidth": 640
+      },
       "hotspots": [
         {
           "dialogId": "hermit_intro",
@@ -427,7 +463,13 @@
       }
     },
     {
-      "background": "cave_bg",
+      "background": "assets/backgrounds/tavern-inside.png",
+      "gridPosition": {
+        "gridX": 2,
+        "gridY": 1,
+        "pixelHeight": 400,
+        "pixelWidth": 640
+      },
       "hotspots": [
         {
           "h": 40,

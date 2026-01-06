@@ -8,6 +8,7 @@
 
 #include "WorldContainer.h"
 #include "Scene.h"
+#include "GridTypes.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -103,6 +104,8 @@ public:
     /** @brief Ambient color/lighting */
     SDL_Color getAmbientColor() const { return m_ambientColor; }
     void setAmbientColor(SDL_Color color) { m_ambientColor = color; }
+    
+    // Grid position inherited from WorldContainer
 
 private:
     std::string m_id;
