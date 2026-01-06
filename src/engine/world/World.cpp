@@ -6,15 +6,19 @@
 
 namespace engine {
 
-World::World() {}
+// Constructors now in header
 
 void World::update(float deltaTime) {
     if (m_isTransitioning) {
         updateTransition(deltaTime);
     }
     
-    // Update active scene
-    if (!m_sceneStack.empty()) {
+    // Update active level (new hierarchy)
+    if (m_activeLevel) {
+        m_activeLevel->update(deltaTime);
+    }
+    // Fallback: update active scene (legacy)
+    else if (!m_sceneStack.empty()) {
         m_sceneStack.back()->update(deltaTime);
     }
 }
@@ -22,10 +26,16 @@ void World::update(float deltaTime) {
 void World::render(SDL_Renderer* renderer) {
     if (!renderer) return;
     
-    // Render all scenes in stack (bottom to top)
-    for (Scene* scene : m_sceneStack) {
-        if (scene) {
-            scene->render(renderer);
+    // Render active level (new hierarchy)
+    if (m_activeLevel) {
+        m_activeLevel->render(renderer);
+    }
+    // Fallback: render all scenes in stack (legacy)
+    else {
+        for (Scene* scene : m_sceneStack) {
+            if (scene) {
+                scene->render(renderer);
+            }
         }
     }
 }
@@ -74,7 +84,6 @@ void World::changeScene(const std::string& name) {
     for (Scene* scene : m_sceneStack) {
         if (scene) {
             scene->onSceneExit();
-            scene->propagateExit();
         }
     }
     
@@ -82,7 +91,6 @@ void World::changeScene(const std::string& name) {
     m_sceneStack.push_back(newScene);
     
     // Enter new scene
-    newScene->propagateEnter();
     newScene->onSceneEnter();
 }
 
@@ -98,7 +106,6 @@ void World::pushScene(const std::string& name) {
     m_sceneStack.push_back(newScene);
     
     // Enter new scene
-    newScene->propagateEnter();
     newScene->onSceneEnter();
 }
 
@@ -109,7 +116,6 @@ void World::popScene() {
     Scene* topScene = m_sceneStack.back();
     if (topScene) {
         topScene->onSceneExit();
-        topScene->propagateExit();
     }
     
     m_sceneStack.pop_back();
@@ -167,7 +173,72 @@ void World::completeTransition() {
     m_transitionTimer = 0.0f;
     m_transitionDuration = 0.0f;
     m_nextScene.clear();
-    m_transitionCallback = nullptr;
+    // TODO: Implement transition effects (fade, slide, etc.)
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LEVEL MANAGEMENT
+// ═══════════════════════════════════════════════════════════════════════════
+
+void World::addLevel(std::unique_ptr<Level> level) {
+    if (!level) return;
+    
+    std::string levelId = level->getId();
+    m_levelMap[levelId] = level.get();
+    m_levels.push_back(std::move(level));
+}
+
+void World::removeLevel(const std::string& levelId) {
+    auto it = m_levelMap.find(levelId);
+    if (it == m_levelMap.end()) return;
+    
+    Level* levelPtr = it->second;
+    m_levelMap.erase(it);
+    
+    // Remove from vector
+    for (auto vecIt = m_levels.begin(); vecIt != m_levels.end(); ++vecIt) {
+        if (vecIt->get() == levelPtr) {
+            m_levels.erase(vecIt);
+            
+            // Clear active level if removed
+            if (m_activeLevel == levelPtr) {
+                m_activeLevel = nullptr;
+            }
+            break;
+        }
+    }
+}
+
+Level* World::getLevel(const std::string& levelId) const {
+    auto it = m_levelMap.find(levelId);
+    return (it != m_levelMap.end()) ? it->second : nullptr;
+}
+
+void World::setActiveLevel(const std::string& levelId) {
+    auto it = m_levelMap.find(levelId);
+    if (it != m_levelMap.end()) {
+        m_activeLevel = it->second;
+    }
+}
+
+void World::transitionToLevel(const std::string& levelId) {
+    Level* newLevel = getLevel(levelId);
+    if (!newLevel) return;
+    
+    // Exit old level
+    if (m_activeLevel) {
+        m_activeLevel->onLevelExit();
+    }
+    
+    // Switch
+    m_activeLevel = newLevel;
+    
+    // Enter new level
+    if (m_activeLevel) {
+        m_activeLevel->onLevelEnter();
+    }
+}
+
+// Removed transitionToScene - use changeScene() instead with scene stack
 
 } // namespace engine

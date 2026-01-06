@@ -1,10 +1,12 @@
 /**
  * @file Sprite.h
  * @brief Sprite node for texture rendering
+ * 
+ * MIGRATION: Now inherits from VisualActor (UE5-style)
  */
 #pragma once
 
-#include "core/Node2D.h"
+#include "engine/actors/VisualActor.h"
 #include <SDL.h>
 
 namespace engine {
@@ -17,8 +19,10 @@ namespace engine {
  * - Tint color
  * - Flip horizontal/vertical
  * - Centered or custom origin
+ * 
+ * Now inherits from VisualActor for better categorization
  */
-class Sprite : public Node2D {
+class Sprite : public VisualActor {
 public:
     Sprite();
     explicit Sprite(const std::string& name);

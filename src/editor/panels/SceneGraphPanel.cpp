@@ -25,8 +25,14 @@ void SceneGraphPanel::render() {
     ImGui::Separator();
     
     // Scene tree
+    // TODO: Update to render Actor tree instead of Node tree
+    // if (m_scene) {
+    //     renderActorTree(m_scene);
+    // }
     if (m_scene) {
-        renderNodeTree(m_scene);
+        ImGui::Text("Scene: %s", m_scene->getName().c_str());
+        ImGui::Text("Actors: %zu", m_scene->getActors().size());
+        ImGui::TextDisabled("(Actor tree view coming soon)");
     } else {
         ImGui::TextDisabled("No scene loaded");
     }

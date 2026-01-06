@@ -7,12 +7,12 @@
 
 namespace engine {
 
-Sprite::Sprite() : Node2D("Sprite") {}
+Sprite::Sprite() : VisualActor("Sprite") {}
 
-Sprite::Sprite(const std::string& name) : Node2D(name) {}
+Sprite::Sprite(const std::string& name) : VisualActor(name) {}
 
 Sprite::Sprite(const std::string& name, SDL_Texture* texture) 
-    : Node2D(name), m_texture(texture) {}
+    : VisualActor(name), m_texture(texture) {}
 
 void Sprite::setTexture(SDL_Texture* texture) {
     m_texture = texture;

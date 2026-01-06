@@ -58,18 +58,18 @@ void SceneLoader::loadCamera(Scene* scene, const std::string& jsonStr) {
     try {
         json data = json::parse(jsonStr);
         
-        Camera2D* camera = scene->createDefaultCamera();
+        CameraComponent* camera = scene->createDefaultCamera();
         
         if (data.contains("zoom")) {
             camera->setZoom(data["zoom"].get<float>());
         }
         
-        if (data.contains("limits") && data["limits"].is_array() && data["limits"].size() == 4) {
-            camera->setLimits(
-                data["limits"][0].get<int>(),
-                data["limits"][1].get<int>(),
-                data["limits"][2].get<int>(),
-                data["limits"][3].get<int>()
+        if (data.contains("bounds") && data["bounds"].is_array() && data["bounds"].size() == 4) {
+            camera->setBounds(
+                data["bounds"][0].get<float>(),
+                data["bounds"][1].get<float>(),
+                data["bounds"][2].get<float>(),
+                data["bounds"][3].get<float>()
             );
         }
         
@@ -97,9 +97,8 @@ void SceneLoader::loadLayers(Scene* scene, const std::string& jsonStr, SDL_Rende
             auto layer = std::make_unique<Layer>(name, type);
             layer->setZIndex(zIndex);
             
-            // TODO: Load nodes into layer from layerData["nodes"]
-            
-            scene->addChild(std::move(layer));
+            // TODO: Convert Layer to Actor-based system
+            // scene->addActor(std::move(layer));
         }
         
     } catch (const json::exception& e) {
@@ -132,13 +131,10 @@ std::string SceneLoader::toJSON(const Scene* scene) {
     
     // Save camera settings
     if (scene->getActiveCamera()) {
-        Camera2D* camera = scene->getActiveCamera();
+        CameraComponent* camera = scene->getActiveCamera();
         data["camera"]["zoom"] = camera->getZoom();
         
-        if (camera->hasLimits()) {
-            const SDL_Rect& limits = camera->getLimits();
-            data["camera"]["limits"] = {limits.x, limits.y, limits.w, limits.h};
-        }
+        // TODO: Save camera bounds if needed
     }
     
     // Save layers

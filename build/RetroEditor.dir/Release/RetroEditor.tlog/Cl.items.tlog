@@ -38,6 +38,8 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\npc\BehaviorG
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\SceneGraphPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SceneGraphPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\LayerEditorPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\LayerEditorPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\TileMapEditorPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\TileMapEditorPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\WorldViewPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\WorldViewPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\LevelViewPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\LevelViewPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imnodes\imnodes.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\imnodes.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\ImGuiManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ImGuiManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_sdl2.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\imgui_impl_sdl2.obj

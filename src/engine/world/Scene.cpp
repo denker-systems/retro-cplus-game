@@ -1,38 +1,47 @@
 /**
  * @file Scene.cpp
- * @brief Implementation of Scene
+ * @brief Implementation of Scene (UE5-style)
  */
 #include "Scene.h"
 
 namespace engine {
 
-Scene::Scene() : Node("Scene") {}
-
-Scene::Scene(const std::string& name) : Node(name) {}
+// Constructors now in header
 
 void Scene::update(float deltaTime) {
     if (m_isPaused) return;
     
-    Node::update(deltaTime);
+    // Update camera actor
+    if (m_cameraActor && m_cameraActor->isActive()) {
+        m_cameraActor->update(deltaTime);
+    }
     
-    // Update camera if it's not in the scene tree
-    if (m_activeCamera && m_activeCamera->getParent() == nullptr) {
-        m_activeCamera->update(deltaTime);
+    // Update all actors
+    for (auto& actor : m_actors) {
+        if (actor->isActive()) {
+            actor->update(deltaTime);
+        }
     }
 }
 
 void Scene::render(SDL_Renderer* renderer) {
     if (!renderer) return;
     
-    // TODO: Apply camera transform to rendering
-    // For now, just render children normally
-    Node::render(renderer);
+    // Render all actors
+    for (auto& actor : m_actors) {
+        if (actor->isActive() && actor->isVisible()) {
+            actor->render(renderer);
+        }
+    }
 }
 
-Camera2D* Scene::createDefaultCamera() {
-    auto camera = std::make_unique<Camera2D>("DefaultCamera");
-    m_activeCamera = camera.get();
-    addChild(std::move(camera));
+CameraComponent* Scene::createDefaultCamera() {
+    // Create camera actor
+    m_cameraActor = std::make_unique<ActorObjectExtended>("CameraActor");
+    
+    // Create and attach camera component using template syntax
+    m_activeCamera = m_cameraActor->addComponent<CameraComponent>("MainCamera");
+    
     return m_activeCamera;
 }
 

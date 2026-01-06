@@ -1,0 +1,41 @@
+/**
+ * @file MovementComponent.h
+ * @brief Movement Component
+ */
+#pragma once
+
+#include "engine/core/ActorComponent.h"
+#include "engine/core/Vec2.h"
+
+namespace engine {
+
+/**
+ * @brief Component for movement logic
+ */
+class MovementComponent : public ActorComponent {
+public:
+    MovementComponent(const std::string& name = "MovementComponent");
+    virtual ~MovementComponent() = default;
+    
+    void setVelocity(Vec2 vel) { m_velocity = vel; }
+    Vec2 getVelocity() const { return m_velocity; }
+    
+    void setMaxSpeed(float speed) { m_maxSpeed = speed; }
+    float getMaxSpeed() const { return m_maxSpeed; }
+    
+    void setFriction(float friction) { m_friction = friction; }
+    float getFriction() const { return m_friction; }
+    
+    void addForce(Vec2 force);
+    void stop();
+    
+    void update(float deltaTime) override;
+    
+private:
+    Vec2 m_velocity{0, 0};
+    Vec2 m_acceleration{0, 0};
+    float m_maxSpeed = 200.0f;
+    float m_friction = 0.9f;
+};
+
+} // namespace engine

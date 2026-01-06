@@ -69,6 +69,8 @@ public:
     std::string selectedQuestId;
     std::string selectedItemId;
     std::string selectedNPCId;
+    std::string selectedLevelId;
+    std::string selectedSceneId;
     int selectedHotspotIndex = -1;
     
     // Selection helpers

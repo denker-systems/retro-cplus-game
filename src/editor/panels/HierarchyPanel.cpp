@@ -201,6 +201,7 @@ void HierarchyPanel::render() {
                     } else {
                         // Rensa alla andra selections
                         m_context.selectedRoomId.clear();
+                        m_context.selectedSceneId.clear();
                         m_context.selectedDialogId.clear();
                         m_context.selectedQuestId.clear();
                         m_context.selectedItemId = item.id;

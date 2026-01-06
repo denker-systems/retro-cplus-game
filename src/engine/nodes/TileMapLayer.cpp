@@ -8,12 +8,24 @@
 
 namespace engine {
 
-TileMapLayer::TileMapLayer() : Node2D("TileMapLayer") {}
+TileMapLayer::TileMapLayer()
+    : VisualActor("TileMapLayer")
+    , m_width(0)
+    , m_height(0)
+    , m_tileSize(32)
+{
+}
 
-TileMapLayer::TileMapLayer(const std::string& name) : Node2D(name) {}
+TileMapLayer::TileMapLayer(const std::string& name)
+    : VisualActor(name)
+    , m_width(0)
+    , m_height(0)
+    , m_tileSize(32)
+{
+}
 
 TileMapLayer::TileMapLayer(const std::string& name, int width, int height, int tileSize)
-    : Node2D(name), m_tileSize(tileSize) {
+    : VisualActor(name), m_tileSize(tileSize) {
     resize(width, height);
 }
 

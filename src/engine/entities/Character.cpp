@@ -6,10 +6,18 @@
 #include <cmath>
 
 Character::Character(float x, float y, int width, int height, const std::string& name)
-    : Entity(x, y, width, height)
+    : Pawn(name)
     , m_name(name)
+    , m_x(x)
+    , m_y(y)
+    , m_width(width)
+    , m_height(height)
     , m_targetX(x)
-    , m_targetY(y) {}
+    , m_targetY(y)
+{
+    // Set position in Node2D/Pawn system
+    setPosition(engine::Vec2(x, y));
+}
 
 void Character::setTarget(float x, float y) {
     m_targetX = x - m_width / 2;

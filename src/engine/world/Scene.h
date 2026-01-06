@@ -1,42 +1,48 @@
 /**
  * @file Scene.h
- * @brief Scene container for game levels/rooms
+ * @brief Scene - Bottom of hierarchy (UE5-style)
+ * 
+ * Hierarchy: World → Level → Scene → Actors
+ * Scene = ULevel in UE5
  */
 #pragma once
 
-#include "core/Node.h"
-#include "Camera2D.h"
+#include "WorldContainer.h"
+#include "engine/components/CameraComponent.h"
 #include <string>
 #include <memory>
+#include <vector>
+#include <SDL.h>
 
 namespace engine {
 
 /**
- * @brief Container for a game level/room
+ * @brief Scene/Room - Contains Actors
  * 
- * A Scene is the root node for a level. It contains:
- * - All game objects (as child nodes)
- * - Active camera
- * - Scene-specific logic
+ * Inherits from WorldContainer
+ * Child of Level, Contains Actors
+ * Equivalent to ULevel in UE5
  */
-class Scene : public Node {
+class Scene : public WorldContainer {
 public:
-    Scene();
-    explicit Scene(const std::string& name);
+    Scene() : WorldContainer("Scene") {}
+    explicit Scene(const std::string& name) : WorldContainer(name) {}
     virtual ~Scene() = default;
     
     void update(float deltaTime) override;
     void render(SDL_Renderer* renderer) override;
     
+    // getName/setName inherited from WorldContainer
+    
     // ═══════════════════════════════════════════════════════════════════
-    // CAMERA
+    // CAMERA (NEW: Component-based)
     // ═══════════════════════════════════════════════════════════════════
     
-    Camera2D* getActiveCamera() const { return m_activeCamera; }
-    void setActiveCamera(Camera2D* camera) { m_activeCamera = camera; }
+    CameraComponent* getActiveCamera() const { return m_activeCamera; }
+    void setActiveCamera(CameraComponent* camera) { m_activeCamera = camera; }
     
-    /** @brief Create and set a default camera */
-    Camera2D* createDefaultCamera();
+    /** @brief Create and set a default camera actor with camera component */
+    CameraComponent* createDefaultCamera();
     
     // ═══════════════════════════════════════════════════════════════════
     // SCENE LIFECYCLE
@@ -54,9 +60,14 @@ public:
     /** @brief Called when scene is resumed (overlay popped) */
     virtual void onSceneResume();
     
-protected:
-    Camera2D* m_activeCamera = nullptr;
+    // addActor/getActors/findActor inherited from WorldContainer
+    
+private:
     bool m_isPaused = false;
+    
+    // Camera (actors inherited from WorldContainer)
+    CameraComponent* m_activeCamera = nullptr;
+    std::unique_ptr<ActorObjectExtended> m_cameraActor;
 };
 
 } // namespace engine

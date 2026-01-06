@@ -7,10 +7,17 @@
 #pragma once
 
 #include "game/states/IState.h"
+#include "EditorContext.h"
+
+// Forward declarations
+namespace engine {
+    class Scene;
+    class LayerManager;
+    class World;
+}
 #include "engine/data/GameData.h"
 #include "editor/components/VisualRoomEditor.h"
 #include "editor/components/EditorTabRenderer.h"
-#include "editor/EditorContext.h"
 #include <SDL.h>
 #include <string>
 #include <vector>
@@ -30,6 +37,8 @@ class BehaviorGraphPanel;
 class SceneGraphPanel;
 class LayerEditorPanel;
 class TileMapEditorPanel;
+class WorldViewPanel;
+class LevelViewPanel;
 
 /**
  * @brief Editor tabs/modes
@@ -147,4 +156,11 @@ private:
     std::unique_ptr<SceneGraphPanel> m_sceneGraphPanel;
     std::unique_ptr<LayerEditorPanel> m_layerEditorPanel;
     std::unique_ptr<TileMapEditorPanel> m_tileMapEditorPanel;
+    std::unique_ptr<WorldViewPanel> m_worldViewPanel;
+    std::unique_ptr<LevelViewPanel> m_levelViewPanel;
+    
+    // Test scene and layer manager for editor
+    std::unique_ptr<engine::Scene> m_editorScene;
+    std::unique_ptr<engine::LayerManager> m_layerManager;
+    std::unique_ptr<engine::World> m_editorWorld;
 };

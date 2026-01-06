@@ -38,16 +38,46 @@ message(STATUS "NativeFileDialog found: ${nfd_FOUND}")
 set(CORE_SOURCES
     src/engine/core/Node.cpp
     src/engine/core/Node2D.cpp
+    src/engine/core/ActorComponent.cpp
+    src/engine/core/MigrationConfig.cpp
+    src/engine/core/ActorObjectExtended.cpp
+    src/engine/components/SpriteComponent.cpp
+    src/engine/components/AnimationComponent.cpp
+    src/engine/components/MovementComponent.cpp
+    src/engine/components/HealthComponent.cpp
+    src/engine/components/DialogComponent.cpp
+    src/engine/components/CollisionComponent.cpp
+    src/engine/components/InteractionComponent.cpp
+    src/engine/components/QuestComponent.cpp
+    src/engine/components/QuestGiverComponent.cpp
+    src/engine/components/InventoryComponent.cpp
+    src/engine/components/PathfindingComponent.cpp
+    src/engine/components/PerceptionComponent.cpp
+    src/engine/components/CameraComponent.cpp
+    src/engine/components/PhysicsComponent.cpp
+    src/engine/actors/Pawn.cpp
+    src/engine/actors/Controller.cpp
+    src/engine/actors/PlayerController.cpp
+    src/engine/actors/AIController.cpp
+    src/engine/actors/ItemActor.cpp
+    src/engine/actors/VisualActor.cpp
+    src/engine/actors/InteractiveActor.cpp
     src/engine/nodes/Sprite.cpp
     src/engine/nodes/AnimatedSprite.cpp
     src/engine/nodes/TileMapLayer.cpp
     src/engine/nodes/ParallaxLayer.cpp
     src/engine/nodes/Label.cpp
+    src/engine/nodes/InteractiveArea.cpp
+    src/engine/nodes/WalkArea.cpp
+    src/engine/nodes/Marker.cpp
     src/engine/world/Camera2D.cpp
     src/engine/world/Scene.cpp
     src/engine/world/World.cpp
-    src/engine/world/LayerManager.cpp
+    src/engine/world/Level.cpp
+    src/engine/world/WorldContainer.h
+    src/engine/world/Scene.cpp
     src/engine/world/SceneLoader.cpp
+    src/engine/world/RoomToSceneConverter.cpp
     src/engine/physics/CollisionShape.cpp
     src/engine/physics/PhysicsBody.cpp
     src/engine/physics/KinematicBody.cpp
@@ -174,6 +204,8 @@ set(EDITOR_SOURCES
     src/editor/panels/SceneGraphPanel.cpp
     src/editor/panels/LayerEditorPanel.cpp
     src/editor/panels/TileMapEditorPanel.cpp
+    src/editor/panels/WorldViewPanel.cpp
+    src/editor/panels/LevelViewPanel.cpp
     src/vendor/imnodes/imnodes.cpp
     src/editor/ImGuiManager.cpp
     ${IMGUI_BACKEND_SOURCES}

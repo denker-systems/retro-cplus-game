@@ -7,12 +7,13 @@
 
 namespace engine {
 
-Label::Label() : Node2D("Label") {}
+Label::Label() : VisualActor("Label") {}
 
-Label::Label(const std::string& name) : Node2D(name) {}
+Label::Label(const std::string& name) : VisualActor(name) {}
 
 Label::Label(const std::string& name, const std::string& text)
-    : Node2D(name), m_text(text) {}
+    : VisualActor(name)
+    , m_text(text) {}
 
 Vec2 Label::getTextSize() const {
     // This would require FontManager to measure text

@@ -5,7 +5,15 @@
 #include "EditorState.h"
 #include "game/Game.h"
 #include "engine/graphics/FontManager.h"
+#include "engine/graphics/TextureManager.h"
 #include "engine/data/DataLoader.h"
+#include "engine/world/Scene.h"
+#include "engine/world/LayerManager.h"
+#include "engine/world/World.h"
+#include "engine/world/Level.h"
+#include "engine/world/RoomToSceneConverter.h"
+#include "engine/nodes/Sprite.h"
+#include "engine/nodes/Label.h"
 #include "editor/components/RoomDataManager.h"
 #include "editor/components/EditorTabRenderer.h"
 #include "editor/components/TiledIntegration.h"
@@ -25,6 +33,8 @@
 #include "panels/SceneGraphPanel.h"
 #include "panels/LayerEditorPanel.h"
 #include "panels/TileMapEditorPanel.h"
+#include "panels/WorldViewPanel.h"
+#include "panels/LevelViewPanel.h"
 #include "graphs/dialog/DialogGraphPanel.h"
 #include "graphs/quest/QuestGraphPanel.h"
 #include "graphs/npc/BehaviorGraphPanel.h"
@@ -61,16 +71,59 @@ void EditorState::enter() {
     m_sceneGraphPanel = std::make_unique<SceneGraphPanel>(m_editorContext);
     m_layerEditorPanel = std::make_unique<LayerEditorPanel>(m_editorContext);
     m_tileMapEditorPanel = std::make_unique<TileMapEditorPanel>(m_editorContext);
+    m_worldViewPanel = std::make_unique<WorldViewPanel>(m_editorContext);
+    m_levelViewPanel = std::make_unique<LevelViewPanel>(m_editorContext);
     
-    m_consolePanel->log("Editor initialized with panel architecture");
-#endif
+    // Hide World/Level View panels by default (integrated in Viewport now)
+    m_worldViewPanel->setVisible(false);
+    m_levelViewPanel->setVisible(false);
     
-    // Ladda all game data
+    // TODO: Layer management will be reimplemented with Actor system
+    // m_layerManager = std::make_unique<engine::LayerManager>();
+    
+    // Initialize TextureManager
+    auto& texMgr = TextureManager::instance();
+    texMgr.init(m_game->getRenderer());
+    
+    // Load all game data (rooms.json, etc.)
     auto& loader = DataLoader::instance();
     if (loader.getRooms().empty()) {
-        LOG_INFO("EditorState: Loading game data...");
         loader.loadAll();
     }
+    
+    // Create World and convert all rooms to scenes
+    m_editorWorld = std::make_unique<engine::World>();
+    
+    // Create a default level for all rooms
+    auto defaultLevel = std::make_unique<engine::Level>("main_game");
+    defaultLevel->setName("Main Game");
+    defaultLevel->setDescription("All game scenes");
+    
+    // Convert each RoomData to Scene
+    const auto& rooms = loader.getRooms();
+    for (const auto& roomData : rooms) {
+        auto scene = engine::RoomToSceneConverter::convert(roomData, m_game->getRenderer());
+        defaultLevel->addScene(std::move(scene));
+    }
+    
+    m_editorWorld->addLevel(std::move(defaultLevel));
+    m_editorWorld->setActiveLevel("main_game");
+    
+    // Connect World/Level/Scene hierarchy to panels
+    m_viewportPanel->setWorld(m_editorWorld.get());
+    m_viewportPanel->setLevel(m_editorWorld->getActiveLevel());
+    m_viewportPanel->setScene(m_editorWorld->getActiveLevel()->getActiveScene());
+    
+    m_sceneGraphPanel->setScene(m_editorWorld->getActiveLevel()->getActiveScene());
+    m_layerEditorPanel->setLayerManager(m_layerManager.get());
+    m_worldViewPanel->setWorld(m_editorWorld.get());
+    m_levelViewPanel->setLevel(m_editorWorld->getActiveLevel());
+    
+    m_consolePanel->log("Editor initialized with panel architecture");
+    m_consolePanel->log("Converted " + std::to_string(rooms.size()) + " rooms to scenes");
+    m_consolePanel->log("Layer manager created with 4 layers (Background, Main, Foreground, UI)");
+    m_consolePanel->log("World created with 1 level: Main Game");
+#endif
     
     // Ladda data till EditorContext (mutable copies för editing)
     m_editorContext.loadFromDataLoader();
@@ -78,7 +131,6 @@ void EditorState::enter() {
     
     // Bygg rum-flowchart positioner
     m_roomNodes.clear();
-    auto& rooms = loader.getRooms();
     
     int x = 50;
     int y = 100;
@@ -756,8 +808,11 @@ void EditorState::renderImGui() {
     if (m_dialogGraphPanel) m_dialogGraphPanel->render();
     if (m_questGraphPanel) m_questGraphPanel->render();
     if (m_behaviorGraphPanel) m_behaviorGraphPanel->render();
-    if (m_sceneGraphPanel) m_sceneGraphPanel->render();
-    if (m_layerEditorPanel) m_layerEditorPanel->render();
+    if (m_sceneGraphPanel)    m_sceneGraphPanel->render();
+    m_layerEditorPanel->render();
+    m_tileMapEditorPanel->render();
+    m_worldViewPanel->render();
+    m_levelViewPanel->render();
     if (m_tileMapEditorPanel) m_tileMapEditorPanel->render();
     if (m_assetBrowserPanel) m_assetBrowserPanel->render();
     if (m_consolePanel) m_consolePanel->render();

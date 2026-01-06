@@ -1,18 +1,22 @@
 /**
  * @file Character.h
  * @brief Abstract base class för alla karaktärer
+ * 
+ * MIGRATION NOTE: Now inherits from Pawn (UE5-style) instead of Entity
+ * This allows Character to be possessed by Controllers for better separation of concerns.
  */
 #pragma once
 
-#include "Entity.h"
+#include "engine/actors/Pawn.h"
 #include <string>
 
 /**
- * @brief Abstrakt basklass för karaktärer (player, NPC, enemies)
+ * @brief Basklass för karaktärer (player, NPC, enemies)
  * 
  * Lägger till health, name och rörelse-funktionalitet.
+ * Now inherits from Pawn to support Controller possession.
  */
-class Character : public Entity {
+class Character : public engine::Pawn {
 public:
     Character(float x, float y, int width, int height, const std::string& name);
     ~Character() override = default;
@@ -39,15 +43,28 @@ public:
     // Speed
     float getSpeed() const { return m_speed; }
     void setSpeed(float speed) { m_speed = speed; }
-
+    
+    // Walk area clamping
+    void setWalkArea(int minX, int maxX, int minY, int maxY);
+    virtual void clampToWalkArea();
+    
+    // Dimensions (from old Entity class)
+    int getWidth() const { return m_width; }
+    int getHeight() const { return m_height; }
+    void setWidth(int w) { m_width = w; }
+    void setHeight(int h) { m_height = h; }
+    
 protected:
     /** @brief Uppdatera rörelse mot target */
     void updateMovement(float deltaTime);
     
-    /** @brief Begränsa position till walk area */
-    virtual void clampToWalkArea();
-    
     std::string m_name;
+    
+    // Physics/dimensions (moved from Entity)
+    float m_x = 0.0f;
+    float m_y = 0.0f;
+    int m_width = 32;
+    int m_height = 32;
     int m_health = 100;
     
     // Rörelse

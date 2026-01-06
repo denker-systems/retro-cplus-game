@@ -4,8 +4,18 @@
  */
 #include "ViewportPanel.h"
 #include "editor/EditorContext.h"
+#include "engine/world/World.h"
+#include "engine/world/Level.h"
+#include "engine/world/Scene.h"
 #include "engine/data/DataLoader.h"
+#include "engine/core/Node.h"
+#include "engine/core/Node2D.h"
+#include "engine/nodes/Sprite.h"
+#include "engine/nodes/InteractiveArea.h"
+#include "engine/nodes/WalkArea.h"
+#include "engine/nodes/Marker.h"
 #include <SDL_image.h>
+#include <algorithm>
 
 #ifdef HAS_IMGUI
 #include <imgui.h>
@@ -60,9 +70,21 @@ void ViewportPanel::render() {
     if (!m_visible) return;
     
     if (ImGui::Begin(m_title.c_str(), &m_visible)) {
-        renderToolbar();
+        renderBreadcrumbs();
         ImGui::Separator();
-        renderRoomPreview();
+        
+        // Render different views based on breadcrumb level
+        if (!m_level) {
+            // World level - show all levels
+            renderWorldView();
+        } else if (!m_scene) {
+            // Level level - show all scenes
+            renderLevelView();
+        } else {
+            // Scene level - show scene content
+            renderToolbar();
+            renderSceneView();
+        }
     }
     ImGui::End();
 #endif
@@ -224,6 +246,502 @@ void ViewportPanel::renderRoomPreview() {
         m_draggingSpawn = false;
         m_draggingWalkArea = false;
     }
+    
+    // Render scene nodes if we have a scene
+    if (m_scene) {
+        ImVec2 sceneOffset = cursorPos;  // Start from preview area
+        
+        // TODO: Render actors in scene
+        // renderSceneActors(m_scene, ImGui::GetWindowDrawList(), sceneOffset);
+    }
+#endif
+}
+
+void ViewportPanel::renderSceneNode(engine::Node* node, ImDrawList* drawList, ImVec2 offset) {
+#ifdef HAS_IMGUI
+    if (!node || !node->isVisible()) return;
+    
+    // Calculate node position
+    float x = offset.x;
+    float y = offset.y;
+    
+    auto node2d = dynamic_cast<engine::Node2D*>(node);
+    if (node2d) {
+        x += node2d->getPosition().x * m_zoom;
+        y += node2d->getPosition().y * m_zoom;
+    }
+    
+    // Render based on node type
+    auto sprite = dynamic_cast<engine::Sprite*>(node);
+    if (sprite && sprite->getTexture()) {
+        SDL_Texture* tex = sprite->getTexture();
+        int texW, texH;
+        SDL_QueryTexture(tex, nullptr, nullptr, &texW, &texH);
+        
+        float w = texW * m_zoom;
+        float h = texH * m_zoom;
+        
+        drawList->AddImage(
+            (ImTextureID)(intptr_t)tex,
+            ImVec2(x, y),
+            ImVec2(x + w, y + h)
+        );
+        
+        drawList->AddRect(
+            ImVec2(x, y),
+            ImVec2(x + w, y + h),
+            IM_COL32(100, 255, 100, 128),
+            0.0f, 0, 1.0f);
+    }
+    
+    // Render InteractiveArea
+    auto hotspot = dynamic_cast<engine::InteractiveArea*>(node);
+    if (hotspot) {
+        float w = hotspot->getWidth() * m_zoom;
+        float h = hotspot->getHeight() * m_zoom;
+        
+        drawList->AddRectFilled(
+            ImVec2(x, y),
+            ImVec2(x + w, y + h),
+            IM_COL32(255, 100, 100, 80));
+        
+        drawList->AddRect(
+            ImVec2(x, y),
+            ImVec2(x + w, y + h),
+            IM_COL32(255, 255, 255, 200),
+            0.0f, 0, 2.0f);
+        
+        drawList->AddText(
+            ImVec2(x + 2, y + 2),
+            IM_COL32(255, 255, 255, 255),
+            node->getName().c_str());
+    }
+    
+    // Render WalkArea
+    auto walkArea = dynamic_cast<engine::WalkArea*>(node);
+    if (walkArea) {
+        const auto& bounds = walkArea->getBounds();
+        float minX = x + bounds.minX * m_zoom;
+        float minY = y + bounds.minY * m_zoom;
+        float maxX = x + bounds.maxX * m_zoom;
+        float maxY = y + bounds.maxY * m_zoom;
+        
+        drawList->AddRectFilled(
+            ImVec2(minX, minY),
+            ImVec2(maxX, maxY),
+            IM_COL32(0, 255, 255, 50));
+        
+        drawList->AddRect(
+            ImVec2(minX, minY),
+            ImVec2(maxX, maxY),
+            IM_COL32(0, 255, 255, 200),
+            0.0f, 0, 2.0f);
+    }
+    
+    // Render Marker
+    auto marker = dynamic_cast<engine::Marker*>(node);
+    if (marker) {
+        SDL_Color color = marker->getColor();
+        int radius = 8;
+        
+        drawList->AddCircleFilled(
+            ImVec2(x, y),
+            radius * m_zoom,
+            IM_COL32(color.r, color.g, color.b, 200));
+        
+        drawList->AddCircle(
+            ImVec2(x, y),
+            radius * m_zoom,
+            IM_COL32(255, 255, 255, 255),
+            0, 2.0f);
+        
+        drawList->AddText(
+            ImVec2(x + 10, y - 8),
+            IM_COL32(color.r, color.g, color.b, 255),
+            marker->getLabel());
+    }
+    
+    // Render children recursively
+    // const auto& children = node->getChildren();
+    // for (const auto& child : children) {
+    //     renderSceneNode(child.get(), drawList, ImVec2(x, y));
+    // }
+#endif
+}
+
+void ViewportPanel::renderBreadcrumbs() {
+#ifdef HAS_IMGUI
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.3f, 0.4f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.4f, 0.5f, 1.0f));
+    
+    // World level
+    if (m_world) {
+        if (ImGui::Button("🌍 World")) {
+            // Navigate to world view (show all levels)
+            m_level = nullptr;
+            m_scene = nullptr;
+        }
+        
+        // Level level
+        if (m_level) {
+            ImGui::SameLine();
+            ImGui::TextDisabled(">");
+            ImGui::SameLine();
+            
+            if (ImGui::Button(("📁 " + m_level->getName()).c_str())) {
+                // Navigate to level view (show all scenes)
+                m_scene = nullptr;
+            }
+            
+            // Scene level
+            if (m_scene) {
+                ImGui::SameLine();
+                ImGui::TextDisabled(">");
+                ImGui::SameLine();
+                
+                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3f, 0.5f, 0.3f, 1.0f));
+                ImGui::Button(("🎬 " + m_scene->getName()).c_str());
+                ImGui::PopStyleColor();
+            }
+        }
+    } else {
+        ImGui::TextDisabled("No World loaded");
+    }
+    
+    ImGui::PopStyleColor(2);
+#endif
+}
+
+void ViewportPanel::setLevel(engine::Level* level) {
+    m_level = level;
+    // Auto-select first scene if available
+    if (level && !level->getScenes().empty()) {
+        m_scene = level->getScenes()[0].get();
+    } else {
+        m_scene = nullptr;
+    }
+}
+
+void ViewportPanel::setScene(engine::Scene* scene) {
+    m_scene = scene;
+}
+
+void ViewportPanel::renderWorldView() {
+#ifdef HAS_IMGUI
+    if (!m_world) {
+        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No World loaded");
+        return;
+    }
+    
+    ImGui::Text("Levels in World:");
+    ImGui::Separator();
+    
+    const auto& levels = m_world->getLevels();
+    
+    if (levels.empty()) {
+        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "World.getLevels() not yet implemented");
+        if (ImGui::Button("+ Create New Level")) {
+            // TODO: Create level dialog
+        }
+        return;
+    }
+    
+    // Grid layout for level cards
+    float panelWidth = ImGui::GetContentRegionAvail().x;
+    int columns = std::max(1, (int)(panelWidth / 250.0f));
+    
+    ImGui::Columns(columns, nullptr, false);
+    
+    for (const auto& level : levels) {
+        // Level card
+        ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+        ImVec2 cardSize(230, 120);
+        
+        // Background
+        ImU32 bgColor = IM_COL32(50, 60, 70, 255);
+        ImGui::GetWindowDrawList()->AddRectFilled(
+            cursorPos,
+            ImVec2(cursorPos.x + cardSize.x, cursorPos.y + cardSize.y),
+            bgColor,
+            4.0f);
+        
+        // Icon area
+        ImGui::GetWindowDrawList()->AddRectFilled(
+            ImVec2(cursorPos.x + 5, cursorPos.y + 5),
+            ImVec2(cursorPos.x + cardSize.x - 5, cursorPos.y + 60),
+            IM_COL32(40, 50, 60, 255));
+        
+        ImGui::SetCursorScreenPos(ImVec2(cursorPos.x + cardSize.x/2 - 20, cursorPos.y + 25));
+        ImGui::Text("📁");
+        
+        // Level name
+        ImGui::SetCursorScreenPos(ImVec2(cursorPos.x + 10, cursorPos.y + 70));
+        ImGui::Text("%s", level->getName().c_str());
+        
+        // Scene count
+        ImGui::SetCursorScreenPos(ImVec2(cursorPos.x + 10, cursorPos.y + 90));
+        ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.6f, 1.0f), 
+            "%zu scenes", level->getScenes().size());
+        
+        // Make clickable
+        ImGui::SetCursorScreenPos(cursorPos);
+        if (ImGui::InvisibleButton(level->getId().c_str(), cardSize)) {
+            setLevel(const_cast<engine::Level*>(level.get()));
+        }
+        
+        // Hover effect
+        if (ImGui::IsItemHovered()) {
+            ImGui::GetWindowDrawList()->AddRect(
+                cursorPos,
+                ImVec2(cursorPos.x + cardSize.x, cursorPos.y + cardSize.y),
+                IM_COL32(100, 150, 200, 255),
+                4.0f,
+                0,
+                2.0f);
+        }
+        
+        ImGui::SetCursorScreenPos(ImVec2(cursorPos.x, cursorPos.y + cardSize.y + 10));
+        ImGui::NextColumn();
+    }
+    
+    ImGui::Columns(1);
+    
+    ImGui::Separator();
+    if (ImGui::Button("+ Create New Level")) {
+        // TODO: Create level dialog
+    }
+#endif
+}
+
+void ViewportPanel::renderLevelView() {
+#ifdef HAS_IMGUI
+    if (!m_level) {
+        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No Level selected");
+        return;
+    }
+    
+    ImGui::Text("Level: %s", m_level->getName().c_str());
+    ImGui::Text("ID: %s", m_level->getId().c_str());
+    ImGui::Separator();
+    
+    // Toggle between grid and list view
+    static bool gridView = true;
+    if (ImGui::Button(gridView ? "Grid View" : "List View")) {
+        gridView = !gridView;
+    }
+    
+    ImGui::Separator();
+    
+    const auto& scenes = m_level->getScenes();
+    
+    if (scenes.empty()) {
+        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No scenes in this level");
+        if (ImGui::Button("+ Create New Scene")) {
+            // TODO: Create scene dialog
+        }
+        return;
+    }
+    
+    if (gridView) {
+        // Grid layout
+        float panelWidth = ImGui::GetContentRegionAvail().x;
+        int columns = std::max(1, (int)(panelWidth / 200.0f));
+        
+        ImGui::Columns(columns, nullptr, false);
+        
+        for (const auto& scene : scenes) {
+            // Scene card
+            ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+            ImVec2 cardSize(180, 150);
+            
+            // Background
+            ImU32 bgColor = IM_COL32(50, 60, 70, 255);
+            ImGui::GetWindowDrawList()->AddRectFilled(
+                cursorPos,
+                ImVec2(cursorPos.x + cardSize.x, cursorPos.y + cardSize.y),
+                bgColor,
+                4.0f);
+            
+            // Preview area (placeholder)
+            ImGui::GetWindowDrawList()->AddRectFilled(
+                ImVec2(cursorPos.x + 5, cursorPos.y + 5),
+                ImVec2(cursorPos.x + cardSize.x - 5, cursorPos.y + 105),
+                IM_COL32(30, 35, 40, 255));
+            
+            ImGui::SetCursorScreenPos(ImVec2(cursorPos.x + cardSize.x/2 - 20, cursorPos.y + 50));
+            ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "Preview");
+            
+            // Scene name
+            ImGui::SetCursorScreenPos(ImVec2(cursorPos.x + 5, cursorPos.y + 110));
+            ImGui::Text("%s", scene->getName().c_str());
+            
+            // Actor count
+            ImGui::SetCursorScreenPos(ImVec2(cursorPos.x + 5, cursorPos.y + 125));
+            ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.6f, 1.0f), 
+                "%zu actors", scene->getActors().size());
+            
+            // Make clickable
+            ImGui::SetCursorScreenPos(cursorPos);
+            if (ImGui::InvisibleButton(scene->getName().c_str(), cardSize)) {
+                setScene(scene.get());
+            }
+            
+            // Hover effect
+            if (ImGui::IsItemHovered()) {
+                ImGui::GetWindowDrawList()->AddRect(
+                    cursorPos,
+                    ImVec2(cursorPos.x + cardSize.x, cursorPos.y + cardSize.y),
+                    IM_COL32(100, 200, 100, 255),
+                    4.0f,
+                    0,
+                    2.0f);
+            }
+            
+            // Double-click to open
+            if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
+                setScene(scene.get());
+            }
+            
+            ImGui::SetCursorScreenPos(ImVec2(cursorPos.x, cursorPos.y + cardSize.y + 10));
+            ImGui::NextColumn();
+        }
+        
+        ImGui::Columns(1);
+    } else {
+        // List view
+        for (const auto& scene : scenes) {
+            if (ImGui::Selectable(scene->getName().c_str())) {
+                setScene(scene.get());
+            }
+            ImGui::SameLine();
+            ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.6f, 1.0f), 
+                "(%zu actors)", scene->getActors().size());
+        }
+    }
+    
+    ImGui::Separator();
+    if (ImGui::Button("+ Create New Scene")) {
+        // TODO: Create scene dialog
+    }
+#endif
+}
+
+void ViewportPanel::renderSceneView() {
+#ifdef HAS_IMGUI
+    if (!m_scene) {
+        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No Scene selected");
+        return;
+    }
+    
+    ImVec2 contentSize = ImGui::GetContentRegionAvail();
+    ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+    
+    // Background
+    ImGui::GetWindowDrawList()->AddRectFilled(
+        cursorPos,
+        ImVec2(cursorPos.x + contentSize.x, cursorPos.y + contentSize.y),
+        IM_COL32(40, 40, 50, 255));
+    
+    // Render room visually using RoomData (until SpriteComponents are ready)
+    if (m_scene) {
+        // Find corresponding RoomData
+        const RoomData* room = nullptr;
+        auto& rooms = DataLoader::instance().getRooms();
+        for (const auto& r : rooms) {
+            if (r.id == m_scene->getName()) {
+                room = &r;
+                break;
+            }
+        }
+        
+        if (room) {
+            ImDrawList* drawList = ImGui::GetWindowDrawList();
+            ImVec2 offset = ImVec2(cursorPos.x + m_panX, cursorPos.y + m_panY);
+            
+            // Background (placeholder - grey rect)
+            if (!room->background.empty()) {
+                drawList->AddRectFilled(
+                    offset,
+                    ImVec2(offset.x + 640 * m_zoom, offset.y + 400 * m_zoom),
+                    IM_COL32(60, 60, 70, 255));
+                drawList->AddText(
+                    ImVec2(offset.x + 10, offset.y + 10),
+                    IM_COL32(150, 150, 150, 255),
+                    room->background.c_str());
+            }
+            
+            // Walk area (green box)
+            float waX = offset.x + room->walkArea.minX * m_zoom;
+            float waY = offset.y + room->walkArea.minY * m_zoom;
+            float waW = (room->walkArea.maxX - room->walkArea.minX) * m_zoom;
+            float waH = (room->walkArea.maxY - room->walkArea.minY) * m_zoom;
+            drawList->AddRect(
+                ImVec2(waX, waY),
+                ImVec2(waX + waW, waY + waH),
+                IM_COL32(100, 255, 100, 200), 0, 0, 2.0f);
+            
+            // Hotspots (cyan rects)
+            for (const auto& hs : room->hotspots) {
+                float hx = offset.x + hs.x * m_zoom;
+                float hy = offset.y + hs.y * m_zoom;
+                float hw = hs.w * m_zoom;
+                float hh = hs.h * m_zoom;
+                
+                drawList->AddRect(
+                    ImVec2(hx, hy),
+                    ImVec2(hx + hw, hy + hh),
+                    IM_COL32(100, 255, 255, 255), 0, 0, 2.0f);
+                drawList->AddText(
+                    ImVec2(hx + 5, hy + 5),
+                    IM_COL32(255, 255, 255, 255),
+                    hs.name.c_str());
+            }
+            
+            // Player spawn (magenta circle)
+            float spawnX = offset.x + room->playerSpawnX * m_zoom;
+            float spawnY = offset.y + room->playerSpawnY * m_zoom;
+            drawList->AddCircleFilled(
+                ImVec2(spawnX, spawnY),
+                8.0f * m_zoom,
+                IM_COL32(255, 0, 255, 255));
+        }
+    }
+    
+    // Make area interactive
+    ImGui::SetCursorScreenPos(cursorPos);
+    ImGui::InvisibleButton("scene_canvas", contentSize);
+    
+    // Handle mouse interactions
+    if (ImGui::IsItemHovered()) {
+        ImVec2 mousePos = ImGui::GetMousePos();
+        
+        // Left click - select/drag nodes
+        if (ImGui::IsMouseClicked(0)) {
+            // TODO: Implement node selection and drag start
+        }
+        
+        // Middle mouse drag - pan view
+        if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle)) {
+            ImVec2 delta = ImGui::GetIO().MouseDelta;
+            m_panX += delta.x;
+            m_panY += delta.y;
+        }
+        
+        // Mouse wheel - zoom
+        float wheel = ImGui::GetIO().MouseWheel;
+        if (wheel != 0.0f) {
+            m_zoom = std::max(0.25f, std::min(4.0f, m_zoom + wheel * 0.1f));
+        }
+    }
+    
+    // Show info overlay
+    ImGui::SetCursorScreenPos(ImVec2(cursorPos.x + 10, cursorPos.y + 10));
+    ImGui::BeginGroup();
+    ImGui::Text("Scene: %s", m_scene->getName().c_str());
+    ImGui::Text("Actors: %zu", m_scene->getActors().size());
+    ImGui::Text("Zoom: %.0f%% | Pan: %.0f, %.0f", m_zoom * 100, m_panX, m_panY);
+    ImGui::Text("Tip: Middle-mouse to pan, scroll to zoom");
+    ImGui::EndGroup();
 #endif
 }
 

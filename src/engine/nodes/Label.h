@@ -1,10 +1,12 @@
 /**
  * @file Label.h
  * @brief Text rendering node
+ * 
+ * MIGRATION: Now inherits from VisualActor (UE5-style)
  */
 #pragma once
 
-#include "core/Node2D.h"
+#include "engine/actors/VisualActor.h"
 #include <SDL.h>
 #include <string>
 
@@ -17,8 +19,10 @@ namespace engine {
  * - Text rendering with FontManager
  * - Color and alignment
  * - Word wrap (optional)
+ * 
+ * Now inherits from VisualActor for better categorization
  */
-class Label : public Node2D {
+class Label : public VisualActor {
 public:
     enum class Alignment {
         Left,

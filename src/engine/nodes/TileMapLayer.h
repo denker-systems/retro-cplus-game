@@ -1,10 +1,12 @@
 /**
  * @file TileMapLayer.h
  * @brief Grid-based tilemap rendering
+ * 
+ * MIGRATION: Now inherits from VisualActor (UE5-style)
  */
 #pragma once
 
-#include "core/Node2D.h"
+#include "engine/actors/VisualActor.h"
 #include <vector>
 #include <SDL.h>
 
@@ -18,8 +20,10 @@ namespace engine {
  * - Tileset texture with tile size
  * - Efficient rendering (only visible tiles)
  * - Collision tile marking
+ * 
+ * Now inherits from VisualActor for better categorization
  */
-class TileMapLayer : public Node2D {
+class TileMapLayer : public VisualActor {
 public:
     TileMapLayer();
     explicit TileMapLayer(const std::string& name);

@@ -8,6 +8,18 @@
 #include <string>
 #include <SDL.h>
 
+struct SDL_Texture;
+struct SDL_Renderer;
+struct ImDrawList;
+struct ImVec2;
+
+namespace engine {
+    class Scene;
+    class Node;
+    class World;
+    class Level;
+}
+
 class EditorContext;
 
 /**
@@ -26,11 +38,22 @@ public:
     
     // Sätt renderer för texture loading
     void setRenderer(SDL_Renderer* renderer) { m_renderer = renderer; }
+    void loadRoom(const std::string& roomId);
     
+    // World/Level/Scene navigation
+    void setWorld(engine::World* world) { m_world = world; }
+    void setLevel(engine::Level* level);
+    void setScene(engine::Scene* scene); 
+
 private:
     void loadRoomPreview();
     void renderRoomPreview();
     void renderToolbar();
+    void renderBreadcrumbs();
+    void renderWorldView();
+    void renderLevelView();
+    void renderSceneView();
+    void renderSceneNode(engine::Node* node, ImDrawList* drawList, ImVec2 offset);
     
     EditorContext& m_context;
     std::string m_id = "viewport";
@@ -39,6 +62,11 @@ private:
     SDL_Renderer* m_renderer = nullptr;
     SDL_Texture* m_roomTexture = nullptr;
     std::string m_loadedRoomId;
+    
+    // World/Level/Scene hierarchy
+    engine::World* m_world = nullptr;
+    engine::Level* m_level = nullptr;
+    engine::Scene* m_scene = nullptr;
     
     // Viewport state
     float m_zoom = 1.0f;
