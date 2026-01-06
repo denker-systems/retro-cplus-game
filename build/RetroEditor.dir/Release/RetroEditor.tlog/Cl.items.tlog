@@ -10,6 +10,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\InventoryState.
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\QuestLogState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\QuestLogState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\SaveLoadState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SaveLoadState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\EditorState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorState.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\FileBrowser.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\FileBrowser.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\components\DebugEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\DebugEditor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\EditorContext.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorContext.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\components\VisualRoomEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\VisualRoomEditor.obj

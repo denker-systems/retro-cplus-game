@@ -183,6 +183,7 @@ set(EDITOR_SOURCES
     src/game/states/QuestLogState.cpp
     src/game/states/SaveLoadState.cpp
     src/editor/EditorState.cpp
+    src/editor/FileBrowser.cpp
     src/editor/components/DebugEditor.cpp
     src/editor/EditorContext.cpp
     src/editor/components/VisualRoomEditor.cpp

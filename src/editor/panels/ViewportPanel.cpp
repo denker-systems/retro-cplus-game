@@ -302,12 +302,8 @@ void ViewportPanel::renderBreadcrumbs() {
 
 void ViewportPanel::setLevel(engine::Level* level) {
     m_level = level;
-    // Auto-select first scene if available
-    if (level && !level->getScenes().empty()) {
-        m_scene = level->getScenes()[0].get();
-    } else {
-        m_scene = nullptr;
-    }
+    // Don't auto-select scene - let user see Level View first
+    m_scene = nullptr;
 }
 
 void ViewportPanel::setScene(engine::Scene* scene) {

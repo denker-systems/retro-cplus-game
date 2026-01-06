@@ -25,22 +25,22 @@ void HierarchyPanel::render() {
         const auto& items = DataLoader::instance().getItems();
         const auto& npcs = DataLoader::instance().getNPCs();
         
-        // Rooms
-        if (ImGui::CollapsingHeader("Rooms", ImGuiTreeNodeFlags_DefaultOpen)) {
-            // New Room button
-            if (ImGui::SmallButton("+ New Room")) {
-                RoomData newRoom;
-                newRoom.id = "room_" + std::to_string(m_context.rooms.size());
-                newRoom.name = "New Room";
-                newRoom.background = "assets/backgrounds/placeholder.png";
-                newRoom.playerSpawnX = 320.0f;
-                newRoom.playerSpawnY = 300.0f;
-                newRoom.walkArea = {0, 640, 260, 400, 0.5f, 1.0f};
-                m_context.rooms.push_back(newRoom);
+        // Scenes (formerly Rooms)
+        if (ImGui::CollapsingHeader("Scenes", ImGuiTreeNodeFlags_DefaultOpen)) {
+            // New Scene button
+            if (ImGui::SmallButton("+ New Scene")) {
+                RoomData newScene;
+                newScene.id = "scene_" + std::to_string(m_context.rooms.size());
+                newScene.name = "New Scene";
+                newScene.background = "assets/backgrounds/placeholder.png";
+                newScene.playerSpawnX = 320.0f;
+                newScene.playerSpawnY = 300.0f;
+                newScene.walkArea = {0, 640, 260, 400, 0.5f, 1.0f};
+                m_context.rooms.push_back(newScene);
                 m_context.markDirty();
                 
-                // Select the new room
-                m_context.selectedRoomId = newRoom.id;
+                // Select the new scene
+                m_context.selectedRoomId = newScene.id;
                 m_context.selectedDialogId.clear();
                 m_context.selectedQuestId.clear();
                 m_context.selectedItemId.clear();
@@ -52,7 +52,12 @@ void HierarchyPanel::render() {
             for (const auto& room : rooms) {
                 bool selected = (m_context.selectedType == EditorContext::SelectionType::Room && 
                                 m_context.selectedRoomId == room.id);
-                if (ImGui::Selectable(room.name.c_str(), selected)) {
+                
+                // Get scene type icon based on room id/name
+                const char* icon = getSceneIcon(room.id);
+                std::string label = std::string(icon) + " " + room.name;
+                
+                if (ImGui::Selectable(label.c_str(), selected)) {
                     // Deselect om samma item klickas igen
                     if (selected) {
                         m_context.selectedType = EditorContext::SelectionType::None;
@@ -227,4 +232,25 @@ void HierarchyPanel::render() {
     }
     ImGui::End();
 #endif
+}
+
+const char* HierarchyPanel::getSceneIcon(const std::string& sceneId) const {
+    // Determine scene type based on id/name patterns
+    if (sceneId.find("cave") != std::string::npos) {
+        return "[C]";  // Cave
+    } else if (sceneId.find("forest") != std::string::npos) {
+        return "[F]";  // Forest
+    } else if (sceneId.find("cellar") != std::string::npos) {
+        return "[B]";  // Basement/Cellar
+    } else if (sceneId.find("street") != std::string::npos || 
+               sceneId.find("town") != std::string::npos ||
+               sceneId.find("square") != std::string::npos) {
+        return "[T]";  // Town
+    } else if (sceneId.find("underwater") != std::string::npos) {
+        return "[U]";  // Underwater
+    } else if (sceneId.find("dream") != std::string::npos) {
+        return "[D]";  // Dream
+    } else {
+        return "[I]";  // Interior (default)
+    }
 }

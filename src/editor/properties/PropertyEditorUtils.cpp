@@ -9,6 +9,9 @@
 #include <imgui.h>
 #endif
 
+// Native file dialog
+#include <nfd.h>
+
 namespace PropertyEditorUtils {
 
 bool InputText(const char* label, std::string& str, ImGuiInputTextFlags flags) {
@@ -95,18 +98,26 @@ bool FileBrowser(const char* label, std::string& path, const char* filter) {
     
     ImGui::SameLine();
     if (ImGui::Button("Browse...")) {
-        // TODO: Implementera native file dialog när nativefiledialog-extended är installerat
-        // För nu: bara visa meddelande
-        ImGui::OpenPopup("FileBrowserNotImplemented");
-    }
-    
-    if (ImGui::BeginPopupModal("FileBrowserNotImplemented", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-        ImGui::Text("File browser not yet implemented.");
-        ImGui::Text("Please type the path manually.");
-        if (ImGui::Button("OK", ImVec2(120, 0))) {
-            ImGui::CloseCurrentPopup();
+        // Use native file dialog
+        nfdchar_t* outPath = nullptr;
+        nfdfilteritem_t filterItems[1] = {};
+        nfdresult_t result;
+        
+        // Parse filter string (e.g., "png,jpg" -> filter item)
+        if (filter && filter[0] != '\0') {
+            filterItems[0].name = "Files";
+            filterItems[0].spec = filter;
+            result = NFD_OpenDialog(&outPath, filterItems, 1, nullptr);
+        } else {
+            result = NFD_OpenDialog(&outPath, nullptr, 0, nullptr);
         }
-        ImGui::EndPopup();
+        
+        if (result == NFD_OKAY) {
+            path = outPath;
+            changed = true;
+            NFD_FreePath(outPath);
+        }
+        // NFD_CANCEL or NFD_ERROR - do nothing
     }
     
     return changed;

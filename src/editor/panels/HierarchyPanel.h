@@ -30,6 +30,8 @@ public:
     void setOnItemSelected(SelectionCallback cb) { m_onItemSelected = cb; }
     
 private:
+    const char* getSceneIcon(const std::string& sceneId) const;
+    
     EditorContext& m_context;
     std::string m_id = "hierarchy";
     std::string m_title = "Hierarchy";
