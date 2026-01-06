@@ -10,6 +10,11 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- **WorldContainer** abstract base class för World/Level/Scene hierarki med template method pattern
+- **Level** class som mellanled mellan World och Scene, hanterar scene transitions
+- **WorldViewPanel** och **LevelViewPanel** för hierarki-navigation i editorn
+- **RoomToSceneConverter** för att konvertera RoomData till Actor-baserade Scenes
+- **Hybrid rendering** i ViewportPanel - renderar via RoomData tills SpriteComponents är klara
 - **Node Scene Graph System** - OOP-baserad scene graph (inspirerat av Godot/Cocos2d-x)
 - **Vec2** - 2D vektor-matematik med operators, lerp, rotation, distance
 - **Node** - Base class med parent/child hierarki, z-index, lifecycle callbacks

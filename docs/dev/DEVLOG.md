@@ -8,6 +8,29 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ## 2026-01-05
 
+### Kväll (Sen)
+
+- `8404603` refactor(architecture): implement World→Level→Scene hierarchy with WorldContainer base
+  - **Arkitektur:** WorldContainer abstract base class - gemensam funktionalitet för World/Level/Scene
+  - **Arkitektur:** World : public WorldContainer - hanterar Levels och scene stack
+  - **Arkitektur:** Level : public WorldContainer - ny klass som mellanled, hanterar Scenes
+  - **Arkitektur:** Scene : public WorldContainer - INGEN Node-koppling, ren Actor-container
+  - **Breaking Change:** Scene ärver inte längre från Node - all Node-funktionalitet borttagen
+  - **Pattern:** Template Method Pattern i WorldContainer med pure virtual update()/render()
+  - **Migration:** RoomToSceneConverter skapar ActorObjectExtended istället för Nodes
+  - **Migration:** ViewportPanel hybridlösning - renderar via RoomData tills SpriteComponents klara
+  - **Migration:** Disabled LayerEditorPanel (kräver omskrivning för Actor-system)
+  - **Migration:** SceneGraphPanel disabled Node tree rendering, visar Actor count istället
+  - **Editor:** WorldViewPanel för World/Level navigation
+  - **Editor:** LevelViewPanel för Level/Scene navigation
+  - **Build:** WorldContainer.h (header-only), Level.cpp/h, RoomToSceneConverter.cpp/h
+  - **Cleanup:** NodeExample.cpp borttagen (oanvänd)
+  - **Cleanup:** getting-started.md borttagen (obsolete guide)
+  - **Problems Solved:** 4 stora migrations-problem (se session rapport)
+  - **Statistik:** 90+ filer ändrade, 1,215 insertions, 531 deletions, 7 nya filer
+  - **UE5 Alignment:** World=UWorld, Level=ULevel, Scene=Sub-level, Actor=AActor
+  - Session: [2026-01-05](sessions/2026-01-05.md)
+
 ### Kväll
 - `4783d89` feat(engine): complete Fas 4 Node Scene Graph system with advanced features
   - **Arkitektur:** Nya mappar src/engine/physics/, src/editor/panels/ med 7 nya filer
