@@ -520,19 +520,37 @@ void ViewportPanel::renderSceneView() {
     ImVec2 contentSize = ImGui::GetContentRegionAvail();
     ImVec2 cursorPos = ImGui::GetCursorScreenPos();
     
-    // Background
+    // Use fixed room size (640x400) instead of contentSize
+    ImVec2 roomSize(640.0f * m_zoom, 400.0f * m_zoom);
+    
+    // Center the room in the viewport if it's smaller
+    ImVec2 renderPos = cursorPos;
+    if (roomSize.x < contentSize.x) {
+        renderPos.x += (contentSize.x - roomSize.x) / 2.0f;
+    }
+    if (roomSize.y < contentSize.y) {
+        renderPos.y += (contentSize.y - roomSize.y) / 2.0f;
+    }
+    
+    // Background (room boundaries)
     ImGui::GetWindowDrawList()->AddRectFilled(
-        cursorPos,
-        ImVec2(cursorPos.x + contentSize.x, cursorPos.y + contentSize.y),
+        renderPos,
+        ImVec2(renderPos.x + roomSize.x, renderPos.y + roomSize.y),
         IM_COL32(40, 40, 50, 255));
+    
+    // Draw room border
+    ImGui::GetWindowDrawList()->AddRect(
+        renderPos,
+        ImVec2(renderPos.x + roomSize.x, renderPos.y + roomSize.y),
+        IM_COL32(100, 100, 100, 255), 0, 0, 1.0f);
     
     // Render actors directly from Scene
     if (m_scene) {
         renderSceneActors(ImGui::GetWindowDrawList(), 
-                         ImVec2(cursorPos.x + m_panX, cursorPos.y + m_panY));
+                         ImVec2(renderPos.x + m_panX, renderPos.y + m_panY));
     }
     
-    // Make area interactive
+    // Make area interactive (use full content size for interaction)
     ImGui::SetCursorScreenPos(cursorPos);
     ImGui::InvisibleButton("scene_canvas", contentSize);
     
@@ -691,12 +709,40 @@ void ViewportPanel::renderSceneActors(ImDrawList* drawList, ImVec2 offset) {
                 int w = spriteComp->getWidth();
                 int h = spriteComp->getHeight();
                 
-                // Render texture via ImGui
-                drawList->AddImage(
-                    (ImTextureID)(intptr_t)tex,
-                    ImVec2(worldX, worldY),
-                    ImVec2(worldX + w * m_zoom, worldY + h * m_zoom)
-                );
+                // Special handling for background images
+                if (actor->getName() == "Background") {
+                    // Calculate aspect ratio
+                    float aspectRatio = (float)w / (float)h;
+                    
+                    // Fit to room size (640x400) while preserving aspect ratio
+                    float roomWidth = 640.0f * m_zoom;
+                    float roomHeight = 400.0f * m_zoom;
+                    
+                    float scaleX = roomWidth / w;
+                    float scaleY = roomHeight / h;
+                    float scale = std::min(scaleX, scaleY);
+                    
+                    float scaledW = w * scale;
+                    float scaledH = h * scale;
+                    
+                    // Center the background
+                    float offsetX = (roomWidth - scaledW) / 2.0f;
+                    float offsetY = (roomHeight - scaledH) / 2.0f;
+                    
+                    // Render centered background
+                    drawList->AddImage(
+                        (ImTextureID)(intptr_t)tex,
+                        ImVec2(worldX + offsetX, worldY + offsetY),
+                        ImVec2(worldX + offsetX + scaledW, worldY + offsetY + scaledH)
+                    );
+                } else {
+                    // Normal rendering for other sprites
+                    drawList->AddImage(
+                        (ImTextureID)(intptr_t)tex,
+                        ImVec2(worldX, worldY),
+                        ImVec2(worldX + w * m_zoom, worldY + h * m_zoom)
+                    );
+                }
             }
         }
         

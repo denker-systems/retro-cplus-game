@@ -20,7 +20,7 @@ std::unique_ptr<Scene> RoomToSceneConverter::convert(const RoomData& roomData, S
         bgActor->setPosition(0, 0);
         
         // Load background texture
-        std::string path = "assets/backgrounds/" + roomData.background;
+        std::string path = roomData.background;  // Background already contains full path
         bgActor->initializeSprite(path);
         
         scene->addActor(std::move(bgActor));

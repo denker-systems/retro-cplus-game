@@ -10,6 +10,9 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- **FileBrowser** - Native file dialog integration för editorn
+- **ActorObjectExtended support** - HierarchyPanel utökad för Actor system
+- **Actor management methods** - Scene.h utökad med Actor-funktionalitet
 - **Object** abstract root base class för alla engine-objekt
 - **ActorObject** concrete actor base class (ersätter Node2D)
 - **CharacterActor**, **EnvironmentActor**, **SpriteActor** specialiserade actors

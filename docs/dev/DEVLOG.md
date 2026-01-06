@@ -10,6 +10,13 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ### Kväll (Sen)
 
+- `e28d059` feat(editor): add FileBrowser and enhance HierarchyPanel for Actor system
+  - **Editor:** FileBrowser.h/cpp för native file dialogs
+  - **Editor:** HierarchyPanel utökad med ActorObjectExtended support
+  - **Engine:** Scene.h utökad med Actor management metoder
+  - **Editor:** PropertyEditorUtils förbättrad för better editing
+  - Session: [2026-01-05](sessions/2026-01-05.md)
+
 - `1a473eb` refactor(core): remove Node system, migrate to ActorObject
   - **BREAKING:** Node.h, Node2D.h, Node.cpp, Node2D.cpp RADERADE helt
   - **Arkitektur:** Object base class (abstract root)
