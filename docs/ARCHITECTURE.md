@@ -23,8 +23,7 @@ Ett skalbart point-and-click adventure-spel byggt med modern C++17 och SDL2.
 src/
 ├── Game.cpp/h            # Huvudloop, SDL init, state koordinering
 ├── Input.cpp/h           # Tangentbordshantering
-├── Room.cpp/h            # Rum med hotspots och NPCs (legacy)
-├── Scene.cpp/h           # Scener med hotspots och NPCs (nytt)
+├── Room.cpp/h            # Rum med hotspots och NPCs (legacy - deprecated)
 │
 ├── states/               # Game states (State Pattern) 
 │   ├── StateManager.cpp/h  # Push/pop/change (deferred) 
@@ -85,6 +84,12 @@ src/
 │   ├── RoomDataManager.cpp/h  # Room data persistence
 │   ├── EditorTabRenderer.cpp/h # Legacy tab rendering
 │   ├── TiledIntegration.cpp/h # Tiled import/export
+│   ├── data/                  # Editor data serialization ✨ NEW
+│   │   ├── EditorDataManager.cpp/h  # Central data coordinator
+│   │   ├── ISerializer.h            # Serialization interface
+│   │   ├── SceneSerializer.cpp/h    # Scene→JSON serialization
+│   │   ├── WorldSerializer.cpp/h    # World→JSON serialization
+│   │   └── EditorDataTypes.h        # Editor-specific data types
 │   ├── panels/               # ImGui panels
 │   │   ├── HierarchyPanel.cpp/h      # Objektträd
 │   │   ├── PropertiesPanel.cpp/h     # Inspector
@@ -126,11 +131,11 @@ src/
 │   │   ├── ParallaxLayer.cpp/h  # Parallax scrolling
 │   │   └── Label.cpp/h          # Text rendering
 │   ├── world/            # World management
-│   │   ├── WorldContainer.h    # Abstract base for World/Level/Scene ✨ NEW
+│   │   ├── WorldContainer.h    # Abstract base for World/Level/Scene
 │   │   ├── World.cpp/h         # Multi-scene manager
-│   │   ├── Level.cpp/h         # Scene container ✨ NEW
-│   │   ├── Scene.cpp/h         # Actor container (refactored) ✨ NEW
-│   │   ├── RoomToSceneConverter.cpp/h # Migration tool ✨ NEW
+│   │   ├── Level.cpp/h         # Scene container
+│   │   ├── Scene.cpp/h         # Unified Scene class (consolidated 2026-01-06)
+│   │   ├── RoomToSceneConverter.cpp/h # Migration tool (deprecated)
 │   │   ├── Camera2D.cpp/h       # Viewport med follow/zoom/shake
 │   │   ├── LayerManager.cpp/h   # Layer system
 │   │   └── SceneLoader.cpp/h    # JSON serialization
@@ -148,49 +153,6 @@ src/
         └── imnodes.cpp
 ```
 
-### Planerat (framtida features)
-
-```
-src/
-├── states/               # Game states (State Pattern)
-│   ├── PauseState.cpp/h
-│   ├── InventoryState.cpp/h
-│   └── DialogState.cpp/h
-│
-├── entities/             # Entity Hierarchy (OOP)
-│   ├── Entity.h              # Abstract base för alla objekt
-│   ├── Character.h/.cpp      # Abstract character base
-│   ├── PlayerCharacter.h/.cpp
-│   ├── AICharacter.h/.cpp    # Abstract AI base
-│   ├── NPCCharacter.h/.cpp
-│   ├── Item.h/.cpp
-│   └── Hotspot.h/.cpp
-│
-├── components/           # Composition (delad funktionalitet)
-│   ├── MovementComponent.h/.cpp
-│   ├── AnimationComponent.h/.cpp
-│   ├── CollisionComponent.h/.cpp
-│   └── DialogComponent.h/.cpp
-│
-├── systems/              # Spelsystem
-│   ├── RoomSystem.h/.cpp
-│   ├── DialogSystem.h/.cpp
-│   ├── QuestSystem.h/.cpp
-│   ├── InventorySystem.h/.cpp
-│   └── SaveSystem.h/.cpp
-│
-├── ui/                   # Användargränssnitt
-│   ├── Widget.h/.cpp         # Abstract base
-│   ├── Button.h/.cpp
-│   ├── Label.h/.cpp
-│   └── InventoryUI.h/.cpp
-│
-└── utils/
-    ├── Logger.h/.cpp
-    └── Config.h/.cpp
-```
-
----
 
 ## Entity Hierarki (OOP)
 

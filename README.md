@@ -24,6 +24,8 @@ Ett point-and-click adventure-spel för Windows, byggt med C++17 och SDL2.
 - **Asset Browser** - Grid/List view, filter, search
 - **Console Panel** - Logg med timestamps och log levels
 - **Visuell redigering** - Drag-and-drop för hotspots och walk areas
+- **Data Serialization** - EditorDataManager för World/Scene serialization
+- **Background Actor System** - SpriteComponent-baserad bakgrundsrendering
 
 ## Krav
 

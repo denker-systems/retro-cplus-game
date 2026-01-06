@@ -270,3 +270,12 @@ Kronologisk logg av alla �ndringar sedan projektets start.
   - **Data:** GameDataLoader now loads scenes to SceneManager only (removed double loading)
   - **Build:** Updated CMakeLists.txt to exclude entities/NPC.h
   - Session: [2026-01-06](sessions/2026-01-06.md)
+
+- c83203 refactor(scene): consolidate Scene classes and remove RoomToSceneConverter
+  - **Arkitektur:** Konsoliderade två Scene-klasser till en engine::Scene i src/engine/world/
+  - **Arkitektur:** Tog bort RoomToSceneConverter - används Scene::createFromData istället
+  - **Feature:** Background actor med SpriteComponent skapas i createFromData
+  - **Feature:** Legacy API bevarad för backward compatibility
+  - **Fixed:** Uppdaterade alla includes från engine/Scene.h till engine/world/Scene.h
+  - **Fixed:** Bakgrund laddas nu i editorn via loadBackground()
+  - Session: [2026-01-06](sessions/2026-01-06.md)

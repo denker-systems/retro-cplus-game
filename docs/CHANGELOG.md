@@ -75,6 +75,9 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Git-policy rules och synkade workflows
 
 ### Changed
+- **Scene consolidation** - Two Scene classes consolidated into single engine::Scene
+- **RoomToSceneConverter removal** - Replaced with Scene::createFromData factory method
+- **Background actor rendering** - Background actors now use SpriteComponent for rendering
 - **Room system → Scene system** - All systems now use SceneManager instead of RoomManager
 - **GameDataLoader** - Now loads scenes only to SceneManager (removed double loading)
 - **PlayState** - Updated to use SceneManager for scene transitions
@@ -100,12 +103,16 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **Hot reload borttaget** - Använd restart-workflow istället (enklare, stabilare)
 
 ### Removed
+- **Legacy Scene files** - Removed src/engine/Scene.h and src/engine/Scene.cpp
+- **RoomToSceneConverter** - No longer needed, functionality moved to Scene::createFromData
 - **entities/NPC.h** - Legacy NPC class removed and replaced with actors/NPC.h
 - **Node.h/Node.cpp** - Legacy Node system helt borttaget
 - **Node2D.h/Node2D.cpp** - Legacy Node2D system helt borttaget
 - **renderSceneNode** - ViewportPanel Node rendering borttagen
 
 ### Fixed
+- **Background loading in editor** - Fixed missing background textures by using loadBackground()
+- **Include paths** - Updated all Scene includes from engine/Scene.h to engine/world/Scene.h
 - **NPC Selection** - HierarchyPanel sätter nu selectedNPCId korrekt
 - **NPC Property Editor** - Kopplade NPCPropertyEditor till PropertiesPanel
 - **Multi-selection bug** - Kunde ha både Room och Dialog selected samtidigt
@@ -126,10 +133,15 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **NPC Hotspot Positioning** - NPCs spawnar vid sina hotspots
 
 ### Changed
+- **Scene consolidation** - Two Scene classes consolidated into single engine::Scene
+- **RoomToSceneConverter removal** - Replaced with Scene::createFromData factory method
+- **Background actor rendering** - Background actors now use SpriteComponent for rendering
 - EditorState refaktorerad till modulära komponenter (-61% kod)
 - Editor använder nu ImGui istället för custom UI
 
 ### Fixed
+- **Background loading in editor** - Fixed missing background textures by using loadBackground()
+- **Include paths** - Updated all Scene includes from engine/Scene.h to engine/world/Scene.h
 - Walk area fungerar nu korrekt i spelet
 - Hotspots sparas till JSON
 
@@ -147,9 +159,14 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **Mute Toggle** - M-tangent för global mute
 
 ### Changed
+- **Scene consolidation** - Two Scene classes consolidated into single engine::Scene
+- **RoomToSceneConverter removal** - Replaced with Scene::createFromData factory method
+- **Background actor rendering** - Background actors now use SpriteComponent for rendering
 - Tiled workflow nu valfri (Manual/Tiled toggle)
 
 ### Fixed
+- **Background loading in editor** - Fixed missing background textures by using loadBackground()
+- **Include paths** - Updated all Scene includes from engine/Scene.h to engine/world/Scene.h
 - Room layers laddas och renderas korrekt
 - Font-storlekar justerade för läsbarhet
 

@@ -62,6 +62,7 @@
 - [x] NPC-hantering per rum
 - [x] **Scene System** - Migrated from Room to Scene system
 - [x] **SceneManager** - Replaced RoomManager
+- [x] **Scene Consolidation** - Unified Scene class in engine::Scene (2026-01-06)
 
 ### 2.2 Entity System ✅
 - [x] Entity basklass
