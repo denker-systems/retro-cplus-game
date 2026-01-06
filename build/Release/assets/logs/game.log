@@ -1,18 +1,16 @@
 ========================================
-  Game Log - 2026-01-06 16:56:32.078
+  Game Log - 2026-01-06 17:28:41.239
 ========================================
 
-[2026-01-06 16:56:32.078] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-06 16:56:32.245] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-06 16:56:32.258] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-06 16:56:32.274] [INFO ] [Game.cpp:82] Window created
-[2026-01-06 16:56:32.372] [INFO ] [Game.cpp:92] Renderer created
-[2026-01-06 16:56:32.372] [INFO ] [Game.cpp:208] Viewport: 1440x900 at (80,0)
-[2026-01-06 16:56:32.373] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
-[2026-01-06 16:56:32.374] [INFO ] [Game.cpp:129] Game initialized successfully!
-[2026-01-06 16:56:32.374] [INFO ] [EditorState.cpp:47] EditorState created
-[2026-01-06 16:56:32.374] [INFO ] [EditorState.cpp:51] EditorState::enter()
-[2026-01-06 16:56:32.401] [INFO ] [EditorContext.cpp:78] EditorContext loaded 7 rooms, 8 dialogs
-[2026-01-06 16:56:32.401] [INFO ] [EditorState.cpp:143] EditorContext loaded with 8 dialogs
-[2026-01-06 16:56:34.690] [INFO ] [main.cpp:20] === RetroAdventure Editor Shutdown ===
-[2026-01-06 16:56:34.690] [INFO ] [Game.cpp:229] === Game Shutting Down ===
+[2026-01-06 17:28:41.239] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-06 17:28:41.408] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-06 17:28:41.428] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-06 17:28:41.446] [INFO ] [Game.cpp:82] Window created
+[2026-01-06 17:28:41.546] [INFO ] [Game.cpp:92] Renderer created
+[2026-01-06 17:28:41.546] [INFO ] [Game.cpp:208] Viewport: 1440x900 at (80,0)
+[2026-01-06 17:28:41.554] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-06 17:28:41.557] [INFO ] [Game.cpp:129] Game initialized successfully!
+[2026-01-06 17:28:41.557] [INFO ] [EditorState.cpp:47] EditorState created
+[2026-01-06 17:28:41.558] [INFO ] [EditorState.cpp:51] EditorState::enter()
+[2026-01-06 17:28:41.758] [INFO ] [EditorContext.cpp:78] EditorContext loaded 7 rooms, 8 dialogs
+[2026-01-06 17:28:41.759] [INFO ] [EditorState.cpp:163] EditorContext loaded with 8 dialogs

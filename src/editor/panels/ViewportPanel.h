@@ -123,6 +123,6 @@ private:
     float m_dragOffsetY = 0.0f;
     
     void handleMouseDown(float mouseX, float mouseY, float previewX, float previewY,
-                        float previewW, float previewH, float roomX, float roomY, const struct RoomData* room);
+                        float previewW, float previewH, float roomX, float roomY, const struct SceneData* room);
     void handleMouseDrag(float roomX, float roomY);
 };

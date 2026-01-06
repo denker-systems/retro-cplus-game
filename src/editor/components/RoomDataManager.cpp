@@ -25,10 +25,10 @@ bool RoomDataManager::loadRoomForEditing(const std::string& roomId, RoomData& ou
 bool RoomDataManager::saveRoomChanges(const RoomData& roomData, std::string& outMessage) {
     namespace fs = std::filesystem;
     
-    std::string roomsPath = "assets/data/rooms.json";
+    std::string roomsPath = "assets/data/scenes.json";
     std::ifstream inFile(roomsPath);
     if (!inFile.is_open()) {
-        outMessage = "Error: Could not open rooms.json";
+        outMessage = "Error: Could not open scenes.json";
         return false;
     }
     
@@ -42,8 +42,8 @@ bool RoomDataManager::saveRoomChanges(const RoomData& roomData, std::string& out
     }
     
     bool found = false;
-    if (data.contains("rooms") && data["rooms"].is_array()) {
-        for (auto& room : data["rooms"]) {
+    if (data.contains("scenes") && data["scenes"].is_array()) {
+        for (auto& room : data["scenes"]) {
             if (room["id"] == roomData.id) {
                 // Uppdatera room data
                 room["name"] = roomData.name;
@@ -87,7 +87,7 @@ bool RoomDataManager::saveRoomChanges(const RoomData& roomData, std::string& out
                     
                     if (!hs.dialogId.empty()) hsJson["dialogId"] = hs.dialogId;
                     if (!hs.examineText.empty()) hsJson["examineText"] = hs.examineText;
-                    if (!hs.targetRoom.empty()) hsJson["targetRoom"] = hs.targetRoom;
+                    if (!hs.targetScene.empty()) hsJson["targetRoom"] = hs.targetScene;
                     if (!hs.funnyFails.empty()) hsJson["funnyFails"] = hs.funnyFails;
                     
                     room["hotspots"].push_back(hsJson);
@@ -107,7 +107,7 @@ bool RoomDataManager::saveRoomChanges(const RoomData& roomData, std::string& out
     // Skriv tillbaka
     std::ofstream outFile(roomsPath);
     if (!outFile.is_open()) {
-        outMessage = "Error: Could not write to rooms.json";
+        outMessage = "Error: Could not write to scenes.json";
         return false;
     }
     

@@ -1,6 +1,6 @@
 /**
  * @file RoomToSceneConverter.cpp
- * @brief Converts legacy RoomData to Scene hierarchy with SpriteActors
+ * @brief Converts SceneData to Scene hierarchy with SpriteActors
  */
 #include "RoomToSceneConverter.h"
 #include "Scene.h"
@@ -11,37 +11,37 @@
 
 namespace engine {
 
-std::unique_ptr<Scene> RoomToSceneConverter::convert(const RoomData& roomData, SDL_Renderer* renderer) {
-    auto scene = std::make_unique<Scene>(roomData.id);
-    scene->setName(roomData.name);
+std::unique_ptr<Scene> RoomToSceneConverter::convert(const SceneData& sceneData, SDL_Renderer* renderer) {
+    auto scene = std::make_unique<Scene>(sceneData.id);
+    scene->setName(sceneData.name);
     
     // Copy grid position if available
-    if (roomData.gridPosition) {
-        scene->setGridPosition(*roomData.gridPosition);
+    if (sceneData.gridPosition) {
+        scene->setGridPosition(*sceneData.gridPosition);
     } else {
-        // Default grid position based on room index (will be overwritten later if needed)
+        // Default grid position based on scene index (will be overwritten later if needed)
         scene->setGridPosition(0, 0, 640, 400);
     }
     
     // Copy camera config if available
-    if (roomData.camera) {
-        scene->setCameraConfig(*roomData.camera);
+    if (sceneData.camera) {
+        scene->setCameraConfig(*sceneData.camera);
     }
     
     // Convert background to SpriteActor
-    if (!roomData.background.empty()) {
+    if (!sceneData.background.empty()) {
         auto bgActor = std::make_unique<SpriteActor>("Background");
         bgActor->setPosition(0, 0);
         
         // Load background texture
-        std::string path = roomData.background;  // Background already contains full path
+        std::string path = sceneData.background;  // Background already contains full path
         bgActor->initializeSprite(path);
         
         scene->addActor(std::move(bgActor));
     }
     
     // Convert hotspots to InteractiveActors
-    for (const auto& hsData : roomData.hotspots) {
+    for (const auto& hsData : sceneData.hotspots) {
         auto hotspotActor = std::make_unique<InteractiveActor>(hsData.name);
         hotspotActor->setPosition(hsData.x, hsData.y);
         
@@ -53,7 +53,7 @@ std::unique_ptr<Scene> RoomToSceneConverter::convert(const RoomData& roomData, S
     
     // Add player spawn marker (simple prop for now)
     auto spawnActor = std::make_unique<PropActor>("PlayerSpawn");
-    spawnActor->setPosition(roomData.playerSpawnX, roomData.playerSpawnY);
+    spawnActor->setPosition(sceneData.playerSpawnX, sceneData.playerSpawnY);
     scene->addActor(std::move(spawnActor));
     
     // Add walk area marker

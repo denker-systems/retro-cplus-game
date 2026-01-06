@@ -10,10 +10,15 @@
 #include "WorldContainer.h"
 #include "GridTypes.h"
 #include "engine/components/CameraComponent.h"
+#include "engine/Hotspot.h"
+#include "engine/actors/NPC.h"
 #include <string>
 #include <memory>
 #include <vector>
 #include <SDL.h>
+
+// Forward declaration
+struct SceneData;
 
 namespace engine {
 
@@ -85,8 +90,39 @@ public:
     Scene(const std::string& name, SceneType type) : WorldContainer(name), m_sceneType(type) {}
     virtual ~Scene() = default;
     
+    /** @brief Create Scene from SceneData */
+    static std::unique_ptr<Scene> createFromData(const SceneData& data);
+    
+    // Legacy methods from old Scene - for game compatibility
+    void render(SDL_Renderer* renderer);
+    bool loadBackground(SDL_Renderer* renderer, const std::string& path);
+    bool loadLayer(SDL_Renderer* renderer, const std::string& imagePath, int zIndex, 
+                   float parallaxX = 1.0f, float parallaxY = 1.0f, float opacity = 1.0f);
+    void addHotspot(const std::string& id, const std::string& name, 
+                    int x, int y, int w, int h, HotspotType type,
+                    const std::string& dialogId = "",
+                    const std::string& examineText = "",
+                    const std::vector<std::string>& funnyFails = {});
+    void addExit(const std::string& id, const std::string& name,
+                 int x, int y, int w, int h, const std::string& targetRoom);
+    void setWalkArea(int minX, int maxX, int minY, int maxY, float scaleTop = 0.5f, float scaleBottom = 1.0f);
+    Hotspot* getHotspotAt(int x, int y);
+    
+    // NPC methods
+    void addNPC(std::unique_ptr<engine::actors::NPC> npc);
+    void updateNPCs(float deltaTime);
+    void renderNPCs(SDL_Renderer* renderer);
+    
+    // Getters for legacy compatibility
+    const std::string& getId() const { return getName(); }
+    const std::vector<Hotspot>& getHotspots() const { return m_legacyHotspots; }
+    const WalkArea& getWalkArea() const { return m_legacyWalkArea; }
+    void getPlayerSpawn(float& x, float& y) const;
+    void setPlayerSpawn(float x, float y);
+    const std::vector<std::unique_ptr<engine::actors::NPC>>& getNPCs() const { return m_npcs; }
+    
     void update(float deltaTime) override;
-    void render(SDL_Renderer* renderer) override;
+    void renderActors(SDL_Renderer* renderer);
     
     // getName/setName inherited from WorldContainer
     
@@ -145,6 +181,12 @@ private:
     
     // Scene-specific config
     CameraConfig m_cameraConfig;
+    
+    // Legacy data for game compatibility
+    std::vector<Hotspot> m_legacyHotspots;
+    WalkArea m_legacyWalkArea;
+    std::vector<std::unique_ptr<engine::actors::NPC>> m_npcs;
+    SDL_Texture* m_backgroundTexture = nullptr;
 };
 
 } // namespace engine

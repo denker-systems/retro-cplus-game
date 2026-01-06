@@ -12,7 +12,7 @@
 #include "systems/SceneManager.h"
 #include "systems/AISystem.h"
 #include "Room.h"
-#include "Scene.h"
+#include "world/Scene.h"
 #include "actors/NPC.h"
 #include <iostream>
 
@@ -155,7 +155,7 @@ public:
                 else if (hs.type == "examine") type = HotspotType::Examine;
                 
                 if (type == HotspotType::Exit) {
-                    room->addExit(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, hs.targetRoom);
+                    room->addExit(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, hs.targetScene);
                 } else {
                     room->addHotspot(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, type, 
                                      hs.dialogId, hs.examineText, hs.funnyFails);
@@ -168,7 +168,7 @@ public:
     
     static void loadScenes(SDL_Renderer* renderer) {
         for (const auto& data : DataLoader::instance().getRooms()) {
-            auto scene = std::make_unique<Scene>(data.id, data.name);
+            auto scene = std::make_unique<engine::Scene>(data.id);
             scene->setWalkArea(data.walkArea.minX, data.walkArea.maxX,
                              data.walkArea.minY, data.walkArea.maxY,
                              data.walkArea.scaleTop, data.walkArea.scaleBottom);
@@ -208,7 +208,7 @@ public:
                 else if (hs.type == "examine") type = HotspotType::Examine;
                 
                 if (type == HotspotType::Exit) {
-                    scene->addExit(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, hs.targetRoom);
+                    scene->addExit(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, hs.targetScene);
                 } else {
                     scene->addHotspot(hs.id, hs.name, hs.x, hs.y, hs.w, hs.h, type, 
                                      hs.dialogId, hs.examineText, hs.funnyFails);
@@ -221,7 +221,7 @@ public:
     
     static void loadNPCsToScenes() {
         for (const auto& data : DataLoader::instance().getNPCs()) {
-            Scene* scene = SceneManager::instance().getScene(data.room);
+            engine::Scene* scene = SceneManager::instance().getScene(data.room);
             if (!scene) {
                 std::cerr << "Scene not found for NPC: " << data.id << std::endl;
                 continue;

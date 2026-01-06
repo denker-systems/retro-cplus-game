@@ -83,9 +83,6 @@ set(CORE_SOURCES
     src/engine/world/World.cpp
     src/engine/world/Level.cpp
     src/engine/world/WorldContainer.h
-    src/engine/world/Scene.cpp
-    src/engine/world/SceneLoader.cpp
-    src/engine/world/RoomToSceneConverter.cpp
     src/engine/physics/CollisionShape.cpp
     src/engine/physics/PhysicsBody.cpp
     src/engine/physics/KinematicBody.cpp
@@ -93,7 +90,6 @@ set(CORE_SOURCES
     src/engine/Renderer.cpp
     src/engine/input/Input.cpp
     src/engine/Room.cpp
-    src/engine/Scene.cpp
     src/engine/VideoSettings.cpp
     src/engine/systems/DialogSystem.cpp
     src/engine/systems/InventorySystem.cpp
@@ -217,6 +213,10 @@ set(EDITOR_SOURCES
     src/editor/panels/TileMapEditorPanel.cpp
     src/editor/panels/WorldViewPanel.cpp
     src/editor/panels/LevelViewPanel.cpp
+    src/editor/data/ISerializer.cpp
+    src/editor/data/WorldSerializer.cpp
+    src/editor/data/SceneSerializer.cpp
+    src/editor/data/EditorDataManager.cpp
     src/vendor/imnodes/imnodes.cpp
     src/editor/ImGuiManager.cpp
     ${IMGUI_BACKEND_SOURCES}

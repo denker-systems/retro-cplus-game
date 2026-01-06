@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "Scene.h"
+#include "engine/world/Scene.h"
 #include <string>
 #include <unordered_map>
 #include <memory>
@@ -18,19 +18,19 @@ public:
     static SceneManager& instance();
     
     /** @brief Registrera en scene */
-    void addScene(std::unique_ptr<Scene> scene);
+    void addScene(std::unique_ptr<engine::Scene> scene);
     
     /** @brief Rensa alla scener (för hot reload) */
     void clearScenes();
     
     /** @brief Hämta scene med ID */
-    Scene* getScene(const std::string& sceneId);
+    engine::Scene* getScene(const std::string& sceneId);
     
     /** @brief Byt till annan scene */
     bool changeScene(const std::string& sceneId);
     
     /** @brief Hämta aktuell scene */
-    Scene* getCurrentScene() { return m_currentScene; }
+    engine::Scene* getCurrentScene() { return m_currentScene; }
     std::string getCurrentSceneId() const { return m_currentScene ? m_currentScene->getId() : ""; }
     
     /** @brief Sätt callback för scenebyte */
@@ -53,8 +53,8 @@ public:
 private:
     SceneManager() = default;
     
-    std::unordered_map<std::string, std::unique_ptr<Scene>> m_scenes;
-    Scene* m_currentScene = nullptr;
+    std::unordered_map<std::string, std::unique_ptr<engine::Scene>> m_scenes;
+    engine::Scene* m_currentScene = nullptr;
     std::function<void(const std::string&)> m_onSceneChange;
     
     float m_spawnX = 320.0f;

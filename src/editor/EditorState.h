@@ -8,6 +8,7 @@
 
 #include "game/states/IState.h"
 #include "EditorContext.h"
+#include "editor/data/EditorDataManager.h"
 
 // Forward declarations
 namespace engine {
@@ -164,4 +165,7 @@ private:
     std::unique_ptr<engine::Scene> m_editorScene;
     std::unique_ptr<engine::LayerManager> m_layerManager;
     std::unique_ptr<engine::World> m_editorWorld;
+    
+    // Data manager for all save/load operations
+    editor::EditorDataManager m_dataManager;
 };

@@ -22,7 +22,7 @@ struct ObjectiveData;
 struct DialogData;
 struct DialogNodeData;
 struct DialogChoiceData;
-struct RoomData;
+struct SceneData;
 struct HotspotData;
 
 // ============================================================================
@@ -129,7 +129,7 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(NPCData,
     id, name, description, sprite, dialogId, room, x, y, canTalk, canMove, moveSpeed)
 
 // ============================================================================
-// ROOM DATA
+// SCENE DATA (formerly RoomData)
 // ============================================================================
 
 struct HotspotData {
@@ -137,14 +137,14 @@ struct HotspotData {
     std::string name;
     std::string type;           // "npc", "item", "exit", "examine"
     int x, y, w, h;
-    std::string targetRoom;     // För exits
+    std::string targetScene;    // För exits (target scene id)
     std::string dialogId;       // För NPCs
     std::string examineText;    // "Titta på" beskrivning
     std::vector<std::string> funnyFails;  // Roliga svar på dumma försök
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(HotspotData,
-    id, name, type, x, y, w, h, targetRoom, dialogId, examineText, funnyFails)
+    id, name, type, x, y, w, h, targetScene, dialogId, examineText, funnyFails)
 
 struct WalkAreaData {
     int minX, maxX, minY, maxY;
@@ -166,7 +166,7 @@ struct LayerData {
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(LayerData,
     image, zIndex, parallaxX, parallaxY, opacity)
 
-struct RoomData {
+struct SceneData {
     std::string id;
     std::string name;
     std::string background;     // Bakgrundsbild (legacy, använd layers istället)
@@ -176,11 +176,14 @@ struct RoomData {
     float playerSpawnX = 320.0f;  // Player spawn X
     float playerSpawnY = 300.0f;  // Player spawn Y
     
-    // New: Optional grid data (for spatial hierarchy)
+    // Grid data for spatial hierarchy
     std::optional<engine::GridPosition> gridPosition;
     std::optional<engine::CameraConfig> camera;
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(RoomData,
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(SceneData,
     id, name, background, layers, walkArea, hotspots, playerSpawnX, playerSpawnY,
     gridPosition, camera)
+
+// Legacy alias for backward compatibility
+using RoomData = SceneData;

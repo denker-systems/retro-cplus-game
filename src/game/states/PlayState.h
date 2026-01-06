@@ -6,13 +6,12 @@
 
 #include "game/states/IState.h"
 #include "engine/actors/NPC.h"
-#include "engine/Scene.h"
+#include "engine/world/Scene.h"
 #include "engine/input/Input.h"
 #include <memory>
 #include <string>
 #include "engine/actors/CharacterActor.h"
 
-class Scene;
 class Input;
 
 /**

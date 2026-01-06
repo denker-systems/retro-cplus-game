@@ -3,6 +3,7 @@
  * @brief Implementation av DataLoader
  */
 #include "DataLoader.h"
+#include "engine/utils/Logger.h"
 #include <fstream>
 #include <iostream>
 
@@ -17,14 +18,14 @@ bool DataLoader::loadAll(const std::string& dataPath) {
     success &= loadItems(dataPath + "items.json");
     success &= loadQuests(dataPath + "quests.json");
     success &= loadDialogs(dataPath + "dialogs.json");
-    success &= loadRooms(dataPath + "rooms.json");
+    success &= loadScenes(dataPath + "scenes.json");
     success &= loadNPCs(dataPath + "npcs.json");
     
     std::cout << "DataLoader: Loaded " 
               << m_items.size() << " items, "
               << m_quests.size() << " quests, "
               << m_dialogs.size() << " dialogs, "
-              << m_rooms.size() << " rooms, "
+              << m_scenes.size() << " scenes, "
               << m_npcs.size() << " npcs" << std::endl;
     
     return success;
@@ -84,7 +85,7 @@ bool DataLoader::loadDialogs(const std::string& path) {
     }
 }
 
-bool DataLoader::loadRooms(const std::string& path) {
+bool DataLoader::loadScenes(const std::string& path) {
     std::ifstream file(path);
     if (!file.is_open()) {
         std::cerr << "Could not open: " << path << std::endl;
@@ -93,14 +94,18 @@ bool DataLoader::loadRooms(const std::string& path) {
     
     try {
         json data = json::parse(file);
-        m_rooms = data["rooms"].get<std::vector<RoomData>>();
-        std::cout << "Loaded rooms from: " << path << std::endl;
+        if (data.find("scenes") == data.end()) {
+            LOG_WARNING("scenes.json not found or empty");
+            return false;
+        }
+        m_scenes = data["scenes"].get<std::vector<SceneData>>();
+        std::cout << "Loaded scenes from: " << path << std::endl;
         
-        // DEBUG: Print first room's hotspot positions
-        if (!m_rooms.empty()) {
-            const auto& firstRoom = m_rooms[0];
-            std::cout << "DEBUG: First room '" << firstRoom.name << "' hotspots:" << std::endl;
-            for (const auto& hs : firstRoom.hotspots) {
+        // DEBUG: Print first scene's hotspot positions
+        if (!m_scenes.empty()) {
+            const auto& firstScene = m_scenes[0];
+            std::cout << "DEBUG: First scene '" << firstScene.name << "' hotspots:" << std::endl;
+            for (const auto& hs : firstScene.hotspots) {
                 std::cout << "  - " << hs.name << " at (" << hs.x << ", " << hs.y << ")" << std::endl;
             }
         }
@@ -110,6 +115,11 @@ bool DataLoader::loadRooms(const std::string& path) {
         std::cerr << "JSON error in " << path << ": " << e.what() << std::endl;
         return false;
     }
+}
+
+// Legacy alias for backward compatibility
+bool DataLoader::loadRooms(const std::string& path) {
+    return loadScenes(path);
 }
 
 bool DataLoader::loadNPCs(const std::string& path) {

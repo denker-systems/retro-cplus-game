@@ -1019,7 +1019,7 @@ static int checkWalkAreaCorner(float roomX, float roomY, const WalkAreaData& wa,
 }
 
 void ViewportPanel::handleMouseDown(float mouseX, float mouseY, float previewX, float previewY,
-                                   float previewW, float previewH, float roomX, float roomY, const RoomData* room) {
+                                   float previewW, float previewH, float roomX, float roomY, const SceneData* room) {
 #ifdef HAS_IMGUI
     if (!room || m_isDragging) return;
     
@@ -1065,7 +1065,7 @@ void ViewportPanel::handleMouseDrag(float roomX, float roomY) {
     
     // Get mutable room data
     auto& rooms = DataLoader::instance().getRooms();
-    RoomData* editRoom = nullptr;
+    SceneData* editRoom = nullptr;
     for (auto& r : rooms) {
         if (r.id == m_context.selectedRoomId) {
             editRoom = &r;

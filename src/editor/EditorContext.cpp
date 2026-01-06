@@ -82,7 +82,7 @@ void EditorContext::saveToFiles() {
     // Save rooms - use DataLoader's rooms since ViewportPanel modifies those directly
     {
         json data;
-        data["rooms"] = json::array();
+        data["scenes"] = json::array();
         
         const auto& roomsToSave = DataLoader::instance().getRooms();
         
@@ -136,7 +136,7 @@ void EditorContext::saveToFiles() {
                 
                 if (!hs.dialogId.empty()) hsJson["dialogId"] = hs.dialogId;
                 if (!hs.examineText.empty()) hsJson["examineText"] = hs.examineText;
-                if (!hs.targetRoom.empty()) hsJson["targetRoom"] = hs.targetRoom;
+                if (!hs.targetScene.empty()) hsJson["targetRoom"] = hs.targetScene;
                 
                 if (!hs.funnyFails.empty()) {
                     hsJson["funnyFails"] = hs.funnyFails;
@@ -155,21 +155,21 @@ void EditorContext::saveToFiles() {
                 roomJson["camera"] = *room.camera;
             }
             
-            data["rooms"].push_back(roomJson);
+            data["scenes"].push_back(roomJson);
         }
         
         // Create backup before saving
-        std::string backupPath = "assets/data/rooms.json.bak";
-        std::filesystem::copy_file("assets/data/rooms.json", backupPath, 
+        std::string backupPath = "assets/data/scenes.json.bak";
+        std::filesystem::copy_file("assets/data/scenes.json", backupPath, 
                                    std::filesystem::copy_options::overwrite_existing);
         
-        std::ofstream file("assets/data/rooms.json");
+        std::ofstream file("assets/data/scenes.json");
         if (file.is_open()) {
             file << data.dump(2);
             file.close();
-            LOG_INFO("Saved rooms.json (" + std::to_string(roomsToSave.size()) + " rooms)");
+            LOG_INFO("Saved scenes.json (" + std::to_string(roomsToSave.size()) + " rooms)");
         } else {
-            LOG_ERROR("Failed to open rooms.json for writing!");
+            LOG_ERROR("Failed to open scenes.json for writing!");
             return;
         }
     }

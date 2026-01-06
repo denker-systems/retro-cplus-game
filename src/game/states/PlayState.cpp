@@ -15,7 +15,7 @@
 #include "engine/components/DialogComponent.h"
 #include "engine/components/InventoryComponent.h"
 #include "engine/components/InteractionComponent.h"
-#include "engine/Scene.h"
+#include "engine/world/Scene.h"
 #include "engine/Hotspot.h"
 #include "engine/systems/SceneManager.h"
 #include "engine/systems/DialogSystem.h"
@@ -75,7 +75,7 @@ void PlayState::onRoomChange(const std::string& roomId) {
     std::cout << "Player entered: " << roomId << std::endl;
     
     // Uppdatera spelarens position och walk area från scene
-    Scene* scene = SceneManager::instance().getCurrentScene();
+    engine::Scene* scene = SceneManager::instance().getCurrentScene();
     if (scene) {
         // Använd scenens player spawn position
         float spawnX, spawnY;
@@ -98,7 +98,7 @@ void PlayState::onRoomChange(const std::string& roomId) {
 }
 
 void PlayState::update(float deltaTime) {
-    Scene* scene = SceneManager::instance().getCurrentScene();
+    engine::Scene* scene = SceneManager::instance().getCurrentScene();
     if (!scene) return;
     
     // Tangentbord-rörelse
@@ -150,7 +150,7 @@ void PlayState::update(float deltaTime) {
 }
 
 void PlayState::render(SDL_Renderer* renderer) {
-    Scene* scene = SceneManager::instance().getCurrentScene();
+    engine::Scene* scene = SceneManager::instance().getCurrentScene();
     
     // Bakgrund
     SDL_SetRenderDrawColor(renderer, 20, 20, 60, 255);
@@ -228,7 +228,7 @@ void PlayState::handleEvent(const SDL_Event& event) {
 }
 
 Hotspot* PlayState::getNearbyHotspot(float maxDistance) {
-    Scene* scene = SceneManager::instance().getCurrentScene();
+    engine::Scene* scene = SceneManager::instance().getCurrentScene();
     if (!scene || !m_player) return nullptr;
     
     float playerX = m_player->getX() + 16;  // Center of player
@@ -310,7 +310,7 @@ void PlayState::interactWithHotspot(Hotspot* hotspot) {
 // ============================================================================
 
 engine::actors::NPC* PlayState::getNPCAt(int x, int y) {
-    Scene* scene = SceneManager::instance().getCurrentScene();
+    engine::Scene* scene = SceneManager::instance().getCurrentScene();
     if (!scene) return nullptr;
     
     for (auto& npc : scene->getNPCs()) {

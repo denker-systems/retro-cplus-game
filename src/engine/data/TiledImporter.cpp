@@ -167,7 +167,7 @@ HotspotData TiledImporter::parseHotspot(const nlohmann::json& obj) {
                 hs.id = prop.value("value", hs.id);
             }
             else if (propName == "targetRoom") {
-                hs.targetRoom = prop.value("value", "");
+                hs.targetScene = prop.value("value", "");
             }
             else if (propName == "dialogId") {
                 hs.dialogId = prop.value("value", "");
@@ -211,8 +211,8 @@ WalkAreaData TiledImporter::parseWalkArea(const nlohmann::json& obj) {
     return wa;
 }
 
-std::vector<RoomData> TiledImporter::importAllRooms(const std::string& tiledFolder) {
-    std::vector<RoomData> rooms;
+std::vector<SceneData> TiledImporter::importAllRooms(const std::string& tiledFolder) {
+    std::vector<SceneData> rooms;
     
     try {
         for (const auto& entry : fs::directory_iterator(tiledFolder)) {
@@ -231,7 +231,7 @@ std::vector<RoomData> TiledImporter::importAllRooms(const std::string& tiledFold
     return rooms;
 }
 
-bool TiledImporter::exportRoom(const RoomData& room, const std::string& outputPath) {
+bool TiledImporter::exportRoom(const SceneData& room, const std::string& outputPath) {
     json data;
     
     // Tiled format
@@ -291,8 +291,8 @@ bool TiledImporter::exportRoom(const RoomData& room, const std::string& outputPa
             json p; p["name"] = "id"; p["type"] = "string"; p["value"] = hs.id;
             obj["properties"].push_back(p);
         }
-        if (!hs.targetRoom.empty()) {
-            json p; p["name"] = "targetRoom"; p["type"] = "string"; p["value"] = hs.targetRoom;
+        if (!hs.targetScene.empty()) {
+            json p; p["name"] = "targetRoom"; p["type"] = "string"; p["value"] = hs.targetScene;
             obj["properties"].push_back(p);
         }
         if (!hs.dialogId.empty()) {

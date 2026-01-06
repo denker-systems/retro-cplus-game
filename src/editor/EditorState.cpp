@@ -11,9 +11,9 @@
 #include "engine/world/LayerManager.h"
 #include "engine/world/World.h"
 #include "engine/world/Level.h"
-#include "engine/world/RoomToSceneConverter.h"
 #include "engine/nodes/Sprite.h"
 #include "engine/nodes/Label.h"
+#include "engine/components/SpriteComponent.h"
 #include "editor/components/RoomDataManager.h"
 #include "editor/components/EditorTabRenderer.h"
 #include "editor/components/TiledIntegration.h"
@@ -85,10 +85,10 @@ void EditorState::enter() {
     auto& texMgr = TextureManager::instance();
     texMgr.init(m_game->getRenderer());
     
-    // Load all game data (rooms.json, etc.)
+    // Load all game data (scenes.json, etc.)
     auto& loader = DataLoader::instance();
     if (loader.getRooms().empty()) {
-        loader.loadAll();
+        loader.loadAll("assets/data/");
     }
     
     // Create World and convert all rooms to scenes
@@ -104,7 +104,27 @@ void EditorState::enter() {
     int gridX = 0;
     int gridY = 0;
     for (const auto& roomData : rooms) {
-        auto scene = engine::RoomToSceneConverter::convert(roomData, m_game->getRenderer());
+        auto scene = engine::Scene::createFromData(roomData);
+        
+        // Load background if available (both legacy and sprite component)
+        if (!roomData.background.empty()) {
+            scene->loadBackground(m_game->getRenderer(), roomData.background);
+            
+            // Also load to sprite component if background actor exists
+            auto* bgActor = scene->findActor("Background");
+            if (bgActor) {
+                auto* spriteComp = bgActor->getComponent<engine::SpriteComponent>();
+                if (spriteComp) {
+                    SDL_Texture* texture = TextureManager::instance().load(roomData.background);
+                    if (texture) {
+                        spriteComp->setTexture(texture);
+                        // Set size to cover entire scene
+                        spriteComp->setSize(640, 400);
+                        spriteComp->setSourceRect({0, 0, 640, 400});
+                    }
+                }
+            }
+        }
         
         // If scene doesn't have explicit grid position, assign one based on index
         if (!roomData.gridPosition) {
@@ -328,8 +348,8 @@ void EditorState::renderRoomsTab(SDL_Renderer* renderer) {
             
             for (const auto& hs : room.hotspots) {
                 std::string hsText = "    - " + hs.name + " [" + hs.id + "]";
-                if (!hs.targetRoom.empty()) {
-                    hsText += " -> " + hs.targetRoom;
+                if (!hs.targetScene.empty()) {
+                    hsText += " -> " + hs.targetScene;
                 }
                 FontManager::instance().renderText(renderer, "default", hsText, 30, y, white);
                 y += 12;
@@ -383,11 +403,17 @@ void EditorState::handleEvent(const SDL_Event& event) {
     if (event.type == SDL_KEYDOWN) {
         // Ctrl+S to save (global - works even when ImGui has focus)
         if (event.key.keysym.scancode == SDL_SCANCODE_S && (event.key.keysym.mod & KMOD_CTRL)) {
-            LOG_INFO("Ctrl+S pressed - saving...");
-            syncScenesToRoomData();
+            LOG_INFO("Ctrl+S pressed - saving via EditorDataManager...");
+            
+            // Sync from engine and save using new architecture
+            m_dataManager.syncFromEngine(m_editorWorld.get());
+            auto result = m_dataManager.saveAll();
+            
+            // Also save legacy data for now (dialogs, quests, items, npcs)
             m_editorContext.saveToFiles();
             m_editorContext.isDirty = false;
-            m_statusMessage = "Saved all data!";
+            
+            m_statusMessage = result.success ? "Saved all data!" : "Save failed: " + result.errors[0];
             m_statusTimer = 2.0f;
             AudioManager::instance().playSound("select");
             return;

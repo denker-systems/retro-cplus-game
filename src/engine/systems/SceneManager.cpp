@@ -11,7 +11,7 @@ SceneManager& SceneManager::instance() {
     return instance;
 }
 
-void SceneManager::addScene(std::unique_ptr<Scene> scene) {
+void SceneManager::addScene(std::unique_ptr<engine::Scene> scene) {
     std::string id = scene->getId();
     LOG_INFO("Adding scene: " + id);
     m_scenes[id] = std::move(scene);
@@ -23,7 +23,7 @@ void SceneManager::clearScenes() {
     m_scenes.clear();
 }
 
-Scene* SceneManager::getScene(const std::string& sceneId) {
+engine::Scene* SceneManager::getScene(const std::string& sceneId) {
     auto it = m_scenes.find(sceneId);
     if (it == m_scenes.end()) {
         LOG_WARNING("Scene not found: " + sceneId);
@@ -34,7 +34,7 @@ Scene* SceneManager::getScene(const std::string& sceneId) {
 
 bool SceneManager::changeScene(const std::string& sceneId) {
     LOG_INFO("changeScene called: " + sceneId);
-    Scene* newScene = getScene(sceneId);
+    engine::Scene* newScene = getScene(sceneId);
     if (!newScene) {
         LOG_ERROR("Failed to change scene - not found: " + sceneId);
         return false;

@@ -38,8 +38,8 @@
           "name": "Drunk Patron",
           "type": "npc",
           "w": 35,
-          "x": 192,
-          "y": 288
+          "x": 0,
+          "y": 64
         },
         {
           "examineText": "En gammal träkista med rostiga gångjärn. Den ser ut att ha varit här i årtionden.",
@@ -68,8 +68,8 @@
           "name": "Fireplace",
           "type": "examine",
           "w": 60,
-          "x": 288,
-          "y": 96
+          "x": 297,
+          "y": 158
         },
         {
           "h": 90,
@@ -78,8 +78,8 @@
           "targetRoom": "street",
           "type": "exit",
           "w": 50,
-          "x": 0,
-          "y": 224
+          "x": 397,
+          "y": 134
         },
         {
           "h": 30,
@@ -88,8 +88,8 @@
           "targetRoom": "cellar",
           "type": "exit",
           "w": 40,
-          "x": 128,
-          "y": 64
+          "x": 300,
+          "y": 320
         }
       ],
       "id": "tavern",

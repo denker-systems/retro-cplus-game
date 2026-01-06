@@ -155,7 +155,7 @@ void HotspotPropertyEditor::renderTypeSpecificProperties() {
         for (const auto& room : m_context.rooms) {
             roomItems.push_back({room.id, room.name});
         }
-        if (PropertyEditorUtils::IdCombo("Target Room", m_hotspot->targetRoom, roomItems)) {
+        if (PropertyEditorUtils::IdCombo("Target Room", m_hotspot->targetScene, roomItems)) {
             m_isDirty = true;
             m_context.markDirty();
         }
@@ -253,7 +253,7 @@ bool HotspotPropertyEditor::validate(std::string& outError) const {
     }
     
     // Type-specific validering
-    if (m_hotspot->type == "exit" && m_hotspot->targetRoom.empty()) {
+    if (m_hotspot->type == "exit" && m_hotspot->targetScene.empty()) {
         outError = "Exit hotspot must have a target room";
         return false;
     }

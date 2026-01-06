@@ -47,9 +47,9 @@ void EditorTabRenderer::renderRoomFlowchart(SDL_Renderer* renderer, const std::v
         if (fromIt == roomNodes.end()) continue;
         
         for (const auto& hs : room.hotspots) {
-            if (!hs.targetRoom.empty()) {
+            if (!hs.targetScene.empty()) {
                 auto toIt = std::find_if(roomNodes.begin(), roomNodes.end(),
-                    [&](const RoomNode& n) { return n.id == hs.targetRoom; });
+                    [&](const RoomNode& n) { return n.id == hs.targetScene; });
                 
                 if (toIt != roomNodes.end()) {
                     int x1 = fromIt->x + fromIt->width / 2;
@@ -88,8 +88,8 @@ void EditorTabRenderer::renderRoomsTab(SDL_Renderer* renderer, int scrollY, cons
             
             for (const auto& hs : room.hotspots) {
                 std::string hsText = "    - " + hs.name + " [" + hs.id + "]";
-                if (!hs.targetRoom.empty()) {
-                    hsText += " -> " + hs.targetRoom;
+                if (!hs.targetScene.empty()) {
+                    hsText += " -> " + hs.targetScene;
                 }
                 FontManager::instance().renderText(renderer, "default", hsText, 30, y, white);
                 y += 12;
