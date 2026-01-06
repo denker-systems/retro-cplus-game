@@ -10,6 +10,18 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ### Kväll (Sen)
 
+- `1a473eb` refactor(core): remove Node system, migrate to ActorObject
+  - **BREAKING:** Node.h, Node2D.h, Node.cpp, Node2D.cpp RADERADE helt
+  - **Arkitektur:** Object base class (abstract root)
+  - **Arkitektur:** ActorObject base class (replaces Node2D)
+  - **Nya Actors:** CharacterActor, EnvironmentActor, SpriteActor
+  - **Migrering:** Camera2D, PhysicsBody, Layer, KinematicBody → ActorObject
+  - **Migrering:** SceneGraphPanel: renderNodeTree → renderActorTree
+  - **Migrering:** ViewportPanel: renderSceneNode borttagen
+  - **Components:** SpriteComponent, AnimationComponent förbättrade
+  - **Build:** Alla Node-relaterade filer kommenterade ut i CMakeLists.txt
+  - Session: [2026-01-05](sessions/2026-01-05.md)
+
 - `8404603` refactor(architecture): implement World→Level→Scene hierarchy with WorldContainer base
   - **Arkitektur:** WorldContainer abstract base class - gemensam funktionalitet för World/Level/Scene
   - **Arkitektur:** World : public WorldContainer - hanterar Levels och scene stack

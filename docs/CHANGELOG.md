@@ -10,6 +10,9 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- **Object** abstract root base class för alla engine-objekt
+- **ActorObject** concrete actor base class (ersätter Node2D)
+- **CharacterActor**, **EnvironmentActor**, **SpriteActor** specialiserade actors
 - **WorldContainer** abstract base class för World/Level/Scene hierarki med template method pattern
 - **Level** class som mellanled mellan World och Scene, hanterar scene transitions
 - **WorldViewPanel** och **LevelViewPanel** för hierarki-navigation i editorn
@@ -66,6 +69,12 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Git-policy rules och synkade workflows
 
 ### Changed
+- **Camera2D** - Migrerad från Node2D till ActorObject
+- **PhysicsBody** - Migrerad från Node2D till ActorObject
+- **Layer** - Migrerad från Node2D till ActorObject
+- **KinematicBody** - translate() ersatt med setPosition()
+- **SceneGraphPanel** - renderNodeTree → renderActorTree
+- **CoreRedirects.h** - Rensat från Node typedefs
 - **Engine Architecture** - Ny `src/engine/core/`, `nodes/`, `world/` struktur
 - **Node Editor Library** - Bytte från imgui-node-editor till imnodes (enklare, ingen "dangling lines")
 - **Graph Panel Structure** - Ny `src/editor/graphs/` med dialog/, quest/, npc/ subfolders
@@ -78,6 +87,11 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Editor öppnas nu i windowed mode (max 1600x900)
 - Spelet öppnas i fullscreen
 - **Hot reload borttaget** - Använd restart-workflow istället (enklare, stabilare)
+
+### Removed
+- **Node.h/Node.cpp** - Legacy Node system helt borttaget
+- **Node2D.h/Node2D.cpp** - Legacy Node2D system helt borttaget
+- **renderSceneNode** - ViewportPanel Node rendering borttagen
 
 ### Fixed
 - **NPC Selection** - HierarchyPanel sätter nu selectedNPCId korrekt
