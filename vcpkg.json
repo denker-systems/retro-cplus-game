@@ -17,7 +17,12 @@
     },
     "imguizmo",
     "implot",
-    "nativefiledialog-extended"
+    "nativefiledialog-extended",
+    {
+      "name": "cpp-httplib",
+      "features": ["openssl"]
+    },
+    "openssl"
   ],
   "features": {
     "editor": {

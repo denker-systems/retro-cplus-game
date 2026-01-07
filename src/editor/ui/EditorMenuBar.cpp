@@ -12,6 +12,8 @@
 #include "editor/panels/graphs/dialog/DialogGraphPanel.h"
 #include "editor/panels/graphs/quest/QuestGraphPanel.h"
 #include "editor/panels/graphs/npc/BehaviorGraphPanel.h"
+#include "editor/panels/core/EditorSettingsPanel.h"
+#include "ai/ui/AIChatPanel.h"
 
 #ifdef HAS_IMGUI
 #include <imgui.h>
@@ -92,6 +94,10 @@ void EditorMenuBar::renderEditMenu() {
     if (ImGui::BeginMenu("Edit")) {
         if (ImGui::MenuItem("Undo", "Ctrl+Z", false, false)) {}
         if (ImGui::MenuItem("Redo", "Ctrl+Y", false, false)) {}
+        ImGui::Separator();
+        if (ImGui::MenuItem("Settings...", "Ctrl+,")) {
+            if (m_settingsPanel) m_settingsPanel->open();
+        }
         ImGui::EndMenu();
     }
 #endif
@@ -135,6 +141,14 @@ void EditorMenuBar::renderViewMenu() {
         if (ImGui::MenuItem("Console", nullptr, &consoleVisible)) {
             if (m_consolePanel) m_consolePanel->setVisible(consoleVisible);
         }
+        ImGui::Separator();
+        
+        // AI Chat Panel
+        bool aiChatVisible = ai::AIChatPanel::instance().isVisible();
+        if (ImGui::MenuItem("AI Assistant", "Ctrl+Shift+A", &aiChatVisible)) {
+            ai::AIChatPanel::instance().setVisible(aiChatVisible);
+        }
+        
         ImGui::Separator();
         ImGui::MenuItem("ImGui Demo", nullptr, &showDemoWindow);
         ImGui::EndMenu();

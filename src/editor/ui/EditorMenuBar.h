@@ -18,6 +18,10 @@ class DialogGraphPanel;
 class QuestGraphPanel;
 class BehaviorGraphPanel;
 
+namespace editor {
+class EditorSettingsPanel;
+}
+
 /**
  * @brief Handles the main menu bar rendering and actions
  */
@@ -50,6 +54,8 @@ public:
     
     bool showDemoWindow = false;
     
+    void setSettingsPanel(editor::EditorSettingsPanel* settings) { m_settingsPanel = settings; }
+    
 private:
     void renderFileMenu();
     void renderEditMenu();
@@ -68,4 +74,5 @@ private:
     DialogGraphPanel* m_dialogGraphPanel = nullptr;
     QuestGraphPanel* m_questGraphPanel = nullptr;
     BehaviorGraphPanel* m_behaviorGraphPanel = nullptr;
+    editor::EditorSettingsPanel* m_settingsPanel = nullptr;
 };

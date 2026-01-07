@@ -15,6 +15,8 @@ find_package(SDL2_ttf CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(box2d CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
+find_package(httplib CONFIG REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 # Editor dependencies (optional)
 find_package(imgui CONFIG QUIET)
@@ -214,6 +216,7 @@ set(EDITOR_SOURCES
     src/editor/panels/core/PropertiesPanel.cpp
     src/editor/panels/core/ConsolePanel.cpp
     src/editor/panels/core/GameSettingsPanel.cpp
+    src/editor/panels/core/EditorSettingsPanel.cpp
     
     # Panels - Viewport
     src/editor/panels/viewport/ViewportPanel_Core.cpp
@@ -283,6 +286,16 @@ set(EDITOR_SOURCES
     src/editor/data/SceneSerializer.cpp
     src/editor/data/EditorDataManager.cpp
     
+    # AI System
+    src/ai/core/EditorToolRegistry.cpp
+    src/ai/core/AIAgentSystem.cpp
+    src/ai/providers/OpenAIProvider.cpp
+    src/ai/providers/AnthropicProvider.cpp
+    src/ai/tools/SceneTools.cpp
+    src/ai/tools/ActorTools.cpp
+    src/ai/ui/AIChatPanel.cpp
+    src/ai/AISystemInit.cpp
+    
     # Vendor
     src/vendor/imnodes/imnodes.cpp
     src/editor/core/ImGuiManager.cpp
@@ -300,6 +313,9 @@ target_link_libraries(RetroEditor PRIVATE
     $<TARGET_NAME_IF_EXISTS:nfd::nfd>
     $<TARGET_NAME_IF_EXISTS:spdlog::spdlog>
     $<TARGET_NAME_IF_EXISTS:efsw::efsw>
+    httplib::httplib
+    OpenSSL::SSL
+    OpenSSL::Crypto
 )
 
 # Definiera HAS_EDITOR för att inkludera editor-funktionalitet

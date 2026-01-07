@@ -46,6 +46,10 @@ class EditorPanelManager;
 class EditorWorldManager;
 class EditorEventDispatcher;
 
+namespace editor {
+class EditorSettingsPanel;
+}
+
 /**
  * @brief Editor tabs/modes
  */
@@ -155,6 +159,7 @@ private:
     std::unique_ptr<EditorPanelManager> m_panelManager;
     std::unique_ptr<EditorWorldManager> m_worldManager;
     std::unique_ptr<EditorEventDispatcher> m_eventDispatcher;
+    std::unique_ptr<editor::EditorSettingsPanel> m_settingsPanel;
     
 public:
     // Accessors for EditorContext
