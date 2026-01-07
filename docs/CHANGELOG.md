@@ -9,6 +9,19 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+
+### Changed
+- **EditorState** refaktorerad från 998 till 211 rader (-79%) med separation of concerns
+- **ViewportPanel** uppdelad i 6 modulära filer (Core, World, Level, Scene, Actors, Input)
+
+### Added
+- **EditorPanelManager** - Centraliserad panel creation och management
+- **EditorWorldManager** - World/Level/Scene setup från RoomData
+- **EditorEventDispatcher** - SDL event handling och shortcuts
+- **PlaceActorsPanel** - UE5-style drag-and-drop för actor templates
+- **EditorInputHandler** - Windows shortcuts (Del, Ctrl+Z/Y/D/S)
+- **WorldContainer.removeActor()** - Metod för att ta bort actors från containers
+
 ### Added
 - **Scene** and **SceneManager** - New scene system replacing Room system
 - **actors/NPC** - New NPC class with getX/getY/setSpeed/getSpeed methods

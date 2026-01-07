@@ -76,14 +76,21 @@ src/
 ├── ui/                   # Widget-system
 │   └── Widget.cpp/h          # Label, Button, Panel, ProgressBar
 │
-├── editor/               # ImGui-baserad editor (2026-01-05)
+├── editor/               # ImGui-baserad editor (2026-01-06)
 │   ├── ImGuiManager.cpp/h    # ImGui lifecycle management
 │   ├── EditorContext.cpp/h   # Shared state mellan paneler
+│   ├── EditorState.cpp/h     # Main editor state (211 rader, refaktorerad)
 │   ├── IEditorPanel.h        # Panel interface
 │   ├── VisualRoomEditor.cpp/h # Visuell rum-redigering
 │   ├── RoomDataManager.cpp/h  # Room data persistence
 │   ├── EditorTabRenderer.cpp/h # Legacy tab rendering
 │   ├── TiledIntegration.cpp/h # Tiled import/export
+│   ├── managers/              # Manager classes (SoC) ✨ NEW
+│   │   ├── EditorPanelManager.cpp/h    # Panel creation & lifecycle
+│   │   ├── EditorWorldManager.cpp/h    # World/Level/Scene setup
+│   │   └── EditorEventDispatcher.cpp/h # Event handling & shortcuts
+│   ├── input/                 # Input handling ✨ NEW
+│   │   └── EditorInputHandler.cpp/h    # Centralized shortcuts (Del, Ctrl+Z/Y/D/S)
 │   ├── data/                  # Editor data serialization ✨ NEW
 │   │   ├── EditorDataManager.cpp/h  # Central data coordinator
 │   │   ├── ISerializer.h            # Serialization interface
@@ -93,12 +100,21 @@ src/
 │   ├── panels/               # ImGui panels
 │   │   ├── HierarchyPanel.cpp/h      # Objektträd
 │   │   ├── PropertiesPanel.cpp/h     # Inspector
-│   │   ├── ViewportPanel.cpp/h       # Rum-preview med zoom
-│   │   ├── AssetBrowserPanel.cpp/h   # Asset browser
+│   │   ├── ViewportPanel.h           # Viewport header (132 rader)
+│   │   ├── ViewportPanel_Core.cpp    # Constructor, update, render, toolbar
+│   │   ├── ViewportPanel_World.cpp   # World view rendering
+│   │   ├── ViewportPanel_Level.cpp   # Level view rendering
+│   │   ├── ViewportPanel_Scene.cpp   # Scene view rendering + drag-drop
+│   │   ├── ViewportPanel_Actors.cpp  # Actor rendering helpers
+│   │   ├── ViewportPanel_Input.cpp   # Mouse/keyboard input handling
+│   │   ├── AssetBrowserPanel.cpp/h   # Asset browser med drag-source
+│   │   ├── PlaceActorsPanel.cpp/h    # UE5-style actor placement ✨ NEW
 │   │   ├── ConsolePanel.cpp/h        # Logg console
-│   │   ├── SceneGraphPanel.cpp/h     # Node tree med drag-drop ✨ NEW
-│   │   ├── LayerEditorPanel.cpp/h    # Layer management ✨ NEW
-│   │   └── TileMapEditorPanel.cpp/h  # TileMap painting ✨ NEW
+│   │   ├── SceneGraphPanel.cpp/h     # Node tree med drag-drop
+│   │   ├── LayerEditorPanel.cpp/h    # Layer management
+│   │   ├── WorldViewPanel.cpp/h      # World/Level navigation
+│   │   ├── LevelViewPanel.cpp/h      # Level/Scene navigation
+│   │   └── TileMapEditorPanel.cpp/h  # TileMap painting
 │   ├── graphs/               # Node graph editors
 │   │   ├── INodeGraphPanel.cpp/h     # Base för graph panels
 │   │   ├── dialog/

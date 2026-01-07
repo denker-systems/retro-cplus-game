@@ -278,7 +278,7 @@
 
 **Status:** ✅ KOMPLETT - Component-baserad rendering funktionell
 
-### 5D: Full Migration ✅ KLART (2026-01-05)
+### 5D: Full Migration ✅ KLART (2026-01-06)
 
 #### 5D.1 RoomToSceneConverter → SpriteActors ✅
 - [x] Background konverteras till SpriteActor med texture loading
@@ -311,6 +311,40 @@
 - [x] CoreRedirects.h: Rensa bort Node typedefs
 
 **Status:** ✅ 100% - Node system helt borttaget, Actor-baserad arkitektur komplett
+
+### 5E: Editor Refactoring ✅ KLART (2026-01-06)
+
+**Mål:** Separation of Concerns - dela upp EditorState i manager-klasser
+
+#### 5E.1 EditorState Refactoring ✅
+- [x] EditorState.cpp reducerad från 998 till 211 rader (-79%)
+- [x] Separation of Concerns med manager-klasser
+- [x] Minimal EditorState som koordinator
+
+#### 5E.2 Manager Classes ✅
+- [x] `EditorPanelManager` - Panel creation & lifecycle (~150 rader)
+- [x] `EditorWorldManager` - World/Level/Scene setup (~120 rader)
+- [x] `EditorEventDispatcher` - Event handling & shortcuts (~80 rader)
+
+#### 5E.3 ViewportPanel Modularization ✅
+- [x] ViewportPanel.h - Header (132 rader)
+- [x] ViewportPanel_Core.cpp - Constructor, update, render
+- [x] ViewportPanel_World.cpp - World view rendering
+- [x] ViewportPanel_Level.cpp - Level view rendering
+- [x] ViewportPanel_Scene.cpp - Scene view + drag-drop
+- [x] ViewportPanel_Actors.cpp - Actor rendering helpers
+- [x] ViewportPanel_Input.cpp - Input handling
+
+#### 5E.4 New Editor Features ✅
+- [x] `PlaceActorsPanel` - UE5-style drag-and-drop actor placement
+- [x] `EditorInputHandler` - Centralized Windows shortcuts
+- [x] Delete actor (Del key)
+- [x] Duplicate actor (Ctrl+D)
+- [x] Undo/Redo (Ctrl+Z/Y)
+- [x] Save (Ctrl+S)
+- [x] WorldContainer.removeActor() method
+
+**Status:** ✅ KOMPLETT - Editor arkitektur förbättrad med proper SoC
 
 **Arkitektur:** OOP Scene Graph (inspirerat av Godot, Cocos2d-x, SFML)
 
