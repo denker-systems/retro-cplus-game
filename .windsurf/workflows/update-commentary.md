@@ -1,262 +1,286 @@
-﻿---
-description: Corporate-grade code commentary workflow for large development teams
+---
+description: Uppdatera kod-kommentarer enligt Doxygen-standard
 auto_execution_mode: 1
 ---
 
-# Update Commentary Workflow (Corporate Edition)
+# Update Commentary Workflow
 
-> För 50+ utvecklarteam - Baserat på Unreal Engine och Unity standards
+> Kod-dokumentation för Retro Engine
 
-## PRINCIPER
+## Principer
 
-### Dokumentationsnivåer
-1. **Fil-nivå** - Varje fil har komplett header
-2. **Klass-nivå** - Varje klass har Doxygen-dokumentation
-3. **Metod-nivå** - Alla publika metoder dokumenterade
-4. **Inline-nivå** - Komplex logik förklaras
-
-### Dokumentera VARFÖR, inte VAD
-```cpp
-// DÅLIGT - Beskriver VAD (självklart)
-i++;  // Öka i med 1
-
-// BRA - Beskriver VARFÖR
-i++;  // Gå till nästa frame i animationen
-```
+1. **Dokumentera VARFÖR, inte VAD**
+2. **Håll kommentarer aktuella**
+3. **Använd Doxygen-format**
+4. **Engelska i kod, svenska i docs**
 
 ---
 
-## STEG 1: FIL-HEADER (OBLIGATORISK)
+## 1. Fil-header (Obligatorisk)
 
+### Engine/Game kod
 ```cpp
 /**
- * @file FileName.cpp
- * @brief Kort beskrivning (en mening)
+ * @file PlayerActor.cpp
+ * @brief Player character with input handling and movement
  * 
  * @details
- * Längre beskrivning som förklarar:
- * - Filens huvudsakliga syfte
- * - Vilka klasser/system som implementeras
- * - Viktiga beroenden
+ * Handles keyboard/mouse input and point-and-click
+ * movement within walk areas.
  * 
- * @author TeamName / DeveloperName
+ * @author Retro Team
  * @date YYYY-MM-DD
  * 
- * @see RelatedFile.h
- * @see docs/architecture/module.md
+ * @see CharacterActor
+ */
+```
+
+### Editor kod
+```cpp
+/**
+ * @file ViewportPanel.cpp
+ * @brief Scene viewport with visual editing
+ * 
+ * @details
+ * ImGui panel for scene rendering and hotspot editing.
+ * Supports zoom, pan, and drag-drop operations.
  */
 ```
 
 ---
 
-## STEG 2: KLASS-DOKUMENTATION
+## 2. Actor/Component Dokumentation
 
+### Actor Klass
 ```cpp
 /**
- * @class ClassName
- * @brief Kort beskrivning av klassens syfte
+ * @class PlayerActor
+ * @brief Player-controlled character
  * 
  * @details
- * Detaljerad beskrivning:
- * - Vad klassen ansvarar för
- * - Hur den används
- * - Viktiga design-beslut
+ * Responsibilities:
+ * - Input processing (keyboard/mouse)
+ * - Point-and-click movement
+ * - Walk area collision
+ * - Inventory interaction
  * 
- * @par Exempel:
+ * @par Components
+ * - SpriteComponent for rendering
+ * - AnimationComponent for animations
+ * 
+ * @par Usage
  * @code
- * ClassName obj;
- * obj.doSomething();
+ * auto player = std::make_unique<PlayerActor>("Player");
+ * player->setPosition(100, 200);
+ * scene->addActor(std::move(player));
  * @endcode
  * 
- * @note Viktiga begränsningar eller anmärkningar
- * 
- * @see BaseClass
- * @see RelatedClass
+ * @see CharacterActor, SpriteComponent
  */
-class ClassName : public BaseClass {
+class PlayerActor : public CharacterActor {
 ```
 
----
-
-## STEG 3: METOD-DOKUMENTATION
-
-### Publika metoder (ALLTID dokumentera)
+### Component Klass
 ```cpp
 /**
- * @brief Kort beskrivning av vad metoden gör
+ * @class SpriteComponent
+ * @brief Renders textured sprites with transform
  * 
  * @details
- * Längre beskrivning om det behövs.
- * Förklara algoritm, komplexitet, bieffekter.
+ * Features:
+ * - Texture rendering via SDL2
+ * - Flip (horizontal/vertical)
+ * - Origin/pivot point
+ * - Tint and opacity
  * 
- * @param[in] inputParam Beskrivning av input-parameter
- * @param[out] outputParam Beskrivning av output-parameter
- * @param[in,out] inoutParam Parameter som läses och skrivs
- * 
- * @return Vad som returneras
- * @retval true Om operation lyckades
- * @retval false Om operation misslyckades
- * 
- * @throws std::invalid_argument Om parametrar är ogiltiga
- * @throws std::runtime_error Om operation misslyckas
- * 
- * @pre Förutsättningar som måste vara uppfyllda
- * @post Tillstånd efter anropet
- * 
- * @note Viktiga anmärkningar
- * @warning Varningar om potentiella problem
- * @deprecated Använd newMethod() istället
- * 
- * @see relatedMethod()
+ * @note Requires SDL_Renderer for rendering
  */
-ReturnType methodName(ParamType inputParam);
+class SpriteComponent : public SceneComponent {
 ```
 
-### Privata metoder (dokumentera om komplex)
+---
+
+## 3. Metod-dokumentation
+
+### Enkel metod
 ```cpp
 /**
- * @brief Intern hjälpmetod för X
+ * @brief Move actor toward target position
+ * @param target Target position in world space
+ * @return true if path found, false if blocked
  */
-void helperMethod();
+bool moveTo(Vec2 target);
 ```
 
----
-
-## STEG 4: INLINE-KOMMENTARER
-
-### När ska man kommentera?
-- Komplex logik
-- Icke-uppenbara optimeringar
-- Workarounds för buggar
-- Magiska nummer
-- Viktiga antaganden
-
-### Format
+### Komplex metod
 ```cpp
-// ============================================================
-// SECTION NAME - Använd för att dela upp stora filer
-// ============================================================
-
-// Förklara komplex beräkning
-// Använder Taylor-expansion för snabb approximation av sin()
-float fastSin = x - (x*x*x)/6.0f + (x*x*x*x*x)/120.0f;
-
-// TODO(developer): Beskrivning - Issue #123
-// FIXME(developer): Beskrivning - Bug #456
-// HACK(developer): Varför detta hack behövs
-// NOTE: Viktig information för framtida utvecklare
-
-// [PERF] Hot path - undvik allokering
-// [THREAD] Inte thread-safe
-// [DEPRECATED] Kommer tas bort i v2.0
+/**
+ * @brief Load scene from JSON data
+ * 
+ * @param[in] json Scene data from scenes.json
+ * @param[in] renderer SDL renderer for textures
+ * @param[out] scene Populated scene object
+ * 
+ * @return true on success
+ * @retval false if JSON invalid or textures missing
+ * 
+ * @throws std::runtime_error if critical data missing
+ * 
+ * @pre renderer must be valid
+ * @post scene contains all actors from JSON
+ */
+bool loadScene(const nlohmann::json& json, 
+               SDL_Renderer* renderer,
+               Scene& scene);
 ```
 
 ---
 
-## STEG 5: MEMBER VARIABLES
+## 4. Medlemsvariabler
 
 ```cpp
 private:
-    // === Transform ===
-    Vec2 m_position{0.0f, 0.0f};    ///< World position in pixels
-    float m_rotation = 0.0f;         ///< Rotation in degrees
-    Vec2 m_scale{1.0f, 1.0f};        ///< Scale factor
+    // Transform
+    Vec2 m_position{0, 0};      ///< World position in pixels
+    float m_rotation = 0.0f;    ///< Rotation in degrees
+    Vec2 m_scale{1, 1};         ///< Scale factor
     
-    // === Physics ===
-    Vec2 m_velocity{0.0f, 0.0f};     ///< Current velocity (pixels/sec)
-    float m_mass = 1.0f;             ///< Mass in kg for physics
+    // State
+    bool m_active = true;       ///< Whether actor updates
+    bool m_visible = true;      ///< Whether actor renders
     
-    // === State ===
-    bool m_isActive = true;          ///< Whether actor is updated
-    bool m_isVisible = true;         ///< Whether actor is rendered
+    // Movement
+    float m_moveSpeed = 100.0f; ///< Speed in pixels/second
+    Vec2 m_targetPos;           ///< Current movement target
+    
+    // Components
+    std::vector<std::unique_ptr<ActorComponent>> m_components;
 ```
 
 ---
 
-## STEG 6: ENUM DOKUMENTATION
+## 5. Inline-kommentarer (Förklara VARFÖR)
+
+### Bra exempel
+```cpp
+// Box2D uses meters, we use pixels (PIXELS_PER_METER = 32)
+b2Vec2 worldPos = toBox2D(m_position);
+
+// Clamp to walk area to prevent walking through walls
+m_position.x = std::clamp(m_position.x, m_walkMinX, m_walkMaxX);
+
+// Using squared distance avoids expensive sqrt() in hot path
+float distSq = (dx * dx) + (dy * dy);
+if (distSq < INTERACTION_RADIUS_SQ) {
+    // Close enough for interaction
+}
+
+// Scene owns actors - transfer ownership explicitly
+scene->addActor(std::move(actor));
+```
+
+### Undvik (självklara kommentarer)
+```cpp
+// ❌ Increment counter
+i++;
+
+// ❌ Create new actor
+auto actor = std::make_unique<Actor>();
+
+// ❌ Loop through actors
+for (auto& actor : m_actors) {
+```
+
+---
+
+## 6. TODO/FIXME Format
+
+```cpp
+// TODO(team): Add pathfinding - Issue #45
+// FIXME(team): Memory leak in texture loading - Bug #67
+// HACK: Workaround for SDL2 render order bug
+// NOTE: Walk area coordinates are in world space
+// [HOT PATH] - Called every frame, keep optimized
+```
+
+---
+
+## 7. Enum Dokumentation
 
 ```cpp
 /**
- * @enum ActorState
- * @brief Möjliga tillstånd för en Actor
+ * @enum HotspotType
+ * @brief Types of interactive hotspots in scenes
  */
-enum class ActorState {
-    Inactive,   ///< Actor is disabled, not updated
-    Active,     ///< Actor is running normally
-    Paused,     ///< Actor is paused, not updated but rendered
-    Destroyed   ///< Actor is marked for deletion
+enum class HotspotType {
+    Exit,       ///< Leads to another scene
+    Item,       ///< Pickable item
+    Examine,    ///< Examinable object
+    NPC,        ///< Non-player character
+    Trigger     ///< Scripted trigger area
+};
+
+/**
+ * @enum BodyType
+ * @brief Box2D physics body types
+ */
+enum class BodyType {
+    Static,     ///< Never moves (walls, ground)
+    Kinematic,  ///< Moves but not affected by forces
+    Dynamic     ///< Full physics simulation
 };
 ```
 
 ---
 
-## STEG 7: NAMESPACE DOKUMENTATION
+## 8. Sektion-kommentarer
 
 ```cpp
-/**
- * @namespace engine
- * @brief Core engine functionality
- * 
- * Contains all core engine systems:
- * - Rendering
- * - Physics
- * - Audio
- * - Input
- */
-namespace engine {
+// ============================================================
+// LIFECYCLE
+// ============================================================
 
-/**
- * @namespace engine::physics
- * @brief Physics simulation systems
- */
-namespace physics {
+void onActorBegin() { ... }
+void onActorEnd() { ... }
+
+// ============================================================
+// UPDATE
+// ============================================================
+
+void update(float deltaTime) { ... }
+
+// ============================================================
+// RENDERING
+// ============================================================
+
+void render(SDL_Renderer* renderer) { ... }
 ```
 
 ---
 
-## VERIFIERING
+## 9. Verifiera
 
-### 1. Bygg projektet
 // turbo
 ```powershell
 cd build; cmake --build . --config Release
 ```
 
-### 2. Generera Doxygen (om konfigurerat)
-```powershell
-doxygen Doxyfile
-```
-
-### 3. Review checklista
-- [ ] Alla filer har fil-header?
-- [ ] Alla klasser har @class dokumentation?
-- [ ] Alla publika metoder har @brief?
-- [ ] Komplexa algoritmer förklarade?
-- [ ] Inga självklara kommentarer?
-- [ ] Bygger utan fel?
-
 ---
 
-## ANTI-PATTERNS
+## Checklista
 
-### Undvik dessa:
-```cpp
-// DÅLIGT: Självklart
-x = 5;  // Sätt x till 5
+### Obligatoriskt
+- [ ] Fil-headers i alla nya filer
+- [ ] Alla klasser dokumenterade
+- [ ] Alla publika metoder dokumenterade
+- [ ] Medlemsvariabler med `///<` kommentarer
 
-// DÅLIGT: Utdaterad kommentar
-// Returnerar användarens ålder
-int getHealth() { return m_health; }
+### Kvalitet
+- [ ] Kommentarer förklarar VARFÖR
+- [ ] Inga självklara kommentarer
+- [ ] TODOs har issue-referenser
+- [ ] Hot paths markerade
 
-// DÅLIGT: Kommentar istället för bra namn
-int x;  // Spelarens hälsa
-// BRA:
-int m_playerHealth;
-
-// DÅLIGT: För lång kommentar på en rad
-// Detta är en väldigt lång kommentar som förklarar exakt vad koden gör men som är svår att läsa eftersom den är på en enda rad utan radbrytningar
-
-// BRA:
-// Detta är en kommentar som förklarar vad koden gör.
-// Den är uppdelad på flera rader för läsbarhet.
-```
+### Verifiering
+- [ ] Koden kompilerar utan fel
+- [ ] Ingen duplicerad dokumentation

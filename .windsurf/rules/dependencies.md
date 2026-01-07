@@ -1,51 +1,54 @@
-﻿---
+---
 trigger: always_on
-description: Project dependencies managed via vcpkg
+description: Dependency management with vcpkg
 ---
 
 # Dependencies
 
-> vcpkg package manager for C++ libraries
+> vcpkg package management
 
-## vcpkg Location
+## vcpkg Setup
 
-```
+```powershell
+# Location
 C:\vcpkg
-Toolchain: C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+# Toolchain
+-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
 ```
 
 ---
 
-## Installed Packages
+## Core Packages
 
-### Core (Game + Engine)
-| Package | Version | Användning |
-|---------|---------|------------|
-| sdl2 | x64-windows | Window, rendering, input |
-| sdl2-image | x64-windows | PNG texture loading |
-| sdl2-mixer | x64-windows | Audio playback |
-| box2d | x64-windows | Physics simulation |
-| nlohmann-json | x64-windows | JSON serialization |
+| Package | Purpose |
+|---------|---------|
+| sdl2 | Window, rendering |
+| sdl2-image | PNG loading |
+| sdl2-mixer | Audio |
+| box2d | Physics |
+| nlohmann-json | JSON |
 
-### Editor Only
-| Package | Version | Användning |
-|---------|---------|------------|
-| imgui[docking] | x64-windows | Editor UI |
-| imnodes | x64-windows | Node graph editor |
+## Editor Packages
+
+| Package | Purpose |
+|---------|---------|
+| imgui[docking] | Editor UI |
+| imnodes | Node graphs |
 
 ---
 
 ## Install Commands
 
 ```powershell
-# Core dependencies
+# Core
 vcpkg install sdl2:x64-windows
 vcpkg install sdl2-image:x64-windows
 vcpkg install sdl2-mixer:x64-windows
 vcpkg install box2d:x64-windows
 vcpkg install nlohmann-json:x64-windows
 
-# Editor dependencies
+# Editor
 vcpkg install imgui[docking-experimental]:x64-windows
 vcpkg install imnodes:x64-windows
 ```
@@ -64,9 +67,9 @@ find_package(nlohmann_json CONFIG REQUIRED)
 
 ---
 
-## Adding New Dependencies
+## Adding Dependencies
 
-1. Install via vcpkg: `vcpkg install package:x64-windows`
-2. Add find_package() to CMakeLists.txt
-3. Add target_link_libraries()
+1. `vcpkg install package:x64-windows`
+2. Add `find_package()` to CMakeLists.txt
+3. Add `target_link_libraries()`
 4. Update this document

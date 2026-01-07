@@ -1,12 +1,11 @@
-﻿---
-trigger: glob
-globs: ["src/game/states/*.cpp", "src/game/states/*.h"]
-description: State Pattern for game flow management
+---
+trigger: always_on
+description: State pattern for game flow
 ---
 
 # State Pattern
 
-> Game states för spelflöde
+> Game state management
 
 ## IState Interface
 
@@ -15,11 +14,11 @@ class IState {
 public:
     virtual ~IState() = default;
     
-    virtual void enter() = 0;       // Called when state activates
-    virtual void exit() = 0;        // Called when state deactivates
+    virtual void enter() = 0;
+    virtual void exit() = 0;
     virtual void update(float dt) = 0;
-    virtual void render(SDL_Renderer* renderer) = 0;
-    virtual void handleEvent(const SDL_Event& event) = 0;
+    virtual void render(SDL_Renderer* r) = 0;
+    virtual void handleEvent(const SDL_Event& e) = 0;
 };
 ```
 
@@ -32,9 +31,13 @@ class StateManager {
     std::stack<std::unique_ptr<IState>> m_states;
     
 public:
-    void pushState(std::unique_ptr<IState> state);  // Add overlay
-    void popState();                                  // Remove top
-    void changeState(std::unique_ptr<IState> state); // Replace
+    void pushState(std::unique_ptr<IState> state);
+    void popState();
+    void changeState(std::unique_ptr<IState> state);
+    
+    void update(float dt);
+    void render(SDL_Renderer* r);
+    void handleEvent(const SDL_Event& e);
 };
 ```
 
@@ -42,39 +45,36 @@ public:
 
 ## Game States
 
-| State | Användning |
-|-------|------------|
-| MenuState | Huvudmeny |
+| State | Purpose |
+|-------|---------|
+| MenuState | Main menu |
 | PlayState | Gameplay |
-| PauseState | Pausmeny (overlay) |
-| DialogState | NPC dialog (overlay) |
-| InventoryState | Inventory UI (overlay) |
-| SaveLoadState | Spara/ladda |
+| PauseState | Pause overlay |
+| DialogState | NPC dialog |
+| InventoryState | Inventory UI |
 
 ---
 
-## State Transitions
+## Transitions
 
 ```
-MenuState [Start] PlayState
-PlayState [ESC] PauseState (push)
-PlayState [I] InventoryState (push)
-PlayState [Talk] DialogState (push)
-PauseState [ESC] PlayState (pop)
-PauseState [Quit] MenuState (change)
+MenuState ──[Start]──▶ PlayState
+PlayState ──[ESC]────▶ PauseState (push)
+PlayState ──[Talk]───▶ DialogState (push)
+PauseState ─[Resume]─▶ PlayState (pop)
 ```
 
 ---
 
-## Implementation
+## Usage
 
 ```cpp
-// Push overlay state
+// Push overlay
 stateManager.pushState(std::make_unique<PauseState>());
 
-// Pop back to previous
+// Pop back
 stateManager.popState();
 
-// Replace completely
+// Replace
 stateManager.changeState(std::make_unique<MenuState>());
 ```

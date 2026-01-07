@@ -1,6 +1,5 @@
-﻿---
-trigger: glob
-globs: ["assets/data/*.json"]
+---
+trigger: always_on
 description: JSON data formats for game content
 ---
 
@@ -15,13 +14,13 @@ description: JSON data formats for game content
   "id": "tavern",
   "name": "The Rusty Anchor",
   "background": "backgrounds/tavern.png",
-  "music": "music/tavern_theme.ogg",
+  "music": "music/tavern.ogg",
   "walkArea": {
     "minX": 50, "maxX": 590,
     "minY": 260, "maxY": 380
   },
-  "hotspots": [...],
-  "actors": [...]
+  "hotspots": [],
+  "actors": []
 }
 ```
 
@@ -53,7 +52,7 @@ description: JSON data formats for game content
     {
       "id": 0,
       "speaker": "Bartender",
-      "text": "Welcome, stranger!",
+      "text": "Welcome!",
       "choices": [
         { "text": "Hello", "next": 1 },
         { "text": "Goodbye", "next": -1 }
@@ -71,7 +70,7 @@ description: JSON data formats for game content
 {
   "id": "rusty_key",
   "name": "Rusty Key",
-  "description": "An old key covered in rust.",
+  "description": "An old key.",
   "icon": "sprites/items/key.png",
   "combinable": ["oil_can"],
   "usableOn": ["locked_door"]
@@ -86,10 +85,13 @@ description: JSON data formats for game content
 {
   "id": "find_key",
   "title": "Find the Key",
-  "description": "Search the tavern for a key.",
   "objectives": [
-    { "id": "obj1", "text": "Find the key", "type": "has_item", "target": "rusty_key" }
-  ],
-  "reward": { "xp": 50 }
+    {
+      "id": "obj1",
+      "text": "Find the key",
+      "type": "has_item",
+      "target": "rusty_key"
+    }
+  ]
 }
 ```

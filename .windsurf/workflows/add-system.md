@@ -1,195 +1,177 @@
-﻿---
-description: Corporate Add System Workflow for Game Engine Development
+---
+description: Add new engine system with full integration
 ---
 
-# Add System Workflow (Corporate Edition)
+# Add System Workflow
 
-> Workflow för att lägga till nya engine systems för 50+ team
+> Enterprise system architecture for game engines
 
-## SYSTEM ARCHITECTURE
+## System Categories
 
-```
-Engine Systems Hierarchy:
-
-Core Systems (Foundation)
- RenderSystem         # Sprite rendering, cameras
- InputSystem          # Keyboard, mouse, gamepad
- AudioSystem          # Music, SFX, spatial audio
- ResourceSystem       # Asset loading, caching
-
-Gameplay Systems
- PhysicsSystem        # Box2D integration
- AnimationSystem      # Sprite animation
- CollisionSystem      # Collision detection
- MovementSystem       # Character movement
-
-Game-Specific Systems
- DialogSystem         # NPC conversations
- QuestSystem          # Objectives, progress
- InventorySystem      # Items, combining
- SaveSystem           # Serialization
- AISystem             # NPC behavior
-```
+| Category | Priority | Examples |
+|----------|----------|----------|
+| Core | 0-10 | Input, Time, Window |
+| Physics | 11-30 | Collision, RigidBody |
+| Gameplay | 31-50 | AI, Quest, Dialog |
+| Presentation | 51-70 | Animation, Audio |
+| Rendering | 71-100 | Sprites, Particles |
 
 ---
 
-## STEG 1: DESIGN
+## 1. Design Phase
 
-### 1.1 System interface
+### 1.1 System Requirements
+```markdown
+## System: [Name]System
+
+### Purpose
+What problem does this system solve?
+
+### Responsibilities
+- Responsibility 1
+- Responsibility 2
+
+### Dependencies
+- Depends on: [Systems]
+- Depended by: [Systems]
+
+### Data
+- Manages: [Components/Data]
+- Accesses: [External data]
+
+### Threading
+- [ ] Main thread only
+- [ ] Background thread safe
+- [ ] Requires synchronization
+```
+
+### 1.2 Interface Design
 ```cpp
-/**
- * @brief Base interface for all engine systems
- */
 class ISystem {
 public:
     virtual ~ISystem() = default;
-    
-    /**
-     * @brief Initialize the system
-     * @return true if successful
-     */
     virtual bool initialize() = 0;
-    
-    /**
-     * @brief Shutdown and cleanup
-     */
     virtual void shutdown() = 0;
-    
-    /**
-     * @brief Update system logic
-     * @param deltaTime Time since last frame
-     */
     virtual void update(float deltaTime) = 0;
-    
-    /**
-     * @brief Get system name for debugging
-     */
     virtual const char* getName() const = 0;
-    
-    /**
-     * @brief Get system priority (lower = earlier)
-     */
-    virtual int getPriority() const { return 100; }
+    virtual int getPriority() const = 0;
 };
-```
-
-### 1.2 System dependencies
-Dokumentera vilka andra systems detta system behöver:
-```cpp
-// PhysicsSystem depends on:
-// - TransformComponent (read/write positions)
-// - RigidBodyComponent (physics properties)
-// - ColliderComponent (collision shapes)
 ```
 
 ---
 
-## STEG 2: SKAPA FILER
+## 2. Implementation
 
-### 2.1 Header fil
+### 2.1 Header File
+Create `src/engine/systems/[Name]System.h`:
+
 ```cpp
 /**
- * @file NewSystem.h
- * @brief [System name] for [functionality]
+ * @file [Name]System.h
+ * @brief [Description]
+ * 
+ * @details
+ * System responsibilities:
+ * - Item 1
+ * - Item 2
  */
 #pragma once
 
 #include "engine/systems/ISystem.h"
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace engine {
 
 /**
- * @class NewSystem
- * @brief Hanterar [funktionalitet]
+ * @class [Name]System
+ * @brief [Brief description]
  * 
  * @details
- * Systemet ansvarar för:
- * - Punkt 1
- * - Punkt 2
- * - Punkt 3
+ * Detailed description of the system.
  * 
- * @par Beroenden:
- * - ComponentA
- * - ComponentB
+ * @par Thread Safety
+ * [Thread safety notes]
  * 
- * @par Thread Safety:
- * Inte thread-safe. Anropa endast från main thread.
+ * @par Dependencies
+ * - SystemA
+ * - SystemB
  */
-class NewSystem : public ISystem {
+class [Name]System : public ISystem {
 public:
-    /**
-     * @brief Get singleton instance
-     */
-    static NewSystem& instance();
+    /// @brief Get singleton instance
+    static [Name]System& instance();
     
     // ISystem interface
     bool initialize() override;
     void shutdown() override;
     void update(float deltaTime) override;
-    const char* getName() const override { return "NewSystem"; }
-    int getPriority() const override { return 50; }
+    const char* getName() const override { return "[Name]System"; }
+    int getPriority() const override { return XX; }
     
-    // System-specific methods
+    // System-specific API
     
 private:
-    NewSystem() = default;
-    ~NewSystem() = default;
-    NewSystem(const NewSystem&) = delete;
-    NewSystem& operator=(const NewSystem&) = delete;
+    [Name]System() = default;
+    ~[Name]System() = default;
+    [Name]System(const [Name]System&) = delete;
+    [Name]System& operator=(const [Name]System&) = delete;
     
     bool m_initialized = false;
+    // System state
 };
 
 } // namespace engine
 ```
 
-### 2.2 Implementation fil
+### 2.2 Implementation File
+Create `src/engine/systems/[Name]System.cpp`:
+
 ```cpp
 /**
- * @file NewSystem.cpp
- * @brief Implementation of NewSystem
+ * @file [Name]System.cpp
+ * @brief Implementation of [Name]System
  */
-#include "NewSystem.h"
+#include "[Name]System.h"
 #include "engine/utils/Logger.h"
 
 namespace engine {
 
-NewSystem& NewSystem::instance() {
-    static NewSystem instance;
+[Name]System& [Name]System::instance() {
+    static [Name]System instance;
     return instance;
 }
 
-bool NewSystem::initialize() {
+bool [Name]System::initialize() {
     if (m_initialized) {
-        LOG_WARNING("NewSystem already initialized");
+        LOG_WARNING("[Name]System already initialized");
         return true;
     }
     
-    LOG_INFO("Initializing NewSystem...");
+    LOG_INFO("Initializing [Name]System...");
     
-    // Initialization logic here
+    // Initialize dependencies first
+    // Initialize internal state
     
     m_initialized = true;
-    LOG_INFO("NewSystem initialized successfully");
+    LOG_INFO("[Name]System initialized");
     return true;
 }
 
-void NewSystem::shutdown() {
+void [Name]System::shutdown() {
     if (!m_initialized) return;
     
-    LOG_INFO("Shutting down NewSystem...");
+    LOG_INFO("Shutting down [Name]System...");
     
-    // Cleanup logic here
+    // Cleanup in reverse order of initialization
     
     m_initialized = false;
 }
 
-void NewSystem::update(float deltaTime) {
+void [Name]System::update(float deltaTime) {
     if (!m_initialized) return;
     
-    // Update logic here
+    // Update logic
 }
 
 } // namespace engine
@@ -197,107 +179,132 @@ void NewSystem::update(float deltaTime) {
 
 ---
 
-## STEG 3: INTEGRATION
+## 3. Integration
 
-### 3.1 Registrera i Game/Engine
-```cpp
-// I Game::init() eller Engine::init()
-#include "engine/systems/NewSystem.h"
-
-bool Game::init() {
-    // ... andra systems
-    
-    if (!engine::NewSystem::instance().initialize()) {
-        LOG_ERROR("Failed to initialize NewSystem");
-        return false;
-    }
-    
-    return true;
-}
-
-void Game::shutdown() {
-    engine::NewSystem::instance().shutdown();
-    // ... andra systems
-}
-
-void Game::update(float deltaTime) {
-    engine::NewSystem::instance().update(deltaTime);
-    // ... andra systems
-}
-```
-
-### 3.2 Uppdatera CMakeLists.txt
+### 3.1 Update CMakeLists.txt
 ```cmake
 set(ENGINE_SOURCES
     # ... existing
-    src/engine/systems/NewSystem.cpp
+    src/engine/systems/[Name]System.cpp
 )
 ```
 
----
-
-## STEG 4: TESTA
-
-### 4.1 Unit tests
+### 3.2 Register in SystemManager
 ```cpp
-TEST(NewSystemTest, InitializesSuccessfully) {
-    auto& system = engine::NewSystem::instance();
-    EXPECT_TRUE(system.initialize());
-    system.shutdown();
-}
+// In SystemManager::initialize()
+registerSystem(&[Name]System::instance());
+```
 
-TEST(NewSystemTest, UpdateDoesNotCrashWhenNotInitialized) {
-    auto& system = engine::NewSystem::instance();
-    // Should not crash
-    system.update(0.016f);
+### 3.3 Update Engine Initialization
+```cpp
+// In Engine::init() or Game::init()
+if (![Name]System::instance().initialize()) {
+    LOG_ERROR("Failed to initialize [Name]System");
+    return false;
 }
 ```
 
-### 4.2 Integration test
+### 3.4 Update Engine Shutdown
 ```cpp
-TEST(SystemIntegration, NewSystemWorksWithOtherSystems) {
-    // Setup scene with relevant components
-    // Run update loop
-    // Verify expected behavior
-}
+// In Engine::shutdown() - reverse order
+[Name]System::instance().shutdown();
 ```
 
 ---
 
-## STEG 5: DOKUMENTATION
+## 4. Testing
 
-### 5.1 API documentation
-Skapa `docs/api/systems/NewSystem.md`
+### 4.1 Unit Tests
+Create `tests/test_[Name]System.cpp`:
 
-### 5.2 Architecture update
-Uppdatera `docs/architecture/systems.md`
+```cpp
+#include <gtest/gtest.h>
+#include "engine/systems/[Name]System.h"
 
-### 5.3 Usage guide
-Skapa `docs/guides/tutorials/using-new-system.md`
+class [Name]SystemTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        engine::[Name]System::instance().initialize();
+    }
+    
+    void TearDown() override {
+        engine::[Name]System::instance().shutdown();
+    }
+};
+
+TEST_F([Name]SystemTest, InitializesSuccessfully) {
+    EXPECT_TRUE(engine::[Name]System::instance().initialize());
+}
+
+TEST_F([Name]SystemTest, UpdateDoesNotCrash) {
+    engine::[Name]System::instance().update(0.016f);
+}
+
+TEST_F([Name]SystemTest, ShutdownCleanly) {
+    engine::[Name]System::instance().shutdown();
+    // Verify no resource leaks
+}
+```
+
+### 4.2 Integration Tests
+```cpp
+TEST(SystemIntegration, [Name]SystemWorksWithOthers) {
+    // Setup full system stack
+    // Verify interactions
+}
+```
 
 ---
 
-## SYSTEM PRIORITY GUIDE
+## 5. Documentation
 
-| Priority | Systems | Description |
-|----------|---------|-------------|
-| 0-10 | Input, Time | Måste köras först |
-| 11-30 | Physics | Simulering före rendering |
-| 31-50 | AI, Gameplay | Spellogik |
-| 51-70 | Animation | Efter gameplay |
-| 71-90 | Audio | Kan köras sent |
-| 91-100 | Rendering | Sist |
+### 5.1 API Documentation
+Create `docs/api/systems/[Name]System.md`
+
+### 5.2 Architecture Documentation
+Update `docs/architecture/systems.md`
+
+### 5.3 Usage Guide
+Create `docs/guides/using-[name]-system.md`
 
 ---
 
-## CHECKLISTA
+## 6. Build & Verify
 
-- [ ] ISystem interface implementerad?
-- [ ] Singleton pattern (om globalt system)?
-- [ ] Initialize/Shutdown pair?
-- [ ] Proper logging?
-- [ ] Thread safety dokumenterad?
-- [ ] CMakeLists.txt uppdaterad?
-- [ ] Unit tests skrivna?
-- [ ] API docs skapade?
-- [ ] Architecture docs uppdaterade?
+```powershell
+cd build
+cmake --build . --config Release
+ctest -C Release --output-on-failure
+.\Release\RetroGame.exe
+```
+
+---
+
+## System Priority Reference
+
+| Priority | Category | Systems |
+|----------|----------|---------|
+| 0-10 | Core | Input, Time, Window, Config |
+| 11-20 | Resources | Asset, Texture, Audio Loading |
+| 21-30 | Physics | Physics, Collision |
+| 31-40 | World | Scene, Level, World |
+| 41-50 | Gameplay | AI, Quest, Dialog, Inventory |
+| 51-60 | Animation | Animation, Particle |
+| 61-70 | Audio | AudioPlayback, Music |
+| 71-80 | UI | Widget, HUD |
+| 81-90 | Effects | PostProcess, Transition |
+| 91-100 | Rendering | Render, Debug Draw |
+
+---
+
+## Checklist
+
+- [ ] Header file created
+- [ ] Implementation file created
+- [ ] CMakeLists.txt updated
+- [ ] System registered
+- [ ] Init/Shutdown integrated
+- [ ] Unit tests written
+- [ ] Integration tested
+- [ ] Documentation created
+- [ ] Code review requested

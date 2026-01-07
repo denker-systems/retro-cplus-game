@@ -1,22 +1,22 @@
-﻿---
+---
 trigger: always_on
 description: Git workflow and version control policy
 ---
 
 # Git Policy
 
-> Version control för små team med skalbar struktur
+> Enterprise version control standards
 
-##  KRITISK REGEL
+## ⚠️ Critical Rule
 
-**ALDRIG git commit/push/add utan explicit instruktion!**
+**Never auto-commit without explicit user instruction!**
 
-### Förbjudet (utan tillåtelse)
+### Forbidden (without permission)
 - `git commit`
 - `git push`
 - `git add`
 
-### Alltid tillåtet (read-only)
+### Always Allowed (read-only)
 - `git status`
 - `git log`
 - `git diff`
@@ -27,10 +27,12 @@ description: Git workflow and version control policy
 ## Branch Strategy
 
 ```
-main           # Stabil, releasebar kod
- feature/*  # Feature branches
- bugfix/*   # Bug fixes
- hotfix/*   # Kritiska fixes
+main                    # Production-ready
+├── develop            # Integration (optional)
+├── feature/XXX-desc   # New features
+├── bugfix/XXX-desc    # Bug fixes
+├── hotfix/XXX-desc    # Emergency fixes
+└── release/vX.Y.Z     # Release prep
 ```
 
 ---
@@ -38,39 +40,53 @@ main           # Stabil, releasebar kod
 ## Commit Format
 
 ```
-type(scope): beskrivning
+type(scope): description
 
-[valfri body]
+[body]
+
+[footer]
 ```
 
-**Types:**
-- `feat` - Ny feature
-- `fix` - Bugfix
-- `docs` - Dokumentation
-- `refactor` - Refactoring
-- `style` - Formattering
-- `test` - Tester
-- `build` - Build system
-- `chore` - Maintenance
+### Types
+| Type | Description |
+|------|-------------|
+| feat | New feature |
+| fix | Bug fix |
+| docs | Documentation |
+| style | Formatting |
+| refactor | Code restructure |
+| perf | Performance |
+| test | Tests |
+| build | Build system |
+| ci | CI/CD |
+| chore | Maintenance |
 
 ---
 
-## Dokumentation Sync
+## Merge Strategy
 
-| Dokument | Uppdateras |
-|----------|------------|
-| `docs/dev/sessions/YYYY-MM-DD.md` | Under session |
-| `docs/dev/DEVLOG.md` | Vid commit |
-| `docs/CHANGELOG.md` | Vid release |
-| `docs/ROADMAP.md` | Vid feature completion |
+- **Feature → main**: Squash merge
+- **Hotfix → main**: Merge commit
+- **Release → main**: Merge commit + tag
 
 ---
 
-## Workflows
+## Code Review
 
-| Workflow | Trigger |
-|----------|---------|
-| `/init-session` | Session start |
-| `/git-commit` | Explicit instruktion |
-| `/end-session` | Session slut |
-| `/generate-pr` | Innan PR |
+### Requirements
+| Change Type | Approvals |
+|-------------|-----------|
+| Standard | 1 |
+| Architecture | 2 (1 senior) |
+| Critical | 2 core team |
+
+---
+
+## Documentation Sync
+
+| Document | When Updated |
+|----------|--------------|
+| Session report | During session |
+| DEVLOG | At commit |
+| CHANGELOG | At release |
+| ROADMAP | At feature completion |

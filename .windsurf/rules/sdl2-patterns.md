@@ -1,27 +1,27 @@
-﻿---
+---
 trigger: always_on
 description: SDL2 game development patterns
 ---
 
 # SDL2 Patterns
 
-> Best practices för SDL2 game development
+> Best practices for SDL2 game development
 
 ## Initialization
 
 ```cpp
-// Initialize SDL with required subsystems
+// Initialize subsystems
 if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
     std::cerr << "SDL Error: " << SDL_GetError() << std::endl;
     return false;
 }
 
-// Initialize SDL_image for PNG support
+// Image loading
 if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
     std::cerr << "IMG Error: " << IMG_GetError() << std::endl;
 }
 
-// Initialize SDL_mixer for audio
+// Audio
 if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
     std::cerr << "Mix Error: " << Mix_GetError() << std::endl;
 }
@@ -33,18 +33,18 @@ if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
 
 ```cpp
 while (m_running) {
-    // 1. Calculate delta time
+    // 1. Delta time
     Uint32 current = SDL_GetTicks();
     float dt = (current - lastTime) / 1000.0f;
     lastTime = current;
     
-    // 2. Handle events
+    // 2. Events
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         handleEvent(event);
     }
     
-    // 3. Update game logic
+    // 3. Update
     update(dt);
     
     // 4. Render
@@ -52,20 +52,6 @@ while (m_running) {
     render();
     SDL_RenderPresent(m_renderer);
 }
-```
-
----
-
-## Rendering
-
-```cpp
-// Create window and renderer
-m_window = SDL_CreateWindow("Game", 
-    SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-    SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-
-m_renderer = SDL_CreateRenderer(m_window, -1,
-    SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 ```
 
 ---
@@ -87,7 +73,24 @@ SDL_Quit();                    // 6. SDL
 ## RAII Wrappers
 
 ```cpp
-// Use custom deleters for SDL resources
-using SDLWindowPtr = std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
-using SDLRendererPtr = std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
+using SDLWindowPtr = std::unique_ptr<
+    SDL_Window, 
+    decltype(&SDL_DestroyWindow)
+>;
+
+using SDLRendererPtr = std::unique_ptr<
+    SDL_Renderer, 
+    decltype(&SDL_DestroyRenderer)
+>;
+```
+
+---
+
+## Error Checking
+
+```cpp
+// Always check returns
+if (!texture) {
+    LOG_ERROR("Failed to load: {}", IMG_GetError());
+}
 ```
