@@ -230,3 +230,13 @@ Abi: 57dec10a9d09fbeff796ac1340acec429027c743def998eb2cb3627526d1a663
 Description: Native File Dialog Extended
 Status: install ok installed
 
+Package: imgui-node-editor
+Version: 0.9.3
+Port-Version: 2
+Depends: imgui, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 2ef2b3b35a3bca51f173a9bee6b9609eb29220eb1d6b39ed25c7ba600447d430
+Description: Node Editor built using Dear ImGui
+Status: install ok installed
+

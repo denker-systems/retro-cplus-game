@@ -4,8 +4,8 @@
  */
 #pragma once
 
-#include "../IEditorCommand.h"
-#include "../../data/GameData.h"
+#include "editor/core/IEditorCommand.h"
+#include "engine/data/GameData.h"
 #include <string>
 
 /**

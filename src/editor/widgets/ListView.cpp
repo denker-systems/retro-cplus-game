@@ -3,8 +3,8 @@
  * @brief Editor ListView widget implementation
  */
 #include "ListView.h"
-#include "../../graphics/FontManager.h"
-#include "../../audio/AudioManager.h"
+#include "engine/graphics/FontManager.h"
+#include "engine/audio/AudioManager.h"
 #include <algorithm>
 
 namespace Editor {

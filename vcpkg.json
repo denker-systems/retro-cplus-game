@@ -8,7 +8,16 @@
     "sdl2-image",
     "sdl2-mixer",
     "sdl2-ttf",
-    "nlohmann-json"
+    "nlohmann-json",
+    "box2d",
+    "glm",
+    {
+      "name": "imgui",
+      "features": ["docking-experimental"]
+    },
+    "imguizmo",
+    "implot",
+    "nativefiledialog-extended"
   ],
   "features": {
     "editor": {

@@ -1,0 +1,478 @@
+/**
+ * @file PlayState.cpp
+ * @brief Implementation av gameplay state
+ */
+#include "PlayState.h"
+#include "MenuState.h"
+#include "PauseState.h"
+#include "DialogState.h"
+#include "InventoryState.h"
+#include "QuestLogState.h"
+#include "game/Game.h"
+#include "engine/actors/NPC.h"
+#include "engine/actors/CharacterActor.h"
+#include "engine/components/MovementComponent.h"
+#include "engine/components/DialogComponent.h"
+#include "engine/components/InventoryComponent.h"
+#include "engine/components/InteractionComponent.h"
+#include "engine/components/RigidBody2DComponent.h"
+#include "engine/components/Collider2DComponent.h"
+#include "engine/components/CharacterController2D.h"
+#include "engine/world/Scene.h"
+#include "engine/Hotspot.h"
+#include "engine/systems/SceneManager.h"
+#include "engine/systems/DialogSystem.h"
+#include "engine/systems/InventorySystem.h"
+#include "engine/systems/QuestSystem.h"
+#include "engine/systems/AISystem.h"
+#include "engine/graphics/Transition.h"
+#include "engine/graphics/FontManager.h"
+#include "engine/data/GameDataLoader.h"
+#include "engine/utils/Logger.h"
+#include "engine/data/GameSettings.h"
+#include <iostream>
+#include <cmath>
+
+PlayState::PlayState() {
+    std::cout << "PlayState created" << std::endl;
+}
+
+PlayState::~PlayState() = default;
+
+void PlayState::enter() {
+    LOG_DEBUG("PlayState::enter() - initialized=" + std::string(m_initialized ? "true" : "false"));
+    
+    // Första gången - ladda allt
+    if (!m_initialized) {
+        LOG_INFO("PlayState initializing for first time");
+        
+        // Skapa spelkomponenter
+        m_input = std::make_unique<Input>();
+        m_player = std::make_unique<engine::PlayerActor>();
+        
+        // Ladda all speldata från JSON-filer (skicka renderer för att ladda texturer)
+        SDL_Renderer* renderer = m_game->getRenderer();
+        GameDataLoader::loadAll(renderer);
+        
+        // Sätt callback för scenebyte
+        SceneManager::instance().setOnSceneChange([this](const std::string& sceneId) {
+            onRoomChange(sceneId);
+        });
+        
+        // Starta i tavern
+        SceneManager::instance().changeScene("tavern");
+        
+        // Setup hot reload för JSON-filer
+        // Hot reload removed - restart game to see editor changes
+        
+        m_initialized = true;
+    } else {
+        LOG_DEBUG("PlayState resuming (already initialized)");
+    }
+}
+
+void PlayState::exit() {
+    LOG_DEBUG("PlayState::exit()");
+}
+
+void PlayState::onRoomChange(const std::string& roomId) {
+    std::cout << "Player entered: " << roomId << std::endl;
+    
+    // Uppdatera spelarens position och walk area från scene
+    engine::Scene* scene = SceneManager::instance().getCurrentScene();
+    if (scene) {
+        // Använd scenens player spawn position
+        float spawnX, spawnY;
+        scene->getPlayerSpawn(spawnX, spawnY);
+        m_player->setPosition(spawnX, spawnY);
+        
+        // Sätt walk area på MovementComponent
+        const auto& wa = scene->getWalkArea();
+        auto movement = m_player->getComponent<engine::MovementComponent>();
+        if (movement) {
+            movement->setWalkArea(static_cast<float>(wa.minX), 
+                                 static_cast<float>(wa.maxX), 
+                                 static_cast<float>(wa.minY), 
+                                 static_cast<float>(wa.maxY));
+        }
+        
+        // ═══════════════════════════════════════════════════════════════
+        // PHYSICS - Enable physics on scene (only in Platformer mode)
+        // ═══════════════════════════════════════════════════════════════
+        auto& settings = engine::GameSettings::instance();
+        
+        if (settings.isPlatformerMode() && !scene->hasPhysics()) {
+            scene->enablePhysics({0.0f, settings.getGravity()});
+            scene->setPhysicsDebugDraw(settings.isPhysicsDebugEnabled());
+            std::cout << "[Physics] Enabled for scene: " << roomId << std::endl;
+            
+            // Create ground collider at bottom of walk area
+            auto ground = std::make_unique<engine::ActorObjectExtended>("Ground");
+            ground->setPosition(320, static_cast<float>(wa.maxY + 10));
+            
+            auto* groundRb = ground->addComponent<engine::RigidBody2DComponent>();
+            groundRb->setBodyType(engine::RigidBody2DComponent::BodyType::Static);
+            groundRb->initializeBody(scene->getPhysicsWorld());
+            
+            auto* groundCol = ground->addComponent<engine::Collider2DComponent>();
+            groundCol->setBoxShape(640, 20);
+            groundCol->initializeShape();
+            
+            scene->addActor(std::move(ground));
+            std::cout << "[Physics] Ground collider created" << std::endl;
+        }
+        
+        // ═══════════════════════════════════════════════════════════════
+        // PLAYER PHYSICS - Initialize player physics components
+        // ═══════════════════════════════════════════════════════════════
+        if (settings.isPlatformerMode() && scene->hasPhysics() && !m_playerPhysicsInitialized) {
+            // Add RigidBody2D to player
+            auto* rb = m_player->getComponent<engine::RigidBody2DComponent>();
+            if (!rb) {
+                rb = m_player->addComponent<engine::RigidBody2DComponent>();
+            }
+            rb->setBodyType(engine::RigidBody2DComponent::BodyType::Dynamic);
+            rb->setFixedRotation(true);
+            rb->initializeBody(scene->getPhysicsWorld());
+            
+            // Add Collider to player
+            auto* col = m_player->getComponent<engine::Collider2DComponent>();
+            if (!col) {
+                col = m_player->addComponent<engine::Collider2DComponent>();
+            }
+            col->setCapsuleShape(24, 48); // Player hitbox
+            col->initializeShape();
+            
+            // Add CharacterController2D with settings from GameSettings
+            auto* controller = m_player->getComponent<engine::CharacterController2D>();
+            if (!controller) {
+                controller = m_player->addComponent<engine::CharacterController2D>();
+            }
+            controller->setWalkSpeed(settings.getWalkSpeed());
+            controller->setRunSpeed(settings.getRunSpeed());
+            controller->setJumpForce(settings.getJumpForce());
+            controller->initialize(); // Find sibling RigidBody
+            
+            m_playerPhysicsInitialized = true;
+            std::cout << "[Physics] Player physics initialized" << std::endl;
+        }
+    }
+    
+    // Uppdatera quest objective för GoTo
+    QuestSystem::instance().updateObjective(ObjectiveType::GoTo, roomId);
+}
+
+void PlayState::update(float deltaTime) {
+    engine::Scene* scene = SceneManager::instance().getCurrentScene();
+    if (!scene) return;
+    
+    // Step physics simulation
+    if (scene->hasPhysics()) {
+        scene->getPhysicsWorld()->step(deltaTime);
+    }
+    
+    // ═══════════════════════════════════════════════════════════════
+    // INPUT - Use CharacterController2D if Platformer mode
+    // ═══════════════════════════════════════════════════════════════
+    auto& settings = engine::GameSettings::instance();
+    auto* controller = m_player->getComponent<engine::CharacterController2D>();
+    
+    if (settings.isPlatformerMode() && controller && m_playerPhysicsInitialized) {
+        // Physics-based movement (platformer style)
+        float moveDir = 0.0f;
+        if (m_input->isKeyDown(SDL_SCANCODE_LEFT) || m_input->isKeyDown(SDL_SCANCODE_A)) moveDir = -1.0f;
+        if (m_input->isKeyDown(SDL_SCANCODE_RIGHT) || m_input->isKeyDown(SDL_SCANCODE_D)) moveDir = 1.0f;
+        
+        controller->move(moveDir);
+        controller->setRunning(m_input->isKeyDown(SDL_SCANCODE_LSHIFT));
+        
+        // Jump with Space
+        if (m_input->isKeyPressed(SDL_SCANCODE_SPACE)) {
+            controller->jump();
+            std::cout << "[Physics] Jump!" << std::endl;
+        }
+        if (m_input->isKeyReleased(SDL_SCANCODE_SPACE)) {
+            controller->releaseJump();
+        }
+        
+        // Update controller (handles physics)
+        controller->update(deltaTime);
+        
+        // Manually set grounded based on simple check (temporary)
+        auto* rb = m_player->getComponent<engine::RigidBody2DComponent>();
+        if (rb) {
+            glm::vec2 vel = rb->getVelocity();
+            controller->setGrounded(std::abs(vel.y) < 5.0f);
+        }
+    } else {
+        // Legacy movement (point-and-click style)
+        int dx = 0, dy = 0;
+        if (m_input->isKeyDown(SDL_SCANCODE_LEFT) || m_input->isKeyDown(SDL_SCANCODE_A)) dx = -1;
+        if (m_input->isKeyDown(SDL_SCANCODE_RIGHT) || m_input->isKeyDown(SDL_SCANCODE_D)) dx = 1;
+        if (m_input->isKeyDown(SDL_SCANCODE_UP) || m_input->isKeyDown(SDL_SCANCODE_W)) dy = -1;
+        if (m_input->isKeyDown(SDL_SCANCODE_DOWN) || m_input->isKeyDown(SDL_SCANCODE_S)) dy = 1;
+        
+        m_player->moveWithInput(dx, dy, deltaTime);
+    }
+    
+    // Kolla hotspot under musen
+    int mx = m_input->getMouseX();
+    int my = m_input->getMouseY();
+    Hotspot* hs = scene->getHotspotAt(mx, my);
+    m_hoveredHotspot = hs ? hs->name : "";
+    
+    // Hitta närmaste hotspot för E-interaktion
+    m_nearbyHotspot = getNearbyHotspot(INTERACT_DISTANCE);
+    
+    // Point-and-click (vänsterklick)
+    if (m_input->isMouseClicked(SDL_BUTTON_LEFT)) {
+        if (hs) {
+            interactWithHotspot(hs);
+        } else {
+            // Kolla NPC-klick
+            engine::actors::NPC* npc = getNPCAt(mx, my);
+            if (npc) {
+                interactWithNPC(npc);
+            } else if (my > 260 && my < 375) {
+                m_player->setMoveTarget(static_cast<float>(mx), static_cast<float>(my));
+            }
+        }
+    }
+    
+    m_player->update(deltaTime);
+    m_input->update();
+    
+    // Uppdatera AI-system (NPC beteenden och scheman)
+    AISystem::instance().update(deltaTime);
+    
+    // Uppdatera NPCs i aktuell scene
+    if (scene) {
+        scene->updateNPCs(deltaTime);
+    }
+    
+    // Uppdatera transition
+    Transition::instance().update(deltaTime);
+}
+
+void PlayState::render(SDL_Renderer* renderer) {
+    engine::Scene* scene = SceneManager::instance().getCurrentScene();
+    
+    // Bakgrund
+    SDL_SetRenderDrawColor(renderer, 20, 20, 60, 255);
+    SDL_RenderClear(renderer);
+    
+    // Rita scene
+    if (scene) {
+        scene->render(renderer);
+    }
+    
+    // Rita spelare
+    float playerScale = 1.0f;
+    
+    // Only use depth scaling in Adventure mode
+    // Platformer mode = no depth scaling
+    auto& renderSettings = engine::GameSettings::instance();
+    if (scene && renderSettings.isAdventureMode()) {
+        const auto& wa = scene->getWalkArea();
+        float playerY = m_player->getY();
+        
+        // Beräkna scale baserat på Y-position inom walk area (adventure game perspective)
+        if (wa.maxY > wa.minY) {
+            float t = (playerY - wa.minY) / (wa.maxY - wa.minY);
+            t = std::max(0.0f, std::min(1.0f, t));  // Clamp 0-1
+            playerScale = wa.scaleTop + t * (wa.scaleBottom - wa.scaleTop);
+        }
+    }
+    m_player->renderScaled(renderer, playerScale);
+    
+    // Visa hotspot-namn i UI-bar
+    if (!m_hoveredHotspot.empty()) {
+        FontManager::instance().renderText(renderer, "default", 
+            m_hoveredHotspot, 10, 378, {255, 255, 200, 255});
+    } else if (m_nearbyHotspot) {
+        // Visa nearby hotspot med [E] prompt
+        std::string prompt = "[E] " + m_nearbyHotspot->name;
+        FontManager::instance().renderText(renderer, "default",
+            prompt, 10, 378, {100, 255, 100, 255});
+    } else if (scene) {
+        FontManager::instance().renderText(renderer, "default",
+            scene->getName(), 10, 378, {150, 150, 180, 255});
+    }
+    
+    // Visa inventory count
+    std::string invText = "Items: " + std::to_string(InventorySystem::instance().getItemCount());
+    FontManager::instance().renderText(renderer, "default", invText, 550, 378, {180, 180, 200, 255});
+    
+    // Physics debug rendering
+    if (scene && scene->hasPhysics()) {
+        scene->getPhysicsWorld()->debugDraw(renderer);
+    }
+    
+    // Rita transition overlay sist
+    Transition::instance().render(renderer);
+}
+
+void PlayState::handleEvent(const SDL_Event& event) {
+    m_input->handleEvent(event);
+    
+    if (event.type == SDL_KEYDOWN) {
+        if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
+            // Öppna pausmeny (overlay)
+            if (m_game) {
+                m_game->pushState(std::make_unique<PauseState>());
+            }
+        } else if (event.key.keysym.scancode == SDL_SCANCODE_I) {
+            // Öppna inventory (overlay)
+            if (m_game) {
+                m_game->pushState(std::make_unique<InventoryState>());
+            }
+        } else if (event.key.keysym.scancode == SDL_SCANCODE_J) {
+            // Öppna quest log (overlay)
+            if (m_game) {
+                m_game->pushState(std::make_unique<QuestLogState>());
+            }
+        } else if (event.key.keysym.scancode == SDL_SCANCODE_E) {
+            // Interagera med nearby hotspot
+            if (m_nearbyHotspot) {
+                interactWithHotspot(m_nearbyHotspot);
+            }
+        }
+    }
+}
+
+Hotspot* PlayState::getNearbyHotspot(float maxDistance) {
+    engine::Scene* scene = SceneManager::instance().getCurrentScene();
+    if (!scene || !m_player) return nullptr;
+    
+    float playerX = m_player->getX() + 16;  // Center of player
+    float playerY = m_player->getY() + 32;
+    
+    Hotspot* nearest = nullptr;
+    float nearestDist = maxDistance;
+    
+    for (auto& hotspot : scene->getHotspots()) {
+        // Beräkna centrum av hotspot
+        float hsX = hotspot.rect.x + hotspot.rect.w / 2.0f;
+        float hsY = hotspot.rect.y + hotspot.rect.h / 2.0f;
+        
+        // Beräkna avstånd
+        float dx = playerX - hsX;
+        float dy = playerY - hsY;
+        float dist = std::sqrt(dx * dx + dy * dy);
+        
+        if (dist < nearestDist) {
+            nearestDist = dist;
+            nearest = const_cast<Hotspot*>(&hotspot);
+        }
+    }
+    
+    return nearest;
+}
+
+void PlayState::interactWithHotspot(Hotspot* hotspot) {
+    if (!hotspot) {
+        LOG_WARNING("interactWithHotspot called with null hotspot");
+        return;
+    }
+    
+    LOG_INFO("Interact: " + hotspot->name + " (" + hotspot->id + ") type=" + std::to_string(static_cast<int>(hotspot->type)));
+    
+    if (hotspot->type == HotspotType::NPC) {
+        LOG_DEBUG("NPC interaction, dialogId=" + hotspot->dialogId);
+        if (!hotspot->dialogId.empty()) {
+            LOG_DEBUG("Starting dialog: " + hotspot->dialogId);
+            DialogSystem::instance().startDialog(hotspot->dialogId);
+            QuestSystem::instance().updateObjective(ObjectiveType::Talk, hotspot->id);
+            if (m_game) {
+                LOG_DEBUG("Pushing DialogState");
+                m_game->pushState(std::make_unique<DialogState>());
+            }
+        }
+    } else if (hotspot->type == HotspotType::Item) {
+        LOG_DEBUG("Item interaction: " + hotspot->id);
+        if (hotspot->id == "chest") {
+            if (!InventorySystem::instance().hasItem("rusty_key")) {
+                LOG_INFO("Adding rusty_key to inventory");
+                InventorySystem::instance().addItem("rusty_key");
+                QuestSystem::instance().updateObjective(ObjectiveType::Collect, "rusty_key");
+            } else {
+                LOG_DEBUG("Chest already looted");
+            }
+        }
+    } else if (hotspot->type == HotspotType::Exit) {
+        LOG_DEBUG("Exit interaction, target=" + hotspot->targetRoom);
+        if (!hotspot->targetRoom.empty() && !Transition::instance().isActive()) {
+            std::string target = hotspot->targetRoom;
+            float spawnX = (hotspot->rect.x > 300) ? 80.0f : 550.0f;
+            
+            LOG_INFO("Room transition to: " + target);
+            Transition::instance().fadeToBlack(0.5f, [target, spawnX]() {
+                LOG_DEBUG("Fade complete, changing room to: " + target);
+                SceneManager::instance().setSpawnPosition(spawnX, 300.0f);
+                SceneManager::instance().changeScene(target);
+            });
+        }
+    } else if (hotspot->type == HotspotType::Examine) {
+        LOG_DEBUG("Examine: " + hotspot->name);
+        QuestSystem::instance().updateObjective(ObjectiveType::Examine, hotspot->id);
+    }
+}
+
+// ============================================================================
+// NPC INTERACTIONS
+// ============================================================================
+
+engine::actors::NPC* PlayState::getNPCAt(int x, int y) {
+    engine::Scene* scene = SceneManager::instance().getCurrentScene();
+    if (!scene) return nullptr;
+    
+    for (auto& npc : scene->getNPCs()) {
+        if (!npc) continue;
+        
+        float npcX, npcY;
+        npc->getPosition(npcX, npcY);
+        
+        // Simple bounding box check (assuming 64x64 NPC size)
+        SDL_Rect npcRect = {
+            static_cast<int>(npcX),
+            static_cast<int>(npcY),
+            64,
+            96
+        };
+        
+        if (x >= npcRect.x && x < npcRect.x + npcRect.w &&
+            y >= npcRect.y && y < npcRect.y + npcRect.h) {
+            return npc.get();
+        }
+    }
+    
+    return nullptr;
+}
+
+void PlayState::interactWithNPC(engine::actors::NPC* npc) {
+    if (!npc) {
+        LOG_WARNING("interactWithNPC called with null npc");
+        return;
+    }
+    
+    LOG_INFO("Interact with NPC: " + npc->getName());
+    
+    // Check if NPC can talk
+    if (npc->canTalk()) {
+        std::string dialogId = npc->getDialogId();
+        if (!dialogId.empty()) {
+            LOG_DEBUG("Starting NPC dialog: " + dialogId);
+            DialogSystem::instance().startDialog(dialogId);
+            QuestSystem::instance().updateObjective(ObjectiveType::Talk, npc->getName());
+            if (m_game) {
+                m_game->pushState(std::make_unique<DialogState>());
+            }
+        }
+    }
+    
+    // Trigger NPC's interaction component
+    npc->interact();
+}
+
+// Hot reload removed - restart game to see editor changes
+// This simplifies the architecture and avoids threading/timing issues

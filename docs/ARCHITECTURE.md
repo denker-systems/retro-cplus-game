@@ -23,7 +23,7 @@ Ett skalbart point-and-click adventure-spel byggt med modern C++17 och SDL2.
 src/
 ├── Game.cpp/h            # Huvudloop, SDL init, state koordinering
 ├── Input.cpp/h           # Tangentbordshantering
-├── Room.cpp/h            # Rum med hotspots och NPCs
+├── Room.cpp/h            # Rum med hotspots och NPCs (legacy - deprecated)
 │
 ├── states/               # Game states (State Pattern) 
 │   ├── StateManager.cpp/h  # Push/pop/change (deferred) 
@@ -37,7 +37,8 @@ src/
 │   └── QuestLogState.cpp/h # Quest log overlay
 │
 ├── systems/              # Spelsystem (singletons)
-│   ├── RoomManager.cpp/h    # Rumhantering och transitions
+│   ├── RoomManager.cpp/h    # Rumhantering och transitions (legacy)
+│   ├── SceneManager.cpp/h   # Scenehantering och transitions (nytt)
 │   ├── DialogSystem.cpp/h   # Dialog-träd och val
 │   ├── InventorySystem.cpp/h # Items och kombination
 │   ├── QuestSystem.cpp/h    # Quests och objectives
@@ -60,78 +61,121 @@ src/
 ├── audio/                # Ljudsystem 
 │   └── AudioManager.cpp/h    # Music, SFX, volume 
 │
-├── entities/             # Entity hierarki (OOP) 
+├── actors/               # Actor system (nytt)
+│   ├── ActorObjectExtended.cpp/h # Actor base class
+│   ├── CharacterActor.cpp/h      # Character implementation
+│   ├── NPC.cpp/h                 # Non-player characters
+│   └── [fler actors...]
+│
+├── entities/             # Entity hierarki (OOP) (legacy)
 │   ├── Entity.cpp/h          # Abstract base 
 │   ├── Character.cpp/h       # Character base 
 │   ├── PlayerCharacter.cpp/h # Spelaren
-│   └── NPC.cpp/h             # Non-player characters
+│   └── NPC.cpp/h             # Non-player characters (borttagen)
 │
 ├── ui/                   # Widget-system
 │   └── Widget.cpp/h          # Label, Button, Panel, ProgressBar
 │
-├── editor/               # ImGui-baserad editor (2026-01-05)
+├── editor/               # ImGui-baserad editor (2026-01-06)
 │   ├── ImGuiManager.cpp/h    # ImGui lifecycle management
 │   ├── EditorContext.cpp/h   # Shared state mellan paneler
+│   ├── EditorState.cpp/h     # Main editor state (211 rader, refaktorerad)
 │   ├── IEditorPanel.h        # Panel interface
 │   ├── VisualRoomEditor.cpp/h # Visuell rum-redigering
 │   ├── RoomDataManager.cpp/h  # Room data persistence
 │   ├── EditorTabRenderer.cpp/h # Legacy tab rendering
 │   ├── TiledIntegration.cpp/h # Tiled import/export
-│   └── panels/               # ImGui panels
-│       ├── HierarchyPanel.cpp/h   # Objektträd
-│       ├── PropertiesPanel.cpp/h  # Inspector
-│       ├── ViewportPanel.cpp/h    # Rum-preview med zoom
-│       ├── AssetBrowserPanel.cpp/h # Asset browser
-│       └── ConsolePanel.cpp/h     # Logg console
+│   ├── managers/              # Manager classes (SoC) ✨ NEW
+│   │   ├── EditorPanelManager.cpp/h    # Panel creation & lifecycle
+│   │   ├── EditorWorldManager.cpp/h    # World/Level/Scene setup
+│   │   └── EditorEventDispatcher.cpp/h # Event handling & shortcuts
+│   ├── input/                 # Input handling ✨ NEW
+│   │   └── EditorInputHandler.cpp/h    # Centralized shortcuts (Del, Ctrl+Z/Y/D/S)
+│   ├── data/                  # Editor data serialization ✨ NEW
+│   │   ├── EditorDataManager.cpp/h  # Central data coordinator
+│   │   ├── ISerializer.h            # Serialization interface
+│   │   ├── SceneSerializer.cpp/h    # Scene→JSON serialization
+│   │   ├── WorldSerializer.cpp/h    # World→JSON serialization
+│   │   └── EditorDataTypes.h        # Editor-specific data types
+│   ├── panels/               # ImGui panels
+│   │   ├── HierarchyPanel.cpp/h      # Objektträd
+│   │   ├── PropertiesPanel.cpp/h     # Inspector
+│   │   ├── ViewportPanel.h           # Viewport header (132 rader)
+│   │   ├── ViewportPanel_Core.cpp    # Constructor, update, render, toolbar
+│   │   ├── ViewportPanel_World.cpp   # World view rendering
+│   │   ├── ViewportPanel_Level.cpp   # Level view rendering
+│   │   ├── ViewportPanel_Scene.cpp   # Scene view rendering + drag-drop
+│   │   ├── ViewportPanel_Actors.cpp  # Actor rendering helpers
+│   │   ├── ViewportPanel_Input.cpp   # Mouse/keyboard input handling
+│   │   ├── AssetBrowserPanel.cpp/h   # Asset browser med drag-source
+│   │   ├── PlaceActorsPanel.cpp/h    # UE5-style actor placement ✨ NEW
+│   │   ├── ConsolePanel.cpp/h        # Logg console
+│   │   ├── SceneGraphPanel.cpp/h     # Node tree med drag-drop
+│   │   ├── LayerEditorPanel.cpp/h    # Layer management
+│   │   ├── WorldViewPanel.cpp/h      # World/Level navigation
+│   │   ├── LevelViewPanel.cpp/h      # Level/Scene navigation
+│   │   └── TileMapEditorPanel.cpp/h  # TileMap painting
+│   ├── graphs/               # Node graph editors
+│   │   ├── INodeGraphPanel.cpp/h     # Base för graph panels
+│   │   ├── dialog/
+│   │   │   ├── DialogNode.cpp/h      # Dialog node
+│   │   │   └── DialogGraphPanel.cpp/h # Dialog graph editor
+│   │   ├── quest/
+│   │   │   ├── QuestNode.cpp/h       # Quest node
+│   │   │   └── QuestGraphPanel.cpp/h # Quest graph editor
+│   │   └── npc/
+│   │       ├── BehaviorNode.cpp/h    # Behavior node
+│   │       └── BehaviorGraphPanel.cpp/h # NPC behavior editor
+│   └── properties/           # Property editors
+│       ├── IPropertyEditor.h         # Base interface
+│       ├── RoomPropertyEditor.cpp/h
+│       ├── HotspotPropertyEditor.cpp/h
+│       ├── DialogPropertyEditor.cpp/h
+│       ├── QuestPropertyEditor.cpp/h
+│       ├── ItemPropertyEditor.cpp/h
+│       └── NPCPropertyEditor.cpp/h
+│
+├── engine/               # RetroCore static library ✨ NEW
+│   ├── core/             # Core node system
+│   │   ├── Vec2.cpp/h           # 2D vector math
+│   │   ├── Node.cpp/h           # Scene graph base
+│   │   └── Node2D.cpp/h         # 2D transform
+│   ├── nodes/            # Visual nodes
+│   │   ├── Sprite.cpp/h         # Texture rendering
+│   │   ├── AnimatedSprite.cpp/h # Animation state machine
+│   │   ├── TileMapLayer.cpp/h   # Grid-based tilemap
+│   │   ├── ParallaxLayer.cpp/h  # Parallax scrolling
+│   │   └── Label.cpp/h          # Text rendering
+│   ├── world/            # World management
+│   │   ├── WorldContainer.h    # Abstract base for World/Level/Scene
+│   │   ├── World.cpp/h         # Multi-scene manager
+│   │   ├── Level.cpp/h         # Scene container
+│   │   ├── Scene.cpp/h         # Unified Scene class (consolidated 2026-01-06)
+│   │   ├── RoomToSceneConverter.cpp/h # Migration tool (deprecated)
+│   │   ├── Camera2D.cpp/h       # Viewport med follow/zoom/shake
+│   │   ├── LayerManager.cpp/h   # Layer system
+│   │   └── SceneLoader.cpp/h    # JSON serialization
+│   └── physics/          # Physics system
+│       ├── CollisionShape.cpp/h # AABB, Circle, Polygon
+│       ├── PhysicsBody.cpp/h    # Velocity, acceleration, friction
+│       ├── KinematicBody.cpp/h  # moveAndSlide()
+│       ├── SpatialGrid.cpp/h    # Spatial partitioning ✨ NEW
+│       └── box2d/               # Box2D integration ✨ NEW
+│           ├── PhysicsWorld2D.cpp/h # Box2D wrapper
+│           ├── RigidBody2DComponent.cpp/h # Physics body component
+│           ├── Collider2DComponent.cpp/h # Collision shapes
+│           ├── CharacterController2D.cpp/h # Platformer controller
+│           ├── PhysicsLoader.cpp/h # Runtime physics loading
+│           └── TriggerComponent.cpp/h # Collision callbacks
 │
 └── vendor/               # Vendored dependencies
     ├── imgui_impl_sdl2.cpp/h         # SDL2 backend
-    └── imgui_impl_sdlrenderer2.cpp/h # SDL2 renderer backend
+    ├── imgui_impl_sdlrenderer2.cpp/h # SDL2 renderer backend
+    └── imnodes/                      # Node graph library
+        ├── imnodes.h
+        └── imnodes.cpp
 ```
 
-### Planerat (ny OOP-struktur)
-
-```
-src/
-├── states/               # Game states (State Pattern)
-│   ├── PauseState.cpp/h
-│   ├── InventoryState.cpp/h
-│   └── DialogState.cpp/h
-│
-├── entities/             # Entity Hierarchy (OOP)
-│   ├── Entity.h              # Abstract base för alla objekt
-│   ├── Character.h/.cpp      # Abstract character base
-│   ├── PlayerCharacter.h/.cpp
-│   ├── AICharacter.h/.cpp    # Abstract AI base
-│   ├── NPCCharacter.h/.cpp
-│   ├── Item.h/.cpp
-│   └── Hotspot.h/.cpp
-│
-├── components/           # Composition (delad funktionalitet)
-│   ├── MovementComponent.h/.cpp
-│   ├── AnimationComponent.h/.cpp
-│   ├── CollisionComponent.h/.cpp
-│   └── DialogComponent.h/.cpp
-│
-├── systems/              # Spelsystem
-│   ├── RoomSystem.h/.cpp
-│   ├── DialogSystem.h/.cpp
-│   ├── QuestSystem.h/.cpp
-│   ├── InventorySystem.h/.cpp
-│   └── SaveSystem.h/.cpp
-│
-├── ui/                   # Användargränssnitt
-│   ├── Widget.h/.cpp         # Abstract base
-│   ├── Button.h/.cpp
-│   ├── Label.h/.cpp
-│   └── InventoryUI.h/.cpp
-│
-└── utils/
-    ├── Logger.h/.cpp
-    └── Config.h/.cpp
-```
-
----
 
 ## Entity Hierarki (OOP)
 
@@ -557,6 +601,75 @@ Game
  │              ├── InventorySystem
  │              ├── QuestSystem
  │              ├── DialogSystem
- │              └── AISystem
+ │              ├── AISystem
+ │              └── PhysicsWorld2D (Box2D)
  └── EventBus
+```
+
+---
+
+## Physics System (Box2D Integration)
+
+### Physics World
+```cpp
+class PhysicsWorld2D {
+    b2World* m_world;
+    float m_pixelToMeter = 32.0f;
+public:
+    void update(float dt);
+    void createBody(const PhysicsData& data);
+    void destroyBody(b2Body* body);
+};
+```
+
+### Physics Components
+```cpp
+class RigidBody2DComponent {
+    b2Body* m_body;
+    BodyType m_type;  // static, dynamic, kinematic
+public:
+    void setVelocity(const Vec2& vel);
+    Vec2 getVelocity() const;
+};
+
+class Collider2DComponent {
+    b2Fixture* m_fixture;
+    ColliderShape m_shape;  // box, circle, capsule
+    bool m_isTrigger = false;
+public:
+    void setTrigger(bool trigger);
+    bool isTrigger() const;
+};
+
+class TriggerComponent {
+    std::function<void()> m_onEnter;
+    std::function<void()> m_onExit;
+    std::function<void()> m_onStay;
+public:
+    void setCallbacks(EnterFn, ExitFn, StayFn);
+};
+```
+
+### Physics Data (JSON)
+```json
+{
+  "physics": {
+    "enabled": true,
+    "bodyType": "static",
+    "collider": {
+      "shape": "box",
+      "width": 50,
+      "height": 90,
+      "isTrigger": true
+    }
+  },
+  "collisionBoxes": [
+    {
+      "id": "floor_main",
+      "type": "ground",
+      "x": 0, "y": 350,
+      "width": 640, "height": 30
+    }
+  ]
+}
 ```

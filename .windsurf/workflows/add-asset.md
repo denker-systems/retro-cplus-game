@@ -1,71 +1,151 @@
-﻿---
-description: Laddar och hanterar game assets (texturer, ljud, data)
+---
+description: Import and manage game assets
 ---
 
 # Add Asset Workflow
 
-## Texturer (PNG)
+> Asset pipeline for game development
 
-### 1. Placera filen
-`powershell
-# Sprites går i assets/sprites/
-# Bakgrunder i assets/backgrounds/
-Copy-Item "path\to\image.png" "assets\sprites\"
-`
+## Asset Types
 
-### 2. Ladda i kod (när TextureManager finns)
-`cpp
-auto texture = TextureManager::instance().load("sprites/player.png");
-`
+| Type | Format | Location |
+|------|--------|----------|
+| Sprites | PNG | assets/sprites/ |
+| Backgrounds | PNG | assets/backgrounds/ |
+| Sound Effects | WAV | assets/sounds/ |
+| Music | OGG | assets/music/ |
+| Data | JSON | assets/data/ |
+| Fonts | TTF | assets/fonts/ |
 
-### Temporärt (utan TextureManager)
-`cpp
+---
+
+## 1. Textures (PNG)
+
+### Import
+```powershell
+Copy-Item "source/image.png" "assets/sprites/"
+```
+
+### Naming Convention
+```
+[category]_[name]_[variant].png
+player_idle_01.png
+enemy_goblin_walk.png
+ui_button_normal.png
+```
+
+### Load in Code
+```cpp
+// Via TextureManager
+auto* tex = TextureManager::instance().load("sprites/player.png");
+
+// Direct SDL (not recommended)
 SDL_Texture* tex = IMG_LoadTexture(renderer, "assets/sprites/player.png");
-`
+```
 
-## Ljud (WAV/OGG)
+---
 
-### 1. Placera filen
-`powershell
-Copy-Item "path\to\sound.wav" "assets\sounds\"
-Copy-Item "path\to\music.ogg" "assets\sounds\"
-`
+## 2. Audio
 
-### 2. Ladda i kod
-`cpp
+### Sound Effects (WAV)
+```powershell
+Copy-Item "source/sound.wav" "assets/sounds/"
+```
+
+### Music (OGG)
+```powershell
+Copy-Item "source/music.ogg" "assets/music/"
+```
+
+### Load in Code
+```cpp
 // Sound effect
-Mix_Chunk* sfx = Mix_LoadWAV("assets/sounds/click.wav");
-Mix_PlayChannel(-1, sfx, 0);
+auto* sfx = AudioManager::instance().loadSound("sounds/click.wav");
+AudioManager::instance().playSound(sfx);
 
 // Music
-Mix_Music* music = Mix_LoadMUS("assets/sounds/background.ogg");
-Mix_PlayMusic(music, -1);
-`
+AudioManager::instance().loadMusic("music/theme.ogg");
+AudioManager::instance().playMusic("theme", -1);  // Loop forever
+```
 
-## JSON Data
+---
 
-### 1. Skapa datafil
-`powershell
-New-Item "assets/data/rooms.json" -Force
-`
+## 3. JSON Data
 
-### 2. Format
-`json
+### Create Data File
+```powershell
+New-Item "assets/data/filename.json" -Force
+```
+
+### Validate Schema
+```powershell
+# If using json-schema-validator
+```
+
+### Load in Code
+```cpp
+auto data = DataLoader::load<RoomData>("data/rooms.json");
+```
+
+---
+
+## 4. Sprite Sheets
+
+### Format
+```json
 {
-  "rooms": [
-    {
-      "id": "tavern",
-      "name": "The Rusty Anchor",
-      "background": "backgrounds/tavern.png"
-    }
-  ]
+  "texture": "sprites/player_sheet.png",
+  "frameWidth": 32,
+  "frameHeight": 32,
+  "animations": {
+    "idle": { "start": 0, "end": 3, "fps": 8 },
+    "walk": { "start": 4, "end": 11, "fps": 12 }
+  }
 }
-`
+```
 
-## Rebuild efter asset-ändringar
+### Load
+```cpp
+auto sheet = SpriteSheet::load("sprites/player_sheet.json");
+```
+
+---
+
+## 5. Build & Verify
+
 // turbo
-`powershell
+```powershell
 cd build; cmake --build . --config Release
-`
+```
 
-Assets kopieras automatiskt till build/Release/assets/ via CMake.
+Assets are copied to `build/Release/assets/` automatically.
+
+---
+
+## Asset Guidelines
+
+### Textures
+- Power of 2 dimensions (32, 64, 128, 256)
+- PNG format with transparency
+- Consistent pixel art scale
+
+### Audio
+- WAV for short effects (< 2 sec)
+- OGG for music and long sounds
+- Normalize volume levels
+
+### Data
+- Valid JSON
+- Follow schema conventions
+- Use meaningful IDs
+
+---
+
+## Checklist
+
+- [ ] Asset copied to correct folder
+- [ ] Naming convention followed
+- [ ] Format validated
+- [ ] Loaded in code
+- [ ] Build successful
+- [ ] Asset displays/plays correctly

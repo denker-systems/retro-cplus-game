@@ -2,300 +2,536 @@
   "dialogs": [
     {
       "id": "bartender_intro",
-      "npcName": "Bartender",
-      "startNodeId": 0,
       "nodes": [
         {
+          "action": "",
+          "choices": [
+            {
+              "condition": "",
+              "nextNodeId": 1,
+              "preview": "",
+              "text": "I'm looking for information.",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 4,
+              "preview": "",
+              "text": "Tell me about the town.",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 2,
+              "preview": "",
+              "text": "Just passing through.",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": -1,
+              "preview": "",
+              "text": "Nothing, thanks.",
+              "tone": ""
+            }
+          ],
           "id": 0,
+          "nextNodeId": -1,
           "speaker": "Bartender",
-          "text": "Welcome to the Rusty Anchor! What can I get ya?",
-          "choices": [
-            { "text": "I'm looking for information.", "nextNodeId": 1 },
-            { "text": "Tell me about the town.", "nextNodeId": 4 },
-            { "text": "Just passing through.", "nextNodeId": 2 },
-            { "text": "Nothing, thanks.", "nextNodeId": -1 }
-          ]
+          "text": "Welcome to the Rusty Anchor! What can I get ya?"
         },
         {
+          "action": "",
+          "choices": [
+            {
+              "condition": "",
+              "nextNodeId": 3,
+              "preview": "",
+              "text": "Have you seen anything unusual lately?",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 5,
+              "preview": "",
+              "text": "Know anything about the forest?",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": -1,
+              "preview": "",
+              "text": "Never mind.",
+              "tone": ""
+            }
+          ],
           "id": 1,
+          "nextNodeId": -1,
           "speaker": "Bartender",
-          "text": "Information, eh? Well, I hear things. What do you want to know?",
-          "choices": [
-            { "text": "Have you seen anything unusual lately?", "nextNodeId": 3 },
-            { "text": "Know anything about the forest?", "nextNodeId": 5 },
-            { "text": "Never mind.", "nextNodeId": -1 }
-          ]
+          "text": "Information, eh? Well, I hear things. What do you want to know?"
         },
         {
+          "action": "",
+          "choices": [],
           "id": 2,
+          "nextNodeId": -1,
           "speaker": "Bartender",
-          "text": "Safe travels then, stranger. The roads can be dangerous at night.",
-          "nextNodeId": -1
+          "text": "Safe travels then, stranger. The roads can be dangerous at night."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 3,
+          "nextNodeId": -1,
           "speaker": "Bartender",
-          "text": "Unusual? Hmm... There's an old chest in the corner. Been there for years. Rumor says there's something inside.",
-          "nextNodeId": -1
+          "text": "Unusual? Hmm... There's an old chest in the corner. Been there for years. Rumor says there's something inside."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 4,
+          "nextNodeId": -1,
           "speaker": "Bartender",
-          "text": "Small town, but we've got what you need. Shop's across the square, library down the street. And watch out for that forest path...",
-          "nextNodeId": -1
+          "text": "Small town, but we've got what you need. Shop's across the square, library down the street. And watch out for that forest path..."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 5,
+          "nextNodeId": -1,
           "speaker": "Bartender",
-          "text": "The forest? There's an old hermit who lives out there. Strange fellow, but harmless. Some say he knows ancient secrets.",
-          "nextNodeId": -1
+          "text": "The forest? There's an old hermit who lives out there. Strange fellow, but harmless. Some say he knows ancient secrets."
         }
-      ]
+      ],
+      "npcName": "Bartender",
+      "startNodeId": 0
     },
     {
       "id": "shopkeeper_intro",
-      "npcName": "Shopkeeper",
-      "startNodeId": 0,
       "nodes": [
         {
-          "id": 0,
-          "speaker": "Shopkeeper",
-          "text": "Welcome to my humble shop! Browse as you like.",
+          "action": "",
           "choices": [
-            { "text": "What do you sell?", "nextNodeId": 1 },
-            { "text": "I need some rope.", "nextNodeId": 2 },
-            { "text": "Do you have any lanterns?", "nextNodeId": 3 },
-            { "text": "Just looking around.", "nextNodeId": -1 }
-          ]
+            {
+              "condition": "",
+              "nextNodeId": 1,
+              "preview": "",
+              "text": "What do you sell?",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 2,
+              "preview": "",
+              "text": "I need some rope.",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 3,
+              "preview": "",
+              "text": "Do you have any lanterns?",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": -1,
+              "preview": "",
+              "text": "Just looking around.",
+              "tone": ""
+            }
+          ],
+          "id": 0,
+          "nextNodeId": -1,
+          "speaker": "Shopkeeper",
+          "text": "Welcome to my humble shop! Browse as you like."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 1,
+          "nextNodeId": -1,
           "speaker": "Shopkeeper",
-          "text": "A bit of everything! Tools, supplies, rope, lanterns... and the occasional curiosity from travelers.",
-          "nextNodeId": -1
+          "text": "A bit of everything! Tools, supplies, rope, lanterns... and the occasional curiosity from travelers."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 2,
+          "nextNodeId": -1,
           "speaker": "Shopkeeper",
-          "text": "Rope? I might have some in the back. If you help me with a little delivery problem, I could give you some.",
-          "nextNodeId": -1
+          "text": "Rope? I might have some in the back. If you help me with a little delivery problem, I could give you some."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 3,
+          "nextNodeId": -1,
           "speaker": "Shopkeeper",
-          "text": "Lanterns? Yes, but they're not cheap. You'd also need matches to light them. Check the cellar of the tavern - I heard there's supplies down there.",
-          "nextNodeId": -1
+          "text": "Lanterns? Yes, but they're not cheap. You'd also need matches to light them. Check the cellar of the tavern - I heard there's supplies down there."
         }
-      ]
+      ],
+      "npcName": "Shopkeeper",
+      "startNodeId": 0
     },
     {
       "id": "drunk_hints",
-      "npcName": "Drunk Patron",
-      "startNodeId": 0,
       "nodes": [
         {
-          "id": 0,
-          "speaker": "Drunk Patron",
-          "text": "*hic* Hey there, friend! Buy me a drink and I'll tell ya a secret...",
+          "action": "",
           "choices": [
-            { "text": "What kind of secret?", "nextNodeId": 1 },
-            { "text": "You look like you've had enough.", "nextNodeId": 2 },
-            { "text": "Maybe later.", "nextNodeId": -1 }
-          ]
+            {
+              "condition": "",
+              "nextNodeId": 1,
+              "preview": "",
+              "text": "What kind of secret?",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 2,
+              "preview": "",
+              "text": "You look like you've had enough.",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": -1,
+              "preview": "",
+              "text": "Maybe later.",
+              "tone": ""
+            }
+          ],
+          "id": 0,
+          "nextNodeId": -1,
+          "speaker": "Drunk Patron",
+          "text": "*hic* Hey there, friend! Buy me a drink and I'll tell ya a secret..."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 1,
+          "nextNodeId": 3,
           "speaker": "Drunk Patron",
-          "text": "*hic* There's treasure, I tell ya! Hidden in a cave past the forest. I've got half a map... somewhere...",
-          "nextNodeId": 3
+          "text": "*hic* There's treasure, I tell ya! Hidden in a cave past the forest. I've got half a map... somewhere..."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 2,
+          "nextNodeId": -1,
           "speaker": "Drunk Patron",
-          "text": "*burp* Never enough! Life's too short to be sober, friend!",
-          "nextNodeId": -1
+          "text": "*burp* Never enough! Life's too short to be sober, friend!"
         },
         {
+          "action": "",
+          "choices": [],
           "id": 3,
+          "nextNodeId": -1,
           "speaker": "Drunk Patron",
-          "text": "If you find me some more ale, maybe I can remember where I put it. Deal?",
-          "nextNodeId": -1
+          "text": "If you find me some more ale, maybe I can remember where I put it. Deal?"
         }
-      ]
+      ],
+      "npcName": "Drunk Patron",
+      "startNodeId": 0
     },
     {
       "id": "stranger_intro",
-      "npcName": "Mysterious Stranger",
-      "startNodeId": 0,
       "nodes": [
         {
-          "id": 0,
-          "speaker": "???",
-          "text": "... You seek something. I can see it in your eyes.",
+          "action": "",
           "choices": [
-            { "text": "Who are you?", "nextNodeId": 1 },
-            { "text": "What do you want?", "nextNodeId": 2 },
-            { "text": "Leave me alone.", "nextNodeId": -1 }
-          ]
+            {
+              "condition": "",
+              "nextNodeId": 1,
+              "preview": "",
+              "text": "Who are you?",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 2,
+              "preview": "",
+              "text": "What do you want?",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": -1,
+              "preview": "",
+              "text": "Leave me alone.",
+              "tone": ""
+            }
+          ],
+          "id": 0,
+          "nextNodeId": -1,
+          "speaker": "???",
+          "text": "... You seek something. I can see it in your eyes."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 1,
+          "nextNodeId": -1,
           "speaker": "???",
-          "text": "Who I am matters not. What matters is what you will become. Seek the hermit in the forest. He has answers.",
-          "nextNodeId": -1
+          "text": "Who I am matters not. What matters is what you will become. Seek the hermit in the forest. He has answers."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 2,
+          "nextNodeId": -1,
           "speaker": "???",
-          "text": "I want nothing. But I offer guidance. The library holds secrets that will change everything.",
-          "nextNodeId": -1
+          "text": "I want nothing. But I offer guidance. The library holds secrets that will change everything."
         }
-      ]
+      ],
+      "npcName": "Mysterious Stranger",
+      "startNodeId": 0
     },
     {
       "id": "guard_intro",
-      "npcName": "Town Guard",
-      "startNodeId": 0,
       "nodes": [
         {
-          "id": 0,
-          "speaker": "Guard",
-          "text": "Halt! State your business in town.",
+          "action": "",
           "choices": [
-            { "text": "I'm just a traveler.", "nextNodeId": 1 },
-            { "text": "I'm looking for adventure.", "nextNodeId": 2 },
-            { "text": "None of your business.", "nextNodeId": 3 }
-          ]
+            {
+              "condition": "",
+              "nextNodeId": 1,
+              "preview": "",
+              "text": "I'm just a traveler.",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 2,
+              "preview": "",
+              "text": "I'm looking for adventure.",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 3,
+              "preview": "",
+              "text": "None of your business.",
+              "tone": ""
+            }
+          ],
+          "id": 0,
+          "nextNodeId": -1,
+          "speaker": "Guard",
+          "text": "Halt! State your business in town."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 1,
+          "nextNodeId": -1,
           "speaker": "Guard",
-          "text": "A traveler, eh? Well, keep out of trouble and we'll get along fine. The tavern's that way if you need a drink.",
-          "nextNodeId": -1
+          "text": "A traveler, eh? Well, keep out of trouble and we'll get along fine. The tavern's that way if you need a drink."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 2,
+          "nextNodeId": -1,
           "speaker": "Guard",
-          "text": "Adventure? Ha! Try the forest if you've got a death wish. Or ask around - there's always someone needing help.",
-          "nextNodeId": -1
+          "text": "Adventure? Ha! Try the forest if you've got a death wish. Or ask around - there's always someone needing help."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 3,
+          "nextNodeId": -1,
           "speaker": "Guard",
-          "text": "Hmph. Rude one, aren't ya? Just don't cause any problems.",
-          "nextNodeId": -1
+          "text": "Hmph. Rude one, aren't ya? Just don't cause any problems."
         }
-      ]
+      ],
+      "npcName": "Town Guard",
+      "startNodeId": 0
     },
     {
       "id": "librarian_intro",
-      "npcName": "Old Librarian",
-      "startNodeId": 0,
       "nodes": [
         {
-          "id": 0,
-          "speaker": "Librarian",
-          "text": "Welcome to our humble library. Knowledge is the greatest treasure.",
+          "action": "",
           "choices": [
-            { "text": "I'm looking for information about this town.", "nextNodeId": 1 },
-            { "text": "Do you have any ancient books?", "nextNodeId": 2 },
-            { "text": "Just browsing.", "nextNodeId": -1 }
-          ]
+            {
+              "condition": "",
+              "nextNodeId": 1,
+              "preview": "",
+              "text": "I'm looking for information about this town.",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 2,
+              "preview": "",
+              "text": "Do you have any ancient books?",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": -1,
+              "preview": "",
+              "text": "Just browsing.",
+              "tone": ""
+            }
+          ],
+          "id": 0,
+          "nextNodeId": -1,
+          "speaker": "Librarian",
+          "text": "Welcome to our humble library. Knowledge is the greatest treasure."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 1,
+          "nextNodeId": 3,
           "speaker": "Librarian",
-          "text": "This town has a long history. Founded centuries ago, it guards secrets older than the kingdom itself.",
-          "nextNodeId": 3
+          "text": "This town has a long history. Founded centuries ago, it guards secrets older than the kingdom itself."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 2,
+          "nextNodeId": 4,
           "speaker": "Librarian",
-          "text": "Ancient books? I have many! But there's one I've been searching for - the Book of Shadows. It's said to be hidden somewhere in town.",
-          "nextNodeId": 4
+          "text": "Ancient books? I have many! But there's one I've been searching for - the Book of Shadows. It's said to be hidden somewhere in town."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 3,
+          "nextNodeId": -1,
           "speaker": "Librarian",
-          "text": "There are caves to the east, beyond the forest. Some say they hold treasures. Others say they hold something far more dangerous.",
-          "nextNodeId": -1
+          "text": "There are caves to the east, beyond the forest. Some say they hold treasures. Others say they hold something far more dangerous."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 4,
+          "nextNodeId": -1,
           "speaker": "Librarian",
-          "text": "If you find it, bring it to me. I'll reward you handsomely with information that could change your fate.",
-          "nextNodeId": -1
+          "text": "If you find it, bring it to me. I'll reward you handsomely with information that could change your fate."
         }
-      ]
+      ],
+      "npcName": "Old Librarian",
+      "startNodeId": 0
     },
     {
       "id": "hermit_intro",
-      "npcName": "Forest Hermit",
-      "startNodeId": 0,
       "nodes": [
         {
-          "id": 0,
-          "speaker": "Hermit",
-          "text": "Ah, a visitor! It's been... years? Decades? Time flows strangely here.",
+          "action": "",
           "choices": [
-            { "text": "The bartender sent me.", "nextNodeId": 1 },
-            { "text": "I'm exploring the forest.", "nextNodeId": 2 },
-            { "text": "What do you know about the cave?", "nextNodeId": 3 }
-          ]
+            {
+              "condition": "",
+              "nextNodeId": 1,
+              "preview": "",
+              "text": "The bartender sent me.",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 2,
+              "preview": "",
+              "text": "I'm exploring the forest.",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 3,
+              "preview": "",
+              "text": "What do you know about the cave?",
+              "tone": ""
+            }
+          ],
+          "id": 0,
+          "nextNodeId": -1,
+          "speaker": "Hermit",
+          "text": "Ah, a visitor! It's been... years? Decades? Time flows strangely here."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 1,
+          "nextNodeId": 4,
           "speaker": "Hermit",
-          "text": "Old Grumpy still remembers me? Heh. Yes, I know many things. The mushrooms here... they show visions.",
-          "nextNodeId": 4
+          "text": "Old Grumpy still remembers me? Heh. Yes, I know many things. The mushrooms here... they show visions."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 2,
+          "nextNodeId": -1,
           "speaker": "Hermit",
-          "text": "The forest is alive, you know. It watches. It listens. Treat it with respect and it will guide you.",
-          "nextNodeId": -1
+          "text": "The forest is alive, you know. It watches. It listens. Treat it with respect and it will guide you."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 3,
+          "nextNodeId": -1,
           "speaker": "Hermit",
-          "text": "The cave? *trembles* Dark things lurk there. But also great treasure. You'll need light - not just any light. The crystals within glow only for the worthy.",
-          "nextNodeId": -1
+          "text": "The cave? *trembles* Dark things lurk there. But also great treasure. You'll need light - not just any light. The crystals within glow only for the worthy."
         },
         {
+          "action": "",
+          "choices": [],
           "id": 4,
+          "nextNodeId": -1,
           "speaker": "Hermit",
-          "text": "Bring me a strange mushroom and I'll brew you a potion. It might help you see what others cannot.",
-          "nextNodeId": -1
+          "text": "Bring me a strange mushroom and I'll brew you a potion. It might help you see what others cannot."
         }
-      ]
+      ],
+      "npcName": "Forest Hermit",
+      "startNodeId": 0
     },
     {
       "id": "cat_meow",
-      "npcName": "Mysterious Cat",
-      "startNodeId": 0,
       "nodes": [
         {
-          "id": 0,
-          "speaker": "Cat",
-          "text": "*Meow*",
+          "action": "",
           "choices": [
-            { "text": "Here kitty kitty...", "nextNodeId": 1 },
-            { "text": "Shoo!", "nextNodeId": 2 }
-          ]
+            {
+              "condition": "",
+              "nextNodeId": 1,
+              "preview": "",
+              "text": "Here kitty kitty...",
+              "tone": ""
+            },
+            {
+              "condition": "",
+              "nextNodeId": 2,
+              "preview": "",
+              "text": "Shoo!",
+              "tone": ""
+            }
+          ],
+          "id": 0,
+          "nextNodeId": -1,
+          "speaker": "Cat",
+          "text": "*Meow*"
         },
         {
+          "action": "",
+          "choices": [],
           "id": 1,
+          "nextNodeId": -1,
           "speaker": "Cat",
-          "text": "*The cat stares at you with knowing eyes, then walks away mysteriously*",
-          "nextNodeId": -1
+          "text": "*The cat stares at you with knowing eyes, then walks away mysteriously*"
         },
         {
+          "action": "",
+          "choices": [],
           "id": 2,
+          "nextNodeId": -1,
           "speaker": "Cat",
-          "text": "*The cat hisses and disappears into the shadows*",
-          "nextNodeId": -1
+          "text": "*The cat hisses and disappears into the shadows*"
         }
-      ]
+      ],
+      "npcName": "Mysterious Cat",
+      "startNodeId": 0
     }
   ]
 }

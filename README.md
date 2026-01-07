@@ -6,7 +6,7 @@ Ett point-and-click adventure-spel för Windows, byggt med C++17 och SDL2.
 
 ### Spel
 - **State Management** - MenuState, PlayState, PauseState, DialogState
-- **Room System** - Rum med hotspots, NPCs, transitions
+- **Scene System** - Scener med hotspots, NPCs, transitions (ersätter Room system)
 - **Dialog System** - Dialogträd med val och villkor
 - **Inventory System** - Items, pickup, kombination
 - **Quest System** - Objectives med auto-completion
@@ -15,6 +15,7 @@ Ett point-and-click adventure-spel för Windows, byggt med C++17 och SDL2.
 - **Cutscene System** - Scripted sequences med fade och text
 - **UI Widgets** - Button, Label, Panel, ProgressBar
 - **Depth Scaling** - Perspektiv-skalning av karaktärer baserat på Y-position
+- **Box2D Physics** - Platformer-kollisioner, CharacterController2D, Adventure/Platformer modes
 
 ### Editor (Dear ImGui)
 - **Professionellt UI** - Docking-baserad layout med flyttbara paneler
@@ -24,6 +25,11 @@ Ett point-and-click adventure-spel för Windows, byggt med C++17 och SDL2.
 - **Asset Browser** - Grid/List view, filter, search
 - **Console Panel** - Logg med timestamps och log levels
 - **Visuell redigering** - Drag-and-drop för hotspots och walk areas
+- **Data Serialization** - EditorDataManager för World/Scene serialization
+- **Background Actor System** - SpriteComponent-baserad bakgrundsrendering
+- **Physics Editor** - Visual redigering av collision boxes och triggers
+- **Physics Visualization** - Färgkodad visning av colliders i viewport
+- **Gateway System** - Scene/level/world transitions via hotspots
 
 ## Krav
 
