@@ -52,10 +52,15 @@ struct EditorSelection {
 /**
  * @brief Shared editor context
  */
+class EditorState;  // Forward declaration
+
 class EditorContext {
 public:
     EditorContext() = default;
     ~EditorContext();
+    
+    // Set the editor state (for accessing managers)
+    void setEditorState(EditorState* state) { m_editorState = state; }
     
     // Selection type enum
     enum class SelectionType {
@@ -113,8 +118,12 @@ public:
     // Load/Save
     void loadFromDataLoader();
     void saveToFiles();
+    
+    // Sync Level/Scene data to RoomData
+    void syncScenesToRoomData();
 
 private:
+    EditorState* m_editorState = nullptr;
     EditorSelection m_selection;
     std::unordered_map<std::string, std::any> m_clipboard;
     std::unordered_map<std::string, SDL_Texture*> m_textureCache;

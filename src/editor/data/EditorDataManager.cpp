@@ -148,6 +148,14 @@ bool EditorDataManager::isDirty() const {
     return false;
 }
 
+SerializationResult EditorDataManager::saveWorld() {
+    auto result = m_worldSerializer.save();
+    if (result.success) {
+        LOG_INFO("Saved world.json");
+    }
+    return result;
+}
+
 void EditorDataManager::markAllClean() {
     for (auto* serializer : getAllSerializers()) {
         serializer->markClean();

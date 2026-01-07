@@ -3,8 +3,8 @@
     {
       "background": "assets/backgrounds/tavern-inside.png",
       "gridPosition": {
-        "gridX": 0,
-        "gridY": 0,
+        "gridX": -7,
+        "gridY": -3,
         "pixelHeight": 400,
         "pixelWidth": 640
       },
@@ -75,7 +75,7 @@
           "h": 90,
           "id": "door_street",
           "name": "Exit to Street",
-          "targetScene": "street",
+          "targetRoom": "street",
           "type": "exit",
           "w": 50,
           "x": 397,
@@ -85,7 +85,7 @@
           "h": 30,
           "id": "door_cellar",
           "name": "Cellar Door",
-          "targetScene": "cellar",
+          "targetRoom": "cellar",
           "type": "exit",
           "w": 40,
           "x": 300,
@@ -117,8 +117,8 @@
     {
       "background": "assets/backgrounds/tavern-inside.png",
       "gridPosition": {
-        "gridX": 1,
-        "gridY": 0,
+        "gridX": 3,
+        "gridY": -7,
         "pixelHeight": 400,
         "pixelWidth": 640
       },
@@ -127,7 +127,7 @@
           "h": 90,
           "id": "door_tavern",
           "name": "Tavern Door",
-          "targetScene": "tavern",
+          "targetRoom": "tavern",
           "type": "exit",
           "w": 50,
           "x": 20,
@@ -137,7 +137,7 @@
           "h": 90,
           "id": "door_shop",
           "name": "Shop Door",
-          "targetScene": "shop",
+          "targetRoom": "shop",
           "type": "exit",
           "w": 50,
           "x": 300,
@@ -147,7 +147,7 @@
           "h": 90,
           "id": "door_library",
           "name": "Library Door",
-          "targetScene": "library",
+          "targetRoom": "library",
           "type": "exit",
           "w": 50,
           "x": 450,
@@ -175,7 +175,7 @@
           "h": 60,
           "id": "path_forest",
           "name": "Forest Path",
-          "targetScene": "forest",
+          "targetRoom": "forest",
           "type": "exit",
           "w": 40,
           "x": 600,
@@ -199,8 +199,8 @@
     {
       "background": "assets/backgrounds/tavern-inside.png",
       "gridPosition": {
-        "gridX": 2,
-        "gridY": 0,
+        "gridX": -24,
+        "gridY": 10,
         "pixelHeight": 400,
         "pixelWidth": 640
       },
@@ -237,7 +237,7 @@
           "h": 90,
           "id": "door_street",
           "name": "Exit to Street",
-          "targetScene": "street",
+          "targetRoom": "street",
           "type": "exit",
           "w": 50,
           "x": 20,
@@ -261,8 +261,8 @@
     {
       "background": "assets/backgrounds/tavern-inside.png",
       "gridPosition": {
-        "gridX": 3,
-        "gridY": 0,
+        "gridX": -5,
+        "gridY": 7,
         "pixelHeight": 400,
         "pixelWidth": 640
       },
@@ -308,7 +308,7 @@
           "h": 90,
           "id": "door_street",
           "name": "Exit to Street",
-          "targetScene": "street",
+          "targetRoom": "street",
           "type": "exit",
           "w": 50,
           "x": 20,
@@ -332,8 +332,8 @@
     {
       "background": "assets/backgrounds/tavern-inside.png",
       "gridPosition": {
-        "gridX": 0,
-        "gridY": 1,
+        "gridX": 11,
+        "gridY": 4,
         "pixelHeight": 400,
         "pixelWidth": 640
       },
@@ -369,7 +369,7 @@
           "h": 70,
           "id": "stairs_up",
           "name": "Stairs Up",
-          "targetScene": "tavern",
+          "targetRoom": "tavern",
           "type": "exit",
           "w": 50,
           "x": 20,
@@ -393,8 +393,8 @@
     {
       "background": "assets/backgrounds/tavern-inside.png",
       "gridPosition": {
-        "gridX": 1,
-        "gridY": 1,
+        "gridX": 16,
+        "gridY": -5,
         "pixelHeight": 400,
         "pixelWidth": 640
       },
@@ -431,7 +431,7 @@
           "h": 60,
           "id": "path_town",
           "name": "Path to Town",
-          "targetScene": "street",
+          "targetRoom": "street",
           "type": "exit",
           "w": 50,
           "x": 20,
@@ -441,7 +441,7 @@
           "h": 70,
           "id": "path_cave",
           "name": "Cave Entrance",
-          "targetScene": "cave",
+          "targetRoom": "cave",
           "type": "exit",
           "w": 50,
           "x": 580,
@@ -465,8 +465,8 @@
     {
       "background": "assets/backgrounds/tavern-inside.png",
       "gridPosition": {
-        "gridX": 2,
-        "gridY": 1,
+        "gridX": -18,
+        "gridY": 0,
         "pixelHeight": 400,
         "pixelWidth": 640
       },
@@ -502,7 +502,7 @@
           "h": 60,
           "id": "cave_exit",
           "name": "Cave Exit",
-          "targetScene": "forest",
+          "targetRoom": "forest",
           "type": "exit",
           "w": 50,
           "x": 20,

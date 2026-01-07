@@ -185,6 +185,11 @@ set(EDITOR_SOURCES
     src/editor/core/EditorContext.cpp
     src/editor/core/EditorCore.cpp
     src/editor/core/EditorApp.cpp
+    src/editor/core/CommandManager.cpp
+    
+    # Commands
+    src/editor/commands/HotspotCommands.cpp
+    src/editor/commands/ActorCommands.cpp
     
     # Legacy
     src/editor/legacy/FileBrowser.cpp

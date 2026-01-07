@@ -10,6 +10,17 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ### Kväll
 
+- `7df904f` refactor(editor): complete folder restructuring and fix rendering issues
+  - **Arkitektur:** Flyttade 80+ filer från flat src/editor/ till hierarkisk struktur
+  - **Structure:** Skapade core/, managers/, panels/*/, properties/*/, legacy/, ui/, input/, data/, commands/, tools/, widgets/
+  - **Build:** Uppdaterade CMakeLists.txt med alla nya sökvägar
+  - **Fixes:** Fixade ImGui dockspace att använda faktisk fönsterstorlek istället för hårdkodade värden
+  - **Fixes:** Lade till SDL_RenderClear() för att förhindra fullscreen artifacts
+  - **Fixes:** Fixade alla include paths efter omstruktureringen
+  - **Resultat:** Editorn är nu fullt fungerande med organiserad kodbas
+  - **Statistik:** 171 filer ändrade, 488 insertions, 1665 deletions
+  - Session: [2026-01-06](sessions/2026-01-06.md)
+
 - `fd76906` refactor(editor): separate EditorState into manager classes
   - **Arkitektur:** EditorState.cpp reducerad från 998 till 211 rader (-79%)
   - **Separation of Concerns:** Extraherade funktionalitet till manager-klasser

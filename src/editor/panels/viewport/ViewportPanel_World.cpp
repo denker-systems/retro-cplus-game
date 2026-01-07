@@ -162,20 +162,49 @@ void ViewportPanel::renderWorldSpatialView() {
     for (const auto& level : levels) {
         const auto& gridPos = level->getGridPosition();
         
-        float levelX = originX + gridPos.gridX * cellSize;
-        float levelY = originY + gridPos.gridY * cellSize;
+        // Calculate position (use drag position if dragging)
+        float levelX, levelY;
+        if (m_draggedLevel == level.get()) {
+            ImVec2 mousePos = ImGui::GetIO().MousePos;
+            levelX = mousePos.x - m_dragLevelStartX;
+            levelY = mousePos.y - m_dragLevelStartY;
+        } else {
+            levelX = originX + gridPos.gridX * cellSize;
+            levelY = originY + gridPos.gridY * cellSize;
+        }
         float levelW = gridPos.pixelWidth * m_worldSpatialZoom * 0.5f;
         float levelH = gridPos.pixelHeight * m_worldSpatialZoom * 0.5f;
         
-        // Level rectangle
+        // Level rectangle - highlight if selected or dragged
+        bool isSelected = (m_selectedLevel == level.get());
+        bool isDragging = (m_draggedLevel == level.get());
+        
+        ImU32 fillColor = isDragging ? IM_COL32(80, 110, 150, 180) :
+                          isSelected ? IM_COL32(70, 100, 140, 220) :
+                                       IM_COL32(70, 90, 120, 200);
+        ImU32 borderColor = isDragging ? IM_COL32(100, 200, 255, 255) :
+                            isSelected ? IM_COL32(100, 180, 255, 255) :
+                                         IM_COL32(100, 140, 180, 255);
+        
         drawList->AddRectFilled(ImVec2(levelX, levelY), ImVec2(levelX + levelW, levelY + levelH),
-                               IM_COL32(70, 90, 120, 200), 4.0f);
+                               fillColor, 4.0f);
         drawList->AddRect(ImVec2(levelX, levelY), ImVec2(levelX + levelW, levelY + levelH),
-                         IM_COL32(100, 140, 180, 255), 4.0f, 0, 2.0f);
+                         borderColor, 4.0f, 0, isSelected || isDragging ? 3.0f : 2.0f);
         
         // Name
         drawList->AddText(ImVec2(levelX + 4, levelY + 4), IM_COL32(255, 255, 255, 255), 
                          level->getName().c_str());
+        
+        // Grid position info
+        char posInfo[32];
+        if (isDragging) {
+            int snapX = (int)round((levelX - originX) / cellSize);
+            int snapY = (int)round((levelY - originY) / cellSize);
+            snprintf(posInfo, sizeof(posInfo), "(%d,%d) -> (%d,%d)", gridPos.gridX, gridPos.gridY, snapX, snapY);
+        } else {
+            snprintf(posInfo, sizeof(posInfo), "(%d,%d)", gridPos.gridX, gridPos.gridY);
+        }
+        drawList->AddText(ImVec2(levelX + 4, levelY + levelH - 16), IM_COL32(180, 180, 180, 200), posInfo);
         
         // Scene count
         char info[32];
@@ -183,25 +212,31 @@ void ViewportPanel::renderWorldSpatialView() {
         drawList->AddText(ImVec2(levelX + 4, levelY + 20), IM_COL32(180, 180, 180, 200), info);
     }
     
-    // Interaction
+    // Handle interaction
     ImGui::SetCursorScreenPos(canvasPos);
     ImGui::InvisibleButton("world_spatial", canvasSize);
     
-    if (ImGui::IsItemHovered()) {
+    if (ImGui::IsItemHovered() || m_draggedLevel) {
+        ImVec2 mousePos = ImGui::GetIO().MousePos;
+        
+        // Pan with middle mouse or Alt+drag
         if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle) || 
-            (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && ImGui::GetIO().KeyAlt)) {
+            (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && ImGui::GetIO().KeyAlt && !m_draggedLevel)) {
             m_worldSpatialPanX += ImGui::GetIO().MouseDelta.x;
             m_worldSpatialPanY += ImGui::GetIO().MouseDelta.y;
         }
         
+        // Zoom with scroll
         float wheel = ImGui::GetIO().MouseWheel;
-        if (wheel != 0.0f) {
+        if (wheel != 0.0f && !m_draggedLevel) {
             m_worldSpatialZoom = std::clamp(m_worldSpatialZoom + wheel * 0.1f, 0.2f, 3.0f);
         }
         
-        // Click to select
+        // Mouse down - start drag or select (same as Level view)
         if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::GetIO().KeyAlt) {
-            ImVec2 mousePos = ImGui::GetIO().MousePos;
+            m_selectedLevel = nullptr;
+            m_draggedLevel = nullptr;
+            
             for (const auto& level : levels) {
                 const auto& gridPos = level->getGridPosition();
                 float levelX = originX + gridPos.gridX * cellSize;
@@ -211,17 +246,53 @@ void ViewportPanel::renderWorldSpatialView() {
                 
                 if (mousePos.x >= levelX && mousePos.x <= levelX + levelW &&
                     mousePos.y >= levelY && mousePos.y <= levelY + levelH) {
-                    setLevel(const_cast<engine::Level*>(level.get()));
+                    m_selectedLevel = level.get();
+                    m_draggedLevel = level.get();
+                    m_dragLevelStartX = mousePos.x - levelX;
+                    m_dragLevelStartY = mousePos.y - levelY;
+                    m_dragLevelStartGridX = gridPos.gridX;
+                    m_dragLevelStartGridY = gridPos.gridY;
                     break;
                 }
             }
         }
+        
+        // Mouse released - finish drag
+        if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) && m_draggedLevel) {
+            float levelX = mousePos.x - m_dragLevelStartX;
+            float levelY = mousePos.y - m_dragLevelStartY;
+            
+            int newGridX = (int)round((levelX - originX) / cellSize);
+            int newGridY = (int)round((levelY - originY) / cellSize);
+            
+            if (newGridX != m_dragLevelStartGridX || newGridY != m_dragLevelStartGridY) {
+                m_draggedLevel->setGridPosition(newGridX, newGridY,
+                    m_draggedLevel->getWidth(), m_draggedLevel->getHeight());
+            }
+            
+            m_draggedLevel = nullptr;
+        }
+        
+        // Double-click to enter level (same as Level view)
+        if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) && m_selectedLevel) {
+            setLevel(const_cast<engine::Level*>(m_selectedLevel));
+        }
     }
     
+    // Cancel drag
+    if (m_draggedLevel && (ImGui::IsKeyPressed(ImGuiKey_Escape) || !ImGui::IsMouseDown(ImGuiMouseButton_Left))) {
+        m_draggedLevel = nullptr;
+    }
+    
+    // Border
     drawList->AddRect(canvasPos, ImVec2(canvasPos.x + canvasSize.x, canvasPos.y + canvasSize.y),
                      IM_COL32(60, 60, 70, 255));
     
+    // Help text (same style as Level view)
     ImGui::SetCursorScreenPos(ImVec2(canvasPos.x + 5, canvasPos.y + canvasSize.y - 20));
-    ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "Middle-mouse to pan, scroll to zoom");
+    const char* helpText = m_draggedLevel ? "Release to place, Escape to cancel" :
+                           m_selectedLevel ? "Drag to move, Double-click to enter" :
+                           "Click to select, Middle-mouse to pan, Scroll to zoom";
+    ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "%s", helpText);
 #endif
 }

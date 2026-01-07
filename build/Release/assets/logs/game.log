@@ -1,24 +1,33 @@
 ========================================
-  Game Log - 2026-01-06 22:57:39.410
+  Game Log - 2026-01-06 23:29:04.977
 ========================================
 
-[2026-01-06 22:57:39.410] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-06 22:57:39.583] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-06 22:57:39.598] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-06 22:57:39.617] [INFO ] [Game.cpp:82] Window created
-[2026-01-06 22:57:39.721] [INFO ] [Game.cpp:92] Renderer created
-[2026-01-06 22:57:39.721] [INFO ] [Game.cpp:212] Viewport: 1440x900 at (80,0)
-[2026-01-06 22:57:39.728] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
-[2026-01-06 22:57:39.728] [INFO ] [Game.cpp:129] Game initialized successfully!
-[2026-01-06 22:57:39.728] [INFO ] [EditorState.cpp:38] EditorState created
-[2026-01-06 22:57:39.729] [INFO ] [EditorState.cpp:42] EditorState::enter()
-[2026-01-06 22:57:39.784] [INFO ] [EditorWorldManager.cpp:36] EditorWorldManager: World created with 7 scenes
-[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:104] EditorState::enter() - ImGui initialized: YES
-[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:105] EditorState::enter() - PanelManager created: YES
-[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:106] EditorState::enter() - WorldManager created: YES
-[2026-01-06 22:57:39.785] [INFO ] [EditorContext.cpp:78] EditorContext loaded 7 rooms, 8 dialogs
-[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:111] EditorContext loaded with 8 dialogs
-[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:166] EditorState::render() - First render call
-[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:201] EditorState::renderImGui() - First ImGui render
-[2026-01-06 22:57:42.835] [INFO ] [main.cpp:20] === RetroAdventure Editor Shutdown ===
-[2026-01-06 22:57:42.835] [INFO ] [Game.cpp:233] === Game Shutting Down ===
+[2026-01-06 23:29:04.977] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-06 23:29:05.146] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-06 23:29:05.160] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-06 23:29:05.180] [INFO ] [Game.cpp:82] Window created
+[2026-01-06 23:29:05.295] [INFO ] [Game.cpp:92] Renderer created
+[2026-01-06 23:29:05.296] [INFO ] [Game.cpp:212] Viewport: 1440x900 at (80,0)
+[2026-01-06 23:29:05.297] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-06 23:29:05.297] [INFO ] [Game.cpp:129] Game initialized successfully!
+[2026-01-06 23:29:05.297] [INFO ] [EditorState.cpp:38] EditorState created
+[2026-01-06 23:29:05.298] [INFO ] [EditorState.cpp:42] EditorState::enter()
+[2026-01-06 23:29:05.302] [INFO ] [EditorWorldManager.cpp:54] Loaded world.json: Retro Adventure with 1 levels
+[2026-01-06 23:29:05.302] [DEBUG] [EditorWorldManager.cpp:110] Creating Level 'Main Game' at grid (1,0)
+[2026-01-06 23:29:05.327] [DEBUG] [EditorWorldManager.cpp:157]   Scene 'The Rusty Anchor' at grid (-7,-3)
+[2026-01-06 23:29:05.329] [DEBUG] [EditorWorldManager.cpp:157]   Scene 'Town Square' at grid (3,-7)
+[2026-01-06 23:29:05.331] [DEBUG] [EditorWorldManager.cpp:157]   Scene 'General Store' at grid (-24,10)
+[2026-01-06 23:29:05.332] [DEBUG] [EditorWorldManager.cpp:157]   Scene 'Town Library' at grid (-5,7)
+[2026-01-06 23:29:05.333] [DEBUG] [EditorWorldManager.cpp:157]   Scene 'Tavern Cellar' at grid (11,4)
+[2026-01-06 23:29:05.335] [DEBUG] [EditorWorldManager.cpp:157]   Scene 'Dark Forest' at grid (16,-5)
+[2026-01-06 23:29:05.336] [DEBUG] [EditorWorldManager.cpp:157]   Scene 'Mysterious Cave' at grid (-18,0)
+[2026-01-06 23:29:05.336] [INFO ] [EditorWorldManager.cpp:44] EditorWorldManager: World 'Retro Adventure' created with 1 levels, 7 scenes
+[2026-01-06 23:29:05.336] [INFO ] [EditorState.cpp:107] EditorState::enter() - ImGui initialized: YES
+[2026-01-06 23:29:05.337] [INFO ] [EditorState.cpp:108] EditorState::enter() - PanelManager created: YES
+[2026-01-06 23:29:05.337] [INFO ] [EditorState.cpp:109] EditorState::enter() - WorldManager created: YES
+[2026-01-06 23:29:05.337] [INFO ] [EditorContext.cpp:82] EditorContext loaded 7 rooms, 8 dialogs
+[2026-01-06 23:29:05.337] [INFO ] [EditorState.cpp:114] EditorContext loaded with 8 dialogs
+[2026-01-06 23:29:05.337] [INFO ] [EditorState.cpp:169] EditorState::render() - First render call
+[2026-01-06 23:29:05.337] [INFO ] [EditorState.cpp:204] EditorState::renderImGui() - First ImGui render
+[2026-01-06 23:29:11.599] [INFO ] [main.cpp:20] === RetroAdventure Editor Shutdown ===
+[2026-01-06 23:29:11.599] [INFO ] [Game.cpp:233] === Game Shutting Down ===

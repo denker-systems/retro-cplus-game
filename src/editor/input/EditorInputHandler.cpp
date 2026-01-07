@@ -4,7 +4,7 @@
  */
 #include "EditorInputHandler.h"
 #include "editor/core/EditorContext.h"
-#include "editor/core/EditorCore.h"
+#include "editor/core/CommandManager.h"
 #include "editor/panels/viewport/ViewportPanel.h"
 #include "engine/utils/Logger.h"
 
@@ -122,16 +122,16 @@ bool EditorInputHandler::handleEvent(const SDL_Event& event) {
             return true;
             
         case EditorAction::Undo:
-            if (EditorCore::instance().canUndo()) {
-                EditorCore::instance().undo();
+            if (CommandManager::instance().canUndo()) {
+                CommandManager::instance().undo();
                 LOG_DEBUG("EditorInputHandler: Undo performed");
             }
             executeAction(action);
             return true;
             
         case EditorAction::Redo:
-            if (EditorCore::instance().canRedo()) {
-                EditorCore::instance().redo();
+            if (CommandManager::instance().canRedo()) {
+                CommandManager::instance().redo();
                 LOG_DEBUG("EditorInputHandler: Redo performed");
             }
             executeAction(action);

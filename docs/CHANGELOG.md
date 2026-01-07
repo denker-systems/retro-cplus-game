@@ -9,18 +9,24 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
-
 ### Changed
+- **Editor folder structure** - Complete reorganization from flat to hierarchical layout
 - **EditorState** refaktorerad från 998 till 211 rader (-79%) med separation of concerns
 - **ViewportPanel** uppdelad i 6 modulära filer (Core, World, Level, Scene, Actors, Input)
 
 ### Added
+- **Hierarchical editor structure** - core/, managers/, panels/*/, properties/*/, legacy/, ui/, input/, data/, commands/, tools/, widgets/
 - **EditorPanelManager** - Centraliserad panel creation och management
 - **EditorWorldManager** - World/Level/Scene setup från RoomData
 - **EditorEventDispatcher** - SDL event handling och shortcuts
 - **PlaceActorsPanel** - UE5-style drag-and-drop för actor templates
 - **EditorInputHandler** - Windows shortcuts (Del, Ctrl+Z/Y/D/S)
 - **WorldContainer.removeActor()** - Metod för att ta bort actors från containers
+
+### Fixed
+- **ImGui dockspace** - Uses actual window size instead of hardcoded values
+- **Fullscreen artifacts** - Added SDL_RenderClear() to prevent visual artifacts
+- **Include paths** - Fixed all includes after folder restructuring
 
 ### Added
 - **Scene** and **SceneManager** - New scene system replacing Room system

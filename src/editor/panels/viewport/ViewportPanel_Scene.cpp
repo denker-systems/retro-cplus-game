@@ -4,6 +4,8 @@
  */
 #include "ViewportPanel.h"
 #include "editor/core/EditorContext.h"
+#include "editor/core/CommandManager.h"
+#include "editor/commands/ActorCommands.h"
 #include "engine/world/Scene.h"
 #include "engine/components/SpriteComponent.h"
 #include "engine/core/ActorObjectExtended.h"
@@ -320,15 +322,12 @@ void ViewportPanel::renderSceneGrid(ImDrawList* drawList, ImVec2 offset, ImVec2 
 void ViewportPanel::deleteSelectedActor() {
     if (!m_scene || !m_selectedActor) return;
     
-    std::string actorName = m_selectedActor->getName();
-    
-    // Remove from scene using removeActor method
-    m_scene->removeActor(m_selectedActor);
+    // Create and execute delete command
+    auto command = std::make_unique<DeleteActorCommand>(m_scene, m_selectedActor);
+    CommandManager::instance().executeCommand(std::move(command));
     
     m_selectedActor = nullptr;
     m_draggedActor = nullptr;
-    
-    LOG_DEBUG("ViewportPanel: Deleted actor '" + actorName + "'");
 }
 
 void ViewportPanel::duplicateSelectedActor() {

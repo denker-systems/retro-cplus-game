@@ -86,6 +86,14 @@ private:
     float m_worldSpatialPanX = 0.0f;
     float m_worldSpatialPanY = 0.0f;
     
+    // World view editing state (Level drag)
+    engine::Level* m_selectedLevel = nullptr;
+    engine::Level* m_draggedLevel = nullptr;
+    float m_dragLevelStartX = 0.0f;
+    float m_dragLevelStartY = 0.0f;
+    int m_dragLevelStartGridX = 0;
+    int m_dragLevelStartGridY = 0;
+    
     // Level view mode: 0=Spatial, 1=Grid, 2=List
     int m_levelViewMode = 0;  // Default to Spatial
     float m_spatialZoom = 1.0f;

@@ -13,6 +13,9 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\EditorState.cpp
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\EditorContext.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorContext.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\EditorCore.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorCore.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\EditorApp.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorApp.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\CommandManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\CommandManager.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\commands\HotspotCommands.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\HotspotCommands.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\commands\ActorCommands.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ActorCommands.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\legacy\FileBrowser.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\FileBrowser.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\legacy\DebugEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\DebugEditor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\legacy\VisualRoomEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\VisualRoomEditor.obj

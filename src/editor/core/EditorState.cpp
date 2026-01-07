@@ -49,6 +49,9 @@ void EditorState::enter() {
         ImGuiManager::instance().init(m_game->getWindow(), m_game->getRenderer());
     }
     
+    // Set editor state reference in context
+    m_editorContext.setEditorState(this);
+    
     // Create managers
     m_panelManager = std::make_unique<EditorPanelManager>(m_editorContext);
     m_panelManager->initialize(m_game);

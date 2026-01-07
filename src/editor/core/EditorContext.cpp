@@ -2,7 +2,11 @@
  * @file EditorContext.cpp
  * @brief Implementation of shared editor context
  */
-#include "EditorContext.h"
+#include "editor/core/EditorContext.h"
+#include "editor/core/EditorState.h"
+#include "editor/managers/EditorWorldManager.h"
+#include "editor/data/EditorDataManager.h"
+#include "game/Game.h"
 #include "engine/data/DataLoader.h"
 #include "engine/utils/Logger.h"
 #include <nlohmann/json.hpp>
@@ -79,6 +83,28 @@ void EditorContext::loadFromDataLoader() {
 }
 
 void EditorContext::saveToFiles() {
+    LOG_INFO("=== SAVE: Starting full hierarchy sync ===");
+    
+    // STEP 1: Sync World/Level data (world.json)
+    if (m_editorState) {
+        auto* worldMgr = m_editorState->getWorldManager();
+        if (worldMgr) {
+            // Sync and save world.json (includes Level grid positions)
+            worldMgr->saveWorldData();
+        }
+    }
+    
+    // STEP 2: Sync Scene grid positions to RoomData
+    syncScenesToRoomData();
+    
+    // STEP 3: Sync back to DataLoader since we read from there
+    LOG_INFO("=== SAVE: Syncing to DataLoader ===");
+    auto& dataLoader = DataLoader::instance();
+    for (size_t i = 0; i < rooms.size() && i < dataLoader.getRooms().size(); ++i) {
+        dataLoader.getRooms()[i].gridPosition = rooms[i].gridPosition;
+    }
+    LOG_INFO("=== SAVE: Full hierarchy sync completed ===");
+    
     // Save rooms - use DataLoader's rooms since ViewportPanel modifies those directly
     {
         json data;
@@ -258,13 +284,30 @@ void EditorContext::saveToFiles() {
         }
     }
     
-    // Reload DataLoader to sync - DISABLED: causes file overwrite issues
-    // DataLoader::instance().loadAll();
-    
     // Clear dirty flag after successful save
     isDirty = false;
     
     statusMessage = "Saved successfully!";
     statusTimer = 3.0f;
+}
+
+void EditorContext::syncScenesToRoomData() {
+    LOG_INFO("EditorContext::syncScenesToRoomData() called");
+    
+    if (!m_editorState) {
+        LOG_ERROR("EditorContext::syncScenesToRoomData: m_editorState is null!");
+        return;
+    }
+    
+    // Get WorldManager and sync
+    auto* worldMgr = m_editorState->getWorldManager();
+    if (!worldMgr) {
+        LOG_ERROR("EditorContext::syncScenesToRoomData: worldMgr is null!");
+        return;
+    }
+    
+    LOG_INFO("EditorContext: Calling WorldManager::syncScenesToRoomData()");
+    worldMgr->syncScenesToRoomData();
+    LOG_INFO("EditorContext::syncScenesToRoomData() completed");
 }
 

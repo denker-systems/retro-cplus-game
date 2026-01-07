@@ -99,6 +99,11 @@ public:
     void markAllClean();
     
     /**
+     * @brief Save only world data
+     */
+    SerializationResult saveWorld();
+    
+    /**
      * @brief Get status message for UI
      */
     std::string getStatusMessage() const { return m_statusMessage; }

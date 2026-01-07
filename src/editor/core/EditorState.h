@@ -156,6 +156,10 @@ private:
     std::unique_ptr<EditorWorldManager> m_worldManager;
     std::unique_ptr<EditorEventDispatcher> m_eventDispatcher;
     
+public:
+    // Accessors for EditorContext
+    EditorWorldManager* getWorldManager() const { return m_worldManager.get(); }
+    
     // Data manager for all save/load operations
     editor::EditorDataManager m_dataManager;
 };
