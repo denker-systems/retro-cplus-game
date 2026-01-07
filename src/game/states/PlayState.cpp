@@ -15,6 +15,9 @@
 #include "engine/components/DialogComponent.h"
 #include "engine/components/InventoryComponent.h"
 #include "engine/components/InteractionComponent.h"
+#include "engine/components/RigidBody2DComponent.h"
+#include "engine/components/Collider2DComponent.h"
+#include "engine/components/CharacterController2D.h"
 #include "engine/world/Scene.h"
 #include "engine/Hotspot.h"
 #include "engine/systems/SceneManager.h"
@@ -26,6 +29,7 @@
 #include "engine/graphics/FontManager.h"
 #include "engine/data/GameDataLoader.h"
 #include "engine/utils/Logger.h"
+#include "engine/data/GameSettings.h"
 #include <iostream>
 #include <cmath>
 
@@ -91,6 +95,67 @@ void PlayState::onRoomChange(const std::string& roomId) {
                                  static_cast<float>(wa.minY), 
                                  static_cast<float>(wa.maxY));
         }
+        
+        // ═══════════════════════════════════════════════════════════════
+        // PHYSICS - Enable physics on scene (only in Platformer mode)
+        // ═══════════════════════════════════════════════════════════════
+        auto& settings = engine::GameSettings::instance();
+        
+        if (settings.isPlatformerMode() && !scene->hasPhysics()) {
+            scene->enablePhysics({0.0f, settings.getGravity()});
+            scene->setPhysicsDebugDraw(settings.isPhysicsDebugEnabled());
+            std::cout << "[Physics] Enabled for scene: " << roomId << std::endl;
+            
+            // Create ground collider at bottom of walk area
+            auto ground = std::make_unique<engine::ActorObjectExtended>("Ground");
+            ground->setPosition(320, static_cast<float>(wa.maxY + 10));
+            
+            auto* groundRb = ground->addComponent<engine::RigidBody2DComponent>();
+            groundRb->setBodyType(engine::RigidBody2DComponent::BodyType::Static);
+            groundRb->initializeBody(scene->getPhysicsWorld());
+            
+            auto* groundCol = ground->addComponent<engine::Collider2DComponent>();
+            groundCol->setBoxShape(640, 20);
+            groundCol->initializeShape();
+            
+            scene->addActor(std::move(ground));
+            std::cout << "[Physics] Ground collider created" << std::endl;
+        }
+        
+        // ═══════════════════════════════════════════════════════════════
+        // PLAYER PHYSICS - Initialize player physics components
+        // ═══════════════════════════════════════════════════════════════
+        if (settings.isPlatformerMode() && scene->hasPhysics() && !m_playerPhysicsInitialized) {
+            // Add RigidBody2D to player
+            auto* rb = m_player->getComponent<engine::RigidBody2DComponent>();
+            if (!rb) {
+                rb = m_player->addComponent<engine::RigidBody2DComponent>();
+            }
+            rb->setBodyType(engine::RigidBody2DComponent::BodyType::Dynamic);
+            rb->setFixedRotation(true);
+            rb->initializeBody(scene->getPhysicsWorld());
+            
+            // Add Collider to player
+            auto* col = m_player->getComponent<engine::Collider2DComponent>();
+            if (!col) {
+                col = m_player->addComponent<engine::Collider2DComponent>();
+            }
+            col->setCapsuleShape(24, 48); // Player hitbox
+            col->initializeShape();
+            
+            // Add CharacterController2D with settings from GameSettings
+            auto* controller = m_player->getComponent<engine::CharacterController2D>();
+            if (!controller) {
+                controller = m_player->addComponent<engine::CharacterController2D>();
+            }
+            controller->setWalkSpeed(settings.getWalkSpeed());
+            controller->setRunSpeed(settings.getRunSpeed());
+            controller->setJumpForce(settings.getJumpForce());
+            controller->initialize(); // Find sibling RigidBody
+            
+            m_playerPhysicsInitialized = true;
+            std::cout << "[Physics] Player physics initialized" << std::endl;
+        }
     }
     
     // Uppdatera quest objective för GoTo
@@ -101,14 +166,54 @@ void PlayState::update(float deltaTime) {
     engine::Scene* scene = SceneManager::instance().getCurrentScene();
     if (!scene) return;
     
-    // Tangentbord-rörelse
-    int dx = 0, dy = 0;
-    if (m_input->isKeyDown(SDL_SCANCODE_LEFT) || m_input->isKeyDown(SDL_SCANCODE_A)) dx = -1;
-    if (m_input->isKeyDown(SDL_SCANCODE_RIGHT) || m_input->isKeyDown(SDL_SCANCODE_D)) dx = 1;
-    if (m_input->isKeyDown(SDL_SCANCODE_UP) || m_input->isKeyDown(SDL_SCANCODE_W)) dy = -1;
-    if (m_input->isKeyDown(SDL_SCANCODE_DOWN) || m_input->isKeyDown(SDL_SCANCODE_S)) dy = 1;
+    // Step physics simulation
+    if (scene->hasPhysics()) {
+        scene->getPhysicsWorld()->step(deltaTime);
+    }
     
-    m_player->moveWithInput(dx, dy, deltaTime);
+    // ═══════════════════════════════════════════════════════════════
+    // INPUT - Use CharacterController2D if Platformer mode
+    // ═══════════════════════════════════════════════════════════════
+    auto& settings = engine::GameSettings::instance();
+    auto* controller = m_player->getComponent<engine::CharacterController2D>();
+    
+    if (settings.isPlatformerMode() && controller && m_playerPhysicsInitialized) {
+        // Physics-based movement (platformer style)
+        float moveDir = 0.0f;
+        if (m_input->isKeyDown(SDL_SCANCODE_LEFT) || m_input->isKeyDown(SDL_SCANCODE_A)) moveDir = -1.0f;
+        if (m_input->isKeyDown(SDL_SCANCODE_RIGHT) || m_input->isKeyDown(SDL_SCANCODE_D)) moveDir = 1.0f;
+        
+        controller->move(moveDir);
+        controller->setRunning(m_input->isKeyDown(SDL_SCANCODE_LSHIFT));
+        
+        // Jump with Space
+        if (m_input->isKeyPressed(SDL_SCANCODE_SPACE)) {
+            controller->jump();
+            std::cout << "[Physics] Jump!" << std::endl;
+        }
+        if (m_input->isKeyReleased(SDL_SCANCODE_SPACE)) {
+            controller->releaseJump();
+        }
+        
+        // Update controller (handles physics)
+        controller->update(deltaTime);
+        
+        // Manually set grounded based on simple check (temporary)
+        auto* rb = m_player->getComponent<engine::RigidBody2DComponent>();
+        if (rb) {
+            glm::vec2 vel = rb->getVelocity();
+            controller->setGrounded(std::abs(vel.y) < 5.0f);
+        }
+    } else {
+        // Legacy movement (point-and-click style)
+        int dx = 0, dy = 0;
+        if (m_input->isKeyDown(SDL_SCANCODE_LEFT) || m_input->isKeyDown(SDL_SCANCODE_A)) dx = -1;
+        if (m_input->isKeyDown(SDL_SCANCODE_RIGHT) || m_input->isKeyDown(SDL_SCANCODE_D)) dx = 1;
+        if (m_input->isKeyDown(SDL_SCANCODE_UP) || m_input->isKeyDown(SDL_SCANCODE_W)) dy = -1;
+        if (m_input->isKeyDown(SDL_SCANCODE_DOWN) || m_input->isKeyDown(SDL_SCANCODE_S)) dy = 1;
+        
+        m_player->moveWithInput(dx, dy, deltaTime);
+    }
     
     // Kolla hotspot under musen
     int mx = m_input->getMouseX();
@@ -161,13 +266,17 @@ void PlayState::render(SDL_Renderer* renderer) {
         scene->render(renderer);
     }
     
-    // Rita spelare med depth scale
+    // Rita spelare
     float playerScale = 1.0f;
-    if (scene) {
+    
+    // Only use depth scaling in Adventure mode
+    // Platformer mode = no depth scaling
+    auto& renderSettings = engine::GameSettings::instance();
+    if (scene && renderSettings.isAdventureMode()) {
         const auto& wa = scene->getWalkArea();
         float playerY = m_player->getY();
         
-        // Beräkna scale baserat på Y-position inom walk area
+        // Beräkna scale baserat på Y-position inom walk area (adventure game perspective)
         if (wa.maxY > wa.minY) {
             float t = (playerY - wa.minY) / (wa.maxY - wa.minY);
             t = std::max(0.0f, std::min(1.0f, t));  // Clamp 0-1
@@ -193,6 +302,11 @@ void PlayState::render(SDL_Renderer* renderer) {
     // Visa inventory count
     std::string invText = "Items: " + std::to_string(InventorySystem::instance().getItemCount());
     FontManager::instance().renderText(renderer, "default", invText, 550, 378, {180, 180, 200, 255});
+    
+    // Physics debug rendering
+    if (scene && scene->hasPhysics()) {
+        scene->getPhysicsWorld()->debugDraw(renderer);
+    }
     
     // Rita transition overlay sist
     Transition::instance().render(renderer);

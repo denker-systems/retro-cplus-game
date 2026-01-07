@@ -16,6 +16,9 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **World interaction** - Consistent 1-click=select/drag, 2-click=enter on all hierarchy levels
 
 ### Added
+- **Box2D v3.1.1** - 2D physics simulation library for platformer mechanics
+- **GLM v1.0.2** - OpenGL Mathematics library for vectors, matrices, transforms
+- **PHYSICS_ROADMAP.md** - Detailed plan for Box2D integration following OOP architecture
 - **World/Level/Scene hierarchy** - Top-down persistence with world.json loading/saving
 - **ActorData support** - Actors can be placed on World, Level, and Scene levels
 - **EditorWorldManager** - Manages world.json loading, saving, and engine synchronization

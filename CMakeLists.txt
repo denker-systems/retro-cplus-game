@@ -60,6 +60,9 @@ set(CORE_SOURCES
     src/engine/components/PerceptionComponent.cpp
     src/engine/components/CameraComponent.cpp
     src/engine/components/PhysicsComponent.cpp
+    src/engine/components/RigidBody2DComponent.cpp
+    src/engine/components/Collider2DComponent.cpp
+    src/engine/components/CharacterController2D.cpp
     src/engine/actors/Pawn.cpp
     src/engine/actors/Controller.cpp
     src/engine/actors/PlayerController.cpp
@@ -89,6 +92,7 @@ set(CORE_SOURCES
     src/engine/physics/PhysicsBody.cpp
     src/engine/physics/KinematicBody.cpp
     src/engine/physics/SpatialGrid.cpp
+    src/engine/physics/box2d/PhysicsWorld2D.cpp
     src/engine/Renderer.cpp
     src/engine/input/Input.cpp
     src/engine/Room.cpp
@@ -207,6 +211,7 @@ set(EDITOR_SOURCES
     src/editor/panels/core/HierarchyPanel.cpp
     src/editor/panels/core/PropertiesPanel.cpp
     src/editor/panels/core/ConsolePanel.cpp
+    src/editor/panels/core/GameSettingsPanel.cpp
     
     # Panels - Viewport
     src/editor/panels/viewport/ViewportPanel_Core.cpp

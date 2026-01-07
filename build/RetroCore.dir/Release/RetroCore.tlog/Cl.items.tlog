@@ -17,6 +17,9 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\Pathfindi
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\PerceptionComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PerceptionComponent.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\CameraComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\CameraComponent.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\PhysicsComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PhysicsComponent.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\RigidBody2DComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\RigidBody2DComponent.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\Collider2DComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Collider2DComponent.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\CharacterController2D.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\CharacterController2D.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\Pawn.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Pawn.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\Controller.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Controller.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\PlayerController.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PlayerController.obj
@@ -37,6 +40,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\CollisionSha
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\PhysicsBody.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PhysicsBody.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\KinematicBody.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\KinematicBody.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\SpatialGrid.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\SpatialGrid.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\box2d\PhysicsWorld2D.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PhysicsWorld2D.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Renderer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Renderer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\input\Input.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Input.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Room.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Room.obj

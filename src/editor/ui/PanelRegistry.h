@@ -27,6 +27,10 @@ class WorldViewPanel;
 class LevelViewPanel;
 struct SDL_Renderer;
 
+namespace editor {
+    class GameSettingsPanel;
+}
+
 namespace engine {
     class World;
     class Level;
@@ -90,4 +94,5 @@ private:
     std::unique_ptr<TileMapEditorPanel> m_tileMapEditorPanel;
     std::unique_ptr<WorldViewPanel> m_worldViewPanel;
     std::unique_ptr<LevelViewPanel> m_levelViewPanel;
+    std::unique_ptr<editor::GameSettingsPanel> m_gameSettingsPanel;
 };

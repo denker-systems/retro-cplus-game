@@ -10,6 +10,13 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ### Sen Kväll
 
+- `2967cee` feat(physics): add Box2D and GLM libraries with physics roadmap
+  - **Dependencies:** Box2D v3.1.1 för 2D physics simulation
+  - **Dependencies:** GLM v1.0.2 för math (vektorer, matriser)
+  - **Docs:** PHYSICS_ROADMAP.md med OOP-arkitektur plan
+  - **Build:** CMakeLists.txt och vcpkg.json uppdaterade
+  - Session: [2026-01-06](sessions/2026-01-06.md)
+
 - `37c44b5` feat(editor): implement World/Level/Scene hierarchy with actor support
   - **Hierarchy:** Top-down World → Level → Scene med full persistence
   - **World System:** world.json laddas/sparas med EditorWorldManager

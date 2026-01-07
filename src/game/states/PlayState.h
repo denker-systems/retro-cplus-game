@@ -45,4 +45,5 @@ private:
     struct Hotspot* m_nearbyHotspot = nullptr;  // Närmaste hotspot för E-interaktion
     static constexpr float INTERACT_DISTANCE = 60.0f;
     bool m_initialized = false;  // Undvik att ladda om data vid resume
+    bool m_playerPhysicsInitialized = false;  // Physics initialized for player
 };

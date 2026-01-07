@@ -17,6 +17,7 @@
 #include "editor/panels/graphs/dialog/DialogGraphPanel.h"
 #include "editor/panels/graphs/quest/QuestGraphPanel.h"
 #include "editor/panels/graphs/npc/BehaviorGraphPanel.h"
+#include "editor/panels/core/GameSettingsPanel.h"
 
 PanelRegistry::PanelRegistry(EditorContext& context)
     : m_context(context) {
@@ -51,6 +52,9 @@ void PanelRegistry::createAllPanels(SDL_Renderer* renderer) {
     m_levelViewPanel = std::make_unique<LevelViewPanel>(m_context);
     m_worldViewPanel->setVisible(false);
     m_levelViewPanel->setVisible(false);
+    
+    // Game settings panel
+    m_gameSettingsPanel = std::make_unique<editor::GameSettingsPanel>();
 }
 
 void PanelRegistry::setupHierarchy(engine::World* world, engine::Level* level, 
@@ -88,6 +92,7 @@ void PanelRegistry::renderAll() {
     if (m_levelViewPanel) m_levelViewPanel->render();
     if (m_assetBrowserPanel) m_assetBrowserPanel->render();
     if (m_consolePanel) m_consolePanel->render();
+    if (m_gameSettingsPanel) m_gameSettingsPanel->render();
 }
 
 void PanelRegistry::updateViewport(float deltaTime) {

@@ -25,6 +25,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\legacy\TiledIntegrat
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\HierarchyPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\HierarchyPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\PropertiesPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\PropertiesPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\ConsolePanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ConsolePanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\GameSettingsPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\GameSettingsPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Core.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_Core.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_World.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_World.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Level.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_Level.obj
