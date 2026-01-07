@@ -84,6 +84,16 @@ public:
         return nullptr;
     }
     
+    bool removeActor(ActorObjectExtended* actor) {
+        for (auto it = m_actors.begin(); it != m_actors.end(); ++it) {
+            if (it->get() == actor) {
+                m_actors.erase(it);
+                return true;
+            }
+        }
+        return false;
+    }
+    
 protected:
     std::string m_name;
     std::vector<std::unique_ptr<ActorObjectExtended>> m_actors;

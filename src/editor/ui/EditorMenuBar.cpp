@@ -27,6 +27,7 @@ void EditorMenuBar::setPanels(
     ViewportPanel* viewport,
     PropertiesPanel* properties,
     AssetBrowserPanel* assetBrowser,
+    PlaceActorsPanel* placeActors,
     ConsolePanel* console,
     DialogGraphPanel* dialogGraph,
     QuestGraphPanel* questGraph,
@@ -36,6 +37,7 @@ void EditorMenuBar::setPanels(
     m_viewportPanel = viewport;
     m_propertiesPanel = properties;
     m_assetBrowserPanel = assetBrowser;
+    m_placeActorsPanel = placeActors;
     m_consolePanel = console;
     m_dialogGraphPanel = dialogGraph;
     m_questGraphPanel = questGraph;

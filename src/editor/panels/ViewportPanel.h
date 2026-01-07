@@ -1,15 +1,12 @@
 /**
  * @file ViewportPanel.h
- * @brief Viewport panel with tool-based architecture
+ * @brief Viewport för rum-preview och editing
  */
 #pragma once
 
 #include "editor/IEditorPanel.h"
 #include "editor/tools/ToolManager.h"
-#include "editor/tools/IEditorTool.h"
 #include <string>
-#include <unordered_map>
-#include <memory>
 #include <SDL.h>
 
 struct SDL_Texture;
@@ -19,6 +16,7 @@ struct ImVec2;
 
 namespace engine {
     class Scene;
+    class Node;
     class World;
     class Level;
     class ActorObjectExtended;
@@ -27,100 +25,114 @@ namespace engine {
 class EditorContext;
 
 /**
- * @brief View mode for the viewport
- */
-enum class ViewMode {
-    World,      // Shows all levels
-    Level,      // Shows all scenes in a level
-    Scene       // Shows scene content (actors)
-};
-
-/**
- * @brief Viewport panel using tool-based architecture
+ * @brief Viewport för att visa och redigera rum
  */
 class ViewportPanel : public IEditorPanel {
 public:
     explicit ViewportPanel(EditorContext& context);
     ~ViewportPanel();
     
-    // IEditorPanel interface
-    void update(float deltaTime) override;
-    void render() override;
     const std::string& getId() const override { return m_id; }
     const std::string& getTitle() const override { return m_title; }
     
-    // Hierarchy navigation
-    void setWorld(engine::World* world);
-    void setLevel(engine::Level* level);
-    void setScene(engine::Scene* scene);
+    void render() override;
+    void update(float deltaTime) override;
     
-    // Renderer access
+    // Sätt renderer för texture loading
     void setRenderer(SDL_Renderer* renderer) { m_renderer = renderer; }
-    SDL_Renderer* getRenderer() const { return m_renderer; }
+    void loadRoom(const std::string& roomId);
     
-    // Selection
-    engine::ActorObjectExtended* getSelectedActor() const { return m_selectedActor; }
-    void setSelectedActor(engine::ActorObjectExtended* actor) { m_selectedActor = actor; }
+    // World/Level/Scene navigation
+    void setWorld(engine::World* world) { m_world = world; }
+    void setLevel(engine::Level* level);
+    void setScene(engine::Scene* scene); 
+    engine::Scene* getScene() const { return m_scene; }
     
-    // Tool access
-    ToolManager& getToolManager() { return m_toolManager; }
-    
+    // Actor operations
+    void deleteSelectedActor();
+    void duplicateSelectedActor();
+
 private:
-    // Rendering methods
+    void loadRoomPreview();
+    void renderRoomPreview();
     void renderToolbar();
     void renderBreadcrumbs();
-    void renderViewModeContent();
-    
-    // View-specific rendering
     void renderWorldView();
+
+    void renderWorldSpatialView();  // NEW: Spatial view for World
     void renderLevelView();
     void renderSceneView();
-    
-    // Scene rendering helpers
-    void renderSceneBackground(ImDrawList* drawList, ImVec2 offset);
+    void renderSpatialView();  // NEW: Spatial grid view for levels
+    // renderSceneNode() removed - Node system deprecated
     void renderSceneActors(ImDrawList* drawList, ImVec2 offset);
-    void renderSceneGrid(ImDrawList* drawList, ImVec2 offset, ImVec2 size);
-    void renderSelectionOverlay(ImDrawList* drawList, ImVec2 offset);
+    void renderSceneGrid(ImDrawList* drawList, ImVec2 offset, ImVec2 size);  // NEW: Grid overlay
     
-    // Input handling
-    void handleInput(ImVec2 renderPos, ImVec2 roomSize);
-    void handleDragDrop(ImVec2 renderPos);
-    
-    // Texture management
-    SDL_Texture* loadTexture(const std::string& path);
-    void clearTextureCache();
-    
-    // Context
     EditorContext& m_context;
-    std::string m_id = "viewport_refactored";
+    std::string m_id = "viewport";
     std::string m_title = "Viewport";
     
-    // Renderer
     SDL_Renderer* m_renderer = nullptr;
-    std::unordered_map<std::string, SDL_Texture*> m_textureCache;
+    SDL_Texture* m_roomTexture = nullptr;
+    std::string m_loadedRoomId;
     
-    // Hierarchy
+    // World/Level/Scene hierarchy
     engine::World* m_world = nullptr;
     engine::Level* m_level = nullptr;
     engine::Scene* m_scene = nullptr;
-    ViewMode m_viewMode = ViewMode::Scene;
     
-    // Tools
+    // World view mode: 0=Spatial, 1=Grid
+    int m_worldViewMode = 0;
+    float m_worldSpatialZoom = 1.0f;
+    float m_worldSpatialPanX = 0.0f;
+    float m_worldSpatialPanY = 0.0f;
+    
+    // Level view mode: 0=Spatial, 1=Grid, 2=List
+    int m_levelViewMode = 0;  // Default to Spatial
+    float m_spatialZoom = 1.0f;
+    float m_spatialPanX = 0.0f;
+    float m_spatialPanY = 0.0f;
+    
+    // Scene grid overlay
+    bool m_showSceneGrid = true;
+    int m_sceneGridSize = 32;  // Grid cell size in pixels
+    
+    // Spatial View editing state
+    engine::Scene* m_selectedScene = nullptr;
+    engine::Scene* m_draggedScene = nullptr;
+    float m_dragStartX = 0.0f;
+    float m_dragStartY = 0.0f;
+    int m_dragStartGridX = 0;
+    int m_dragStartGridY = 0;
+    bool m_snapToGrid = true;
+    
+    // Scene View actor editing state
+    engine::ActorObjectExtended* m_selectedActor = nullptr;
+    engine::ActorObjectExtended* m_draggedActor = nullptr;
+    float m_actorDragOffsetX = 0.0f;
+    float m_actorDragOffsetY = 0.0f;
+    
+    // Tool system
     ToolManager m_toolManager;
     ToolContext m_toolContext;
-    
-    // Selection
-    engine::ActorObjectExtended* m_selectedActor = nullptr;
     
     // Viewport state
     float m_zoom = 1.0f;
     float m_panX = 0.0f;
     float m_panY = 0.0f;
-    
-    // Options
     bool m_showGrid = true;
     bool m_showHotspots = true;
     bool m_showWalkArea = true;
-    bool m_snapToGrid = true;
-    int m_gridSize = 32;
+    
+    // Drag state
+    bool m_isDragging = false;
+    int m_draggedHotspotIndex = -1;
+    bool m_draggingSpawn = false;
+    bool m_draggingWalkArea = false;
+    int m_walkAreaCorner = -1; // 0=TL, 1=TR, 2=BR, 3=BL
+    float m_dragOffsetX = 0.0f;
+    float m_dragOffsetY = 0.0f;
+    
+    void handleMouseDown(float mouseX, float mouseY, float previewX, float previewY,
+                        float previewW, float previewH, float roomX, float roomY, const struct SceneData* room);
+    void handleMouseDrag(float roomX, float roomY);
 };

@@ -10,6 +10,7 @@
 class EditorContext;
 class ConsolePanel;
 class AssetBrowserPanel;
+class PlaceActorsPanel;
 class HierarchyPanel;
 class ViewportPanel;
 class PropertiesPanel;
@@ -33,6 +34,7 @@ public:
         ViewportPanel* viewport,
         PropertiesPanel* properties,
         AssetBrowserPanel* assetBrowser,
+        PlaceActorsPanel* placeActors,
         ConsolePanel* console,
         DialogGraphPanel* dialogGraph,
         QuestGraphPanel* questGraph,
@@ -61,6 +63,7 @@ private:
     ViewportPanel* m_viewportPanel = nullptr;
     PropertiesPanel* m_propertiesPanel = nullptr;
     AssetBrowserPanel* m_assetBrowserPanel = nullptr;
+    PlaceActorsPanel* m_placeActorsPanel = nullptr;
     ConsolePanel* m_consolePanel = nullptr;
     DialogGraphPanel* m_dialogGraphPanel = nullptr;
     QuestGraphPanel* m_questGraphPanel = nullptr;

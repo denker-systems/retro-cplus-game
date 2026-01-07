@@ -19,8 +19,14 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\components\EditorTab
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\components\TiledIntegration.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\TiledIntegration.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\HierarchyPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\HierarchyPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\PropertiesPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\PropertiesPanel.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_Core.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_Core.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_World.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_World.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_Level.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_Level.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_Scene.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_Scene.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_Actors.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_Actors.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_Input.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_Input.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\AssetBrowserPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\AssetBrowserPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\PlaceActorsPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\PlaceActorsPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ConsolePanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ConsolePanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\PropertyEditorUtils.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\PropertyEditorUtils.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\RoomPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\RoomPropertyEditor.obj
@@ -44,6 +50,8 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\LevelViewPane
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\SelectTool.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SelectTool.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\ScaleTool.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ScaleTool.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\ToolManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ToolManager.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\ui\EditorMenuBar.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorMenuBar.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\ui\EditorDockspace.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorDockspace.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\data\ISerializer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ISerializer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\data\WorldSerializer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\WorldSerializer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\data\SceneSerializer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SceneSerializer.obj

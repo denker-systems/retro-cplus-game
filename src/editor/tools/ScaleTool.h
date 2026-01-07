@@ -28,4 +28,6 @@ private:
     float m_scaleStartY = 0.0f;
     float m_originalWidth = 0.0f;
     float m_originalHeight = 0.0f;
+    float m_originalPosX = 0.0f;
+    float m_originalPosY = 0.0f;
 };

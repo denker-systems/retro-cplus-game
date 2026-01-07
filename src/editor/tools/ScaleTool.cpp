@@ -6,6 +6,7 @@
 #include "engine/core/ActorObjectExtended.h"
 #include "engine/world/Scene.h"
 #include "engine/components/SpriteComponent.h"
+#include "engine/utils/Logger.h"
 #include <cmath>
 #include <algorithm>
 
@@ -47,12 +48,16 @@ int ScaleTool::getHandleAtPosition(float roomX, float roomY, const ToolContext& 
 }
 
 bool ScaleTool::onMouseDown(float roomX, float roomY, ToolContext& ctx) {
-    if (!ctx.selectedActor) return false;
+    if (!ctx.selectedActor) {
+        LOG_DEBUG("ScaleTool::onMouseDown - No selected actor");
+        return false;
+    }
     
     int handle = getHandleAtPosition(roomX, roomY, ctx);
     if (handle >= 0) {
         m_isScaling = true;
         m_scaleHandle = handle;
+        LOG_DEBUG("ScaleTool::onMouseDown - Started scaling, handle=" + std::to_string(handle));
         m_scaleStartX = roomX;
         m_scaleStartY = roomY;
         
@@ -64,12 +69,21 @@ bool ScaleTool::onMouseDown(float roomX, float roomY, ToolContext& ctx) {
             m_originalWidth = 64.0f;
             m_originalHeight = 64.0f;
         }
+        
+        engine::Vec2 pos = ctx.selectedActor->getPosition();
+        m_originalPosX = pos.x;
+        m_originalPosY = pos.y;
+        LOG_DEBUG("ScaleTool - Original size: " + std::to_string((int)m_originalWidth) + "x" + std::to_string((int)m_originalHeight) + 
+                  ", pos: (" + std::to_string((int)m_originalPosX) + ", " + std::to_string((int)m_originalPosY) + ")");
         return true;
     }
     return false;
 }
 
 bool ScaleTool::onMouseUp(float roomX, float roomY, ToolContext& ctx) {
+    if (m_isScaling) {
+        LOG_DEBUG("ScaleTool::onMouseUp - Finished scaling");
+    }
     m_isScaling = false;
     m_scaleHandle = -1;
     return false;
@@ -81,32 +95,86 @@ bool ScaleTool::onMouseDrag(float roomX, float roomY, float deltaX, float deltaY
     float dx = roomX - m_scaleStartX;
     float dy = roomY - m_scaleStartY;
     
+    // Calculate uniform scale factor based on diagonal movement
+    float scaleFactor = 1.0f + (dx + dy) / 200.0f;
+    scaleFactor = std::max(0.1f, scaleFactor);
+    
     float newWidth = m_originalWidth;
     float newHeight = m_originalHeight;
+    engine::Vec2 pos = ctx.selectedActor->getPosition();
+    float newX = m_originalPosX;
+    float newY = m_originalPosY;
     
+    // Uniform scaling from corners (Shift for non-uniform in future)
     switch (m_scaleHandle) {
-        case 0: // TL
-            newWidth = std::max(16.0f, m_originalWidth - dx);
-            newHeight = std::max(16.0f, m_originalHeight - dy);
+        case 0: // TL - scale towards BR
+            newWidth = std::max(16.0f, m_originalWidth * (1.0f - dx / m_originalWidth));
+            newHeight = std::max(16.0f, m_originalHeight * (1.0f - dy / m_originalHeight));
+            // Maintain uniform aspect ratio
+            if (std::abs(newWidth / m_originalWidth) < std::abs(newHeight / m_originalHeight)) {
+                float ratio = newWidth / m_originalWidth;
+                newHeight = m_originalHeight * ratio;
+            } else {
+                float ratio = newHeight / m_originalHeight;
+                newWidth = m_originalWidth * ratio;
+            }
+            newX = m_originalPosX + (m_originalWidth - newWidth);
+            newY = m_originalPosY + (m_originalHeight - newHeight);
             break;
-        case 1: // TR
+        case 1: // TR - scale towards BL
             newWidth = std::max(16.0f, m_originalWidth + dx);
             newHeight = std::max(16.0f, m_originalHeight - dy);
+            if (std::abs(newWidth / m_originalWidth) < std::abs(newHeight / m_originalHeight)) {
+                float ratio = newWidth / m_originalWidth;
+                newHeight = m_originalHeight * ratio;
+            } else {
+                float ratio = newHeight / m_originalHeight;
+                newWidth = m_originalWidth * ratio;
+            }
+            newY = m_originalPosY + (m_originalHeight - newHeight);
             break;
-        case 2: // BR
+        case 2: { // BR - scale towards TL (most intuitive)
             newWidth = std::max(16.0f, m_originalWidth + dx);
             newHeight = std::max(16.0f, m_originalHeight + dy);
+            // Uniform: use average scale
+            float avgScale = ((newWidth / m_originalWidth) + (newHeight / m_originalHeight)) / 2.0f;
+            avgScale = std::max(0.25f, avgScale);
+            newWidth = m_originalWidth * avgScale;
+            newHeight = m_originalHeight * avgScale;
             break;
-        case 3: // BL
+        }
+        case 3: // BL - scale towards TR
             newWidth = std::max(16.0f, m_originalWidth - dx);
             newHeight = std::max(16.0f, m_originalHeight + dy);
+            if (std::abs(newWidth / m_originalWidth) < std::abs(newHeight / m_originalHeight)) {
+                float ratio = newWidth / m_originalWidth;
+                newHeight = m_originalHeight * ratio;
+            } else {
+                float ratio = newHeight / m_originalHeight;
+                newWidth = m_originalWidth * ratio;
+            }
+            newX = m_originalPosX + (m_originalWidth - newWidth);
             break;
+    }
+    
+    // Snap to grid if enabled
+    if (ctx.snapToGrid) {
+        newWidth = round(newWidth / ctx.gridSize) * ctx.gridSize;
+        newHeight = round(newHeight / ctx.gridSize) * ctx.gridSize;
+        newWidth = std::max((float)ctx.gridSize, newWidth);
+        newHeight = std::max((float)ctx.gridSize, newHeight);
     }
     
     auto* sprite = ctx.selectedActor->getComponent<engine::SpriteComponent>();
     if (sprite) {
         sprite->setSize(static_cast<int>(newWidth), static_cast<int>(newHeight));
     }
+    
+    // Update position for TL/TR/BL handles
+    if (m_scaleHandle != 2) {
+        ctx.selectedActor->setPosition(newX, newY);
+    }
+    
     return true;
 }
 

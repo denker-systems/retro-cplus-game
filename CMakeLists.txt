@@ -191,8 +191,14 @@ set(EDITOR_SOURCES
     src/editor/components/TiledIntegration.cpp
     src/editor/panels/HierarchyPanel.cpp
     src/editor/panels/PropertiesPanel.cpp
-    src/editor/panels/ViewportPanel.cpp
+    src/editor/panels/ViewportPanel_Core.cpp
+    src/editor/panels/ViewportPanel_World.cpp
+    src/editor/panels/ViewportPanel_Level.cpp
+    src/editor/panels/ViewportPanel_Scene.cpp
+    src/editor/panels/ViewportPanel_Actors.cpp
+    src/editor/panels/ViewportPanel_Input.cpp
     src/editor/panels/AssetBrowserPanel.cpp
+    src/editor/panels/PlaceActorsPanel.cpp
     src/editor/panels/ConsolePanel.cpp
     src/editor/properties/PropertyEditorUtils.cpp
     src/editor/properties/RoomPropertyEditor.cpp
@@ -218,6 +224,10 @@ set(EDITOR_SOURCES
     src/editor/tools/ToolManager.cpp
     src/editor/ui/EditorMenuBar.cpp
     src/editor/ui/EditorDockspace.cpp
+    src/editor/input/EditorInputHandler.cpp
+    src/editor/managers/EditorPanelManager.cpp
+    src/editor/managers/EditorWorldManager.cpp
+    src/editor/managers/EditorEventDispatcher.cpp
     src/editor/data/ISerializer.cpp
     src/editor/data/WorldSerializer.cpp
     src/editor/data/SceneSerializer.cpp
