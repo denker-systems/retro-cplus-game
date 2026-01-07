@@ -9,7 +9,15 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Added
+- **Enterprise workflows** - 8 detailed core workflows (init-session, end-session, git-commit, build, debug, investigate, new-feature, generate-pr)
+- **New workflow files** - code-review, hotfix, release, handoff, incident-response, onboard-developer, profile, refactor, retrospective, run-tests, sprint-planning, github-actions, add-component, add-test
+- **New rule files** - coding-standards, coding-standards-extended, testing, security, performance, memory-safety, error-handling, documentation, component-pattern, code-review, ci-cd, cmake-best-practices
+- **Workflow README** - Overview of all available workflows
+
 ### Changed
+- **Workflow documentation** - Expanded from concise to enterprise-grade with Retro Engine-specific examples
+- **Rules consolidation** - Merged scattered corporate rules into focused topic-based files
 - **Editor folder structure** - Complete reorganization from flat to hierarchical layout
 - **EditorState** refaktorerad från 998 till 211 rader (-79%) med separation of concerns
 - **ViewportPanel** uppdelad i 6 modulära filer (Core, World, Level, Scene, Actors, Input)
