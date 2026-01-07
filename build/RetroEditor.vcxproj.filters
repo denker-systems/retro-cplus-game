@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\main.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\Game.cpp">
@@ -34,118 +34,124 @@
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\SaveLoadState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\EditorState.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\EditorState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\FileBrowser.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\EditorContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\components\DebugEditor.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\EditorCore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\EditorContext.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\EditorApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\components\VisualRoomEditor.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\legacy\FileBrowser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\components\RoomDataManager.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\legacy\DebugEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\components\EditorTabRenderer.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\legacy\VisualRoomEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\components\TiledIntegration.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\legacy\RoomDataManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\HierarchyPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\legacy\EditorTabRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\PropertiesPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\legacy\TiledIntegration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_Core.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\HierarchyPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_World.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\PropertiesPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_Level.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\ConsolePanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_Scene.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_Actors.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ViewportPanel_Input.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\AssetBrowserPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\PlaceActorsPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Actors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\ConsolePanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\PropertyEditorUtils.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\assets\AssetBrowserPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\RoomPropertyEditor.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\assets\PlaceActorsPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\HotspotPropertyEditor.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\world\WorldViewPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\DialogPropertyEditor.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\world\LevelViewPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\QuestPropertyEditor.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\world\SceneGraphPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\ItemPropertyEditor.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\editors\LayerEditorPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\NPCPropertyEditor.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\editors\TileMapEditorPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\INodeGraphPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\graphs\INodeGraphPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\dialog\DialogNode.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\graphs\dialog\DialogNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\dialog\DialogGraphPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\graphs\dialog\DialogGraphPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\quest\QuestNode.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\graphs\quest\QuestNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\quest\QuestGraphPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\graphs\quest\QuestGraphPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\npc\BehaviorNode.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\graphs\npc\BehaviorNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\graphs\npc\BehaviorGraphPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\graphs\npc\BehaviorGraphPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\SceneGraphPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\core\PropertyEditorUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\LayerEditorPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\world\RoomPropertyEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\TileMapEditorPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\world\HotspotPropertyEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\WorldViewPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\gameplay\DialogPropertyEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\LevelViewPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\gameplay\QuestPropertyEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\gameplay\ItemPropertyEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\characters\NPCPropertyEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\SelectTool.cpp">
@@ -190,7 +196,7 @@
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imnodes\imnodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\ImGuiManager.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\ImGuiManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_sdl2.cpp">

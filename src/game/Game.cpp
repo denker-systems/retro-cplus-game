@@ -164,6 +164,10 @@ void Game::update(float deltaTime) {
 }
 
 void Game::render() {
+    // Clear screen to prevent artifacts
+    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+    SDL_RenderClear(m_renderer);
+    
     m_stateManager->render(m_renderer);
     SDL_RenderPresent(m_renderer);
 }

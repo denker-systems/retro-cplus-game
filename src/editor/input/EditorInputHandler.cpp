@@ -3,9 +3,9 @@
  * @brief Centralized input handling implementation
  */
 #include "EditorInputHandler.h"
-#include "editor/EditorContext.h"
-#include "editor/EditorCore.h"
-#include "editor/panels/ViewportPanel.h"
+#include "editor/core/EditorContext.h"
+#include "editor/core/EditorCore.h"
+#include "editor/panels/viewport/ViewportPanel.h"
 #include "engine/utils/Logger.h"
 
 EditorInputHandler::EditorInputHandler(EditorContext& context)

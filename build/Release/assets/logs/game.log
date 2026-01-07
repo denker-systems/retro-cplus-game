@@ -1,19 +1,24 @@
 ========================================
-  Game Log - 2026-01-06 22:22:29.968
+  Game Log - 2026-01-06 22:57:39.410
 ========================================
 
-[2026-01-06 22:22:29.969] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-06 22:22:30.138] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-06 22:22:30.152] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-06 22:22:30.177] [INFO ] [Game.cpp:82] Window created
-[2026-01-06 22:22:30.278] [INFO ] [Game.cpp:92] Renderer created
-[2026-01-06 22:22:30.278] [INFO ] [Game.cpp:208] Viewport: 1440x900 at (80,0)
-[2026-01-06 22:22:30.279] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
-[2026-01-06 22:22:30.279] [INFO ] [Game.cpp:129] Game initialized successfully!
-[2026-01-06 22:22:30.280] [INFO ] [EditorState.cpp:50] EditorState created
-[2026-01-06 22:22:30.281] [INFO ] [EditorState.cpp:54] EditorState::enter()
-[2026-01-06 22:22:30.317] [INFO ] [EditorContext.cpp:78] EditorContext loaded 7 rooms, 8 dialogs
-[2026-01-06 22:22:30.317] [INFO ] [EditorState.cpp:194] EditorContext loaded with 8 dialogs
-[2026-01-06 22:22:35.957] [DEBUG] [ViewportPanel_Scene.cpp:146] ViewportPanel: Created actor 'Empty Actor' at (-32, 192)
-[2026-01-06 22:22:44.436] [INFO ] [main.cpp:20] === RetroAdventure Editor Shutdown ===
-[2026-01-06 22:22:44.436] [INFO ] [Game.cpp:229] === Game Shutting Down ===
+[2026-01-06 22:57:39.410] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-06 22:57:39.583] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-06 22:57:39.598] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-06 22:57:39.617] [INFO ] [Game.cpp:82] Window created
+[2026-01-06 22:57:39.721] [INFO ] [Game.cpp:92] Renderer created
+[2026-01-06 22:57:39.721] [INFO ] [Game.cpp:212] Viewport: 1440x900 at (80,0)
+[2026-01-06 22:57:39.728] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-06 22:57:39.728] [INFO ] [Game.cpp:129] Game initialized successfully!
+[2026-01-06 22:57:39.728] [INFO ] [EditorState.cpp:38] EditorState created
+[2026-01-06 22:57:39.729] [INFO ] [EditorState.cpp:42] EditorState::enter()
+[2026-01-06 22:57:39.784] [INFO ] [EditorWorldManager.cpp:36] EditorWorldManager: World created with 7 scenes
+[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:104] EditorState::enter() - ImGui initialized: YES
+[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:105] EditorState::enter() - PanelManager created: YES
+[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:106] EditorState::enter() - WorldManager created: YES
+[2026-01-06 22:57:39.785] [INFO ] [EditorContext.cpp:78] EditorContext loaded 7 rooms, 8 dialogs
+[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:111] EditorContext loaded with 8 dialogs
+[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:166] EditorState::render() - First render call
+[2026-01-06 22:57:39.785] [INFO ] [EditorState.cpp:201] EditorState::renderImGui() - First ImGui render
+[2026-01-06 22:57:42.835] [INFO ] [main.cpp:20] === RetroAdventure Editor Shutdown ===
+[2026-01-06 22:57:42.835] [INFO ] [Game.cpp:233] === Game Shutting Down ===

@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "editor/IEditorCommand.h"
+#include "editor/core/IEditorCommand.h"
 #include "engine/data/GameData.h"
 #include <string>
 

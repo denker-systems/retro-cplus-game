@@ -170,7 +170,6 @@ set(IMGUI_BACKEND_SOURCES
 )
 
 set(EDITOR_SOURCES
-    src/editor/main.cpp
     src/game/Game.cpp
     src/game/states/StateManager.cpp
     src/game/states/MenuState.cpp
@@ -181,63 +180,100 @@ set(EDITOR_SOURCES
     src/game/states/InventoryState.cpp
     src/game/states/QuestLogState.cpp
     src/game/states/SaveLoadState.cpp
-    src/editor/EditorState.cpp
-    src/editor/FileBrowser.cpp
-    src/editor/components/DebugEditor.cpp
-    src/editor/EditorContext.cpp
-    src/editor/components/VisualRoomEditor.cpp
-    src/editor/components/RoomDataManager.cpp
-    src/editor/components/EditorTabRenderer.cpp
-    src/editor/components/TiledIntegration.cpp
-    src/editor/panels/HierarchyPanel.cpp
-    src/editor/panels/PropertiesPanel.cpp
-    src/editor/panels/ViewportPanel_Core.cpp
-    src/editor/panels/ViewportPanel_World.cpp
-    src/editor/panels/ViewportPanel_Level.cpp
-    src/editor/panels/ViewportPanel_Scene.cpp
-    src/editor/panels/ViewportPanel_Actors.cpp
-    src/editor/panels/ViewportPanel_Input.cpp
-    src/editor/panels/AssetBrowserPanel.cpp
-    src/editor/panels/PlaceActorsPanel.cpp
-    src/editor/panels/ConsolePanel.cpp
-    src/editor/properties/PropertyEditorUtils.cpp
-    src/editor/properties/RoomPropertyEditor.cpp
-    src/editor/properties/HotspotPropertyEditor.cpp
-    src/editor/properties/DialogPropertyEditor.cpp
-    src/editor/properties/QuestPropertyEditor.cpp
-    src/editor/properties/ItemPropertyEditor.cpp
-    src/editor/properties/NPCPropertyEditor.cpp
-    src/editor/graphs/INodeGraphPanel.cpp
-    src/editor/graphs/dialog/DialogNode.cpp
-    src/editor/graphs/dialog/DialogGraphPanel.cpp
-    src/editor/graphs/quest/QuestNode.cpp
-    src/editor/graphs/quest/QuestGraphPanel.cpp
-    src/editor/graphs/npc/BehaviorNode.cpp
-    src/editor/graphs/npc/BehaviorGraphPanel.cpp
-    src/editor/panels/SceneGraphPanel.cpp
-    src/editor/panels/LayerEditorPanel.cpp
-    src/editor/panels/TileMapEditorPanel.cpp
-    src/editor/panels/WorldViewPanel.cpp
-    src/editor/panels/LevelViewPanel.cpp
+    # Core
+    src/editor/core/EditorState.cpp
+    src/editor/core/EditorContext.cpp
+    src/editor/core/EditorCore.cpp
+    src/editor/core/EditorApp.cpp
+    
+    # Legacy
+    src/editor/legacy/FileBrowser.cpp
+    src/editor/legacy/DebugEditor.cpp
+    src/editor/legacy/VisualRoomEditor.cpp
+    src/editor/legacy/RoomDataManager.cpp
+    src/editor/legacy/EditorTabRenderer.cpp
+    src/editor/legacy/TiledIntegration.cpp
+    
+    # Panels - Core
+    src/editor/panels/core/HierarchyPanel.cpp
+    src/editor/panels/core/PropertiesPanel.cpp
+    src/editor/panels/core/ConsolePanel.cpp
+    
+    # Panels - Viewport
+    src/editor/panels/viewport/ViewportPanel_Core.cpp
+    src/editor/panels/viewport/ViewportPanel_World.cpp
+    src/editor/panels/viewport/ViewportPanel_Level.cpp
+    src/editor/panels/viewport/ViewportPanel_Scene.cpp
+    src/editor/panels/viewport/ViewportPanel_Actors.cpp
+    src/editor/panels/viewport/ViewportPanel_Input.cpp
+    
+    # Panels - Assets
+    src/editor/panels/assets/AssetBrowserPanel.cpp
+    src/editor/panels/assets/PlaceActorsPanel.cpp
+    
+    # Panels - World
+    src/editor/panels/world/WorldViewPanel.cpp
+    src/editor/panels/world/LevelViewPanel.cpp
+    src/editor/panels/world/SceneGraphPanel.cpp
+    
+    # Panels - Editors
+    src/editor/panels/editors/LayerEditorPanel.cpp
+    src/editor/panels/editors/TileMapEditorPanel.cpp
+    
+    # Panels - Graphs
+    src/editor/panels/graphs/INodeGraphPanel.cpp
+    src/editor/panels/graphs/dialog/DialogNode.cpp
+    src/editor/panels/graphs/dialog/DialogGraphPanel.cpp
+    src/editor/panels/graphs/quest/QuestNode.cpp
+    src/editor/panels/graphs/quest/QuestGraphPanel.cpp
+    src/editor/panels/graphs/npc/BehaviorNode.cpp
+    src/editor/panels/graphs/npc/BehaviorGraphPanel.cpp
+    
+    # Properties - Core
+    src/editor/properties/core/PropertyEditorUtils.cpp
+    
+    # Properties - World
+    src/editor/properties/world/RoomPropertyEditor.cpp
+    src/editor/properties/world/HotspotPropertyEditor.cpp
+    
+    # Properties - Gameplay
+    src/editor/properties/gameplay/DialogPropertyEditor.cpp
+    src/editor/properties/gameplay/QuestPropertyEditor.cpp
+    src/editor/properties/gameplay/ItemPropertyEditor.cpp
+    
+    # Properties - Characters
+    src/editor/properties/characters/NPCPropertyEditor.cpp
+    
+    # Tools
     src/editor/tools/SelectTool.cpp
     src/editor/tools/ScaleTool.cpp
     src/editor/tools/ToolManager.cpp
+    
+    # UI
     src/editor/ui/EditorMenuBar.cpp
     src/editor/ui/EditorDockspace.cpp
+    
+    # Input
     src/editor/input/EditorInputHandler.cpp
+    
+    # Managers
     src/editor/managers/EditorPanelManager.cpp
     src/editor/managers/EditorWorldManager.cpp
     src/editor/managers/EditorEventDispatcher.cpp
+    
+    # Data
     src/editor/data/ISerializer.cpp
     src/editor/data/WorldSerializer.cpp
     src/editor/data/SceneSerializer.cpp
     src/editor/data/EditorDataManager.cpp
+    
+    # Vendor
     src/vendor/imnodes/imnodes.cpp
-    src/editor/ImGuiManager.cpp
+    src/editor/core/ImGuiManager.cpp
     ${IMGUI_BACKEND_SOURCES}
 )
 
-add_executable(RetroEditor ${EDITOR_SOURCES})
+add_executable(RetroEditor src/editor/core/main.cpp ${EDITOR_SOURCES})
 target_include_directories(RetroEditor PRIVATE src/vendor)
 target_link_libraries(RetroEditor PRIVATE
     RetroCore

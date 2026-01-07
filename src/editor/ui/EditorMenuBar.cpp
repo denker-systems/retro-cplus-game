@@ -3,15 +3,15 @@
  * @brief Implementation of EditorMenuBar
  */
 #include "EditorMenuBar.h"
-#include "editor/EditorContext.h"
-#include "editor/panels/HierarchyPanel.h"
-#include "editor/panels/ViewportPanel.h"
-#include "editor/panels/PropertiesPanel.h"
-#include "editor/panels/AssetBrowserPanel.h"
-#include "editor/panels/ConsolePanel.h"
-#include "editor/graphs/dialog/DialogGraphPanel.h"
-#include "editor/graphs/quest/QuestGraphPanel.h"
-#include "editor/graphs/npc/BehaviorGraphPanel.h"
+#include "editor/core/EditorContext.h"
+#include "editor/panels/core/HierarchyPanel.h"
+#include "editor/panels/viewport/ViewportPanel.h"
+#include "editor/panels/core/PropertiesPanel.h"
+#include "editor/panels/assets/AssetBrowserPanel.h"
+#include "editor/panels/core/ConsolePanel.h"
+#include "editor/panels/graphs/dialog/DialogGraphPanel.h"
+#include "editor/panels/graphs/quest/QuestGraphPanel.h"
+#include "editor/panels/graphs/npc/BehaviorGraphPanel.h"
 
 #ifdef HAS_IMGUI
 #include <imgui.h>

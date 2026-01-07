@@ -4,7 +4,7 @@
  */
 #include "EditorWorldManager.h"
 #include "game/Game.h"
-#include "editor/EditorContext.h"
+#include "editor/core/EditorContext.h"
 #include "engine/world/World.h"
 #include "engine/world/Level.h"
 #include "engine/world/Scene.h"

@@ -3,14 +3,14 @@
  * @brief Event dispatcher implementation
  */
 #include "EditorEventDispatcher.h"
-#include "editor/EditorContext.h"
+#include "editor/core/EditorContext.h"
 #include "editor/input/EditorInputHandler.h"
 #include "editor/data/EditorDataManager.h"
 #include "engine/audio/AudioManager.h"
 #include "engine/utils/Logger.h"
 
 #ifdef HAS_IMGUI
-#include "editor/ImGuiManager.h"
+#include "editor/core/ImGuiManager.h"
 #include <imgui.h>
 #endif
 
