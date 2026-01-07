@@ -26,6 +26,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\Hierarch
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\PropertiesPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\PropertiesPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\ConsolePanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ConsolePanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\GameSettingsPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\GameSettingsPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\EditorSettingsPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorSettingsPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Core.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_Core.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_World.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_World.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Level.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel_Level.obj
@@ -66,6 +67,14 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\data\ISerializer.cpp
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\data\WorldSerializer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\WorldSerializer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\data\SceneSerializer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SceneSerializer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\data\EditorDataManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorDataManager.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\core\EditorToolRegistry.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorToolRegistry.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\core\AIAgentSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\AIAgentSystem.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\providers\OpenAIProvider.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\OpenAIProvider.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\providers\AnthropicProvider.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\AnthropicProvider.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\tools\SceneTools.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SceneTools.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\tools\ActorTools.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ActorTools.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\ui\AIChatPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\AIChatPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\AISystemInit.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\AISystemInit.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imnodes\imnodes.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\imnodes.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\ImGuiManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ImGuiManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_sdl2.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\imgui_impl_sdl2.obj

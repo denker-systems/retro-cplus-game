@@ -9,16 +9,22 @@ C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeLanguageInformation.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeRCInformation.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeSystemSpecificInformation.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeSystemSpecificInitialize.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckCXXSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckIncludeFileCXX.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/CheckLibraryExists.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/Compiler/CMakeCommonCompilerMacros.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/Compiler/MSVC-CXX.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/Compiler/MSVC.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/FeatureSummary.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/FindOpenSSL.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/FindPNG.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/FindPackageHandleStandardArgs.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/FindZLIB.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CMakeCXXLinkerInformation.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CMakeCommonLinkerInformation.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CheckSourceCompiles.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/Linker/MSVC-CXX.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/Linker/MSVC.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Linker/Windows-MSVC-CXX.cmake
@@ -56,6 +62,9 @@ C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windo
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glm/glmConfig-release.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glm/glmConfig.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glm/glmConfigVersion.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/httplib/httplibConfigVersion.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/httplib/httplibTargets.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/imgui/imgui-config.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/imgui/imgui-targets-debug.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/imgui/imgui-targets-release.cmake
@@ -72,6 +81,7 @@ C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windo
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/nlohmann_json/nlohmann_jsonConfig.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/nlohmann_json/nlohmann_jsonConfigVersion.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/nlohmann_json/nlohmann_jsonTargets.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/openssl/vcpkg-cmake-wrapper.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/png/vcpkg-cmake-wrapper.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/sdl2/SDL2Config.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/sdl2/SDL2ConfigVersion.cmake
@@ -82,6 +92,9 @@ C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windo
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/sdl2/SDL2mainTargets-release.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/sdl2/SDL2mainTargets.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/sdl2/sdlfind.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/unofficial-brotli/unofficial-brotli-config-debug.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/unofficial-brotli/unofficial-brotli-config-release.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/unofficial-brotli/unofficial-brotli-config.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/zlib/vcpkg-cmake-wrapper.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/vcpkg.json
 C:/vcpkg/scripts/buildsystems/vcpkg.cmake

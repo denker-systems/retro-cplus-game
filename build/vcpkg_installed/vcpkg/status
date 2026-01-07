@@ -248,3 +248,47 @@ Abi: 48e42969de3d4abbaeea887326b549aad6fc17c13662c7565d2399a6cdde9d74
 Description: OpenGL Mathematics (GLM)
 Status: install ok installed
 
+Package: cpp-httplib
+Version: 0.29.0
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: d982e348cd817df18d7e78a0d352b04b76b7d2719b22165b7ca5753fb5d2f2bb
+Description: A single file C++11 header-only HTTP/HTTPS server and client library
+Default-Features: brotli
+Status: install ok installed
+
+Package: cpp-httplib
+Feature: brotli
+Depends: brotli
+Architecture: x64-windows
+Multi-Arch: same
+Description: Enables brotli compression support using brotli
+Status: install ok installed
+
+Package: vcpkg-cmake-get-vars
+Version: 2025-05-29
+Depends: vcpkg-cmake
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 8565f42cd783eadbde0dd8d465c061bd7a261fc3e4372f6d615fa67f1194825f
+Status: install ok installed
+
+Package: openssl
+Version: 3.6.0
+Port-Version: 3
+Depends: vcpkg-cmake, vcpkg-cmake-config, vcpkg-cmake-get-vars
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 08a86878c0a11a9653a9dedcd9dc63911efac4a9965d4cf95d3906f05d79d289
+Description: OpenSSL is an open source project that provides a robust, commercial-grade, and full-featured toolkit for the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols. It is also a general-purpose cryptography library.
+Status: install ok installed
+
+Package: cpp-httplib
+Feature: openssl
+Depends: openssl
+Architecture: x64-windows
+Multi-Arch: same
+Description: Enables HTTPS support using OpenSSL
+Status: install ok installed
+
