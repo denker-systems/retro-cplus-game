@@ -14,6 +14,8 @@
 #include "Room.h"
 #include "world/Scene.h"
 #include "actors/NPC.h"
+#include "components/SpriteComponent.h"
+#include <SDL_image.h>
 #include <iostream>
 
 /**
@@ -30,8 +32,7 @@ public:
         loadItems();
         loadQuests();
         loadDialogs();
-        loadScenes(renderer);  // Ladda endast till SceneManager
-        loadNPCsToScenes();    // Ladda NPCs till SceneManager
+        loadScenes(renderer);  // NPCs skapas nu automatiskt i Scene::createFromData
         
         return true;
     }
@@ -142,10 +143,7 @@ public:
                                    layer.parallaxX, layer.parallaxY, layer.opacity);
                 }
             }
-            // Legacy: Ladda background om inga layers finns
-            else if (!data.background.empty()) {
-                room->loadBackground(renderer, data.background);
-            }
+            // Background loaded via SpriteComponent in Scene::createFromData
             
             for (const auto& hs : data.hotspots) {
                 HotspotType type = HotspotType::None;
@@ -168,13 +166,10 @@ public:
     
     static void loadScenes(SDL_Renderer* renderer) {
         for (const auto& data : DataLoader::instance().getRooms()) {
-            auto scene = std::make_unique<engine::Scene>(data.id);
-            scene->setWalkArea(data.walkArea.minX, data.walkArea.maxX,
-                             data.walkArea.minY, data.walkArea.maxY,
-                             data.walkArea.scaleTop, data.walkArea.scaleBottom);
-            scene->setPlayerSpawn(data.playerSpawnX, data.playerSpawnY);
+            // Use Scene::createFromData to create actors automatically
+            auto scene = engine::Scene::createFromData(data);
             
-            // New: Load grid data if available
+            // Set grid data if available
             if (data.gridPosition) {
                 scene->setGridPosition(*data.gridPosition);
                 std::cout << "  Grid position: (" << data.gridPosition->gridX 
@@ -195,9 +190,77 @@ public:
                                    layer.parallaxX, layer.parallaxY, layer.opacity);
                 }
             }
-            // Legacy: Ladda background om inga layers finns
-            else if (!data.background.empty()) {
-                scene->loadBackground(renderer, data.background);
+            
+            // Load background texture to Background actor's SpriteComponent
+            if (!data.background.empty() && renderer) {
+                std::cout << "[DEBUG] Loading background for scene: " << data.name << " -> " << data.background << std::endl;
+                std::cout << "[DEBUG] Scene has " << scene->getActors().size() << " actors" << std::endl;
+                
+                // List all actors in scene
+                for (const auto& actor : scene->getActors()) {
+                    std::cout << "[DEBUG]   Actor: " << actor->getName() << std::endl;
+                }
+                
+                auto* bgActor = scene->findActor("Background");
+                if (bgActor) {
+                    std::cout << "[DEBUG] Found Background actor" << std::endl;
+                    auto* spriteComp = bgActor->getComponent<engine::SpriteComponent>();
+                    if (spriteComp) {
+                        std::cout << "[DEBUG] Found SpriteComponent on Background" << std::endl;
+                        // data.background already contains full path like "assets/backgrounds/tavern-inside.png"
+                        SDL_Texture* tex = IMG_LoadTexture(renderer, data.background.c_str());
+                        if (tex) {
+                            std::cout << "[DEBUG] Successfully loaded background texture: " << data.background << std::endl;
+                            spriteComp->setTexture(tex);
+                            // Query texture size
+                            int w, h;
+                            SDL_QueryTexture(tex, nullptr, nullptr, &w, &h);
+                            spriteComp->setSize(w, h);
+                            spriteComp->setSourceRect({0, 0, w, h});
+                            std::cout << "[DEBUG] Background size: " << w << "x" << h << std::endl;
+                        } else {
+                            std::cout << "[ERROR] Failed to load background: " << data.background << std::endl;
+                        }
+                    } else {
+                        std::cout << "[ERROR] No SpriteComponent on Background actor" << std::endl;
+                    }
+                } else {
+                    std::cout << "[ERROR] Background actor not found in scene!" << std::endl;
+                }
+            }
+            
+            // Load NPC sprites for all NPCs in this scene
+            if (renderer) {
+                const auto& npcList = DataLoader::instance().getNPCs();
+                for (const auto& npcData : npcList) {
+                    if (npcData.room == data.name) {
+                        std::cout << "[DEBUG] Loading NPC sprite for: " << npcData.name << " (sprite: " << npcData.sprite << ")" << std::endl;
+                        auto* npcActor = scene->findActor(npcData.name);
+                        if (npcActor) {
+                            std::cout << "[DEBUG] Found NPC actor: " << npcData.name << std::endl;
+                            auto* spriteComp = npcActor->getComponent<engine::SpriteComponent>();
+                            if (spriteComp && !npcData.sprite.empty()) {
+                                std::string spritePath = "assets/sprites/" + npcData.sprite + ".png";
+                                SDL_Texture* tex = IMG_LoadTexture(renderer, spritePath.c_str());
+                                if (tex) {
+                                    std::cout << "[DEBUG] Successfully loaded NPC texture: " << spritePath << std::endl;
+                                    spriteComp->setTexture(tex);
+                                    int w, h;
+                                    SDL_QueryTexture(tex, nullptr, nullptr, &w, &h);
+                                    spriteComp->setSize(w, h);
+                                    spriteComp->setSourceRect({0, 0, w, h});
+                                    std::cout << "[DEBUG] NPC sprite size: " << w << "x" << h << std::endl;
+                                } else {
+                                    std::cout << "[ERROR] Failed to load NPC texture: " << spritePath << std::endl;
+                                }
+                            } else {
+                                std::cout << "[ERROR] No SpriteComponent on NPC actor or empty sprite name" << std::endl;
+                            }
+                        } else {
+                            std::cout << "[ERROR] NPC actor not found: " << npcData.name << std::endl;
+                        }
+                    }
+                }
             }
             
             for (const auto& hs : data.hotspots) {

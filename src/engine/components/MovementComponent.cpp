@@ -3,6 +3,7 @@
  * @brief Movement Component Implementation
  */
 #include "MovementComponent.h"
+#include "engine/core/Vec2.h"
 #include <cmath>
 
 namespace engine {
@@ -19,6 +20,16 @@ void MovementComponent::addForce(Vec2 force) {
 void MovementComponent::stop() {
     m_velocity = Vec2(0, 0);
     m_acceleration = Vec2(0, 0);
+    m_hasTarget = false;
+}
+
+void MovementComponent::setTarget(const Vec2& target) {
+    m_target = target;
+    m_hasTarget = true;
+    
+    if (onMovementStart) {
+        onMovementStart(target);
+    }
 }
 
 void MovementComponent::setWalkArea(float minX, float maxX, float minY, float maxY) {
@@ -36,23 +47,53 @@ void MovementComponent::clearWalkArea() {
 void MovementComponent::update(float deltaTime) {
     if (!m_owner) return;
     
-    // Apply acceleration
-    m_velocity = m_velocity + m_acceleration * deltaTime;
-    
-    // Apply friction
-    m_velocity.x *= m_friction;
-    m_velocity.y *= m_friction;
-    
-    // Clamp to max speed
-    float speed = std::sqrt(m_velocity.x * m_velocity.x + m_velocity.y * m_velocity.y);
-    if (speed > m_maxSpeed) {
-        m_velocity.x = (m_velocity.x / speed) * m_maxSpeed;
-        m_velocity.y = (m_velocity.y / speed) * m_maxSpeed;
-    }
-    
-    // Update position
     Vec2 currentPos = m_owner->getPosition();
-    Vec2 newPos = currentPos + m_velocity * deltaTime;
+    Vec2 newPos = currentPos;
+    
+    // Point-and-click movement
+    if (m_hasTarget) {
+        Vec2 toTarget = m_target - currentPos;
+        float distance = toTarget.length();
+        
+        if (distance > 2.0f) {
+            // Move towards target
+            Vec2 direction = toTarget.normalized();
+            Vec2 moveVector = direction * m_maxSpeed * deltaTime;
+            
+            // Don't overshoot target
+            if (moveVector.length() > distance) {
+                moveVector = toTarget;
+            }
+            
+            newPos = currentPos + moveVector;
+            m_velocity = moveVector / deltaTime; // Update velocity for animations
+        } else {
+            // Reached target
+            newPos = m_target;
+            m_hasTarget = false;
+            m_velocity = Vec2(0, 0);
+            
+            if (onMovementComplete) {
+                onMovementComplete();
+            }
+        }
+    } else {
+        // Physics-based movement
+        // Apply acceleration
+        m_velocity = m_velocity + m_acceleration * deltaTime;
+        
+        // Apply friction
+        m_velocity.x *= m_friction;
+        m_velocity.y *= m_friction;
+        
+        // Clamp to max speed
+        float speed = m_velocity.length();
+        if (speed > m_maxSpeed) {
+            m_velocity = (m_velocity / speed) * m_maxSpeed;
+        }
+        
+        newPos = currentPos + m_velocity * deltaTime;
+    }
     
     // Apply walk area constraints
     if (m_hasWalkArea) {

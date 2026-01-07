@@ -161,6 +161,10 @@ private:
     std::unique_ptr<WorldViewPanel> m_worldViewPanel;
     std::unique_ptr<LevelViewPanel> m_levelViewPanel;
     
+    // UI components
+    std::unique_ptr<class EditorMenuBar> m_menuBar;
+    std::unique_ptr<class EditorDockspace> m_dockspace;
+    
     // Test scene and layer manager for editor
     std::unique_ptr<engine::Scene> m_editorScene;
     std::unique_ptr<engine::LayerManager> m_layerManager;

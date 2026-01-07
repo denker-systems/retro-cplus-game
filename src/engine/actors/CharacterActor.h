@@ -91,7 +91,7 @@ private:
  */
 class NPCActor : public CharacterActor {
 public:
-    NPCActor(const std::string& name = "NPC");
+    NPCActor(const std::string& name = "NPC", const std::string& spriteName = "");
     virtual ~NPCActor() = default;
     
     void update(float deltaTime) override;

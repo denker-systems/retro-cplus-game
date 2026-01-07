@@ -41,6 +41,9 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\LayerEditorPa
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\TileMapEditorPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\TileMapEditorPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\WorldViewPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\WorldViewPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\LevelViewPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\LevelViewPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\SelectTool.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SelectTool.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\ScaleTool.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ScaleTool.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\ToolManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ToolManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\data\ISerializer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ISerializer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\data\WorldSerializer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\WorldSerializer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\data\SceneSerializer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SceneSerializer.obj

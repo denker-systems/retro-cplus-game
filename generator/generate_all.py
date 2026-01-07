@@ -10,10 +10,9 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "scripts"))
 
 # Import all generators
-from generate_sprites import main as generate_sprites
+from generate_actor_sprites import main as generate_actor_sprites
 from generate_backgrounds import main as generate_backgrounds
 from generate_tilesets import main as generate_tilesets
-from generate_ui import main as generate_ui
 
 def main():
     """Generate all placeholder assets."""
@@ -23,17 +22,14 @@ def main():
     print()
     
     try:
-        # Generate all assets
-        generate_sprites()
+        # Generate actor sprites (NPCs, player, items)
+        generate_actor_sprites()
         print()
         
         generate_backgrounds()
         print()
         
         generate_tilesets()
-        print()
-        
-        generate_ui()
         print()
         
         print("=" * 60)

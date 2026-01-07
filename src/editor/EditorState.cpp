@@ -38,6 +38,8 @@
 #include "graphs/dialog/DialogGraphPanel.h"
 #include "graphs/quest/QuestGraphPanel.h"
 #include "graphs/npc/BehaviorGraphPanel.h"
+#include "ui/EditorMenuBar.h"
+#include "ui/EditorDockspace.h"
 #include <imgui.h>
 #include <imgui_internal.h>
 #endif
@@ -64,6 +66,7 @@ void EditorState::enter() {
     m_viewportPanel = std::make_unique<ViewportPanel>(m_editorContext);
     m_viewportPanel->setRenderer(m_game->getRenderer());
     m_assetBrowserPanel = std::make_unique<AssetBrowserPanel>(m_editorContext);
+    m_assetBrowserPanel->setRenderer(m_game->getRenderer());
     m_consolePanel = std::make_unique<ConsolePanel>(m_editorContext);
     m_dialogGraphPanel = std::make_unique<DialogGraphPanel>(m_editorContext);
     m_questGraphPanel = std::make_unique<QuestGraphPanel>(m_editorContext);
@@ -73,6 +76,32 @@ void EditorState::enter() {
     m_tileMapEditorPanel = std::make_unique<TileMapEditorPanel>(m_editorContext);
     m_worldViewPanel = std::make_unique<WorldViewPanel>(m_editorContext);
     m_levelViewPanel = std::make_unique<LevelViewPanel>(m_editorContext);
+    
+    // Create UI components
+    m_menuBar = std::make_unique<EditorMenuBar>(m_editorContext);
+    m_dockspace = std::make_unique<EditorDockspace>();
+    
+    // Setup menu bar callbacks and panel references
+    m_menuBar->setPanels(
+        m_hierarchyPanel.get(),
+        m_viewportPanel.get(),
+        m_propertiesPanel.get(),
+        m_assetBrowserPanel.get(),
+        m_consolePanel.get(),
+        m_dialogGraphPanel.get(),
+        m_questGraphPanel.get(),
+        m_behaviorGraphPanel.get()
+    );
+    m_menuBar->onSaveAll = [this]() {
+        if (m_consolePanel) m_consolePanel->log("Saved all data");
+    };
+    m_menuBar->onImportTiled = [this]() { importFromTiled(); };
+    m_menuBar->onExportTiled = [this]() { exportAllToTiled(); };
+    m_menuBar->onExit = [this]() { if (m_game) m_game->popState(); };
+    m_menuBar->onReloadData = [this]() {
+        DataLoader::instance().loadAll();
+        if (m_consolePanel) m_consolePanel->log("Data reloaded");
+    };
     
     // Hide World/Level View panels by default (integrated in Viewport now)
     m_worldViewPanel->setVisible(false);
@@ -106,11 +135,9 @@ void EditorState::enter() {
     for (const auto& roomData : rooms) {
         auto scene = engine::Scene::createFromData(roomData);
         
-        // Load background if available (both legacy and sprite component)
+        // Load background if available (via sprite component)
         if (!roomData.background.empty()) {
-            scene->loadBackground(m_game->getRenderer(), roomData.background);
-            
-            // Also load to sprite component if background actor exists
+            // Load to sprite component if background actor exists
             auto* bgActor = scene->findActor("Background");
             if (bgActor) {
                 auto* spriteComp = bgActor->getComponent<engine::SpriteComponent>();

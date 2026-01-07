@@ -95,7 +95,6 @@ public:
     
     // Legacy methods from old Scene - for game compatibility
     void render(SDL_Renderer* renderer);
-    bool loadBackground(SDL_Renderer* renderer, const std::string& path);
     bool loadLayer(SDL_Renderer* renderer, const std::string& imagePath, int zIndex, 
                    float parallaxX = 1.0f, float parallaxY = 1.0f, float opacity = 1.0f);
     void addHotspot(const std::string& id, const std::string& name, 
@@ -111,7 +110,6 @@ public:
     // NPC methods
     void addNPC(std::unique_ptr<engine::actors::NPC> npc);
     void updateNPCs(float deltaTime);
-    void renderNPCs(SDL_Renderer* renderer);
     
     // Getters for legacy compatibility
     const std::string& getId() const { return getName(); }
@@ -120,6 +118,7 @@ public:
     void getPlayerSpawn(float& x, float& y) const;
     void setPlayerSpawn(float x, float y);
     const std::vector<std::unique_ptr<engine::actors::NPC>>& getNPCs() const { return m_npcs; }
+    const std::string& getBackgroundPath() const { return m_backgroundPath; }
     
     void update(float deltaTime) override;
     void renderActors(SDL_Renderer* renderer);
@@ -186,7 +185,7 @@ private:
     std::vector<Hotspot> m_legacyHotspots;
     WalkArea m_legacyWalkArea;
     std::vector<std::unique_ptr<engine::actors::NPC>> m_npcs;
-    SDL_Texture* m_backgroundTexture = nullptr;
+    std::string m_backgroundPath;
 };
 
 } // namespace engine

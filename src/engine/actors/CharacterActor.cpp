@@ -20,6 +20,8 @@ namespace engine {
 CharacterActor::CharacterActor(const std::string& name)
     : ActorObjectExtended(name)
 {
+    // Add MovementComponent to all characters
+    addComponent<MovementComponent>();
 }
 
 void CharacterActor::update(float deltaTime) {
@@ -45,8 +47,11 @@ void CharacterActor::move(int dx, int dy, float deltaTime) {
 }
 
 void CharacterActor::setTarget(float x, float y) {
-    // Legacy setTarget - will be replaced by MovementComponent
-    setPosition(x, y);
+    // Use MovementComponent for point-and-click movement
+    auto movement = getComponent<MovementComponent>();
+    if (movement) {
+        movement->setTarget(Vec2(x, y));
+    }
 }
 
 float CharacterActor::getX() const {
@@ -109,23 +114,15 @@ void PlayerActor::setMoveTarget(float x, float y) {
     m_targetPosition = Vec2(x, y);
     m_isMovingToTarget = true;
     
-    // Simple move to target (will be improved with pathfinding)
+    // Use MovementComponent for point-and-click movement
     auto movement = getComponent<MovementComponent>();
     if (movement) {
-        Vec2 currentPos = getPosition();
-        Vec2 direction = m_targetPosition - currentPos;
+        movement->setTarget(m_targetPosition);
         
-        // Check if we're close enough
-        float distance = std::sqrt(direction.x * direction.x + direction.y * direction.y);
-        if (distance < 5.0f) {
+        // Set up event handlers
+        movement->onMovementComplete = [this]() {
             m_isMovingToTarget = false;
-            movement->stop();
-        } else {
-            // Normalize and apply force
-            direction.x /= distance;
-            direction.y /= distance;
-            movement->addForce(direction * m_moveSpeed * 10);
-        }
+        };
     }
 }
 
@@ -133,15 +130,24 @@ void PlayerActor::setMoveTarget(float x, float y) {
 // NPCActor
 // ============================================================================
 
-NPCActor::NPCActor(const std::string& name)
+NPCActor::NPCActor(const std::string& name, const std::string& spriteName)
     : CharacterActor(name)
 {
     m_moveSpeed = 80.0f;
     
+    // Update MovementComponent speed
+    auto movement = getComponent<MovementComponent>();
+    if (movement) {
+        movement->setMaxSpeed(m_moveSpeed);
+    }
+    
     // Add SpriteComponent
     auto sprite = addComponent<engine::SpriteComponent>();
-    // TODO: Load NPC sprite based on name/type
-    // sprite->loadTextureCached("assets/sprites/npc.png");
+    // Load NPC sprite based on spriteName or name
+    std::string spriteFile = spriteName.empty() ? name : spriteName;
+    if (!spriteFile.empty() && spriteFile != "NPC") {
+        sprite->loadTextureCached("assets/sprites/" + spriteFile + ".png");
+    }
     
     // Add DialogComponent
     auto dialog = addComponent<engine::DialogComponent>();

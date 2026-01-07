@@ -3,10 +3,13 @@
  * @brief Implementation of Scene (UE5-style)
  */
 #include "Scene.h"
+#include "engine/actors/CharacterActor.h"
 #include "engine/data/GameData.h"
+#include "engine/data/DataLoader.h"
 #include "engine/core/ActorObjectExtended.h"
 #include "engine/components/SpriteComponent.h"
 #include <SDL_image.h>
+#include <iostream>
 
 namespace engine {
 
@@ -34,6 +37,15 @@ void Scene::renderActors(SDL_Renderer* renderer) {
     // Render all actors
     for (const auto& actor : m_actors) {
         if (actor && actor->isActive()) {
+            // Special handling for Background - fill entire viewport like legacy Room::render()
+            if (actor->getName() == "Background") {
+                auto* spriteComp = actor->getComponent<SpriteComponent>();
+                if (spriteComp && spriteComp->getTexture()) {
+                    // Use nullptr for dest to fill entire render target (like legacy Room)
+                    SDL_RenderCopy(renderer, spriteComp->getTexture(), nullptr, nullptr);
+                    continue;
+                }
+            }
             actor->render(renderer);
         }
     }
@@ -66,7 +78,9 @@ void Scene::onSceneResume() {
 }
 
 std::unique_ptr<Scene> Scene::createFromData(const SceneData& data) {
-    auto scene = std::make_unique<Scene>(data.name);
+    // Use data.id as scene name for lookups (e.g. "tavern")
+    // data.name is display name (e.g. "The Rusty Anchor")
+    auto scene = std::make_unique<Scene>(data.id);
     
     // Set grid position if available
     if (data.gridPosition) {
@@ -80,15 +94,33 @@ std::unique_ptr<Scene> Scene::createFromData(const SceneData& data) {
     
     // Load background if available
     if (!data.background.empty()) {
+        scene->m_backgroundPath = data.background;
         // Note: We can't load texture here without renderer
         // This will be handled by GameDataLoader
     }
     
-    // Create actors for hotspots
+    // Create actor for background FIRST so it renders behind everything
+    auto bgActor = std::make_unique<ActorObjectExtended>("Background");
+    bgActor->setPosition(0.0f, 0.0f);
+    std::cout << "[DEBUG] Creating Background actor for scene: " << data.name << std::endl;
+    // Add sprite component for background if we have a path
+    if (!data.background.empty()) {
+        auto spriteComp = bgActor->addComponent<SpriteComponent>();
+        std::cout << "[DEBUG] Added SpriteComponent to Background actor" << std::endl;
+        // Note: Texture will be loaded later when renderer is available
+    }
+    scene->addActor(std::move(bgActor));
+    std::cout << "[DEBUG] Added Background actor to scene" << std::endl;
+    
+    // Create actors for hotspots (skip NPCs - they're created separately)
     for (const auto& hs : data.hotspots) {
-        auto actor = std::make_unique<ActorObjectExtended>(hs.name);
-        actor->setPosition(static_cast<float>(hs.x), static_cast<float>(hs.y));
-        scene->addActor(std::move(actor));
+        // Skip NPC hotspots - NPCActors are created from NPC data
+        // Note: type in JSON is lowercase "npc"
+        if (hs.type != "npc" && hs.type != "NPC") {
+            auto actor = std::make_unique<ActorObjectExtended>(hs.name);
+            actor->setPosition(static_cast<float>(hs.x), static_cast<float>(hs.y));
+            scene->addActor(std::move(actor));
+        }
     }
     
     // Create actor for player spawn
@@ -96,15 +128,30 @@ std::unique_ptr<Scene> Scene::createFromData(const SceneData& data) {
     spawnActor->setPosition(static_cast<float>(data.playerSpawnX), static_cast<float>(data.playerSpawnY));
     scene->addActor(std::move(spawnActor));
     
-    // Create actor for background
-    auto bgActor = std::make_unique<ActorObjectExtended>("Background");
-    bgActor->setPosition(0.0f, 0.0f);
-    // Add sprite component for background if we have a path
-    if (!data.background.empty()) {
-        auto spriteComp = bgActor->addComponent<SpriteComponent>();
-        // Note: Texture will be loaded later when renderer is available
+    // Create NPCActors from NPC data
+    const auto& npcs = DataLoader::instance().getNPCs();
+    std::cout << "[DEBUG] Checking NPCs for scene ID: " << data.id << std::endl;
+    for (const auto& npcData : npcs) {
+        std::cout << "[DEBUG] NPC " << npcData.name << " is in room: " << npcData.room << std::endl;
+        if (npcData.room == data.id) {  // Match against data.id (e.g. "tavern")
+            std::cout << "[DEBUG] Creating NPCActor: " << npcData.name << std::endl;
+            auto npcActor = std::make_unique<engine::NPCActor>(npcData.name, npcData.sprite);
+            npcActor->setPosition(static_cast<float>(npcData.x), static_cast<float>(npcData.y));
+            
+            // Set speed
+            npcActor->setSpeed(npcData.moveSpeed);
+            
+            // Set dialog
+            if (!npcData.dialogId.empty()) {
+                npcActor->setDialogId(npcData.dialogId);
+            }
+            
+            // Set interaction text
+            npcActor->setInteractionText("Prata med " + npcData.name);
+            
+            scene->addActor(std::move(npcActor));
+        }
     }
-    scene->addActor(std::move(bgActor));
     
     // Also populate legacy data for game compatibility
     scene->m_legacyWalkArea = {data.walkArea.minX, data.walkArea.maxX, data.walkArea.minY, data.walkArea.maxY, data.walkArea.scaleTop, data.walkArea.scaleBottom};
@@ -132,34 +179,14 @@ std::unique_ptr<Scene> Scene::createFromData(const SceneData& data) {
 
 // Legacy methods from old Scene - for game compatibility
 void Scene::render(SDL_Renderer* renderer) {
-    // Render background if loaded
-    if (m_backgroundTexture) {
-        SDL_Rect dest = {0, 0, 640, 400};
-        SDL_RenderCopy(renderer, m_backgroundTexture, nullptr, &dest);
-    }
-    
-    // Render all actors (including background actor)
+    // Render all actors (including background and NPCs)
     renderActors(renderer);
-    
-    // Render NPCs
-    renderNPCs(renderer);
-}
-
-bool Scene::loadBackground(SDL_Renderer* renderer, const std::string& path) {
-    if (m_backgroundTexture) {
-        SDL_DestroyTexture(m_backgroundTexture);
-    }
-    m_backgroundTexture = IMG_LoadTexture(renderer, path.c_str());
-    return m_backgroundTexture != nullptr;
 }
 
 bool Scene::loadLayer(SDL_Renderer* renderer, const std::string& imagePath, int zIndex, 
                      float parallaxX, float parallaxY, float opacity) {
-    // For now, just load as background if zIndex is -1
-    if (zIndex == -1) {
-        return loadBackground(renderer, imagePath);
-    }
-    // TODO: Implement proper layer system
+    // TODO: Implement proper layer system with actors
+    // For now, do nothing - layers should be created as actors
     return true;
 }
 
@@ -212,14 +239,6 @@ void Scene::updateNPCs(float deltaTime) {
     for (auto& npc : m_npcs) {
         if (npc) {
             npc->update(deltaTime);
-        }
-    }
-}
-
-void Scene::renderNPCs(SDL_Renderer* renderer) {
-    for (auto& npc : m_npcs) {
-        if (npc) {
-            npc->render(renderer);
         }
     }
 }

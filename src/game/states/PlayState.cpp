@@ -159,7 +159,6 @@ void PlayState::render(SDL_Renderer* renderer) {
     // Rita scene
     if (scene) {
         scene->render(renderer);
-        scene->renderNPCs(renderer);
     }
     
     // Rita spelare med depth scale

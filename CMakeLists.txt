@@ -213,6 +213,11 @@ set(EDITOR_SOURCES
     src/editor/panels/TileMapEditorPanel.cpp
     src/editor/panels/WorldViewPanel.cpp
     src/editor/panels/LevelViewPanel.cpp
+    src/editor/tools/SelectTool.cpp
+    src/editor/tools/ScaleTool.cpp
+    src/editor/tools/ToolManager.cpp
+    src/editor/ui/EditorMenuBar.cpp
+    src/editor/ui/EditorDockspace.cpp
     src/editor/data/ISerializer.cpp
     src/editor/data/WorldSerializer.cpp
     src/editor/data/SceneSerializer.cpp

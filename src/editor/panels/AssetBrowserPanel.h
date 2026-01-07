@@ -8,7 +8,10 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <unordered_map>
 
+struct SDL_Texture;
+struct SDL_Renderer;
 class EditorContext;
 
 /**
@@ -31,6 +34,9 @@ struct AssetInfo {
     std::string path;
     AssetType type;
     size_t fileSize = 0;
+    SDL_Texture* thumbnail = nullptr;
+    int thumbWidth = 0;
+    int thumbHeight = 0;
 };
 
 /**
@@ -39,6 +45,9 @@ struct AssetInfo {
 class AssetBrowserPanel : public IEditorPanel {
 public:
     explicit AssetBrowserPanel(EditorContext& context);
+    ~AssetBrowserPanel();
+    
+    void setRenderer(SDL_Renderer* renderer) { m_renderer = renderer; }
     
     const std::string& getId() const override { return m_id; }
     const std::string& getTitle() const override { return m_title; }
@@ -56,6 +65,8 @@ private:
     void scanDirectory(const std::string& path, AssetType type);
     void renderAssetGrid();
     void renderAssetList();
+    void loadThumbnail(AssetInfo& asset);
+    void clearThumbnails();
     
     EditorContext& m_context;
     std::string m_id = "assetbrowser";
@@ -68,4 +79,7 @@ private:
     int m_selectedAsset = -1;
     
     AssetSelectedCallback m_onAssetSelected;
+    
+    SDL_Renderer* m_renderer = nullptr;
+    std::unordered_map<std::string, SDL_Texture*> m_thumbnailCache;
 };
