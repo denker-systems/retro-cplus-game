@@ -111,6 +111,8 @@ void ViewportPanel::renderToolbar() {
     ImGui::Checkbox("Hotspots", &m_showHotspots);
     ImGui::SameLine();
     ImGui::Checkbox("Walk Area", &m_showWalkArea);
+    ImGui::SameLine();
+    ImGui::Checkbox("Physics", &m_showPhysicsDebug);
 #endif
 }
 

@@ -9,6 +9,7 @@
 #include "engine/world/Scene.h"
 #include "engine/components/SpriteComponent.h"
 #include "engine/core/ActorObjectExtended.h"
+#include "engine/data/DataLoader.h"
 #include "engine/utils/Logger.h"
 #include <algorithm>
 #include <cmath>
@@ -64,6 +65,75 @@ void ViewportPanel::renderSceneView() {
     if (m_scene) {
         renderSceneActors(ImGui::GetWindowDrawList(), 
                          ImVec2(renderPos.x + m_panX, renderPos.y + m_panY));
+    }
+    
+    // Render hotspots from SceneData (for physics visualization)
+    const SceneData* sceneData = nullptr;
+    for (const auto& s : DataLoader::instance().getScenes()) {
+        if (s.id == m_scene->getName()) {
+            sceneData = &s;
+            break;
+        }
+    }
+    if (sceneData && m_showPhysicsDebug) {
+        ImDrawList* drawList = ImGui::GetWindowDrawList();
+        
+        // Draw hotspot triggers
+        for (const auto& hs : sceneData->hotspots) {
+            if (hs.physics.enabled) {
+                float colX = renderPos.x + m_panX + (hs.x + hs.physics.collider.offsetX) * m_zoom;
+                float colY = renderPos.y + m_panY + (hs.y + hs.physics.collider.offsetY) * m_zoom;
+                float colW = hs.physics.collider.width * m_zoom;
+                float colH = hs.physics.collider.height * m_zoom;
+                
+                ImU32 physColor = hs.physics.collider.isTrigger 
+                    ? IM_COL32(0, 255, 255, 200)   // Cyan = trigger
+                    : IM_COL32(255, 100, 100, 200); // Red = solid
+                
+                drawList->AddRect(ImVec2(colX, colY), ImVec2(colX + colW, colY + colH),
+                                 physColor, 0, 0, 3.0f);
+                
+                const char* label = hs.physics.collider.isTrigger ? "TRIGGER" : "SOLID";
+                drawList->AddText(ImVec2(colX, colY - 14), physColor, label);
+            }
+        }
+        
+        // Draw static collision boxes (ground, walls, platforms)
+        for (const auto& box : sceneData->collisionBoxes) {
+            float boxX = renderPos.x + m_panX + box.x * m_zoom;
+            float boxY = renderPos.y + m_panY + box.y * m_zoom;
+            float boxW = box.width * m_zoom;
+            float boxH = box.height * m_zoom;
+            
+            // Color based on type
+            ImU32 boxColor;
+            if (box.type == "ground") {
+                boxColor = IM_COL32(100, 255, 100, 180);  // Green = ground
+            } else if (box.type == "wall") {
+                boxColor = IM_COL32(255, 100, 100, 180);  // Red = wall
+            } else if (box.type == "platform") {
+                boxColor = IM_COL32(100, 200, 255, 180);  // Light blue = platform
+            } else if (box.type == "hazard") {
+                boxColor = IM_COL32(255, 50, 50, 200);    // Bright red = hazard
+            } else {
+                boxColor = IM_COL32(200, 200, 200, 150);  // Gray = default
+            }
+            
+            // Fill with semi-transparent color
+            drawList->AddRectFilled(ImVec2(boxX, boxY), ImVec2(boxX + boxW, boxY + boxH),
+                                   (boxColor & 0x00FFFFFF) | 0x40000000);
+            // Border
+            drawList->AddRect(ImVec2(boxX, boxY), ImVec2(boxX + boxW, boxY + boxH),
+                             boxColor, 0, 0, 2.0f);
+            
+            // Label
+            drawList->AddText(ImVec2(boxX + 2, boxY + 2), boxColor, box.type.c_str());
+            
+            // One-way indicator
+            if (box.oneWay) {
+                drawList->AddText(ImVec2(boxX + 2, boxY + 14), IM_COL32(255, 255, 0, 255), "[1-way]");
+            }
+        }
     }
     
     // Render tool overlay (scale handles, etc.)

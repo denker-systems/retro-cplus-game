@@ -104,6 +104,9 @@ private:
     bool m_showSceneGrid = true;
     int m_sceneGridSize = 32;  // Grid cell size in pixels
     
+    // Physics debug visualization
+    bool m_showPhysicsDebug = true;
+    
     // Spatial View editing state
     engine::Scene* m_selectedScene = nullptr;
     engine::Scene* m_draggedScene = nullptr;

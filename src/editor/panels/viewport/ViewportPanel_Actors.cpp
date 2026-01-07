@@ -5,6 +5,8 @@
 #include "ViewportPanel.h"
 #include "engine/world/Scene.h"
 #include "engine/components/SpriteComponent.h"
+#include "engine/components/Collider2DComponent.h"
+#include "engine/components/RigidBody2DComponent.h"
 #include "engine/core/ActorObjectExtended.h"
 #include <algorithm>
 #include <cmath>
@@ -161,6 +163,59 @@ void ViewportPanel::renderSceneActors(ImDrawList* drawList, ImVec2 offset) {
                                    ImVec2(ax + handleSize/2, ay + ah + handleSize/2), handleColor);
             drawList->AddRectFilled(ImVec2(ax + aw - handleSize/2, ay + ah - handleSize/2), 
                                    ImVec2(ax + aw + handleSize/2, ay + ah + handleSize/2), handleColor);
+        }
+        
+        // Draw physics collider visualization
+        auto* collider = actor->getComponent<engine::Collider2DComponent>();
+        if (collider && m_showPhysicsDebug) {
+            engine::Vec2 actorPos = actor->getPosition();
+            float cx = offset.x + (actorPos.x + collider->getOffset().x) * m_zoom;
+            float cy = offset.y + (actorPos.y + collider->getOffset().y) * m_zoom;
+            glm::vec2 size = collider->getSize();
+            float cw = size.x * m_zoom;
+            float ch = size.y * m_zoom;
+            
+            // Different colors for different collider types
+            ImU32 colliderColor;
+            if (collider->isTrigger()) {
+                colliderColor = IM_COL32(0, 255, 255, 150);  // Cyan for triggers
+            } else {
+                auto* rb = actor->getComponent<engine::RigidBody2DComponent>();
+                if (rb) {
+                    switch (rb->getBodyType()) {
+                        case engine::RigidBody2DComponent::BodyType::Static:
+                            colliderColor = IM_COL32(255, 100, 100, 150);  // Red for static
+                            break;
+                        case engine::RigidBody2DComponent::BodyType::Dynamic:
+                            colliderColor = IM_COL32(100, 255, 100, 150);  // Green for dynamic
+                            break;
+                        case engine::RigidBody2DComponent::BodyType::Kinematic:
+                            colliderColor = IM_COL32(255, 255, 100, 150);  // Yellow for kinematic
+                            break;
+                    }
+                } else {
+                    colliderColor = IM_COL32(200, 200, 200, 150);  // Gray default
+                }
+            }
+            
+            // Draw based on shape type
+            auto shapeType = collider->getShapeType();
+            if (shapeType == engine::Collider2DComponent::ShapeType::Circle) {
+                float radius = size.x / 2.0f * m_zoom;
+                drawList->AddCircle(ImVec2(cx + cw/2, cy + ch/2), radius, colliderColor, 16, 2.0f);
+            } else if (shapeType == engine::Collider2DComponent::ShapeType::Capsule) {
+                // Draw capsule as rounded rect
+                float radius = size.x / 2.0f * m_zoom;
+                drawList->AddRect(ImVec2(cx, cy), ImVec2(cx + cw, cy + ch), colliderColor, radius, 0, 2.0f);
+            } else {
+                // Box shape
+                drawList->AddRect(ImVec2(cx, cy), ImVec2(cx + cw, cy + ch), colliderColor, 0, 0, 2.0f);
+            }
+            
+            // Label for trigger type
+            if (collider->isTrigger()) {
+                drawList->AddText(ImVec2(cx, cy - 14), IM_COL32(0, 255, 255, 255), "TRIGGER");
+            }
         }
     }
 #endif

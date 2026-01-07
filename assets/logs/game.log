@@ -1,39 +1,16 @@
 ========================================
-  Game Log - 2026-01-07 00:01:52.174
+  Game Log - 2026-01-07 00:40:49.220
 ========================================
 
-[2026-01-07 00:01:52.174] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-07 00:01:52.347] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-07 00:01:52.361] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-07 00:01:52.375] [INFO ] [Game.cpp:82] Window created
-[2026-01-07 00:01:52.503] [INFO ] [Game.cpp:92] Renderer created
-[2026-01-07 00:01:52.504] [INFO ] [Game.cpp:212] Viewport: 1920x1200 at (0,0)
-[2026-01-07 00:01:52.505] [INFO ] [Game.cpp:118] Scale: 3.000000 (fonts scaled for sharp rendering)
-[2026-01-07 00:01:52.505] [INFO ] [Game.cpp:129] Game initialized successfully!
-[2026-01-07 00:01:54.213] [DEBUG] [PlayState.cpp:42] PlayState::enter() - initialized=false
-[2026-01-07 00:01:54.213] [INFO ] [PlayState.cpp:46] PlayState initializing for first time
-[2026-01-07 00:01:54.219] [INFO ] [DialogSystem.cpp:16] Added dialog: bartender_intro with 6 nodes
-[2026-01-07 00:01:54.219] [INFO ] [DialogSystem.cpp:16] Added dialog: shopkeeper_intro with 4 nodes
-[2026-01-07 00:01:54.219] [INFO ] [DialogSystem.cpp:16] Added dialog: drunk_hints with 4 nodes
-[2026-01-07 00:01:54.219] [INFO ] [DialogSystem.cpp:16] Added dialog: stranger_intro with 3 nodes
-[2026-01-07 00:01:54.219] [INFO ] [DialogSystem.cpp:16] Added dialog: guard_intro with 4 nodes
-[2026-01-07 00:01:54.219] [INFO ] [DialogSystem.cpp:16] Added dialog: librarian_intro with 5 nodes
-[2026-01-07 00:01:54.219] [INFO ] [DialogSystem.cpp:16] Added dialog: hermit_intro with 5 nodes
-[2026-01-07 00:01:54.219] [INFO ] [DialogSystem.cpp:16] Added dialog: cat_meow with 3 nodes
-[2026-01-07 00:01:54.245] [INFO ] [SceneManager.cpp:16] Adding scene: tavern
-[2026-01-07 00:01:54.272] [INFO ] [SceneManager.cpp:16] Adding scene: street
-[2026-01-07 00:01:54.298] [INFO ] [SceneManager.cpp:16] Adding scene: shop
-[2026-01-07 00:01:54.323] [INFO ] [SceneManager.cpp:16] Adding scene: library
-[2026-01-07 00:01:54.348] [INFO ] [SceneManager.cpp:16] Adding scene: cellar
-[2026-01-07 00:01:54.373] [INFO ] [SceneManager.cpp:16] Adding scene: forest
-[2026-01-07 00:01:54.399] [INFO ] [SceneManager.cpp:16] Adding scene: cave
-[2026-01-07 00:01:54.399] [INFO ] [SceneManager.cpp:36] changeScene called: tavern
-[2026-01-07 00:01:54.399] [INFO ] [SceneManager.cpp:43] Changing to scene: tavern
-[2026-01-07 00:01:54.399] [DEBUG] [SceneManager.cpp:47] Calling onSceneChange callback
-[2026-01-07 00:02:09.813] [DEBUG] [PlayState.cpp:74] PlayState::exit()
-[2026-01-07 00:02:10.358] [INFO ] [main.cpp:17] === RetroAdventure Game Shutdown ===
-[2026-01-07 00:02:10.358] [INFO ] [Game.cpp:233] === Game Shutting Down ===
-
-========================================
-  Log ended - 2026-01-07 00:02:10.440
-========================================
+[2026-01-07 00:40:49.220] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-07 00:40:49.392] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-07 00:40:49.406] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-07 00:40:49.427] [INFO ] [Game.cpp:82] Window created
+[2026-01-07 00:40:49.534] [INFO ] [Game.cpp:92] Renderer created
+[2026-01-07 00:40:49.534] [INFO ] [Game.cpp:212] Viewport: 1440x900 at (80,0)
+[2026-01-07 00:40:49.535] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-07 00:40:49.535] [INFO ] [Game.cpp:129] Game initialized successfully!
+[2026-01-07 00:40:49.535] [INFO ] [EditorState.cpp:38] EditorState created
+[2026-01-07 00:40:49.536] [INFO ] [EditorState.cpp:42] EditorState::enter()
+[2026-01-07 00:40:49.537] [INFO ] [EditorWorldManager.cpp:54] Loaded world.json: Retro Adventure with 1 levels
+[2026-01-07 00:40:49.537] [DEBUG] [EditorWorldManager.cpp:110] Creating Level 'Main Game' at grid (0,0)

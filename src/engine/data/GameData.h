@@ -109,6 +109,52 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(DialogData,
     id, npcName, startNodeId, nodes)
 
 // ============================================================================
+// PHYSICS DATA (shared by all actors)
+// ============================================================================
+
+struct ColliderData {
+    std::string shape = "box";  // "box", "circle", "capsule"
+    float width = 32.0f;
+    float height = 32.0f;
+    float offsetX = 0.0f;
+    float offsetY = 0.0f;
+    bool isTrigger = false;     // True = trigger events, no solid collision
+    float density = 1.0f;
+    float friction = 0.3f;
+    float restitution = 0.0f;   // Bounciness
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(ColliderData,
+    shape, width, height, offsetX, offsetY, isTrigger, density, friction, restitution)
+
+struct PhysicsData {
+    bool enabled = false;       // Physics active for this actor?
+    std::string bodyType = "static";  // "static", "dynamic", "kinematic"
+    bool fixedRotation = true;  // Prevent rotation
+    float gravityScale = 1.0f;  // 0 = no gravity
+    ColliderData collider;
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(PhysicsData,
+    enabled, bodyType, fixedRotation, gravityScale, collider)
+
+// ============================================================================
+// COLLISION BOX DATA (static level geometry - platforms, walls, ground)
+// ============================================================================
+
+struct CollisionBoxData {
+    std::string id;
+    std::string type = "ground";  // "ground", "wall", "platform", "ceiling", "hazard"
+    float x = 0, y = 0;           // Position
+    float width = 64, height = 32; // Size
+    bool oneWay = false;          // Platform you can jump through from below
+    std::string tag;              // Optional tag for scripting
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(CollisionBoxData,
+    id, type, x, y, width, height, oneWay, tag)
+
+// ============================================================================
 // NPC/CHARACTER DATA
 // ============================================================================
 
@@ -123,10 +169,13 @@ struct NPCData {
     bool canTalk = true;
     bool canMove = false;
     float moveSpeed = 50.0f;
+    
+    // Physics
+    PhysicsData physics;
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(NPCData,
-    id, name, description, sprite, dialogId, room, x, y, canTalk, canMove, moveSpeed)
+    id, name, description, sprite, dialogId, room, x, y, canTalk, canMove, moveSpeed, physics)
 
 // ============================================================================
 // SCENE DATA (formerly RoomData)
@@ -135,16 +184,21 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(NPCData,
 struct HotspotData {
     std::string id;
     std::string name;
-    std::string type;           // "npc", "item", "exit", "examine"
+    std::string type;           // "npc", "item", "exit", "examine", "gateway"
     int x, y, w, h;
     std::string targetScene;    // För exits (target scene id)
+    std::string targetLevel;    // För gateways (target level id)
+    std::string targetWorld;    // För gateways (target world id)
     std::string dialogId;       // För NPCs
     std::string examineText;    // "Titta på" beskrivning
     std::vector<std::string> funnyFails;  // Roliga svar på dumma försök
+    
+    // Physics (triggers, collision)
+    PhysicsData physics;
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(HotspotData,
-    id, name, type, x, y, w, h, targetScene, dialogId, examineText, funnyFails)
+    id, name, type, x, y, w, h, targetScene, targetLevel, targetWorld, dialogId, examineText, funnyFails, physics)
 
 struct WalkAreaData {
     int minX, maxX, minY, maxY;
@@ -173,6 +227,7 @@ struct SceneData {
     std::vector<LayerData> layers;  // Multi-layer rendering
     WalkAreaData walkArea;
     std::vector<HotspotData> hotspots;
+    std::vector<CollisionBoxData> collisionBoxes;  // Static level geometry
     float playerSpawnX = 320.0f;  // Player spawn X
     float playerSpawnY = 300.0f;  // Player spawn Y
     
@@ -182,7 +237,7 @@ struct SceneData {
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(SceneData,
-    id, name, background, layers, walkArea, hotspots, playerSpawnX, playerSpawnY,
+    id, name, background, layers, walkArea, hotspots, collisionBoxes, playerSpawnX, playerSpawnY,
     gridPosition, camera)
 
 // Legacy alias for backward compatibility

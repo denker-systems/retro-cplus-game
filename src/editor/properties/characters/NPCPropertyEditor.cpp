@@ -31,6 +31,7 @@ void NPCPropertyEditor::render() {
     
     renderBasicProperties();
     renderAIProperties();
+    renderPhysicsProperties();
     renderWaypoints();
     renderSchedules();
 #endif
@@ -95,6 +96,114 @@ void NPCPropertyEditor::renderAIProperties() {
         m_context.markDirty();
     }
     PropertyEditorUtils::HelpMarker("Can player talk to this NPC?");
+#endif
+}
+
+void NPCPropertyEditor::renderPhysicsProperties() {
+#ifdef HAS_IMGUI
+    PropertyEditorUtils::SectionHeader("Physics");
+    
+    // Enable physics
+    if (ImGui::Checkbox("Enable Physics", &m_npc->physics.enabled)) {
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    PropertyEditorUtils::HelpMarker("Enable Box2D physics for this NPC");
+    
+    if (!m_npc->physics.enabled) {
+        ImGui::BeginDisabled();
+    }
+    
+    // Body type
+    const char* bodyTypes[] = { "static", "dynamic", "kinematic" };
+    int currentType = 0;
+    if (m_npc->physics.bodyType == "dynamic") currentType = 1;
+    else if (m_npc->physics.bodyType == "kinematic") currentType = 2;
+    
+    if (ImGui::Combo("Body Type", &currentType, bodyTypes, 3)) {
+        m_npc->physics.bodyType = bodyTypes[currentType];
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    PropertyEditorUtils::HelpMarker("Static = immovable, Dynamic = affected by gravity, Kinematic = scripted movement");
+    
+    // Fixed rotation
+    if (ImGui::Checkbox("Fixed Rotation", &m_npc->physics.fixedRotation)) {
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    
+    // Gravity scale
+    if (ImGui::DragFloat("Gravity Scale", &m_npc->physics.gravityScale, 0.1f, 0.0f, 5.0f)) {
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    
+    // Collider section
+    if (ImGui::TreeNode("Collider")) {
+        // Shape type
+        const char* shapes[] = { "box", "circle", "capsule" };
+        int currentShape = 0;
+        if (m_npc->physics.collider.shape == "circle") currentShape = 1;
+        else if (m_npc->physics.collider.shape == "capsule") currentShape = 2;
+        
+        if (ImGui::Combo("Shape", &currentShape, shapes, 3)) {
+            m_npc->physics.collider.shape = shapes[currentShape];
+            m_isDirty = true;
+            m_context.markDirty();
+        }
+        
+        // Size
+        if (ImGui::DragFloat("Width", &m_npc->physics.collider.width, 1.0f, 1.0f, 500.0f)) {
+            m_isDirty = true;
+            m_context.markDirty();
+        }
+        if (currentShape != 1) { // Not circle
+            if (ImGui::DragFloat("Height", &m_npc->physics.collider.height, 1.0f, 1.0f, 500.0f)) {
+                m_isDirty = true;
+                m_context.markDirty();
+            }
+        }
+        
+        // Offset
+        float offset[2] = { m_npc->physics.collider.offsetX, m_npc->physics.collider.offsetY };
+        if (ImGui::DragFloat2("Offset", offset, 1.0f)) {
+            m_npc->physics.collider.offsetX = offset[0];
+            m_npc->physics.collider.offsetY = offset[1];
+            m_isDirty = true;
+            m_context.markDirty();
+        }
+        
+        // Is trigger
+        if (ImGui::Checkbox("Is Trigger", &m_npc->physics.collider.isTrigger)) {
+            m_isDirty = true;
+            m_context.markDirty();
+        }
+        PropertyEditorUtils::HelpMarker("Triggers detect overlap but don't block movement");
+        
+        // Physics material
+        if (ImGui::TreeNode("Material")) {
+            if (ImGui::DragFloat("Density", &m_npc->physics.collider.density, 0.1f, 0.0f, 10.0f)) {
+                m_isDirty = true;
+                m_context.markDirty();
+            }
+            if (ImGui::DragFloat("Friction", &m_npc->physics.collider.friction, 0.05f, 0.0f, 1.0f)) {
+                m_isDirty = true;
+                m_context.markDirty();
+            }
+            if (ImGui::DragFloat("Bounciness", &m_npc->physics.collider.restitution, 0.05f, 0.0f, 1.0f)) {
+                m_isDirty = true;
+                m_context.markDirty();
+            }
+            ImGui::TreePop();
+        }
+        
+        ImGui::TreePop();
+    }
+    
+    if (!m_npc->physics.enabled) {
+        ImGui::EndDisabled();
+    }
 #endif
 }
 

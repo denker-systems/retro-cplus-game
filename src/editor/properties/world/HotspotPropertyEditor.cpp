@@ -33,6 +33,7 @@ void HotspotPropertyEditor::render() {
     renderBasicProperties();
     renderPositionProperties();
     renderTypeSpecificProperties();
+    renderPhysicsProperties();
     renderFunnyFails();
     
     // Delete button
@@ -94,7 +95,8 @@ void HotspotPropertyEditor::renderBasicProperties() {
     
     // Type dropdown
     std::vector<std::pair<std::string, const char*>> typeItems = {
-        {"exit", "Exit"},
+        {"exit", "Exit (Scene)"},
+        {"gateway", "Gateway (Level/World)"},
         {"npc", "NPC"},
         {"item", "Item"},
         {"examine", "Examine"}
@@ -148,18 +150,54 @@ void HotspotPropertyEditor::renderTypeSpecificProperties() {
 #ifdef HAS_IMGUI
     PropertyEditorUtils::SectionHeader("Type-Specific Properties");
     
-    // Exit
+    // Exit (scene transition within same level)
     if (m_hotspot->type == "exit") {
         // Room dropdown
         std::vector<std::pair<std::string, std::string>> roomItems;
         for (const auto& room : m_context.rooms) {
             roomItems.push_back({room.id, room.name});
         }
-        if (PropertyEditorUtils::IdCombo("Target Room", m_hotspot->targetScene, roomItems)) {
+        if (PropertyEditorUtils::IdCombo("Target Scene", m_hotspot->targetScene, roomItems)) {
             m_isDirty = true;
             m_context.markDirty();
         }
-        PropertyEditorUtils::HelpMarker("Room to transition to");
+        PropertyEditorUtils::HelpMarker("Scene to transition to (within same level)");
+    }
+    
+    // Gateway (level/world transition)
+    if (m_hotspot->type == "gateway") {
+        ImGui::TextColored(ImVec4(0.4f, 0.8f, 1.0f, 1.0f), "Gateway - Cross-level/world transition");
+        
+        // Target Scene (optional)
+        std::vector<std::pair<std::string, std::string>> sceneItems;
+        sceneItems.push_back({"", "(None)"});
+        for (const auto& room : m_context.rooms) {
+            sceneItems.push_back({room.id, room.name});
+        }
+        if (PropertyEditorUtils::IdCombo("Target Scene", m_hotspot->targetScene, sceneItems)) {
+            m_isDirty = true;
+            m_context.markDirty();
+        }
+        
+        // Target Level
+        char levelBuf[256];
+        strncpy_s(levelBuf, m_hotspot->targetLevel.c_str(), sizeof(levelBuf) - 1);
+        if (ImGui::InputText("Target Level", levelBuf, sizeof(levelBuf))) {
+            m_hotspot->targetLevel = levelBuf;
+            m_isDirty = true;
+            m_context.markDirty();
+        }
+        PropertyEditorUtils::HelpMarker("Level ID to transition to");
+        
+        // Target World
+        char worldBuf[256];
+        strncpy_s(worldBuf, m_hotspot->targetWorld.c_str(), sizeof(worldBuf) - 1);
+        if (ImGui::InputText("Target World", worldBuf, sizeof(worldBuf))) {
+            m_hotspot->targetWorld = worldBuf;
+            m_isDirty = true;
+            m_context.markDirty();
+        }
+        PropertyEditorUtils::HelpMarker("World ID to transition to (for cross-world travel)");
     }
     
     // NPC
@@ -188,6 +226,61 @@ void HotspotPropertyEditor::renderTypeSpecificProperties() {
         m_context.markDirty();
     }
     PropertyEditorUtils::HelpMarker("Text shown when player examines this hotspot");
+#endif
+}
+
+void HotspotPropertyEditor::renderPhysicsProperties() {
+#ifdef HAS_IMGUI
+    PropertyEditorUtils::SectionHeader("Physics");
+    
+    // Enable physics
+    if (ImGui::Checkbox("Enable Physics", &m_hotspot->physics.enabled)) {
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    PropertyEditorUtils::HelpMarker("Enable physics collision/trigger for this hotspot");
+    
+    if (!m_hotspot->physics.enabled) {
+        ImGui::BeginDisabled();
+    }
+    
+    // For hotspots, default to trigger mode
+    if (ImGui::Checkbox("Is Trigger", &m_hotspot->physics.collider.isTrigger)) {
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    PropertyEditorUtils::HelpMarker("Trigger = detect overlap (exits, dialogs). Solid = block movement (walls)");
+    
+    // Collider size (use hotspot bounds by default)
+    ImGui::Text("Collider Size:");
+    if (ImGui::Button("Match Hotspot Bounds")) {
+        m_hotspot->physics.collider.width = static_cast<float>(m_hotspot->w);
+        m_hotspot->physics.collider.height = static_cast<float>(m_hotspot->h);
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    
+    if (ImGui::DragFloat("Width", &m_hotspot->physics.collider.width, 1.0f, 1.0f, 500.0f)) {
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    if (ImGui::DragFloat("Height", &m_hotspot->physics.collider.height, 1.0f, 1.0f, 500.0f)) {
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    
+    // Offset
+    float offset[2] = { m_hotspot->physics.collider.offsetX, m_hotspot->physics.collider.offsetY };
+    if (ImGui::DragFloat2("Offset", offset, 1.0f)) {
+        m_hotspot->physics.collider.offsetX = offset[0];
+        m_hotspot->physics.collider.offsetY = offset[1];
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    
+    if (!m_hotspot->physics.enabled) {
+        ImGui::EndDisabled();
+    }
 #endif
 }
 

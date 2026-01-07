@@ -1,527 +1,123 @@
 {
   "scenes": [
     {
+      "id": "tavern",
+      "name": "Tavern",
       "background": "assets/backgrounds/tavern-inside.png",
       "gridPosition": {
         "gridX": 0,
         "gridY": 0,
-        "pixelHeight": 400,
-        "pixelWidth": 640
+        "pixelWidth": 640,
+        "pixelHeight": 400
       },
+      "camera": {
+        "zoom": 1.0,
+        "followPlayer": true,
+        "smoothing": 0.1,
+        "boundsX": 0,
+        "boundsY": 0,
+        "boundsW": 0,
+        "boundsH": 0,
+        "offsetX": 0,
+        "offsetY": 0,
+        "shakeIntensity": 0.0,
+        "shakeDuration": 0.0
+      },
+      "walkArea": {
+        "minX": 0,
+        "maxX": 640,
+        "minY": 260,
+        "maxY": 380,
+        "scaleTop": 0.5,
+        "scaleBottom": 1.0
+      },
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
       "hotspots": [
         {
-          "dialogId": "bartender_intro",
-          "examineText": "En storvuxen man med imponerande mustasch. Han torkar glas med en trasa som sett bättre dagar.",
-          "funnyFails": [
-            "Jag tror inte han vill bli puttad på.",
-            "Att stjäla hans mustasch vore nog olämpligt.",
-            "Han ser ut som han kan krossa mig med blotta blicken."
-          ],
-          "h": 60,
           "id": "bartender",
           "name": "Bartender",
           "type": "npc",
-          "w": 40,
           "x": 564,
-          "y": 162
-        },
-        {
-          "dialogId": "drunk_hints",
-          "examineText": "En man som uppenbarligen har haft en lång kväll. Han mumlar något om 'skatten'.",
-          "funnyFails": [
-            "Jag vill inte röra honom. Han ser klibbig ut.",
-            "Att väcka en full man brukar sällan sluta väl.",
-            "Hans andedräkt kunde fälla en häst på tio meters avstånd."
-          ],
-          "h": 55,
-          "id": "drunk_patron",
-          "name": "Drunk Patron",
-          "type": "npc",
-          "w": 35,
-          "x": 0,
-          "y": 64
-        },
-        {
-          "examineText": "En gammal träkista med rostiga gångjärn. Den ser ut att ha varit här i årtionden.",
-          "funnyFails": [
-            "Att slicka på kistan verkade som en dålig idé.",
-            "Jag försökte sjunga för den, men den öppnade sig inte.",
-            "Sparkar på gamla kistor är dåligt för tårna."
-          ],
-          "h": 40,
-          "id": "chest",
-          "name": "Old Chest",
-          "type": "item",
+          "y": 162,
           "w": 40,
-          "x": 400,
-          "y": 300
+          "h": 60,
+          "dialogId": "bartender_intro",
+          "examineText": "En storvuxen man med imponerande mustasch."
         },
         {
-          "examineText": "En varm brasa sprakar mysigt. Perfekt för kalla kvällar.",
-          "funnyFails": [
-            "Att sticka in handen i elden vore korkat. Även för mig.",
-            "Jag har inget att grilla just nu.",
-            "Brasan är varm. Överraskande, jag vet."
-          ],
-          "h": 70,
-          "id": "fireplace",
-          "name": "Fireplace",
-          "type": "examine",
-          "w": 60,
-          "x": 297,
-          "y": 158
-        },
-        {
-          "h": 90,
-          "id": "door_street",
-          "name": "Exit to Street",
-          "targetScene": "street",
-          "type": "exit",
-          "w": 50,
-          "x": 397,
-          "y": 134
-        },
-        {
-          "h": 30,
-          "id": "door_cellar",
-          "name": "Cellar Door",
-          "targetScene": "cellar",
-          "type": "exit",
-          "w": 40,
-          "x": 300,
-          "y": 320
-        }
-      ],
-      "id": "tavern",
-      "layers": [
-        {
-          "image": "assets/backgrounds/tavern-inside.png",
-          "opacity": 1.0,
-          "parallaxX": 1.0,
-          "parallaxY": 1.0,
-          "zIndex": -1
-        }
-      ],
-      "name": "The Rusty Anchor",
-      "playerSpawnX": 417.0,
-      "playerSpawnY": 208.0,
-      "walkArea": {
-        "maxX": 640,
-        "maxY": 380,
-        "minX": 0,
-        "minY": 220,
-        "scaleBottom": 1.0,
-        "scaleTop": 0.6000000238418579
-      }
-    },
-    {
-      "background": "assets/backgrounds/tavern-inside.png",
-      "gridPosition": {
-        "gridX": 1,
-        "gridY": 0,
-        "pixelHeight": 400,
-        "pixelWidth": 640
-      },
-      "hotspots": [
-        {
-          "h": 90,
-          "id": "door_tavern",
+          "id": "exit_street",
           "name": "Tavern Door",
-          "targetScene": "tavern",
           "type": "exit",
-          "w": 50,
-          "x": 20,
-          "y": 270
-        },
-        {
-          "h": 90,
-          "id": "door_shop",
-          "name": "Shop Door",
-          "targetScene": "shop",
-          "type": "exit",
-          "w": 50,
           "x": 300,
-          "y": 260
-        },
-        {
+          "y": 270,
+          "w": 50,
           "h": 90,
-          "id": "door_library",
-          "name": "Library Door",
-          "targetScene": "library",
-          "type": "exit",
-          "w": 50,
-          "x": 450,
-          "y": 260
-        },
-        {
-          "h": 50,
-          "id": "well",
-          "name": "Old Well",
-          "type": "examine",
-          "w": 50,
-          "x": 180,
-          "y": 300
-        },
-        {
-          "h": 60,
-          "id": "notice_board",
-          "name": "Notice Board",
-          "type": "examine",
-          "w": 40,
-          "x": 550,
-          "y": 280
-        },
-        {
-          "h": 60,
-          "id": "path_forest",
-          "name": "Forest Path",
-          "targetScene": "forest",
-          "type": "exit",
-          "w": 40,
-          "x": 600,
-          "y": 300
+          "targetScene": "street",
+          "physics": {
+            "enabled": true,
+            "bodyType": "static",
+            "collider": {"shape": "box", "width": 50, "height": 90, "isTrigger": true}
+          }
         }
       ],
+      "collisionBoxes": [
+        {"id": "floor_main", "type": "ground", "x": 0, "y": 350, "width": 640, "height": 30},
+        {"id": "wall_left", "type": "wall", "x": 0, "y": 200, "width": 20, "height": 180},
+        {"id": "wall_right", "type": "wall", "x": 620, "y": 200, "width": 20, "height": 180},
+        {"id": "platform_bar", "type": "platform", "x": 500, "y": 280, "width": 120, "height": 15, "oneWay": true}
+      ]
+    },
+    {
       "id": "street",
-      "layers": [],
-      "name": "Town Square",
-      "playerSpawnX": 320.0,
-      "playerSpawnY": 310.0,
-      "walkArea": {
-        "maxX": 640,
-        "maxY": 380,
-        "minX": 0,
-        "minY": 240,
-        "scaleBottom": 1.0,
-        "scaleTop": 0.5
-      }
-    },
-    {
-      "background": "assets/backgrounds/tavern-inside.png",
-      "gridPosition": {
-        "gridX": 2,
-        "gridY": 0,
-        "pixelHeight": 400,
-        "pixelWidth": 640
-      },
-      "hotspots": [
-        {
-          "dialogId": "shopkeeper_intro",
-          "h": 60,
-          "id": "shopkeeper",
-          "name": "Shopkeeper",
-          "type": "npc",
-          "w": 40,
-          "x": 400,
-          "y": 270
-        },
-        {
-          "h": 60,
-          "id": "shelf_items",
-          "name": "Store Shelf",
-          "type": "examine",
-          "w": 80,
-          "x": 500,
-          "y": 270
-        },
-        {
-          "h": 30,
-          "id": "counter",
-          "name": "Shop Counter",
-          "type": "item",
-          "w": 60,
-          "x": 350,
-          "y": 300
-        },
-        {
-          "h": 90,
-          "id": "door_street",
-          "name": "Exit to Street",
-          "targetScene": "street",
-          "type": "exit",
-          "w": 50,
-          "x": 20,
-          "y": 260
-        }
-      ],
-      "id": "shop",
-      "layers": [],
-      "name": "General Store",
-      "playerSpawnX": 320.0,
-      "playerSpawnY": 300.0,
-      "walkArea": {
-        "maxX": 640,
-        "maxY": 380,
-        "minX": 0,
-        "minY": 220,
-        "scaleBottom": 1.0,
-        "scaleTop": 0.5
-      }
-    },
-    {
-      "background": "assets/backgrounds/tavern-inside.png",
-      "gridPosition": {
-        "gridX": 3,
-        "gridY": 0,
-        "pixelHeight": 400,
-        "pixelWidth": 640
-      },
-      "hotspots": [
-        {
-          "dialogId": "librarian_intro",
-          "h": 60,
-          "id": "librarian",
-          "name": "Old Librarian",
-          "type": "npc",
-          "w": 40,
-          "x": 300,
-          "y": 270
-        },
-        {
-          "h": 80,
-          "id": "bookshelf_history",
-          "name": "History Books",
-          "type": "examine",
-          "w": 60,
-          "x": 100,
-          "y": 260
-        },
-        {
-          "h": 80,
-          "id": "bookshelf_magic",
-          "name": "Magic Books",
-          "type": "examine",
-          "w": 60,
-          "x": 200,
-          "y": 260
-        },
-        {
-          "h": 40,
-          "id": "desk",
-          "name": "Reading Desk",
-          "type": "item",
-          "w": 70,
-          "x": 450,
-          "y": 290
-        },
-        {
-          "h": 90,
-          "id": "door_street",
-          "name": "Exit to Street",
-          "targetScene": "street",
-          "type": "exit",
-          "w": 50,
-          "x": 20,
-          "y": 260
-        }
-      ],
-      "id": "library",
-      "layers": [],
-      "name": "Town Library",
-      "playerSpawnX": 320.0,
-      "playerSpawnY": 300.0,
-      "walkArea": {
-        "maxX": 640,
-        "maxY": 380,
-        "minX": 0,
-        "minY": 220,
-        "scaleBottom": 1.0,
-        "scaleTop": 0.5
-      }
-    },
-    {
-      "background": "assets/backgrounds/tavern-inside.png",
-      "gridPosition": {
-        "gridX": 0,
-        "gridY": 1,
-        "pixelHeight": 400,
-        "pixelWidth": 640
-      },
-      "hotspots": [
-        {
-          "h": 60,
-          "id": "barrel_pile",
-          "name": "Wine Barrels",
-          "type": "examine",
-          "w": 80,
-          "x": 100,
-          "y": 280
-        },
-        {
-          "h": 40,
-          "id": "crate",
-          "name": "Old Crate",
-          "type": "item",
-          "w": 50,
-          "x": 400,
-          "y": 300
-        },
-        {
-          "h": 80,
-          "id": "secret_door",
-          "name": "Strange Wall",
-          "type": "examine",
-          "w": 60,
-          "x": 550,
-          "y": 270
-        },
-        {
-          "h": 70,
-          "id": "stairs_up",
-          "name": "Stairs Up",
-          "targetScene": "tavern",
-          "type": "exit",
-          "w": 50,
-          "x": 20,
-          "y": 280
-        }
-      ],
-      "id": "cellar",
-      "layers": [],
-      "name": "Tavern Cellar",
-      "playerSpawnX": 320.0,
-      "playerSpawnY": 300.0,
-      "walkArea": {
-        "maxX": 640,
-        "maxY": 380,
-        "minX": 0,
-        "minY": 220,
-        "scaleBottom": 1.0,
-        "scaleTop": 0.5
-      }
-    },
-    {
+      "name": "Street",
       "background": "assets/backgrounds/tavern-inside.png",
       "gridPosition": {
         "gridX": 1,
-        "gridY": 1,
-        "pixelHeight": 400,
-        "pixelWidth": 640
+        "gridY": 0,
+        "pixelWidth": 960,
+        "pixelHeight": 400
       },
+      "camera": {
+        "zoom": 0.8,
+        "followPlayer": true,
+        "smoothing": 0.15,
+        "boundsX": 0,
+        "boundsY": 0,
+        "boundsW": 0,
+        "boundsH": 0,
+        "offsetX": 0,
+        "offsetY": 0,
+        "shakeIntensity": 0.0,
+        "shakeDuration": 0.0
+      },
+      "walkArea": {
+        "minX": 0,
+        "maxX": 960,
+        "minY": 220,
+        "maxY": 380,
+        "scaleTop": 0.6,
+        "scaleBottom": 1.0
+      },
+      "playerSpawnX": 100.0,
+      "playerSpawnY": 300.0,
       "hotspots": [
         {
-          "dialogId": "hermit_intro",
-          "h": 60,
-          "id": "hermit",
-          "name": "Forest Hermit",
-          "type": "npc",
-          "w": 40,
+          "id": "exit_tavern",
+          "name": "Tavern Door",
+          "type": "exit",
           "x": 400,
-          "y": 290
-        },
-        {
-          "h": 30,
-          "id": "mushrooms",
-          "name": "Strange Mushrooms",
-          "type": "item",
-          "w": 40,
-          "x": 200,
-          "y": 320
-        },
-        {
+          "y": 270,
+          "w": 50,
           "h": 90,
-          "id": "old_tree",
-          "name": "Ancient Tree",
-          "type": "examine",
-          "w": 80,
-          "x": 500,
-          "y": 270
-        },
-        {
-          "h": 60,
-          "id": "path_town",
-          "name": "Path to Town",
-          "targetScene": "street",
-          "type": "exit",
-          "w": 50,
-          "x": 20,
-          "y": 300
-        },
-        {
-          "h": 70,
-          "id": "path_cave",
-          "name": "Cave Entrance",
-          "targetScene": "cave",
-          "type": "exit",
-          "w": 50,
-          "x": 580,
-          "y": 290
+          "targetScene": "tavern",
+          "physics": {
+            "enabled": true,
+            "bodyType": "static",
+            "collider": {"shape": "box", "width": 50, "height": 90, "isTrigger": true}
+          }
         }
-      ],
-      "id": "forest",
-      "layers": [],
-      "name": "Dark Forest",
-      "playerSpawnX": 320.0,
-      "playerSpawnY": 300.0,
-      "walkArea": {
-        "maxX": 640,
-        "maxY": 380,
-        "minX": 0,
-        "minY": 220,
-        "scaleBottom": 1.0,
-        "scaleTop": 0.4000000059604645
-      }
-    },
-    {
-      "background": "assets/backgrounds/tavern-inside.png",
-      "gridPosition": {
-        "gridX": 2,
-        "gridY": 1,
-        "pixelHeight": 400,
-        "pixelWidth": 640
-      },
-      "hotspots": [
-        {
-          "h": 40,
-          "id": "treasure_chest",
-          "name": "Treasure Chest",
-          "type": "item",
-          "w": 50,
-          "x": 450,
-          "y": 290
-        },
-        {
-          "h": 60,
-          "id": "cave_paintings",
-          "name": "Cave Paintings",
-          "type": "examine",
-          "w": 100,
-          "x": 200,
-          "y": 260
-        },
-        {
-          "h": 50,
-          "id": "glowing_crystals",
-          "name": "Glowing Crystals",
-          "type": "examine",
-          "w": 60,
-          "x": 350,
-          "y": 270
-        },
-        {
-          "h": 60,
-          "id": "cave_exit",
-          "name": "Cave Exit",
-          "targetScene": "forest",
-          "type": "exit",
-          "w": 50,
-          "x": 20,
-          "y": 290
-        }
-      ],
-      "id": "cave",
-      "layers": [],
-      "name": "Mysterious Cave",
-      "playerSpawnX": 320.0,
-      "playerSpawnY": 300.0,
-      "walkArea": {
-        "maxX": 640,
-        "maxY": 380,
-        "minX": 0,
-        "minY": 220,
-        "scaleBottom": 1.0,
-        "scaleTop": 0.5
-      }
+      ]
     }
   ]
 }

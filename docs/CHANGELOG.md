@@ -19,6 +19,13 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **Box2D v3.1.1** - 2D physics simulation library for platformer mechanics
 - **GLM v1.0.2** - OpenGL Mathematics library for vectors, matrices, transforms
 - **PHYSICS_ROADMAP.md** - Detailed plan for Box2D integration following OOP architecture
+- **PhysicsWorld2D** - Box2D wrapper class with pixel-to-meter conversion (32px = 1m)
+- **RigidBody2DComponent** - Physics body component for actors (dynamic/static/kinematic)
+- **Collider2DComponent** - Collision shapes (box, circle, capsule) for physics actors
+- **CharacterController2D** - Platformer controller with walk/run/jump capabilities
+- **GameSettings** - Singleton for game mode configuration (Adventure/Platformer)
+- **GameSettingsPanel** - Editor panel for switching game modes and physics parameters
+- **Adventure/Platformer modes** - Toggle between point-and-click and physics-based gameplay
 - **World/Level/Scene hierarchy** - Top-down persistence with world.json loading/saving
 - **ActorData support** - Actors can be placed on World, Level, and Scene levels
 - **EditorWorldManager** - Manages world.json loading, saving, and engine synchronization

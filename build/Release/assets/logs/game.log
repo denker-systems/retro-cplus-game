@@ -1,32 +1,31 @@
 ========================================
-  Game Log - 2026-01-07 00:09:41.969
+  Game Log - 2026-01-07 00:59:40.589
 ========================================
 
-[2026-01-07 00:09:41.969] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-07 00:09:42.141] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-07 00:09:42.162] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-07 00:09:42.184] [INFO ] [Game.cpp:82] Window created
-[2026-01-07 00:09:42.287] [INFO ] [Game.cpp:92] Renderer created
-[2026-01-07 00:09:42.288] [INFO ] [Game.cpp:212] Viewport: 1920x1200 at (0,0)
-[2026-01-07 00:09:42.289] [INFO ] [Game.cpp:118] Scale: 3.000000 (fonts scaled for sharp rendering)
-[2026-01-07 00:09:42.289] [INFO ] [Game.cpp:129] Game initialized successfully!
-[2026-01-07 00:09:42.975] [DEBUG] [PlayState.cpp:43] PlayState::enter() - initialized=false
-[2026-01-07 00:09:42.976] [INFO ] [PlayState.cpp:47] PlayState initializing for first time
-[2026-01-07 00:09:42.980] [INFO ] [DialogSystem.cpp:16] Added dialog: bartender_intro with 6 nodes
-[2026-01-07 00:09:42.981] [INFO ] [DialogSystem.cpp:16] Added dialog: shopkeeper_intro with 4 nodes
-[2026-01-07 00:09:42.981] [INFO ] [DialogSystem.cpp:16] Added dialog: drunk_hints with 4 nodes
-[2026-01-07 00:09:42.981] [INFO ] [DialogSystem.cpp:16] Added dialog: stranger_intro with 3 nodes
-[2026-01-07 00:09:42.981] [INFO ] [DialogSystem.cpp:16] Added dialog: guard_intro with 4 nodes
-[2026-01-07 00:09:42.981] [INFO ] [DialogSystem.cpp:16] Added dialog: librarian_intro with 5 nodes
-[2026-01-07 00:09:42.981] [INFO ] [DialogSystem.cpp:16] Added dialog: hermit_intro with 5 nodes
-[2026-01-07 00:09:42.981] [INFO ] [DialogSystem.cpp:16] Added dialog: cat_meow with 3 nodes
-[2026-01-07 00:09:43.007] [INFO ] [SceneManager.cpp:16] Adding scene: tavern
-[2026-01-07 00:09:43.033] [INFO ] [SceneManager.cpp:16] Adding scene: street
-[2026-01-07 00:09:43.059] [INFO ] [SceneManager.cpp:16] Adding scene: shop
-[2026-01-07 00:09:43.085] [INFO ] [SceneManager.cpp:16] Adding scene: library
-[2026-01-07 00:09:43.111] [INFO ] [SceneManager.cpp:16] Adding scene: cellar
-[2026-01-07 00:09:43.137] [INFO ] [SceneManager.cpp:16] Adding scene: forest
-[2026-01-07 00:09:43.163] [INFO ] [SceneManager.cpp:16] Adding scene: cave
-[2026-01-07 00:09:43.163] [INFO ] [SceneManager.cpp:36] changeScene called: tavern
-[2026-01-07 00:09:43.164] [INFO ] [SceneManager.cpp:43] Changing to scene: tavern
-[2026-01-07 00:09:43.164] [DEBUG] [SceneManager.cpp:47] Calling onSceneChange callback
+[2026-01-07 00:59:40.590] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-07 00:59:40.763] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-07 00:59:40.777] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-07 00:59:40.797] [INFO ] [Game.cpp:82] Window created
+[2026-01-07 00:59:40.899] [INFO ] [Game.cpp:92] Renderer created
+[2026-01-07 00:59:40.899] [INFO ] [Game.cpp:212] Viewport: 1440x900 at (80,0)
+[2026-01-07 00:59:40.900] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-07 00:59:40.900] [INFO ] [Game.cpp:129] Game initialized successfully!
+[2026-01-07 00:59:40.901] [INFO ] [EditorState.cpp:38] EditorState created
+[2026-01-07 00:59:40.902] [INFO ] [EditorState.cpp:42] EditorState::enter()
+[2026-01-07 00:59:40.911] [INFO ] [EditorWorldManager.cpp:54] Loaded world.json: Retro Adventure with 1 levels
+[2026-01-07 00:59:40.911] [DEBUG] [EditorWorldManager.cpp:110] Creating Level 'Main Game' at grid (0,0)
+[2026-01-07 00:59:40.941] [DEBUG] [EditorWorldManager.cpp:157]   Scene 'Tavern' at grid (0,0)
+[2026-01-07 00:59:40.945] [DEBUG] [EditorWorldManager.cpp:157]   Scene 'Street' at grid (1,0)
+[2026-01-07 00:59:40.945] [WARN ] [EditorWorldManager.cpp:169] Scene ID 'shop' not found in rooms data
+[2026-01-07 00:59:40.945] [WARN ] [EditorWorldManager.cpp:169] Scene ID 'library' not found in rooms data
+[2026-01-07 00:59:40.945] [WARN ] [EditorWorldManager.cpp:169] Scene ID 'cellar' not found in rooms data
+[2026-01-07 00:59:40.945] [WARN ] [EditorWorldManager.cpp:169] Scene ID 'forest' not found in rooms data
+[2026-01-07 00:59:40.945] [WARN ] [EditorWorldManager.cpp:169] Scene ID 'cave' not found in rooms data
+[2026-01-07 00:59:40.945] [INFO ] [EditorWorldManager.cpp:44] EditorWorldManager: World 'Retro Adventure' created with 1 levels, 2 scenes
+[2026-01-07 00:59:40.945] [INFO ] [EditorState.cpp:107] EditorState::enter() - ImGui initialized: YES
+[2026-01-07 00:59:40.945] [INFO ] [EditorState.cpp:108] EditorState::enter() - PanelManager created: YES
+[2026-01-07 00:59:40.945] [INFO ] [EditorState.cpp:109] EditorState::enter() - WorldManager created: YES
+[2026-01-07 00:59:40.945] [INFO ] [EditorContext.cpp:82] EditorContext loaded 2 rooms, 8 dialogs
+[2026-01-07 00:59:40.946] [INFO ] [EditorState.cpp:114] EditorContext loaded with 8 dialogs
+[2026-01-07 00:59:40.946] [INFO ] [EditorState.cpp:169] EditorState::render() - First render call
+[2026-01-07 00:59:40.946] [INFO ] [EditorState.cpp:204] EditorState::renderImGui() - First ImGui render

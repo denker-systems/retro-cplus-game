@@ -199,6 +199,29 @@ void ViewportPanel::renderRoomPreview() {
                 ImVec2(hsMin.x + 2, hsMin.y + 2),
                 IM_COL32(255, 255, 255, 255),
                 hs.name.c_str());
+            
+            // Draw physics collider if enabled
+            if (m_showPhysicsDebug && hs.physics.enabled) {
+                float colX = cursorPos.x + (hs.x + hs.physics.collider.offsetX) * scaleX;
+                float colY = cursorPos.y + (hs.y + hs.physics.collider.offsetY) * scaleY;
+                float colW = hs.physics.collider.width * scaleX;
+                float colH = hs.physics.collider.height * scaleY;
+                
+                ImU32 physColor = hs.physics.collider.isTrigger 
+                    ? IM_COL32(0, 255, 255, 200)   // Cyan = trigger
+                    : IM_COL32(255, 100, 100, 200); // Red = solid
+                
+                ImGui::GetWindowDrawList()->AddRect(
+                    ImVec2(colX, colY),
+                    ImVec2(colX + colW, colY + colH),
+                    physColor, 0, 0, 3.0f);
+                
+                // Physics label
+                const char* physLabel = hs.physics.collider.isTrigger ? "TRIGGER" : "SOLID";
+                ImGui::GetWindowDrawList()->AddText(
+                    ImVec2(colX, colY - 14),
+                    physColor, physLabel);
+            }
         }
     }
     

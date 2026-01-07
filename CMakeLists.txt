@@ -63,6 +63,8 @@ set(CORE_SOURCES
     src/engine/components/RigidBody2DComponent.cpp
     src/engine/components/Collider2DComponent.cpp
     src/engine/components/CharacterController2D.cpp
+    src/engine/components/TriggerComponent.cpp
+    src/engine/physics/box2d/PhysicsLoader.cpp
     src/engine/actors/Pawn.cpp
     src/engine/actors/Controller.cpp
     src/engine/actors/PlayerController.cpp

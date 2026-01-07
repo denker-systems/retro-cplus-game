@@ -30,6 +30,7 @@ public:
 private:
     void renderBasicProperties();
     void renderAIProperties();
+    void renderPhysicsProperties();
     void renderWaypoints();
     void renderSchedules();
     

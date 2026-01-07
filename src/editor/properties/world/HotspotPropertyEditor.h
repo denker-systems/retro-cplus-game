@@ -31,6 +31,7 @@ private:
     void renderBasicProperties();
     void renderPositionProperties();
     void renderTypeSpecificProperties();
+    void renderPhysicsProperties();
     void renderFunnyFails();
     
     EditorContext& m_context;

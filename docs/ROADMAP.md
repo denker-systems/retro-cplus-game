@@ -402,7 +402,7 @@
 
 ---
 
-### 4C: Physics & Collision 🟡 MEDIUM PRIORITET
+### 4C: Physics & Collision ✅ KLART
 
 **Mål:** Robust kollision och enkel fysik
 
@@ -422,6 +422,16 @@
 - [x] Shape overlap detection (AABB vs AABB, Circle vs Circle, AABB vs Circle)
 - [x] Spatial partitioning (grid-baserad med SpatialGrid)
 - [x] Broad phase / narrow phase optimization (via SpatialGrid)
+
+#### 4C.4 Box2D Physics Integration ✅ (2026-01-06)
+- [x] Box2D v3.1.1 integration via vcpkg
+- [x] PhysicsWorld2D wrapper class
+- [x] RigidBody2DComponent (dynamic/static/kinematic)
+- [x] Collider2DComponent (box, circle, capsule)
+- [x] CharacterController2D (walk/run/jump)
+- [x] Pixel-to-meter conversion (32px = 1m)
+- [x] GameSettings for Adventure/Platformer modes
+- [x] GameSettingsPanel in editor
 
 **Estimerad tid: 2-3 sessioner**
 

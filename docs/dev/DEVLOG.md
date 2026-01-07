@@ -10,6 +10,20 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ### Sen Kväll
 
+- `df9fc7e` feat(physics): implement Box2D physics system with Adventure/Platformer modes
+  - **Physics:** Added PhysicsWorld2D wrapper for Box2D v3.1.1
+  - **Physics:** Created RigidBody2DComponent and Collider2DComponent
+  - **Physics:** Implemented CharacterController2D for platformer movement
+  - **Physics:** Integrated physics in WorldContainer (World/Level/Scene)
+  - **Physics:** Added pixel-to-meter conversions (32 pixels = 1 meter)
+  - **Editor:** Created GameSettings singleton for game mode configuration
+  - **Editor:** Added GameSettingsPanel for Adventure/Platformer mode selection
+  - **Editor:** Physics settings panel with gravity, jump force, speeds
+  - **Gameplay:** Adventure mode = point-and-click with depth scaling
+  - **Gameplay:** Platformer mode = physics-based movement with jump/run
+  - **Build:** Added Box2D and GLM dependencies via vcpkg
+  - Session: [2026-01-06](sessions/2026-01-06.md)
+
 - `2967cee` feat(physics): add Box2D and GLM libraries with physics roadmap
   - **Dependencies:** Box2D v3.1.1 för 2D physics simulation
   - **Dependencies:** GLM v1.0.2 för math (vektorer, matriser)
