@@ -9,6 +9,8 @@
     "sdl2-mixer",
     "sdl2-ttf",
     "nlohmann-json",
+    "box2d",
+    "glm",
     {
       "name": "imgui",
       "features": ["docking-experimental"]

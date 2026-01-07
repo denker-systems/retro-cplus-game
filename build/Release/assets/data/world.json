@@ -1,28 +1,20 @@
 {
-  "levels": [
-    {
-      "description": "The main game world containing all scenes",
-      "gridPosition": {
-        "gridX": 1,
-        "gridY": 0,
-        "pixelHeight": 600,
-        "pixelWidth": 800
-      },
-      "id": "main_game",
-      "name": "Main Game",
-      "sceneIds": [
-        "tavern",
-        "street",
-        "shop",
-        "library",
-        "cellar",
-        "forest",
-        "cave"
-      ]
-    }
-  ],
   "name": "Retro Adventure",
+  "version": "1.0",
   "startLevelId": "main_game",
   "startSceneId": "tavern",
-  "version": "1.0"
+  "levels": [
+    {
+      "id": "main_game",
+      "name": "Main Game",
+      "description": "The main game world containing all scenes",
+      "gridPosition": {
+        "gridX": 0,
+        "gridY": 0,
+        "pixelWidth": 800,
+        "pixelHeight": 600
+      },
+      "sceneIds": ["tavern", "street", "shop", "library", "cellar", "forest", "cave"]
+    }
+  ]
 }

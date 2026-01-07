@@ -13,6 +13,14 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **Editor folder structure** - Complete reorganization from flat to hierarchical layout
 - **EditorState** refaktorerad från 998 till 211 rader (-79%) med separation of concerns
 - **ViewportPanel** uppdelad i 6 modulära filer (Core, World, Level, Scene, Actors, Input)
+- **World interaction** - Consistent 1-click=select/drag, 2-click=enter on all hierarchy levels
+
+### Added
+- **World/Level/Scene hierarchy** - Top-down persistence with world.json loading/saving
+- **ActorData support** - Actors can be placed on World, Level, and Scene levels
+- **EditorWorldManager** - Manages world.json loading, saving, and engine synchronization
+- **Level drag functionality** - Levels can be dragged in World spatial view with grid snapping
+- **Grid position persistence** - Level positions saved to world.json, scenes to scenes.json
 
 ### Added
 - **Hierarchical editor structure** - core/, managers/, panels/*/, properties/*/, legacy/, ui/, input/, data/, commands/, tools/, widgets/

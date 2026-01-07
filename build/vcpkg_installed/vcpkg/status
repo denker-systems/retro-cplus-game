@@ -230,3 +230,21 @@ Abi: 564671ec2342e8df31b9b0bba2a6716f768c29d571841dc5775338226b205f44
 Description: A library for rendering TrueType fonts with SDL
 Status: install ok installed
 
+Package: box2d
+Version: 3.1.1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 1413dd2f94313614a5c87fc364bb943d96eb4c11c1851dc6330edbced9fa8e3a
+Description: An open source C++ engine for simulating rigid bodies in 2D
+Status: install ok installed
+
+Package: glm
+Version: 1.0.2
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 48e42969de3d4abbaeea887326b549aad6fc17c13662c7565d2399a6cdde9d74
+Description: OpenGL Mathematics (GLM)
+Status: install ok installed
+

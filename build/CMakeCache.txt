@@ -298,6 +298,12 @@ Z_VCPKG_PWSH_PATH:FILEPATH=Z_VCPKG_PWSH_PATH-NOTFOUND
 // triplet
 _VCPKG_INSTALLED_DIR:PATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed
 
+//The directory containing a CMake configuration file for box2d.
+box2d_DIR:PATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/box2d
+
+//The directory containing a CMake configuration file for glm.
+glm_DIR:PATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glm
+
 //The directory containing a CMake configuration file for imgui.
 imgui_DIR:PATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/imgui
 

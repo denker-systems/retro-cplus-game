@@ -13,6 +13,8 @@ find_package(SDL2_image CONFIG REQUIRED)
 find_package(SDL2_mixer CONFIG REQUIRED)
 find_package(SDL2_ttf CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(box2d CONFIG REQUIRED)
+find_package(glm CONFIG REQUIRED)
 
 # Editor dependencies (optional)
 find_package(imgui CONFIG QUIET)
@@ -132,6 +134,8 @@ target_link_libraries(RetroCore PUBLIC
     $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>
     $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
     nlohmann_json::nlohmann_json
+    box2d::box2d
+    glm::glm
 )
 
 # Hot Reload alltid tillgängligt (polling-baserat, ingen extern dependency)

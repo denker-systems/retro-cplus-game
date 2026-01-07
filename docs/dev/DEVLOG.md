@@ -8,6 +8,20 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ## 2026-01-06
 
+### Sen Kväll
+
+- `37c44b5` feat(editor): implement World/Level/Scene hierarchy with actor support
+  - **Hierarchy:** Top-down World → Level → Scene med full persistence
+  - **World System:** world.json laddas/sparas med EditorWorldManager
+  - **Actor Support:** ActorData på alla nivåer (World, Level, Scene)
+  - **Sync System:** Konsekvent synkronisering: engine → editor → JSON
+  - **Interaction:** 1-klick=select/drag, 2-klick=enter på alla nivåer
+  - **Grid Persistence:** Level grid positions sparas till world.json
+  - **Load Flow:** world.json → WorldData → engine::World med actors
+  - **Save Flow:** syncLevelsToWorldData() → world.json → scenes.json
+  - **Files:** EditorWorldManager, EditorDataTypes, ViewportPanel_World
+  - Session: [2026-01-06](sessions/2026-01-06.md)
+
 ### Kväll
 
 - `7df904f` refactor(editor): complete folder restructuring and fix rendering issues
