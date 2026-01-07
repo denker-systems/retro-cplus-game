@@ -1,31 +1,16 @@
 ========================================
-  Game Log - 2026-01-07 00:59:40.589
+  Game Log - 2026-01-07 00:40:49.220
 ========================================
 
-[2026-01-07 00:59:40.590] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-07 00:59:40.763] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-07 00:59:40.777] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-07 00:59:40.797] [INFO ] [Game.cpp:82] Window created
-[2026-01-07 00:59:40.899] [INFO ] [Game.cpp:92] Renderer created
-[2026-01-07 00:59:40.899] [INFO ] [Game.cpp:212] Viewport: 1440x900 at (80,0)
-[2026-01-07 00:59:40.900] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
-[2026-01-07 00:59:40.900] [INFO ] [Game.cpp:129] Game initialized successfully!
-[2026-01-07 00:59:40.901] [INFO ] [EditorState.cpp:38] EditorState created
-[2026-01-07 00:59:40.902] [INFO ] [EditorState.cpp:42] EditorState::enter()
-[2026-01-07 00:59:40.911] [INFO ] [EditorWorldManager.cpp:54] Loaded world.json: Retro Adventure with 1 levels
-[2026-01-07 00:59:40.911] [DEBUG] [EditorWorldManager.cpp:110] Creating Level 'Main Game' at grid (0,0)
-[2026-01-07 00:59:40.941] [DEBUG] [EditorWorldManager.cpp:157]   Scene 'Tavern' at grid (0,0)
-[2026-01-07 00:59:40.945] [DEBUG] [EditorWorldManager.cpp:157]   Scene 'Street' at grid (1,0)
-[2026-01-07 00:59:40.945] [WARN ] [EditorWorldManager.cpp:169] Scene ID 'shop' not found in rooms data
-[2026-01-07 00:59:40.945] [WARN ] [EditorWorldManager.cpp:169] Scene ID 'library' not found in rooms data
-[2026-01-07 00:59:40.945] [WARN ] [EditorWorldManager.cpp:169] Scene ID 'cellar' not found in rooms data
-[2026-01-07 00:59:40.945] [WARN ] [EditorWorldManager.cpp:169] Scene ID 'forest' not found in rooms data
-[2026-01-07 00:59:40.945] [WARN ] [EditorWorldManager.cpp:169] Scene ID 'cave' not found in rooms data
-[2026-01-07 00:59:40.945] [INFO ] [EditorWorldManager.cpp:44] EditorWorldManager: World 'Retro Adventure' created with 1 levels, 2 scenes
-[2026-01-07 00:59:40.945] [INFO ] [EditorState.cpp:107] EditorState::enter() - ImGui initialized: YES
-[2026-01-07 00:59:40.945] [INFO ] [EditorState.cpp:108] EditorState::enter() - PanelManager created: YES
-[2026-01-07 00:59:40.945] [INFO ] [EditorState.cpp:109] EditorState::enter() - WorldManager created: YES
-[2026-01-07 00:59:40.945] [INFO ] [EditorContext.cpp:82] EditorContext loaded 2 rooms, 8 dialogs
-[2026-01-07 00:59:40.946] [INFO ] [EditorState.cpp:114] EditorContext loaded with 8 dialogs
-[2026-01-07 00:59:40.946] [INFO ] [EditorState.cpp:169] EditorState::render() - First render call
-[2026-01-07 00:59:40.946] [INFO ] [EditorState.cpp:204] EditorState::renderImGui() - First ImGui render
+[2026-01-07 00:40:49.220] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-07 00:40:49.392] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-07 00:40:49.406] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-07 00:40:49.427] [INFO ] [Game.cpp:82] Window created
+[2026-01-07 00:40:49.534] [INFO ] [Game.cpp:92] Renderer created
+[2026-01-07 00:40:49.534] [INFO ] [Game.cpp:212] Viewport: 1440x900 at (80,0)
+[2026-01-07 00:40:49.535] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-07 00:40:49.535] [INFO ] [Game.cpp:129] Game initialized successfully!
+[2026-01-07 00:40:49.535] [INFO ] [EditorState.cpp:38] EditorState created
+[2026-01-07 00:40:49.536] [INFO ] [EditorState.cpp:42] EditorState::enter()
+[2026-01-07 00:40:49.537] [INFO ] [EditorWorldManager.cpp:54] Loaded world.json: Retro Adventure with 1 levels
+[2026-01-07 00:40:49.537] [DEBUG] [EditorWorldManager.cpp:110] Creating Level 'Main Game' at grid (0,0)
