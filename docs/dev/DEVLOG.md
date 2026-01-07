@@ -6,6 +6,24 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ---
 
+## 2026-01-07
+
+### Tidig Morgon
+
+- `6c831ec` feat(physics): implement physics editor system with collision boxes
+  - **Data:** Added CollisionBoxData struct for static level geometry (ground, walls, platforms, hazards)
+  - **Data:** Added collisionBoxes vector to SceneData with JSON serialization
+  - **Editor:** Added physics properties UI to NPC and Hotspot property editors
+  - **Editor:** Added gateway functionality to hotspots for scene/level/world transitions
+  - **Editor:** Added physics visualization in Scene View with color-coded colliders
+  - **Editor:** Added Physics toggle checkbox in Viewport toolbar
+  - **Components:** Created TriggerComponent for collision callbacks (onEnter/onExit/onStay)
+  - **Components:** Created PhysicsLoader utility for runtime physics data loading
+  - **Examples:** Added collision boxes to Tavern scene (floor, walls, one-way platform)
+  - **Visualization:** Green=ground, Red=wall, Blue=platform, Cyan=trigger, Bright red=hazard
+  - **Build:** Added new physics files to CMakeLists.txt
+  - Session: [2026-01-07](sessions/2026-01-07.md)
+
 ## 2026-01-06
 
 ### Sen Kväll

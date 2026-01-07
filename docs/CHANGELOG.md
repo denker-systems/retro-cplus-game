@@ -33,6 +33,14 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **Grid position persistence** - Level positions saved to world.json, scenes to scenes.json
 
 ### Added
+- **CollisionBoxData** - Static level geometry data structure (ground, walls, platforms, hazards)
+- **Physics properties UI** - NPC and Hotspot property editors with physics settings
+- **Physics visualization** - Scene View visualisering med färgkodade colliders
+- **TriggerComponent** - Collision callbacks (onEnter/onExit/onStay) för interaktiva triggers
+- **PhysicsLoader** - Runtime utility för att ladda physics data från JSON
+- **Gateway functionality** - Hotspot transitions between scenes, levels, and worlds
+- **Physics toggle** - Viewport toolbar checkbox för physics debug visualization
+- **Collision box examples** - Tavern scene med floor, walls, and one-way platforms
 - **Hierarchical editor structure** - core/, managers/, panels/*/, properties/*/, legacy/, ui/, input/, data/, commands/, tools/, widgets/
 - **EditorPanelManager** - Centraliserad panel creation och management
 - **EditorWorldManager** - World/Level/Scene setup från RoomData

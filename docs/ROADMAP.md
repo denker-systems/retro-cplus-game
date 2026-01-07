@@ -681,6 +681,43 @@ src/engine/
 
 ---
 
+### 4E: Physics Editor System ✅ KLART (2026-01-07)
+
+**Mål:** Visuell redigering av physics-colliders och triggers
+
+#### 4E.1 Physics Data Structures ✅
+- [x] CollisionBoxData struct för statisk level geometry
+- [x] PhysicsData struct för actor physics properties
+- [x] SceneData.collisionBoxes vector för JSON persistence
+
+#### 4E.2 Physics Properties UI ✅
+- [x] NPCPropertyEditor physics panel (enable/disable, body type, collider)
+- [x] HotspotPropertyEditor physics panel + gateway functionality
+- [x] "Match Hotspot Bounds" knapp för automatisk storlek
+
+#### 4E.3 Physics Visualization ✅
+- [x] Scene View physics visualisering med färgkodning
+- [x] Physics toggle checkbox i Viewport toolbar
+- [x] Collision boxes: 🟢 ground, 🔴 wall, 🔵 platform, ⚠️ hazard
+- [x] Triggers: 🔵 cyan ram + "TRIGGER" text
+- [x] One-way platform indikator
+
+#### 4E.4 Runtime Components ✅
+- [x] TriggerComponent för collision callbacks (onEnter/onExit/onStay)
+- [x] PhysicsLoader utility för att ladda physics från JSON
+- [x] applyPhysicsData() metod för component creation
+
+#### 4E.5 Example Implementation ✅
+- [x] Tavern scene med collision boxes (floor, walls, one-way platform)
+- [x] Exit triggers med physics.enabled = true
+- [x] Gateway functionality för scene/level/world transitions
+
+**Status:** ✅ KOMPLETT - Physics editor system fullt implementerat
+
+**Estimerad tid: 1 session**
+
+---
+
 ### 4D: Game Content (Efter Editor är Klar)
 
 #### 4D.1 Storyline & Design

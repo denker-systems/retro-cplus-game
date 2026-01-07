@@ -159,7 +159,14 @@ src/
 │       ├── CollisionShape.cpp/h # AABB, Circle, Polygon
 │       ├── PhysicsBody.cpp/h    # Velocity, acceleration, friction
 │       ├── KinematicBody.cpp/h  # moveAndSlide()
-│       └── SpatialGrid.cpp/h    # Spatial partitioning ✨ NEW
+│       ├── SpatialGrid.cpp/h    # Spatial partitioning ✨ NEW
+│       └── box2d/               # Box2D integration ✨ NEW
+│           ├── PhysicsWorld2D.cpp/h # Box2D wrapper
+│           ├── RigidBody2DComponent.cpp/h # Physics body component
+│           ├── Collider2DComponent.cpp/h # Collision shapes
+│           ├── CharacterController2D.cpp/h # Platformer controller
+│           ├── PhysicsLoader.cpp/h # Runtime physics loading
+│           └── TriggerComponent.cpp/h # Collision callbacks
 │
 └── vendor/               # Vendored dependencies
     ├── imgui_impl_sdl2.cpp/h         # SDL2 backend
@@ -594,6 +601,75 @@ Game
  │              ├── InventorySystem
  │              ├── QuestSystem
  │              ├── DialogSystem
- │              └── AISystem
+ │              ├── AISystem
+ │              └── PhysicsWorld2D (Box2D)
  └── EventBus
+```
+
+---
+
+## Physics System (Box2D Integration)
+
+### Physics World
+```cpp
+class PhysicsWorld2D {
+    b2World* m_world;
+    float m_pixelToMeter = 32.0f;
+public:
+    void update(float dt);
+    void createBody(const PhysicsData& data);
+    void destroyBody(b2Body* body);
+};
+```
+
+### Physics Components
+```cpp
+class RigidBody2DComponent {
+    b2Body* m_body;
+    BodyType m_type;  // static, dynamic, kinematic
+public:
+    void setVelocity(const Vec2& vel);
+    Vec2 getVelocity() const;
+};
+
+class Collider2DComponent {
+    b2Fixture* m_fixture;
+    ColliderShape m_shape;  // box, circle, capsule
+    bool m_isTrigger = false;
+public:
+    void setTrigger(bool trigger);
+    bool isTrigger() const;
+};
+
+class TriggerComponent {
+    std::function<void()> m_onEnter;
+    std::function<void()> m_onExit;
+    std::function<void()> m_onStay;
+public:
+    void setCallbacks(EnterFn, ExitFn, StayFn);
+};
+```
+
+### Physics Data (JSON)
+```json
+{
+  "physics": {
+    "enabled": true,
+    "bodyType": "static",
+    "collider": {
+      "shape": "box",
+      "width": 50,
+      "height": 90,
+      "isTrigger": true
+    }
+  },
+  "collisionBoxes": [
+    {
+      "id": "floor_main",
+      "type": "ground",
+      "x": 0, "y": 350,
+      "width": 640, "height": 30
+    }
+  ]
+}
 ```
