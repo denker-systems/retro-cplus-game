@@ -14,7 +14,7 @@ void VisualRoomEditor::render(SDL_Renderer* renderer, const RoomData& roomData, 
     SDL_Color cyan = {100, 255, 255, 255};
     SDL_Color yellow = {255, 255, 100, 255};
     
-    // Rita bakgrund
+    // Render background or placeholder
     if (previewTexture) {
         SDL_Rect dstRect = {10, 90, 620, 260};
         SDL_RenderCopy(renderer, previewTexture, nullptr, &dstRect);
@@ -24,21 +24,25 @@ void VisualRoomEditor::render(SDL_Renderer* renderer, const RoomData& roomData, 
         SDL_RenderFillRect(renderer, &bg);
     }
     
+    // Calculate scaling factors for viewport
     float scaleX = 620.0f / 640.0f;
     float scaleY = 260.0f / 400.0f;
     
+    // Render room elements
     renderHotspots(renderer, roomData.hotspots, scaleX, scaleY);
     renderWalkArea(renderer, roomData.walkArea, scaleX, scaleY);
     renderPlayerSpawn(renderer, roomData.playerSpawnX, roomData.playerSpawnY, scaleX, scaleY);
     
-    // Visa info
+    // Display info text
     if (m_selectedHotspot >= 0 && m_selectedHotspot < static_cast<int>(roomData.hotspots.size())) {
+        // Show selected hotspot info
         const auto& hs = roomData.hotspots[m_selectedHotspot];
         std::string info = "Selected: " + hs.name + " [" + hs.type + "] " + 
                           std::to_string(hs.w) + "x" + std::to_string(hs.h) + " at (" + 
                           std::to_string(hs.x) + "," + std::to_string(hs.y) + ")";
         FontManager::instance().renderText(renderer, "default", info, 10, 355, yellow);
     } else {
+        // Show walk area depth scaling info
         char scaleStr[64];
         snprintf(scaleStr, sizeof(scaleStr), "Depth: %.0f%% (top) to %.0f%% (bottom)", 
                  roomData.walkArea.scaleTop * 100, roomData.walkArea.scaleBottom * 100);
@@ -60,7 +64,7 @@ void VisualRoomEditor::renderHotspots(SDL_Renderer* renderer, const std::vector<
             static_cast<int>(hs.h * scaleY)
         };
         
-        // Färg baserat på typ
+        // Set color based on hotspot type
         if (hs.type == "npc") {
             SDL_SetRenderDrawColor(renderer, 100, 255, 100, selected ? 200 : 100);
         } else if (hs.type == "item") {
@@ -73,14 +77,15 @@ void VisualRoomEditor::renderHotspots(SDL_Renderer* renderer, const std::vector<
         
         SDL_RenderFillRect(renderer, &rect);
         
-        // Ram
+        // Draw selection indicators
         if (selected) {
+            // Yellow outline for selected hotspot
             SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
             SDL_RenderDrawRect(renderer, &rect);
             SDL_Rect outerRect = {rect.x - 1, rect.y - 1, rect.w + 2, rect.h + 2};
             SDL_RenderDrawRect(renderer, &outerRect);
             
-            // Resize handles
+            // White resize handles at corners
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             int hs_size = 6;
             SDL_Rect handles[4] = {
@@ -93,8 +98,10 @@ void VisualRoomEditor::renderHotspots(SDL_Renderer* renderer, const std::vector<
                 SDL_RenderFillRect(renderer, &handles[h]);
             }
             
+            // Show hotspot name when selected
             FontManager::instance().renderText(renderer, "default", hs.name, rect.x + 2, rect.y + 2, white);
         } else {
+            // Light gray outline for unselected hotspots
             SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
             SDL_RenderDrawRect(renderer, &rect);
         }
@@ -102,6 +109,7 @@ void VisualRoomEditor::renderHotspots(SDL_Renderer* renderer, const std::vector<
 }
 
 void VisualRoomEditor::renderWalkArea(SDL_Renderer* renderer, const WalkAreaData& walkArea, float scaleX, float scaleY) {
+    // Calculate walk area rectangle in screen coordinates
     SDL_Rect walkRect = {
         10 + static_cast<int>(walkArea.minX * scaleX),
         90 + static_cast<int>(walkArea.minY * scaleY),
@@ -109,12 +117,13 @@ void VisualRoomEditor::renderWalkArea(SDL_Renderer* renderer, const WalkAreaData
         static_cast<int>((walkArea.maxY - walkArea.minY) * scaleY)
     };
     
+    // Draw double border for walk area
     SDL_SetRenderDrawColor(renderer, 0, 255, 200, m_editingWalkArea ? 200 : 100);
     SDL_RenderDrawRect(renderer, &walkRect);
     SDL_Rect innerWalk = {walkRect.x + 1, walkRect.y + 1, walkRect.w - 2, walkRect.h - 2};
     SDL_RenderDrawRect(renderer, &innerWalk);
     
-    // Handles
+    // Draw resize handles when editing walk area or no hotspot selected
     if (m_editingWalkArea || m_selectedHotspot < 0) {
         SDL_SetRenderDrawColor(renderer, 0, 255, 200, 255);
         int wh_size = 8;
@@ -129,7 +138,7 @@ void VisualRoomEditor::renderWalkArea(SDL_Renderer* renderer, const WalkAreaData
         }
     }
     
-    // Depth scale figurer
+    // Draw depth scale indicators (top and bottom)
     int figTopH = static_cast<int>(20 * walkArea.scaleTop);
     int figBotH = static_cast<int>(20 * walkArea.scaleBottom);
     SDL_SetRenderDrawColor(renderer, 255, 200, 100, 200);
@@ -140,11 +149,16 @@ void VisualRoomEditor::renderWalkArea(SDL_Renderer* renderer, const WalkAreaData
 }
 
 void VisualRoomEditor::renderPlayerSpawn(SDL_Renderer* renderer, float spawnX, float spawnY, float scaleX, float scaleY) {
+    // Convert world coordinates to screen coordinates
     int screenX = 10 + static_cast<int>(spawnX * scaleX);
     int screenY = 90 + static_cast<int>(spawnY * scaleY);
+    
+    // Draw magenta player spawn marker (16x24 pixels)
     SDL_SetRenderDrawColor(renderer, 255, 100, 255, m_editingPlayerSpawn ? 255 : 150);
     SDL_Rect spawnRect = {screenX - 8, screenY - 12, 16, 24};
     SDL_RenderFillRect(renderer, &spawnRect);
+    
+    // White outline
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderDrawRect(renderer, &spawnRect);
 }

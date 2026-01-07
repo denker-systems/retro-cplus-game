@@ -1,70 +1,81 @@
 ﻿---
 trigger: glob
 globs: ["*.cpp", "*.h"]
+description: Code commenting standards (Doxygen-compatible)
 ---
 
-# Code Comments Guidelines
+# Code Comments
 
-<file_header>
-Varje fil ska ha en kort header:
-`cpp
+> Doxygen-kompatibel dokumentation
+
+## Fil-header (OBLIGATORISK)
+
+```cpp
 /**
- * @file Game.cpp
- * @brief Huvudspelloop och SDL-initiering
+ * @file FileName.cpp
+ * @brief Kort beskrivning av filen
  */
-`
-</file_header>
+```
 
-<class_comments>
-Kort beskrivning av klassens syfte:
-`cpp
+---
+
+## Klass-dokumentation
+
+```cpp
 /**
- * @brief Hanterar all texturladdning och caching
+ * @brief Kort beskrivning av klassen
+ * 
+ * Längre beskrivning om relevant:
+ * - Ansvar
+ * - Användning
  */
-class TextureManager {
-`
-</class_comments>
+class ClassName {
+```
 
-<method_comments>
-Dokumentera publika metoder:
-`cpp
+---
+
+## Metod-dokumentation
+
+```cpp
 /**
- * @brief Laddar textur från fil, cachar om redan laddad
- * @param path Sökväg till bildfil
- * @return Pekare till textur, nullptr vid fel
+ * @brief Vad metoden gör
+ * @param name Parameterbeskrivning
+ * @return Vad som returneras
  */
-SDL_Texture* load(const std::string& path);
-`
-</method_comments>
+ReturnType methodName(ParamType name);
+```
 
-<inline_comments>
-Förklara icke-uppenbara saker:
-`cpp
-// Beräkna frame-oberoende rörelse
-float deltaTime = (current - last) / 1000.0f;
+---
 
-// Flippa sprite horisontellt om vi går vänster
-SDL_RendererFlip flip = flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
-`
-</inline_comments>
+## Inline-kommentarer
 
-<avoid>
-Undvik självklarheter:
-`cpp
-// DÅLIGT:
+```cpp
+// Förklara VARFÖR, inte VAD
+position += velocity * deltaTime;  // Frame-independent movement
+
+// Förklara icke-uppenbara saker
+float distSq = dx*dx + dy*dy;  // Squared distance - avoids sqrt()
+```
+
+---
+
+## Member Variables
+
+```cpp
+private:
+    Vec2 m_position{0, 0};     ///< World position in pixels
+    float m_speed = 100.0f;    ///< Movement speed (pixels/sec)
+    bool m_active = true;      ///< Whether actor is updated
+```
+
+---
+
+## Undvik
+
+```cpp
+// DÅLIGT - självklart
 i++;  // Öka i med 1
-return true;  // Returnera true
 
-// BRA:
-i++;  // Gå till nästa frame
-return true;  // Laddning lyckades
-`
-</avoid>
-
-<member_variables>
-Kort förklaring för icke-uppenbara:
-`cpp
-float m_frameTime = 0.1f;  // Sekunder per frame
-bool m_loop = true;        // Upprepa animation
-`
-</member_variables>
+// BRA - förklarar varför
+i++;  // Nästa animation frame
+```

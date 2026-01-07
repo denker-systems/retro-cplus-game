@@ -1,83 +1,82 @@
 ﻿---
-description: Startar en ny session genom att analysera projektets status
+description: Start a new development session
 ---
 
 # Init Session Workflow
 
-## 1. Hämta datum
+> Starta arbetsdagen
+
+## 1. Get Date
 // turbo
-`powershell
+```powershell
 $today = Get-Date -Format 'yyyy-MM-dd'; Write-Host "=== Session $today ===" -ForegroundColor Cyan
-`
+```
 
-## 2. Kolla git-status
+## 2. Check Git Status
 // turbo
-`powershell
+```powershell
 git status --short
-`
+```
 
-## 3. Se senaste commits
+## 3. Recent Commits
 // turbo
-`powershell
+```powershell
 git log -5 --oneline --decorate
-`
+```
 
-## 4. Läs senaste session-rapport
+## 4. Latest Session Report
 // turbo
-`powershell
-$latest = Get-ChildItem docs/dev/sessions/*.md | Sort-Object Name -Descending | Select-Object -First 1
-Write-Host "Senaste session: $($latest.Name)" -ForegroundColor Yellow
-Get-Content $latest.FullName | Select-Object -First 50
-`
+```powershell
+$latest = Get-ChildItem docs/dev/sessions/*.md -ErrorAction SilentlyContinue | Sort-Object Name -Descending | Select-Object -First 1
+if ($latest) { Write-Host "Senaste: $($latest.Name)" -ForegroundColor Yellow; Get-Content $latest.FullName | Select-Object -First 30 }
+```
 
-## 5. Kolla CHANGELOG
+## 5. Check ROADMAP
 // turbo
-`powershell
-Get-Content docs/CHANGELOG.md | Select-Object -First 40
-`
+```powershell
+Get-Content docs/ROADMAP.md | Select-Object -First 30
+```
 
-## 6. Kolla ROADMAP progress
-// turbo
-`powershell
-Get-Content docs/ROADMAP.md | Select-Object -First 20
-`
+---
 
-## 7. Skapa session-rapport för idag
+## 6. Create Session Report (if needed)
 
-Om `docs/dev/sessions/YYYY-MM-DD.md` inte finns, skapa med mall:
+Om `docs/dev/sessions/YYYY-MM-DD.md` inte finns:
 
-`markdown
+```markdown
 # Session YYYY-MM-DD
 
-## Sammanfattning
+## Summary
 [Fylls i under sessionen]
 
 ---
 
-## Genomfört
+## Completed
 
-### [Område 1]
-- Feature/fix beskrivning
+### [Area]
+- Task 1
+- Task 2
 
 ---
 
 ## Git Commits
 
-| Hash | Typ | Beskrivning |
-|------|-----|-------------|
-| `abc123` | feat | beskrivning |
+| Hash | Type | Description |
+|------|------|-------------|
 
 ---
 
-## Nästa Session
+## Next Session
 - [ ] Task 1
 - [ ] Task 2
-`
+```
 
-## 8. Sammanfatta status
+---
 
-Presentera:
-- Vad gjordes senast (från session report)
-- Vilka filer är ändrade (från git status)
+## 7. Summarize
+
+Present:
+- Senaste session
+- Uncommitted changes
 - ROADMAP progress
 - Förslag på nästa steg

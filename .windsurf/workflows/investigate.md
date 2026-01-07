@@ -1,31 +1,64 @@
 ﻿---
-description: Systematisk felsökning av buggar i SDL2-spelet
+description: Investigate and fix bugs systematically
 ---
 
 # Investigate Workflow
 
-## 1. Kolla kompileringsfel
-`powershell
-cd build
-cmake --build . --config Release 2>&1
-`
+> Systematisk felsökning
 
-## 2. Kolla runtime-fel
-Vanliga SDL2-problem:
-- SDL_Init misslyckades - kolla SDL_GetError()
-- Textur null - fil saknas eller fel sökväg
-- Segfault - nullptr-access
+## 1. Check Build Errors
+```powershell
+cd build; cmake --build . --config Release 2>&1
+```
 
-## 3. Debug med cout
-`cpp
+## 2. Identify Problem Type
+
+| Symptom | Likely Cause |
+|---------|--------------|
+| Compile error | Syntax, missing include |
+| Linker error | Missing library, undefined symbol |
+| Crash on start | nullptr, missing asset |
+| Runtime bug | Logic error |
+
+---
+
+## 3. Debug Strategies
+
+### Add Logging
+```cpp
 #include <iostream>
-std::cout << "Debug: variabel = " << variabel << std::endl;
-`
+std::cout << "[DEBUG] value = " << value << std::endl;
+```
 
-## 4. Vanliga fixar
-| Problem | Lösning |
-|---------|---------|
-| DLL saknas | Kopiera SDL2.dll till exe-mappen |
-| Textur laddar inte | Kolla assets/-sökväg |
-| Svart skärm | Kolla SDL_RenderPresent() |
-| Ingen input | Kolla SDL_PollEvent() loop |
+### Check Return Values
+```cpp
+if (result == nullptr) {
+    std::cerr << "Error: " << SDL_GetError() << std::endl;
+}
+```
+
+### Isolate the Problem
+- Comment out sections of code
+- Binary search for problematic code
+- Check git diff for recent changes
+
+---
+
+## 4. Common Fixes
+
+| Problem | Solution |
+|---------|----------|
+| DLL missing | Copy SDL2.dll to exe folder |
+| Texture not loading | Check assets/ path |
+| Black screen | Check SDL_RenderPresent() |
+| No input | Check SDL_PollEvent() loop |
+| Crash on exit | Check cleanup order |
+
+---
+
+## 5. When Stuck
+
+1. Check git log for recent changes
+2. Search error message online
+3. Check SDL2 documentation
+4. Ask for help with full error message

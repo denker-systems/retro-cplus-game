@@ -45,6 +45,11 @@ public:
     static bool hasPhysics(ActorObjectExtended* actor);
     
 private:
+    /**
+     * @brief Apply collider shape and material data to component
+     * @param collider The collider component to configure
+     * @param data The collider configuration data
+     */
     static void applyColliderData(class Collider2DComponent* collider, const ColliderData& data);
 };
 

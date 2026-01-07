@@ -18,7 +18,7 @@
 
 PropertiesPanel::PropertiesPanel(EditorContext& context)
     : m_context(context) {
-    // Skapa alla property editors
+    // Create all property editors for different data types
     m_roomEditor = std::make_unique<RoomPropertyEditor>(context);
     m_hotspotEditor = std::make_unique<HotspotPropertyEditor>(context);
     m_dialogEditor = std::make_unique<DialogPropertyEditor>(context);
@@ -34,21 +34,21 @@ void PropertiesPanel::render() {
     if (!m_visible) return;
     
     if (ImGui::Begin(m_title.c_str(), &m_visible)) {
-        // Uppdatera vilken editor som är aktiv
+        // Update which editor is active based on selection
         updateEditorSelection();
         
-        // Rendera breadcrumb navigation
+        // Render breadcrumb navigation for context
         renderBreadcrumb();
         
         ImGui::Separator();
         
-        // Rendera toolbar med Save/Revert buttons
+        // Render toolbar with Save/Revert buttons
         renderToolbar();
         
         ImGui::Separator();
         ImGui::Spacing();
         
-        // Rendera aktuell editor
+        // Render the active property editor
         IPropertyEditor* editor = getCurrentEditor();
         if (editor) {
             editor->render();
@@ -63,7 +63,7 @@ void PropertiesPanel::render() {
 
 void PropertiesPanel::renderBreadcrumb() {
 #ifdef HAS_IMGUI
-    // Bygg breadcrumb baserat på selection type
+    // Build breadcrumb navigation based on selection type
     std::vector<std::pair<std::string, std::function<void()>>> breadcrumbItems;
     
     switch (m_context.selectedType) {

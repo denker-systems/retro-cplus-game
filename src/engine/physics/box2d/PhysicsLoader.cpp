@@ -16,13 +16,13 @@ bool PhysicsLoader::applyPhysics(ActorObjectExtended* actor, const PhysicsData& 
         return false;
     }
     
-    // Create or get RigidBody2DComponent
+    // Create or get RigidBody2DComponent for Box2D physics body
     auto* rb = actor->getComponent<RigidBody2DComponent>();
     if (!rb) {
         rb = actor->addComponent<RigidBody2DComponent>();
     }
     
-    // Set body type
+    // Set body type based on physics data
     if (data.bodyType == "dynamic") {
         rb->setBodyType(RigidBody2DComponent::BodyType::Dynamic);
     } else if (data.bodyType == "kinematic") {
@@ -34,19 +34,20 @@ bool PhysicsLoader::applyPhysics(ActorObjectExtended* actor, const PhysicsData& 
     rb->setFixedRotation(data.fixedRotation);
     rb->setGravityScale(data.gravityScale);
     
-    // Initialize body in physics world
+    // Initialize rigid body in Box2D physics world
     rb->initializeBody(world);
     
-    // Create or get Collider2DComponent
+    // Create or get Collider2DComponent for collision shape
     auto* col = actor->getComponent<Collider2DComponent>();
     if (!col) {
         col = actor->addComponent<Collider2DComponent>();
     }
     
+    // Apply collider shape and size from physics data
     applyColliderData(col, data.collider);
     col->initializeShape();
     
-    // If trigger, add TriggerComponent
+    // Add TriggerComponent if this is a trigger collider
     if (data.collider.isTrigger) {
         auto* trigger = actor->getComponent<TriggerComponent>();
         if (!trigger) {
@@ -60,6 +61,7 @@ bool PhysicsLoader::applyPhysics(ActorObjectExtended* actor, const PhysicsData& 
 void PhysicsLoader::removePhysics(ActorObjectExtended* actor) {
     if (!actor) return;
     
+    // Remove all physics-related components in reverse order
     actor->removeComponent<TriggerComponent>();
     actor->removeComponent<Collider2DComponent>();
     actor->removeComponent<RigidBody2DComponent>();
@@ -73,7 +75,7 @@ bool PhysicsLoader::hasPhysics(ActorObjectExtended* actor) {
 void PhysicsLoader::applyColliderData(Collider2DComponent* collider, const ColliderData& data) {
     if (!collider) return;
     
-    // Set shape
+    // Set collision shape based on type
     if (data.shape == "circle") {
         collider->setCircleShape(data.width / 2.0f);
     } else if (data.shape == "capsule") {
@@ -82,10 +84,10 @@ void PhysicsLoader::applyColliderData(Collider2DComponent* collider, const Colli
         collider->setBoxShape(data.width, data.height);
     }
     
-    // Set offset
+    // Set collider offset from actor center
     collider->setOffset(glm::vec2(data.offsetX, data.offsetY));
     
-    // Set physics material
+    // Set physics material properties
     collider->setDensity(data.density);
     collider->setFriction(data.friction);
     collider->setRestitution(data.restitution);

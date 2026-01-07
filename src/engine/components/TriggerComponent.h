@@ -39,40 +39,108 @@ public:
     // ACTORCOMPONENT LIFECYCLE
     // ========================================================================
     
+    /**
+     * @brief Initialize trigger component - setup callback tracking
+     */
     void initialize() override;
+    
+    /**
+     * @brief Cleanup trigger component - clear callbacks and tracking
+     */
     void shutdown() override;
+    
+    /**
+     * @brief Update trigger state - call onStay for overlapping actors
+     */
     void update(float deltaTime) override;
     
     // ========================================================================
     // CALLBACK SETUP
     // ========================================================================
     
+    /**
+     * @brief Set callback for when an actor enters the trigger
+     * @param callback Function to call on enter
+     */
     void setOnEnter(TriggerCallback callback) { m_onEnter = callback; }
+    
+    /**
+     * @brief Set callback for when an actor exits the trigger
+     * @param callback Function to call on exit
+     */
     void setOnExit(TriggerCallback callback) { m_onExit = callback; }
+    
+    /**
+     * @brief Set callback for when an actor stays in the trigger
+     * @param callback Function to call continuously while overlapping
+     */
     void setOnStay(TriggerCallback callback) { m_onStay = callback; }
     
     // ========================================================================
     // TRIGGER EVENTS (called by physics system)
     // ========================================================================
     
+    /**
+     * @brief Called when an actor enters the trigger area
+     * @param other The actor that entered
+     */
     void onTriggerEnter(ActorObjectExtended* other);
+    
+    /**
+     * @brief Called when an actor exits the trigger area
+     * @param other The actor that exited
+     */
     void onTriggerExit(ActorObjectExtended* other);
+    
+    /**
+     * @brief Called when an actor stays in the trigger area
+     * @param other The actor that is overlapping
+     */
     void onTriggerStay(ActorObjectExtended* other);
     
     // ========================================================================
     // STATE QUERIES
     // ========================================================================
     
+    /**
+     * @brief Check if an actor is currently overlapping this trigger
+     * @param actor The actor to check
+     * @return true if overlapping
+     */
     bool isOverlapping(ActorObjectExtended* actor) const;
+    
+    /**
+     * @brief Get all currently overlapping actors
+     * @return Set of overlapping actors
+     */
     const std::unordered_set<ActorObjectExtended*>& getOverlappingActors() const { return m_overlappingActors; }
+    
+    /**
+     * @brief Get the number of overlapping actors
+     * @return Count of overlapping actors
+     */
     size_t getOverlapCount() const { return m_overlappingActors.size(); }
     
     // ========================================================================
     // FILTER SETTINGS
     // ========================================================================
     
+    /**
+     * @brief Set tag filter - only trigger for actors with this tag
+     * @param tag The tag to filter by
+     */
     void setFilterTag(const std::string& tag) { m_filterTag = tag; }
+    
+    /**
+     * @brief Get the current filter tag
+     * @return The filter tag (empty if no filter)
+     */
     const std::string& getFilterTag() const { return m_filterTag; }
+    
+    /**
+     * @brief Check if a filter tag is set
+     * @return true if filter tag is not empty
+     */
     bool hasFilterTag() const { return !m_filterTag.empty(); }
     
 private:

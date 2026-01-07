@@ -1,78 +1,95 @@
 ﻿---
 trigger: glob
 globs: ["assets/data/*.json"]
+description: JSON data formats for game content
 ---
 
-# JSON Data Format
+# JSON Formats
 
-<room_format>
-`json
+> Data-driven game content
+
+## Room Format
+
+```json
 {
-  "id": "room_id",
-  "name": "Display Name",
-  "background": "backgrounds/room.png",
-  "walkArea": { "x": 0, "y": 200, "w": 640, "h": 175 },
-  "hotspots": [
-    {
-      "id": "hotspot_id",
-      "type": "item|npc|exit|examine",
-      "rect": { "x": 100, "y": 250, "w": 40, "h": 60 },
-      "name": "Display name",
-      "dialog": "dialog_id",
-      "item": "item_id",
-      "targetRoom": "other_room"
-    }
-  ],
-  "npcs": ["npc_id1", "npc_id2"],
-  "music": "sounds/room_music.ogg"
+  "id": "tavern",
+  "name": "The Rusty Anchor",
+  "background": "backgrounds/tavern.png",
+  "music": "music/tavern_theme.ogg",
+  "walkArea": {
+    "minX": 50, "maxX": 590,
+    "minY": 260, "maxY": 380
+  },
+  "hotspots": [...],
+  "actors": [...]
 }
-`
-</room_format>
+```
 
-<dialog_format>
-`json
+---
+
+## Hotspot Format
+
+```json
 {
-  "id": "dialog_id",
+  "id": "door_exit",
+  "name": "Door",
+  "type": "exit",
+  "rect": { "x": 100, "y": 250, "w": 40, "h": 80 },
+  "targetRoom": "street",
+  "targetSpawn": "from_tavern"
+}
+```
+
+**Types:** `exit`, `item`, `examine`, `npc`
+
+---
+
+## Dialog Format
+
+```json
+{
+  "id": "bartender_intro",
   "nodes": [
     {
       "id": 0,
-      "speaker": "NPC Name",
-      "text": "Dialog text here.",
+      "speaker": "Bartender",
+      "text": "Welcome, stranger!",
       "choices": [
-        { "text": "Choice 1", "next": 1 },
-        { "text": "Choice 2", "next": 2, "condition": "has_item:key" },
+        { "text": "Hello", "next": 1 },
         { "text": "Goodbye", "next": -1 }
       ]
     }
   ]
 }
-`
-</dialog_format>
+```
 
-<quest_format>
-`json
+---
+
+## Item Format
+
+```json
 {
-  "id": "quest_id",
-  "title": "Quest Title",
-  "description": "What to do.",
+  "id": "rusty_key",
+  "name": "Rusty Key",
+  "description": "An old key covered in rust.",
+  "icon": "sprites/items/key.png",
+  "combinable": ["oil_can"],
+  "usableOn": ["locked_door"]
+}
+```
+
+---
+
+## Quest Format
+
+```json
+{
+  "id": "find_key",
+  "title": "Find the Key",
+  "description": "Search the tavern for a key.",
   "objectives": [
-    { "id": "obj1", "text": "Find the key", "type": "has_item", "target": "key" },
-    { "id": "obj2", "text": "Talk to bartender", "type": "dialog_complete", "target": "bartender_intro" }
+    { "id": "obj1", "text": "Find the key", "type": "has_item", "target": "rusty_key" }
   ],
-  "reward": { "item": "gold_coin", "xp": 100 }
+  "reward": { "xp": 50 }
 }
-`
-</quest_format>
-
-<item_format>
-`json
-{
-  "id": "item_id",
-  "name": "Item Name",
-  "description": "Description shown when examined.",
-  "icon": "sprites/items/item.png",
-  "combinable": ["other_item_id"],
-  "usableOn": ["hotspot_id"]
-}
-`
-</item_format>
+```

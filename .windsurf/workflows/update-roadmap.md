@@ -1,37 +1,47 @@
 ﻿---
-description: Uppdaterar roadmap och markerar features som klara
+description: Update roadmap and mark features as complete
 ---
 
 # Update Roadmap Workflow
 
-## 1. Öppna roadmap
-`powershell
-code docs/ROADMAP.md
-`
+> Uppdatera utvecklingsplan
 
-## 2. Markera feature som klar
+## 1. Check Current Progress
+// turbo
+```powershell
+Get-Content docs/ROADMAP.md | Select-Object -First 50
+```
+
+## 2. Mark Feature Complete
 Ändra `[ ]` till `[x]` för avslutade features.
 
-## 3. Uppdatera progress-bar
-`
-Fas 1: Core          40%
-`
+## 3. Update Progress
+```markdown
+### Phase 1: Core Foundation [60%]
+- [x] SDL2 setup
+- [x] Game loop
+- [ ] StateManager   nästa
+```
 
-## 4. Lägg till nya upptäckter
+## 4. Add New Tasks
 Om nya features behövs, lägg till i relevant fas.
 
-## 5. Commit
-`powershell
-git add docs/ROADMAP.md
-git commit -m "docs: update roadmap progress"
-`
+---
 
 ## Milestone Checklist
-- [ ] M1: Window + rendering 
-- [ ] M2: State system + meny
-- [ ] M3: Rum med spelare
-- [ ] M4: Dialog med NPC
-- [ ] M5: Inventory fungerar
-- [ ] M6: Quest system
-- [ ] M7: Save/Load
-- [ ] M8: Playable demo
+
+| Milestone | Status |
+|-----------|--------|
+| M1: Window + rendering |  |
+| M2: State system |  |
+| M3: Room with player |  |
+| M4: Dialog with NPC |  |
+| M5: Inventory |  |
+| M6: Quest system |  |
+| M7: Save/Load |  |
+| M8: Playable demo |  |
+
+---
+
+##  Note
+**Gör INTE automatisk commit!** Vänta på `/git-commit`.

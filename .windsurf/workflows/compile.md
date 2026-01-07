@@ -1,17 +1,23 @@
 ﻿---
-description: Kompilerar och kör C++ SDL2-spelet
+description: Compile and run the game
 ---
 
 # Compile Workflow
 
-## 1. Bygg projektet
-// turbo
-`powershell
-cd build
-cmake --build . --config Release
-`
+> Snabb kompilering
 
-## 2. Kör spelet
-`powershell
-.\Release\RetroAdventure.exe
-`
+## Build
+// turbo
+```powershell
+cd build; cmake --build . --config Release
+```
+
+## Run Game
+```powershell
+.\build\Release\RetroGame.exe
+```
+
+## Run Editor
+```powershell
+.\build\Release\RetroEditor.exe
+```

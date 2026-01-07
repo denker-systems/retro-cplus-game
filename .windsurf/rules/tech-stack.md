@@ -1,36 +1,67 @@
 ﻿---
 trigger: always_on
+description: Tech stack and tooling overview
 ---
 
-# C++ SDL2 Game Project Rules
+# Tech Stack
 
-<tech_stack>
-- Language: C++17
-- Graphics: SDL2, SDL2_image
-- Audio: SDL2_mixer
-- Build: CMake 3.16+
-- Package Manager: vcpkg
-- Platform: Windows 11
-</tech_stack>
+> Komplett teknisk stack för projektet
 
-<code_style>
-- Use PascalCase for class names (Game, Player, Room)
-- Use camelCase for methods (handleEvents, loadTexture)
-- Use m_ prefix for member variables (m_window, m_running)
-- Use smart pointers (unique_ptr, shared_ptr) for ownership
-- RAII for resource management
-- Prefer references over pointers when possible
-</code_style>
+## Core Technologies
 
-<architecture>
-- Game class is the central coordinator
-- Each system is a separate class with single responsibility
-- SDL resources wrapped in classes for RAII
-- Use forward declarations in headers
-- Keep headers minimal, implementation in .cpp
-</architecture>
+| Kategori | Teknologi | Version |
+|----------|-----------|---------|
+| Språk | C++ | 17 |
+| Build | CMake | 3.16+ |
+| Packages | vcpkg | latest |
+| Platform | Windows | 11 |
 
-<communication>
-- Communicate in Swedish
-- Explain concepts pedagogically
-</communication>
+---
+
+## Libraries
+
+### Engine Core
+| Bibliotek | Användning |
+|-----------|------------|
+| SDL2 | Window, rendering, input |
+| SDL2_image | PNG texture loading |
+| SDL2_mixer | Audio (music, SFX) |
+| Box2D | Physics simulation |
+| nlohmann/json | JSON serialization |
+
+### Editor
+| Bibliotek | Användning |
+|-----------|------------|
+| Dear ImGui (docking) | Editor UI |
+| imnodes | Node graph editor |
+
+---
+
+## Build Targets
+
+| Target | Typ | Beroenden |
+|--------|-----|-----------|
+| RetroCore | Static lib | SDL2, Box2D, json |
+| RetroGame | Executable | RetroCore |
+| RetroEditor | Executable | RetroCore, ImGui |
+
+---
+
+## Development Tools
+
+| Verktyg | Användning |
+|---------|------------|
+| Visual Studio 2022 | IDE, debugger |
+| CMake | Build system |
+| Git | Version control |
+| vcpkg | Package management |
+
+---
+
+## Code Style
+
+- **PascalCase** för klasser
+- **camelCase** för metoder
+- **m_** prefix för medlemsvariabler
+- **#pragma once** för include guards
+- **smart pointers** för ownership

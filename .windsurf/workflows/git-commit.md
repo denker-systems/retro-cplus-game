@@ -1,110 +1,97 @@
 ﻿---
-description: Commit och push ändringar - synkar med DEVLOG, CHANGELOG och session reports
+description: Commit changes with proper format and documentation sync
 ---
 
-# Git Commit & Push Workflow
+# Git Commit Workflow
 
-** VIKTIGT:** Denna workflow körs ENDAST när användaren explicit ber om det!
+> Committa ändringar med konventionellt format
 
-## 1. Kolla datum och branch
+## 1. Check Status
 // turbo
-`powershell
-$today = Get-Date -Format 'yyyy-MM-dd'; $branch = git branch --show-current; Write-Host "Datum: $today | Branch: $branch"
-`
-
-## 2. Analysera ALLA ändringar sedan senaste commit
-// turbo
-`powershell
+```powershell
 git status --short
-`
+```
 
-**KRITISKT:** Kör `git diff --stat` för att se ALLA ändrade filer:
-`powershell
-git diff --stat HEAD
-`
-
-**Identifiera vad som ändrats:**
-- Nya filer/mappar?
-- Flyttade filer (renames)?
-- Arkitekturändringar?
-- Nya features?
-- Bugfixes?
-
-## 3. Stage alla ändringar
-`powershell
-git add -A
-`
-
-## 4. Commit med konventionellt format
-
-**Format:** `type(scope): beskrivning`
-
-**Commit med session-referens:**
-`powershell
-git commit -m "type(scope): beskrivning" -m "- Detalj 1" -m "- Detalj 2" -m "Session: YYYY-MM-DD"
-`
-
-## 5. Hämta commit-hash
+## 2. Review Changes
 // turbo
-`powershell
-$hash = git rev-parse --short HEAD; $msg = git log -1 --format="%s"; Write-Host "Commit: $hash - $msg"
-`
+```powershell
+git diff --stat HEAD
+```
 
-## 6. Uppdatera dokumentation
+---
 
-**KRITISKT:** Dokumentera ALLA ändringar från steg 2, inte bara det senaste!
+## 3. Stage Changes
+```powershell
+git add .
+# Or selectively:
+git add src/specific/file.cpp
+```
 
-### DEVLOG (docs/dev/DEVLOG.md)
-Lägg till under rätt dag/tid med ALLA ändringar:
+---
+
+## 4. Commit with Format
+
+```powershell
+git commit -m "type(scope): description" -m "- Detail 1" -m "- Detail 2"
+```
+
+### Commit Types
+| Type | Usage |
+|------|-------|
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `docs` | Documentation |
+| `refactor` | Code refactoring |
+| `style` | Formatting |
+| `test` | Tests |
+| `build` | Build system |
+| `chore` | Maintenance |
+
+### Examples
+```powershell
+git commit -m "feat(physics): add Box2D integration"
+git commit -m "fix(player): clamp to walk area correctly"
+git commit -m "docs: update ROADMAP progress"
+```
+
+---
+
+## 5. Update DEVLOG
+
+Lägg till i `docs/dev/DEVLOG.md`:
+
 ```markdown
-- `HASH` type(scope): beskrivning
-  - **Arkitektur:** Om filer flyttades/strukturändring
-  - **Build:** Om build-system ändrades
-  - **Feature 1:** Kort beskrivning
-  - **Feature 2:** Kort beskrivning
+- `HASH` type(scope): description
+  - Detail 1
   - Session: [YYYY-MM-DD](sessions/YYYY-MM-DD.md)
 ```
 
-### Session Report (docs/dev/sessions/YYYY-MM-DD.md)
-Lägg till i "Git Commits" med ALLA ändringar:
+---
+
+## 6. Update Session Report
+
+Lägg till commit i dagens session report:
+
 ```markdown
-X. `HASH` type(scope): beskrivning
-   - **Arkitektur:** Om relevant
-   - **Build:** Om relevant
-   - Feature 1
-   - Feature 2
+## Git Commits
+
+| Hash | Type | Description |
+|------|------|-------------|
+| `abc123` | feat | Description |
 ```
 
-### CHANGELOG (docs/CHANGELOG.md)
-Under [Unreleased], lägg till ALLA ändringar:
-- **Added:** Nya features, filer, system
-- **Changed:** Strukturändringar, refactorings
-- **Fixed:** Bugfixes
+---
 
-### ROADMAP (docs/ROADMAP.md)
-Markera features som [x] om klara.
-
-### ADR (docs/adr/)
-Skapa ny ADR om arkitekturbeslut togs.
-
-## 7. Push till remote
-`powershell
-git push origin $(git branch --show-current)
-`
+## 7. Verify
+// turbo
+```powershell
+git log -1 --stat
+```
 
 ---
 
-## Checklista
+##  VIKTIGT
 
-- [ ] Commit-hash noterad
-- [ ] docs/dev/DEVLOG.md uppdaterad
-- [ ] docs/dev/sessions/YYYY-MM-DD.md uppdaterad
-- [ ] docs/CHANGELOG.md uppdaterad (om ny feature)
-- [ ] docs/ROADMAP.md uppdaterad (om feature klar)
-
----
-
-##  PÅMINNELSE
-
-Kör ENDAST denna workflow när användaren explicit ber om det!
-**ALDRIG git-operationer i samband med annat arbete!**
+- **Analysera ALLA ändringar** innan commit
+- **Dokumentera arkitekturändringar** om relevanta
+- **Synka DEVLOG** med commit

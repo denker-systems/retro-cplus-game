@@ -12,7 +12,7 @@ TriggerComponent::TriggerComponent(const std::string& name)
 }
 
 void TriggerComponent::initialize() {
-    // Nothing to initialize
+    // Initialize trigger component - setup callback tracking
 }
 
 void TriggerComponent::shutdown() {
@@ -23,7 +23,7 @@ void TriggerComponent::shutdown() {
 }
 
 void TriggerComponent::update(float deltaTime) {
-    // Call onStay for all currently overlapping actors
+    // Update trigger state - call onStay for all currently overlapping actors
     if (m_onStay) {
         for (auto* actor : m_overlappingActors) {
             m_onStay(actor);
@@ -34,15 +34,13 @@ void TriggerComponent::update(float deltaTime) {
 void TriggerComponent::onTriggerEnter(ActorObjectExtended* other) {
     if (!other) return;
     
-    // Check if already tracking
+    // Check if already tracking this actor
     if (m_overlappingActors.find(other) != m_overlappingActors.end()) {
         return;
     }
     
-    // Add to tracking
+    // Add to tracking set and fire enter callback
     m_overlappingActors.insert(other);
-    
-    // Fire callback
     if (m_onEnter) {
         m_onEnter(other);
     }
@@ -51,16 +49,14 @@ void TriggerComponent::onTriggerEnter(ActorObjectExtended* other) {
 void TriggerComponent::onTriggerExit(ActorObjectExtended* other) {
     if (!other) return;
     
-    // Check if tracking
+    // Check if currently tracking this actor
     auto it = m_overlappingActors.find(other);
     if (it == m_overlappingActors.end()) {
         return;
     }
     
-    // Remove from tracking
+    // Remove from tracking set and fire exit callback
     m_overlappingActors.erase(it);
-    
-    // Fire callback
     if (m_onExit) {
         m_onExit(other);
     }
@@ -69,12 +65,12 @@ void TriggerComponent::onTriggerExit(ActorObjectExtended* other) {
 void TriggerComponent::onTriggerStay(ActorObjectExtended* other) {
     if (!other) return;
     
-    // Only fire if already tracking
+    // Only fire stay callback if actor is currently overlapping
     if (m_overlappingActors.find(other) == m_overlappingActors.end()) {
         return;
     }
     
-    // Fire callback (also called in update)
+    // Fire stay callback (also called continuously in update)
     if (m_onStay) {
         m_onStay(other);
     }
