@@ -1,0 +1,193 @@
+{
+  "items": [
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "An old rusty key. Might open something.",
+      "icon": "key",
+      "id": "rusty_key",
+      "name": "Rusty Key"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A heavy iron key with 'CELLAR' engraved on it.",
+      "icon": "key_iron",
+      "id": "cellar_key",
+      "name": "Cellar Key"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A shiny gold coin.",
+      "icon": "coin",
+      "id": "gold_coin",
+      "name": "Gold Coin"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A worn silver coin from a distant land.",
+      "icon": "coin_silver",
+      "id": "silver_coin",
+      "name": "Silver Coin"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A faded letter with barely readable text.",
+      "icon": "letter",
+      "id": "old_letter",
+      "name": "Old Letter"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A cryptic note: 'The answer lies beneath the ancient oak.'",
+      "icon": "note",
+      "id": "mysterious_note",
+      "name": "Mysterious Note"
+    },
+    {
+      "combinable": true,
+      "combineResult": "lit_lantern",
+      "combinesWith": "matches",
+      "description": "A small oil lantern. Currently unlit.",
+      "icon": "lantern",
+      "id": "lantern",
+      "name": "Lantern"
+    },
+    {
+      "combinable": true,
+      "combineResult": "lit_lantern",
+      "combinesWith": "lantern",
+      "description": "A box of matches.",
+      "icon": "matches",
+      "id": "matches",
+      "name": "Matches"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A glowing lantern that illuminates the darkness.",
+      "icon": "lantern_lit",
+      "id": "lit_lantern",
+      "name": "Lit Lantern"
+    },
+    {
+      "combinable": true,
+      "combineResult": "grappling_hook",
+      "combinesWith": "hook",
+      "description": "A sturdy hemp rope. About 10 meters long.",
+      "icon": "rope",
+      "id": "rope",
+      "name": "Rope"
+    },
+    {
+      "combinable": true,
+      "combineResult": "grappling_hook",
+      "combinesWith": "rope",
+      "description": "A heavy iron hook.",
+      "icon": "hook",
+      "id": "hook",
+      "name": "Iron Hook"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A rope with an iron hook attached. Useful for climbing.",
+      "icon": "grappling",
+      "id": "grappling_hook",
+      "name": "Grappling Hook"
+    },
+    {
+      "combinable": true,
+      "combineResult": "potion",
+      "combinesWith": "empty_bottle",
+      "description": "A glowing blue mushroom. Probably magical.",
+      "icon": "mushroom",
+      "id": "mushroom",
+      "name": "Strange Mushroom"
+    },
+    {
+      "combinable": true,
+      "combineResult": "potion",
+      "combinesWith": "mushroom",
+      "description": "A small glass bottle.",
+      "icon": "bottle",
+      "id": "empty_bottle",
+      "name": "Empty Bottle"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A glowing blue potion. Who knows what it does?",
+      "icon": "potion",
+      "id": "potion",
+      "name": "Magic Potion"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A leather-bound book with strange symbols on the cover.",
+      "icon": "book",
+      "id": "ancient_book",
+      "name": "Ancient Book"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A crystal that pulses with inner light.",
+      "icon": "crystal",
+      "id": "crystal",
+      "name": "Glowing Crystal"
+    },
+    {
+      "combinable": true,
+      "combineResult": "treasure_map",
+      "combinesWith": "map_piece_2",
+      "description": "A torn piece of an old map.",
+      "icon": "map_piece",
+      "id": "map_piece_1",
+      "name": "Map Piece (Corner)"
+    },
+    {
+      "combinable": true,
+      "combineResult": "treasure_map",
+      "combinesWith": "map_piece_1",
+      "description": "Another piece of the old map.",
+      "icon": "map_piece",
+      "id": "map_piece_2",
+      "name": "Map Piece (Center)"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A complete map showing the location of hidden treasure!",
+      "icon": "map",
+      "id": "treasure_map",
+      "name": "Treasure Map"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A beautiful red gemstone. Very valuable.",
+      "icon": "gem",
+      "id": "gemstone",
+      "name": "Ruby Gemstone"
+    }
+  ]
+}
