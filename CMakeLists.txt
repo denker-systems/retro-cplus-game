@@ -15,6 +15,9 @@ find_package(SDL2_ttf CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(box2d CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(OpenGL REQUIRED)
+find_package(assimp CONFIG REQUIRED)
 find_package(httplib CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
 
@@ -35,6 +38,8 @@ message(STATUS "ImGuizmo found: ${imguizmo_FOUND}")
 message(STATUS "ImPlot found: ${implot_FOUND}")
 message(STATUS "ImNodes: Using local copy in src/vendor/imnodes/")
 message(STATUS "NativeFileDialog found: ${nfd_FOUND}")
+message(STATUS "GLEW found: ${GLEW_FOUND}")
+message(STATUS "Assimp found: ${assimp_FOUND}")
 
 # ============================================================================
 # RETRO CORE LIBRARY - Delad kod mellan Game och Editor
@@ -125,6 +130,11 @@ set(CORE_SOURCES
     src/engine/graphics/Animation.cpp
     src/engine/graphics/FontManager.cpp
     src/engine/graphics/Transition.cpp
+    src/engine/graphics/GLContext.cpp
+    src/engine/graphics/Framebuffer.cpp
+    src/engine/graphics/Shader.cpp
+    src/engine/graphics/Mesh.cpp
+    src/engine/graphics/GLTextureManager.cpp
     src/engine/audio/AudioManager.cpp
     src/engine/entities/Entity.cpp
     src/engine/entities/Character.cpp
@@ -145,6 +155,8 @@ target_link_libraries(RetroCore PUBLIC
     nlohmann_json::nlohmann_json
     box2d::box2d
     glm::glm
+    GLEW::GLEW
+    OpenGL::GL
 )
 
 # Hot Reload alltid tillgängligt (polling-baserat, ingen extern dependency)
@@ -180,6 +192,7 @@ target_link_libraries(RetroGame PRIVATE
 set(IMGUI_BACKEND_SOURCES
     src/vendor/imgui/imgui_impl_sdl2.cpp
     src/vendor/imgui/imgui_impl_sdlrenderer2.cpp
+    src/vendor/imgui/imgui_impl_opengl3.cpp
 )
 
 set(EDITOR_SOURCES
@@ -219,7 +232,15 @@ set(EDITOR_SOURCES
     src/editor/panels/core/GameSettingsPanel.cpp
     src/editor/panels/core/EditorSettingsPanel.cpp
     
-    # Panels - Viewport
+    # Viewport (Unified architecture)
+    src/editor/viewport/ViewportPanelNew.cpp
+    src/editor/viewport/ViewportRenderer.cpp
+    src/editor/viewport/ViewportInput.cpp
+    src/editor/viewport/EditorCamera3D.cpp
+    src/editor/viewport/Viewport3DPanel.cpp
+    src/editor/gizmos/TransformGizmo3D.cpp
+    
+    # Legacy viewport (keeping for now - has dependencies)
     src/editor/panels/viewport/ViewportPanel_Core.cpp
     src/editor/panels/viewport/ViewportPanel_World.cpp
     src/editor/panels/viewport/ViewportPanel_Level.cpp
@@ -332,6 +353,7 @@ target_link_libraries(RetroEditor PRIVATE
     httplib::httplib
     OpenSSL::SSL
     OpenSSL::Crypto
+    assimp::assimp
 )
 
 # Definiera HAS_EDITOR för att inkludera editor-funktionalitet

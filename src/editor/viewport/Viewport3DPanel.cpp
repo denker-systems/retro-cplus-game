@@ -12,6 +12,7 @@
 #ifdef HAS_IMGUI
 
 #include <imgui.h>
+#include <ImGuizmo.h>
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -189,6 +190,15 @@ void Viewport3DPanel::render() {
     // Track focus and hover state
     m_viewportFocused = ImGui::IsWindowFocused();
     m_viewportHovered = ImGui::IsItemHovered();
+    
+    // Render transform gizmo for selected actor (in Scene view)
+    if (m_viewLevel == View3DLevel::Scene && m_selectedActor && m_camera) {
+        ImGuizmo::BeginFrame();
+        bool gizmoUsed = m_gizmo.render(m_camera.get(), m_selectedActor, m_viewportPos, m_viewportSize);
+        if (gizmoUsed) {
+            m_isDragging = false;  // Gizmo takes precedence over drag
+        }
+    }
 }
 
 void Viewport3DPanel::renderScene() {
@@ -347,8 +357,10 @@ void Viewport3DPanel::renderSceneView() {
             
             // Get actor position (convert from 2D to 3D)
             auto pos2D = actor->getPosition();
+            float posZ = actor->getZ();
             // Scale down from pixel coords to world coords
-            glm::vec3 pos(pos2D.x / 100.0f, scale / 2.0f, pos2D.y / 100.0f);
+            // X stays X, Z in 3D = Y in 2D, Y in 3D = actor's Z component
+            glm::vec3 pos(pos2D.x / 100.0f, posZ / 100.0f + scale / 2.0f, pos2D.y / 100.0f);
             
             // Store bounds and actor pointer for picking
             glm::vec3 boundsMin = pos - glm::vec3(scale / 2.0f);
@@ -428,37 +440,122 @@ void Viewport3DPanel::handleInput() {
     glm::vec2 mousePos = {io.MousePos.x, io.MousePos.y};
     glm::vec2 delta = mousePos - m_lastMousePos;
     
-    // Right mouse button - orbit
-    if (ImGui::IsMouseDown(ImGuiMouseButton_Right)) {
+    bool rmb = ImGui::IsMouseDown(ImGuiMouseButton_Right);
+    bool lmb = ImGui::IsMouseDown(ImGuiMouseButton_Left);
+    bool mmb = ImGui::IsMouseDown(ImGuiMouseButton_Middle);
+    bool alt = io.KeyAlt;
+    
+    // ===== Unreal Engine-style Navigation =====
+    
+    // Debug log input state
+    static int logCounter = 0;
+    if (rmb || lmb || mmb || alt) {
+        if (logCounter++ % 30 == 0) {  // Log every 30 frames to avoid spam
+            std::cout << "[Viewport3D Input] RMB:" << rmb << " LMB:" << lmb 
+                      << " MMB:" << mmb << " Alt:" << alt 
+                      << " Delta:(" << delta.x << "," << delta.y << ")" << std::endl;
+        }
+    }
+    
+    // RMB + Mouse: Look around (fly mode rotation)
+    if (rmb && !alt && !lmb) {
         if (!m_isOrbiting) {
             m_isOrbiting = true;
-        } else {
-            m_camera->onMouseMove(delta.x, delta.y, true);
+            std::cout << "[Viewport3D] Started fly mode (RMB)" << std::endl;
+        } else if (delta.x != 0 || delta.y != 0) {
+            m_camera->onLookAround(delta.x, delta.y);
         }
     } else {
+        if (m_isOrbiting) {
+            std::cout << "[Viewport3D] Ended fly mode" << std::endl;
+        }
         m_isOrbiting = false;
     }
     
-    // Middle mouse button - pan
-    if (ImGui::IsMouseDown(ImGuiMouseButton_Middle)) {
+    // Alt + LMB: Orbit around focus point
+    if (alt && lmb && !rmb) {
+        if (delta.x != 0 || delta.y != 0) {
+            std::cout << "[Viewport3D] Orbit (Alt+LMB)" << std::endl;
+            m_camera->onOrbit(delta.x, delta.y);
+        }
+    }
+    
+    // Alt + RMB: Dolly (zoom in/out)
+    if (alt && rmb && !lmb) {
+        if (delta.y != 0) {
+            std::cout << "[Viewport3D] Dolly (Alt+RMB) delta:" << delta.y << std::endl;
+            m_camera->onDolly(-delta.y * 0.05f);
+        }
+    }
+    
+    // LMB + RMB: Dolly (forward/backward)
+    if (lmb && rmb && !alt) {
+        if (delta.y != 0) {
+            std::cout << "[Viewport3D] Dolly (LMB+RMB) delta:" << delta.y << std::endl;
+            m_camera->onDolly(-delta.y * 0.05f);
+        }
+    }
+    
+    // MMB or Alt + MMB: Pan
+    if (mmb || (alt && mmb)) {
         if (!m_isPanning) {
             m_isPanning = true;
-        } else {
+            std::cout << "[Viewport3D] Started panning (MMB)" << std::endl;
+        } else if (delta.x != 0 || delta.y != 0) {
             m_camera->onPan(delta.x, delta.y);
         }
     } else {
+        if (m_isPanning) {
+            std::cout << "[Viewport3D] Ended panning" << std::endl;
+        }
         m_isPanning = false;
     }
     
-    // Scroll wheel - zoom
+    // Scroll wheel
     if (io.MouseWheel != 0.0f) {
-        m_camera->onMouseScroll(io.MouseWheel);
+        if (rmb) {
+            // RMB + Scroll: Adjust fly speed
+            std::cout << "[Viewport3D] Adjust speed (RMB+Scroll): " << io.MouseWheel << std::endl;
+            m_camera->adjustMoveSpeed(io.MouseWheel);
+        } else {
+            // Normal scroll: Zoom
+            std::cout << "[Viewport3D] Zoom (Scroll): " << io.MouseWheel << std::endl;
+            m_camera->onMouseScroll(io.MouseWheel);
+        }
+    }
+    
+    // RMB + WASD/QE: Fly mode (keyboard movement)
+    if (rmb && m_viewportFocused) {
+        float forward = 0.0f, right = 0.0f, up = 0.0f;
+        
+        if (ImGui::IsKeyDown(ImGuiKey_W)) forward += 1.0f;
+        if (ImGui::IsKeyDown(ImGuiKey_S)) forward -= 1.0f;
+        if (ImGui::IsKeyDown(ImGuiKey_D)) right += 1.0f;
+        if (ImGui::IsKeyDown(ImGuiKey_A)) right -= 1.0f;
+        if (ImGui::IsKeyDown(ImGuiKey_E)) up += 1.0f;
+        if (ImGui::IsKeyDown(ImGuiKey_Q)) up -= 1.0f;
+        
+        if (forward != 0.0f || right != 0.0f || up != 0.0f) {
+            std::cout << "[Viewport3D] WASD move: F=" << forward << " R=" << right << " U=" << up << std::endl;
+            m_camera->onKeyboardMove(forward, right, up, io.DeltaTime);
+        }
+    }
+    
+    // F key: Focus on selected actor
+    if (ImGui::IsKeyPressed(ImGuiKey_F) && m_selectedActor) {
+        auto pos2D = m_selectedActor->getPosition();
+        float posZ = m_selectedActor->getZ();
+        glm::vec3 targetPos(pos2D.x / 100.0f, posZ / 100.0f, pos2D.y / 100.0f);
+        std::cout << "[Viewport3D] Focus on actor at (" << targetPos.x << "," << targetPos.y << "," << targetPos.z << ")" << std::endl;
+        m_camera->focusOn(targetPos, 5.0f);
     }
     
     m_lastMousePos = mousePos;
     
-    // Handle picking on left click
-    handlePicking();
+    // Handle picking on left click (only if not holding Alt for orbit)
+    if (!alt) {
+        handlePicking();
+    }
 }
 
 void Viewport3DPanel::handlePicking() {
@@ -501,7 +598,7 @@ void Viewport3DPanel::handlePicking() {
         }
     }
     
-    // Left click - select
+    // Left click - select and start drag
     if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
         if (m_hoveredIndex >= 0) {
             m_selectedIndex = m_hoveredIndex;
@@ -515,15 +612,34 @@ void Viewport3DPanel::handlePicking() {
                     std::cout << "[Viewport3DPanel] Actor selected: " << m_selectedActor->getName() << std::endl;
                     m_selectionManager->selectActor(m_selectedActor);
                 }
+                
+                // Start drag - get initial positions
+                auto pos2D = m_selectedActor->getPosition();
+                float scale = 0.5f;
+                m_actorStartPos = glm::vec3(pos2D.x / 100.0f, scale / 2.0f, pos2D.y / 100.0f);
+                m_dragStartPos = getWorldPosOnPlane(m_actorStartPos.y);
+                m_isDragging = true;
+                m_dragAxis = -1;  // XZ plane by default
             }
         } else {
             // Click on empty space - deselect
             m_selectedIndex = -1;
             m_selectedActor = nullptr;
+            m_isDragging = false;
             if (m_selectionManager) {
                 m_selectionManager->clearSelection();
             }
         }
+    }
+    
+    // Release drag
+    if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+        m_isDragging = false;
+    }
+    
+    // Handle dragging
+    if (m_isDragging && m_selectedActor) {
+        handleDragging();
     }
     
     // Double click - navigate
@@ -589,6 +705,73 @@ void Viewport3DPanel::syncSelectionFromManager() {
                 break;
             }
         }
+    }
+}
+
+glm::vec3 Viewport3DPanel::getWorldPosOnPlane(float planeY) {
+    if (!m_camera) return glm::vec3(0.0f);
+    
+    ImGuiIO& io = ImGui::GetIO();
+    glm::vec2 mousePos = {io.MousePos.x - m_viewportPos.x, io.MousePos.y - m_viewportPos.y};
+    
+    // Normalize to [-1, 1]
+    float ndcX = (2.0f * mousePos.x) / m_viewportSize.x - 1.0f;
+    float ndcY = 1.0f - (2.0f * mousePos.y) / m_viewportSize.y;
+    
+    // Create ray from camera
+    glm::mat4 invVP = glm::inverse(m_camera->getViewProjection());
+    glm::vec4 rayClipNear = glm::vec4(ndcX, ndcY, -1.0f, 1.0f);
+    glm::vec4 rayClipFar = glm::vec4(ndcX, ndcY, 1.0f, 1.0f);
+    
+    glm::vec4 rayWorldNear = invVP * rayClipNear;
+    glm::vec4 rayWorldFar = invVP * rayClipFar;
+    rayWorldNear /= rayWorldNear.w;
+    rayWorldFar /= rayWorldFar.w;
+    
+    glm::vec3 rayOrigin = glm::vec3(rayWorldNear);
+    glm::vec3 rayDir = glm::normalize(glm::vec3(rayWorldFar - rayWorldNear));
+    
+    // Intersect with Y=planeY plane
+    if (std::abs(rayDir.y) < 0.0001f) {
+        // Ray parallel to plane
+        return glm::vec3(rayOrigin.x, planeY, rayOrigin.z);
+    }
+    
+    float t = (planeY - rayOrigin.y) / rayDir.y;
+    return rayOrigin + rayDir * t;
+}
+
+void Viewport3DPanel::handleDragging() {
+    if (!m_selectedActor || !m_isDragging) return;
+    
+    // Get current world position on drag plane
+    glm::vec3 currentWorldPos = getWorldPosOnPlane(m_actorStartPos.y);
+    
+    // Calculate delta from drag start
+    glm::vec3 delta = currentWorldPos - m_dragStartPos;
+    
+    // Hold Shift for Y-axis movement (vertical = Z in actor coordinates)
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.KeyShift) {
+        // Y-axis drag (3D) = Z-axis (actor) - use vertical mouse movement
+        float yDelta = -io.MouseDelta.y * 1.0f;  // 1 pixel = 1 unit
+        
+        // Update actor's Z position
+        float newZ = m_selectedActor->getZ() + yDelta;
+        m_selectedActor->setZ(newZ);
+        
+        // Update drag start for continuous movement
+        m_actorStartPos.y = newZ / 100.0f + 0.25f;
+    } else {
+        // XZ plane drag - moves actor in X/Y space
+        glm::vec3 newPos3D = m_actorStartPos + delta;
+        
+        // Convert 3D world position back to 2D pixel coordinates
+        float newX = newPos3D.x * 100.0f;
+        float newY = newPos3D.z * 100.0f;  // Z in 3D = Y in 2D
+        
+        // Update actor position (keep Z unchanged)
+        m_selectedActor->setPosition(newX, newY);
     }
 }
 

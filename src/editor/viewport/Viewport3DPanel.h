@@ -7,6 +7,7 @@
 #ifdef HAS_IMGUI
 
 #include "EditorCamera3D.h"
+#include "editor/gizmos/TransformGizmo3D.h"
 #include "engine/graphics/Framebuffer.h"
 #include "engine/graphics/Shader.h"
 #include "engine/graphics/Mesh.h"
@@ -125,6 +126,15 @@ private:
     engine::ActorObjectExtended* m_selectedActor = nullptr;
     SelectionManager* m_selectionManager = nullptr;
     
+    // Drag state for 3D movement
+    bool m_isDragging = false;
+    glm::vec3 m_dragStartPos{0.0f};      // World position where drag started
+    glm::vec3 m_actorStartPos{0.0f};     // Actor position when drag started
+    int m_dragAxis = -1;                  // -1=XZ plane, 0=X, 1=Y, 2=Z
+    
+    // Transform gizmo
+    TransformGizmo3D m_gizmo;
+    
     // Object bounds for picking (stores actor pointers for Scene view)
     std::vector<std::pair<glm::vec3, glm::vec3>> m_objectBounds; // min, max pairs
     std::vector<engine::ActorObjectExtended*> m_actorBounds;     // Corresponding actors
@@ -155,6 +165,16 @@ private:
      * @brief Handle object picking
      */
     void handlePicking();
+    
+    /**
+     * @brief Handle 3D dragging of selected actor
+     */
+    void handleDragging();
+    
+    /**
+     * @brief Get world position from mouse ray on XZ plane
+     */
+    glm::vec3 getWorldPosOnPlane(float planeY);
     
     /**
      * @brief Ray-AABB intersection test
