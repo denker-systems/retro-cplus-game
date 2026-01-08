@@ -48,11 +48,17 @@ void RigidBody2DComponent::update(float deltaTime) {
 // ============================================================================
 
 void RigidBody2DComponent::initializeBody(physics::PhysicsWorld2D* world) {
-    if (m_bodyInitialized) return;
     if (!world || !world->isInitialized()) {
         std::cerr << "[RigidBody2DComponent] Cannot initialize - world not ready" << std::endl;
         return;
     }
+    
+    // If already initialized in a different world, destroy old body first
+    if (m_bodyInitialized && m_world != world) {
+        destroyBody();
+    }
+    
+    if (m_bodyInitialized) return;  // Already initialized in this world
     
     m_world = world;
     createBody();

@@ -234,38 +234,40 @@ void PlayState::onRoomChange(const std::string& roomId) {
         }
         
         // ═══════════════════════════════════════════════════════════════
-        // PLAYER PHYSICS - Initialize player physics components
+        // PLAYER PHYSICS - Initialize player physics in current scene's world
         // ═══════════════════════════════════════════════════════════════
-        if (settings.isPlatformerMode() && scene->hasPhysics() && !m_playerPhysicsInitialized) {
-            // Add RigidBody2D to player
+        if (settings.isPlatformerMode() && scene->hasPhysics()) {
+            // Get or create RigidBody2D for player
             auto* rb = m_player->getComponent<engine::RigidBody2DComponent>();
             if (!rb) {
                 rb = m_player->addComponent<engine::RigidBody2DComponent>();
             }
+            
+            // Re-initialize body in new physics world (for scene transitions)
             rb->setBodyType(engine::RigidBody2DComponent::BodyType::Dynamic);
             rb->setFixedRotation(true);
             rb->initializeBody(scene->getPhysicsWorld());
             
-            // Add Collider to player
+            // Get or create Collider for player
             auto* col = m_player->getComponent<engine::Collider2DComponent>();
             if (!col) {
                 col = m_player->addComponent<engine::Collider2DComponent>();
+                col->setCapsuleShape(24, 48); // Player hitbox
             }
-            col->setCapsuleShape(24, 48); // Player hitbox
             col->initializeShape();
             
-            // Add CharacterController2D with settings from GameSettings
+            // Get or create CharacterController2D
             auto* controller = m_player->getComponent<engine::CharacterController2D>();
             if (!controller) {
                 controller = m_player->addComponent<engine::CharacterController2D>();
+                controller->setWalkSpeed(settings.getWalkSpeed());
+                controller->setRunSpeed(settings.getRunSpeed());
+                controller->setJumpForce(settings.getJumpForce());
             }
-            controller->setWalkSpeed(settings.getWalkSpeed());
-            controller->setRunSpeed(settings.getRunSpeed());
-            controller->setJumpForce(settings.getJumpForce());
             controller->initialize(); // Find sibling RigidBody
             
             m_playerPhysicsInitialized = true;
-            std::cout << "[Physics] Player physics initialized" << std::endl;
+            std::cout << "[Physics] Player physics initialized in scene: " << roomId << std::endl;
         }
     }
     
