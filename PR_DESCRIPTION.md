@@ -2,7 +2,7 @@
 
 ## Sammanfattning
 
-Implementerar ett komplett 3D viewport-system för Retro Engine Editor med Unreal Engine-liknande navigation, ImGuizmo transform gizmos, och OpenGL texture management. Inkluderar även planering för centraliserad input-hantering.
+Implementerar ett komplett 3D viewport-system för Retro Engine Editor med Unreal Engine-liknande navigation, ImGuizmo transform gizmos, OpenGL texture management, och Git LFS för stora filer.
 
 ## Relaterad Issue
 
@@ -13,7 +13,7 @@ Closes #N/A (3D Viewport Implementation)
 ## Typ av Ändring
 
 - [x] ✨ **Feature** - 3D viewport, UE-style navigation, ImGuizmo gizmos
-- [x] 🔧 **Refactoring** - OpenGL texture management
+- [x] 🔧 **Refactoring** - OpenGL texture management, Git LFS setup
 - [x] 📚 **Documentation** - Checklists, workflows, changelogs
 - [ ] 🐛 **Bugfix**
 - [ ] ⚡ **Performance**
@@ -43,12 +43,13 @@ Closes #N/A (3D Viewport Implementation)
 | RMB + Scroll | Adjust fly speed |
 | F | Focus on selection |
 
-**Documentation:**
+**Infrastructure:**
+- `.gitattributes` - Git LFS for large binaries (*.pdb, *.dll, *.exe, *.lib)
 - `3d_checklist.md` - 3D implementation checklist
 - `input_checklist.md` - Input refactoring plan
 
 **Workflow Updates:**
-- `git-commit.md` - Added critical rule: always commit build files
+- `git-commit.md` - Critical rule: always commit build files
 
 ### Changed
 
@@ -65,10 +66,12 @@ Closes #N/A (3D Viewport Implementation)
 | Hash | Type | Scope | Beskrivning |
 |------|------|-------|-------------|
 | `158eaca` | feat | editor | Add 3D viewport and unified selection/navigation sync |
-| `07648c0` | docs | - | Update CHANGELOG and ROADMAP with 3D viewport features |
+| `07648c0` | docs | - | Update CHANGELOG and ROADMAP |
 | `de26d16` | feat | editor | Add Unreal Engine-style 3D viewport navigation |
 | `7c89611` | feat | editor | Add GLTextureManager and input refactoring plan |
 | `0b00c23` | docs | workflow | Add critical rule - always commit build files |
+| `6fa30bd` | chore | - | Configure Git LFS for large binary files |
+| `3fddf71` | chore | - | Rebuild project and update PR description |
 
 ---
 
@@ -92,6 +95,9 @@ Viewport3DPanel
 
 GLTextureManager (singleton)
 └── stb_image texture loading
+
+Git LFS
+└── *.pdb, *.dll, *.exe, *.lib
 ```
 
 ### Nya Filer
@@ -100,6 +106,7 @@ GLTextureManager (singleton)
 - `src/editor/viewport/Viewport3DPanel.h/cpp`
 - `src/editor/gizmos/TransformGizmo3D.h/cpp`
 - `src/engine/graphics/GLTextureManager.h/cpp`
+- `.gitattributes`
 - `3d_checklist.md`
 - `input_checklist.md`
 
@@ -109,6 +116,7 @@ GLTextureManager (singleton)
 - `src/engine/components/SpriteComponent.h/cpp` - GL texture support
 - `src/editor/panels/assets/AssetBrowserPanel.cpp` - OpenGL textures
 - `vcpkg.json` - stb dependency
+- `.windsurf/workflows/git-commit.md` - Build file rule
 
 ---
 
@@ -122,21 +130,16 @@ GLTextureManager (singleton)
 - [x] Alt + LMB orbit fungerar
 - [x] ImGuizmo gizmos renderas
 - [x] Asset browser thumbnails fungerar
+- [x] Git LFS upload fungerar (624 MB)
 
 ### Teststeg
 
 1. Starta RetroEditor
 2. Välj en Scene i hierarkin
-3. Klicka "3D" toggle i viewport
+3. Klicka "3D" toggle i viewport toolbar
 4. Testa RMB + WASD för att flyga runt
 5. Testa Alt + LMB för att orbita
 6. Välj en actor och testa transform gizmo
-
----
-
-## Screenshots
-
-3D viewport med actors, grid, och transform gizmo.
 
 ---
 
@@ -146,6 +149,7 @@ GLTextureManager (singleton)
 - [x] ROADMAP uppdaterad
 - [x] 3d_checklist.md skapad
 - [x] input_checklist.md skapad
+- [x] git-commit workflow uppdaterad
 
 ---
 
@@ -161,12 +165,11 @@ GLTextureManager (singleton)
 
 ### Kod
 - [x] Följer coding standards
-- [x] Ingen debug-kod kvar
 - [x] Dokumenterad med Doxygen
 
 ### Build
 - [x] Kompilerar utan errors
-- [x] Inga nya warnings
+- [x] Git LFS konfigurerat
 
 ### Docs
 - [x] CHANGELOG uppdaterad
@@ -178,4 +181,5 @@ GLTextureManager (singleton)
 
 - Fokusera på `EditorCamera3D` för kamerakontroller
 - `TransformGizmo3D` använder ImGuizmo library
+- Git LFS hanterar stora binärer (>100MB)
 - Debug-loggning finns kvar i `handleInput()` - kan tas bort efter test
