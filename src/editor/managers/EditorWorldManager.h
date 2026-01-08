@@ -37,6 +37,10 @@ public:
     explicit EditorWorldManager(EditorContext& context);
     ~EditorWorldManager() = default;
     
+    // Global accessor for AI tools
+    static EditorWorldManager* s_instance;
+    static EditorWorldManager* getInstance() { return s_instance; }
+    
     void initialize(Game* game);
     void shutdown();
     
@@ -54,6 +58,14 @@ public:
     
     // Save operations
     void saveWorldData();  // Saves world.json
+    
+    // Scene operations for AI tools
+    bool addSceneToLevel(const std::string& sceneId, const std::string& levelId = "");
+    std::string getActiveLevelId() const;
+    void refreshViewport();  // Force viewport to update
+    
+    // Access to EditorContext for AI tools
+    EditorContext& getContext() { return m_context; }
     
 private:
     void loadWorldData();

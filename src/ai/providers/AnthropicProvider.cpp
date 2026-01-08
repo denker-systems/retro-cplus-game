@@ -19,8 +19,14 @@ bool AnthropicProvider::isAvailable() const {
 }
 
 void AnthropicProvider::setApiKey(const std::string& apiKey) {
+    // Trim whitespace from API key
     m_apiKey = apiKey;
-    LOG_INFO("[Anthropic] API key set (length: " + std::to_string(apiKey.length()) + ")");
+    size_t start = m_apiKey.find_first_not_of(" \t\n\r");
+    size_t end = m_apiKey.find_last_not_of(" \t\n\r");
+    if (start != std::string::npos && end != std::string::npos) {
+        m_apiKey = m_apiKey.substr(start, end - start + 1);
+    }
+    LOG_INFO("[Anthropic] API key set (length: " + std::to_string(m_apiKey.length()) + ")");
 }
 
 std::vector<std::string> AnthropicProvider::getAvailableModels() const {
@@ -40,12 +46,36 @@ nlohmann::json AnthropicProvider::messageToJson(const Message& msg) const {
         case MessageRole::System:
             // System messages are handled separately in Anthropic API
             j["role"] = "user";  // Will be extracted as system param
+            j["content"] = msg.content;
             break;
         case MessageRole::User:
             j["role"] = "user";
+            j["content"] = msg.content;
             break;
         case MessageRole::Assistant:
             j["role"] = "assistant";
+            // Check if this message has tool_use blocks
+            if (!msg.toolCalls.empty()) {
+                j["content"] = nlohmann::json::array();
+                // Add text content if present
+                if (!msg.content.empty()) {
+                    j["content"].push_back({
+                        {"type", "text"},
+                        {"text", msg.content}
+                    });
+                }
+                // Add tool_use blocks
+                for (const auto& call : msg.toolCalls) {
+                    j["content"].push_back({
+                        {"type", "tool_use"},
+                        {"id", call.id},
+                        {"name", call.name},
+                        {"input", call.arguments}
+                    });
+                }
+            } else {
+                j["content"] = msg.content;
+            }
             break;
         case MessageRole::Tool:
             j["role"] = "user";
@@ -55,10 +85,9 @@ nlohmann::json AnthropicProvider::messageToJson(const Message& msg) const {
                 {"tool_use_id", msg.toolCallId},
                 {"content", msg.content}
             });
-            return j;
+            break;
     }
     
-    j["content"] = msg.content;
     return j;
 }
 
@@ -201,11 +230,30 @@ LLMResponse AnthropicProvider::chatStream(
     StreamCallback callback,
     const LLMConfig& config
 ) {
-    // Streaming implementation would go here
-    // For now, fall back to non-streaming
-    (void)callback;
-    LOG_DEBUG("[Anthropic] chatStream() falling back to non-streaming");
-    return chat(messages, tools, config);
+    LOG_INFO("[Anthropic] chatStream() called - using non-streaming with simulated streaming");
+    
+    // Use non-streaming chat and simulate streaming by sending chunks
+    LLMResponse response = chat(messages, tools, config);
+    
+    // Simulate streaming by sending content in chunks
+    if (response.success && !response.content.empty() && callback) {
+        // Send content word by word for smooth effect
+        std::string content = response.content;
+        size_t pos = 0;
+        while (pos < content.length()) {
+            // Find next word boundary or chunk
+            size_t nextSpace = content.find(' ', pos);
+            if (nextSpace == std::string::npos) {
+                nextSpace = content.length();
+            }
+            
+            std::string chunk = content.substr(pos, nextSpace - pos + 1);
+            callback(chunk);
+            pos = nextSpace + 1;
+        }
+    }
+    
+    return response;
 }
 
 std::string AnthropicProvider::httpPost(const std::string& endpoint, const nlohmann::json& body) const {
@@ -213,11 +261,13 @@ std::string AnthropicProvider::httpPost(const std::string& endpoint, const nlohm
     
     std::string requestBody = body.dump();
     LOG_DEBUG("[Anthropic] Request: " + requestBody.substr(0, 200) + "...");
+    LOG_DEBUG("[Anthropic] API key prefix: " + m_apiKey.substr(0, 15) + "... (len=" + std::to_string(m_apiKey.length()) + ")");
     
     // Create HTTPS client
     httplib::Client cli("https://api.anthropic.com");
     cli.set_connection_timeout(30);
     cli.set_read_timeout(60);
+    cli.enable_server_certificate_verification(false);  // For Windows compatibility
     
     // Set headers
     httplib::Headers headers = {

@@ -15,6 +15,7 @@ class ViewportPanel;
 class AssetBrowserPanel;
 class PlaceActorsPanel;
 class ConsolePanel;
+class CommandPanel;
 class DialogGraphPanel;
 class QuestGraphPanel;
 class BehaviorGraphPanel;
@@ -49,6 +50,7 @@ public:
     AssetBrowserPanel* getAssetBrowserPanel() const { return m_assetBrowserPanel.get(); }
     PlaceActorsPanel* getPlaceActorsPanel() const { return m_placeActorsPanel.get(); }
     ConsolePanel* getConsolePanel() const { return m_consolePanel.get(); }
+    CommandPanel* getCommandPanel() const { return m_commandPanel.get(); }
     DialogGraphPanel* getDialogGraphPanel() const { return m_dialogGraphPanel.get(); }
     QuestGraphPanel* getQuestGraphPanel() const { return m_questGraphPanel.get(); }
     BehaviorGraphPanel* getBehaviorGraphPanel() const { return m_behaviorGraphPanel.get(); }
@@ -71,6 +73,7 @@ private:
     std::unique_ptr<AssetBrowserPanel> m_assetBrowserPanel;
     std::unique_ptr<PlaceActorsPanel> m_placeActorsPanel;
     std::unique_ptr<ConsolePanel> m_consolePanel;
+    std::unique_ptr<CommandPanel> m_commandPanel;
     std::unique_ptr<DialogGraphPanel> m_dialogGraphPanel;
     std::unique_ptr<QuestGraphPanel> m_questGraphPanel;
     std::unique_ptr<BehaviorGraphPanel> m_behaviorGraphPanel;

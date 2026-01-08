@@ -29,37 +29,42 @@ enum class MessageRole {
 };
 
 /**
- * @brief Single message in conversation
- */
-struct Message {
-    MessageRole role;
-    std::string content;
-    std::string toolCallId;  // For tool responses
-    
-    static Message system(const std::string& content) {
-        return {MessageRole::System, content, ""};
-    }
-    
-    static Message user(const std::string& content) {
-        return {MessageRole::User, content, ""};
-    }
-    
-    static Message assistant(const std::string& content) {
-        return {MessageRole::Assistant, content, ""};
-    }
-    
-    static Message toolResult(const std::string& callId, const std::string& content) {
-        return {MessageRole::Tool, content, callId};
-    }
-};
-
-/**
  * @brief Tool call request from LLM
  */
 struct ToolCall {
     std::string id;
     std::string name;
     nlohmann::json arguments;
+};
+
+/**
+ * @brief Single message in conversation
+ */
+struct Message {
+    MessageRole role;
+    std::string content;
+    std::string toolCallId;  // For tool responses
+    std::vector<ToolCall> toolCalls;  // For assistant messages with tool_use
+    
+    static Message system(const std::string& content) {
+        return {MessageRole::System, content, "", {}};
+    }
+    
+    static Message user(const std::string& content) {
+        return {MessageRole::User, content, "", {}};
+    }
+    
+    static Message assistant(const std::string& content) {
+        return {MessageRole::Assistant, content, "", {}};
+    }
+    
+    static Message assistantWithToolUse(const std::string& content, const std::vector<ToolCall>& calls) {
+        return {MessageRole::Assistant, content, "", calls};
+    }
+    
+    static Message toolResult(const std::string& callId, const std::string& content) {
+        return {MessageRole::Tool, content, callId, {}};
+    }
 };
 
 /**

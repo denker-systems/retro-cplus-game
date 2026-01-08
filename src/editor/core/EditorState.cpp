@@ -11,6 +11,7 @@
 #include "editor/panels/core/HierarchyPanel.h"
 #include "editor/panels/core/PropertiesPanel.h"
 #include "editor/panels/core/ConsolePanel.h"
+#include "editor/panels/core/CommandPanel.h"
 #include "editor/panels/viewport/ViewportPanel.h"
 #include "editor/panels/assets/AssetBrowserPanel.h"
 #include "editor/panels/assets/PlaceActorsPanel.h"
@@ -267,6 +268,9 @@ void EditorState::renderImGui() {
     }
     if (m_panelManager->getConsolePanel() && m_panelManager->getConsolePanel()->isVisible()) {
         m_panelManager->getConsolePanel()->render();
+    }
+    if (m_panelManager->getCommandPanel() && m_panelManager->getCommandPanel()->isVisible()) {
+        m_panelManager->getCommandPanel()->render();
     }
     if (m_panelManager->getDialogGraphPanel() && m_panelManager->getDialogGraphPanel()->isVisible()) {
         m_panelManager->getDialogGraphPanel()->render();

@@ -96,7 +96,7 @@ void AIChatPanel::render() {
         if (!AIAgentSystem::instance().isReady()) {
             ImGui::SameLine();
             ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), 
-                "(API-nyckel krävs)");
+                "(API key required)");
         }
         
         ImGui::Separator();
@@ -164,6 +164,32 @@ void AIChatPanel::renderMessages() {
         ImGui::Spacing();
     }
     
+    // Show streaming content if AI is processing
+    if (AIAgentSystem::instance().isStreaming()) {
+        std::string streamContent = AIAgentSystem::instance().getStreamingContent();
+        if (!streamContent.empty()) {
+            // Streaming message styling
+            ImGui::TextDisabled("[...]");
+            ImGui::SameLine();
+            
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f, 0.9f, 0.5f, 1.0f));
+            ImGui::TextWrapped("AI: %s▌", streamContent.c_str());  // Blinking cursor
+            ImGui::PopStyleColor();
+            
+            ImGui::Spacing();
+            
+            // Auto-scroll during streaming
+            ImGui::SetScrollHereY(1.0f);
+        } else {
+            // Show typing indicator
+            ImGui::TextDisabled("[...]");
+            ImGui::SameLine();
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f, 0.9f, 0.5f, 0.6f));
+            ImGui::Text("AI: Thinking...");
+            ImGui::PopStyleColor();
+        }
+    }
+    
     // Auto-scroll
     if (m_scrollToBottom) {
         ImGui::SetScrollHereY(1.0f);
@@ -180,11 +206,11 @@ void AIChatPanel::renderInput() {
     
     // Confirmation buttons if waiting
     if (state == AgentState::WaitingForConfirmation) {
-        if (ImGui::Button("Bekräfta", ImVec2(100, 0))) {
+        if (ImGui::Button("Confirm", ImVec2(100, 0))) {
             AIAgentSystem::instance().confirmAction();
         }
         ImGui::SameLine();
-        if (ImGui::Button("Avbryt", ImVec2(100, 0))) {
+        if (ImGui::Button("Cancel", ImVec2(100, 0))) {
             AIAgentSystem::instance().cancelAction();
         }
         return;

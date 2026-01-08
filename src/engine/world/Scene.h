@@ -111,8 +111,9 @@ public:
     void addNPC(std::unique_ptr<engine::actors::NPC> npc);
     void updateNPCs(float deltaTime);
     
-    // Getters for legacy compatibility
-    const std::string& getId() const { return getName(); }
+    // ID for scene lookup (separate from display name)
+    void setId(const std::string& id) { m_id = id; }
+    const std::string& getId() const { return m_id.empty() ? getName() : m_id; }
     const std::vector<Hotspot>& getHotspots() const { return m_legacyHotspots; }
     const WalkArea& getWalkArea() const { return m_legacyWalkArea; }
     void getPlayerSpawn(float& x, float& y) const;
@@ -171,6 +172,7 @@ public:
     void setCameraConfig(const CameraConfig& config) { m_cameraConfig = config; }
     
 private:
+    std::string m_id;  // Scene ID for lookup (separate from display name)
     bool m_isPaused = false;
     SceneType m_sceneType = SceneType::Interior;  // Default type
     

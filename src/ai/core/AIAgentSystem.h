@@ -22,6 +22,7 @@
 #include <functional>
 #include <future>
 #include <atomic>
+#include <mutex>
 
 namespace ai {
 
@@ -127,6 +128,16 @@ public:
     void updateContext(const EditorContext& context);
     
     /**
+     * @brief Get current editor context (read-only)
+     */
+    const EditorContext& getContext() const { return m_context; }
+    
+    /**
+     * @brief Get current editor context (mutable)
+     */
+    EditorContext& getContextMutable() { return m_context; }
+    
+    /**
      * @brief Process a user message
      * @param message User's natural language request
      * @return true if processing started
@@ -172,6 +183,21 @@ public:
      * @brief Update async processing (call every frame)
      */
     void update();
+    
+    /**
+     * @brief Set callback for streaming text chunks
+     */
+    void setStreamCallback(StreamCallback callback) { m_streamCallback = callback; }
+    
+    /**
+     * @brief Get current streaming content (thread-safe)
+     */
+    std::string getStreamingContent() const;
+    
+    /**
+     * @brief Check if currently streaming
+     */
+    bool isStreaming() const { return m_state == AgentState::Processing; }
     
 private:
     AIAgentSystem() = default;
@@ -220,6 +246,11 @@ private:
     std::future<LLMResponse> m_asyncFuture;
     std::vector<Message> m_pendingMessages;
     std::vector<ToolDefinition> m_pendingTools;
+    
+    // Streaming
+    std::string m_streamingContent;
+    StreamCallback m_streamCallback;
+    std::mutex m_streamMutex;
     
     /**
      * @brief Handle completed async response
