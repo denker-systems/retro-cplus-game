@@ -71,6 +71,11 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\SpriteSheet
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\Animation.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Animation.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\FontManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\FontManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\Transition.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Transition.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\GLContext.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\GLContext.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\Framebuffer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Framebuffer.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\Shader.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Shader.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\Mesh.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Mesh.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\GLTextureManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\GLTextureManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\audio\AudioManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\AudioManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Entity.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Entity.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Character.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Character.obj

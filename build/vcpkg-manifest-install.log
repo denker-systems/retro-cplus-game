@@ -1,30 +1,55 @@
 Detecting compiler hash for triplet x64-windows...
 Compiler found: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
 The following packages are already installed:
+    assimp:x64-windows@6.0.2#1
     box2d:x64-windows@3.1.1
   * brotli:x64-windows@1.2.0
   * bzip2[core,tool]:x64-windows@1.0.8#6
     cpp-httplib[brotli,core,openssl]:x64-windows@0.29.0
+  * draco:x64-windows@1.5.7
+  * egl-registry:x64-windows@2025-05-27
   * freetype[brotli,bzip2,core,png,zlib]:x64-windows@2.13.3
+    glew:x64-windows@2.3.0
     glm:x64-windows@1.0.2
     imgui[core,docking-experimental]:x64-windows@1.91.9
     imguizmo:x64-windows@2024-05-29#1
     implot:x64-windows@0.17
+  * jhasse-poly2tri:x64-windows@2023-12-27#2
+  * kubazip:x64-windows@0.3.5
   * libogg:x64-windows@1.3.6#1
   * libpng:x64-windows@1.6.53
   * libvorbis:x64-windows@1.3.7#4
+  * minizip:x64-windows@1.3.1#1
     nativefiledialog-extended:x64-windows@1.2.1
     nlohmann-json:x64-windows@3.12.0#1
+  * opengl:x64-windows@2022-12-04#3
+  * opengl-registry:x64-windows@2025-10-23
     openssl:x64-windows@3.6.0#3
+  * polyclipping:x64-windows@6.4.2#13
+  * pugixml:x64-windows@1.15#1
+  * rapidjson:x64-windows@2025-02-26
     sdl2:x64-windows@2.32.10
     sdl2-image:x64-windows@2.8.8#2
     sdl2-mixer[core,wavpack]:x64-windows@2.8.1#2
     sdl2-ttf:x64-windows@2.24.0
+  * stb:x64-windows@2024-07-29#1
+  * utfcpp:x64-windows@4.0.6
   * vcpkg-cmake:x64-windows@2024-04-23
   * vcpkg-cmake-config:x64-windows@2024-05-23
   * vcpkg-cmake-get-vars:x64-windows@2025-05-29
   * wavpack:x64-windows@5.8.1#2
   * zlib:x64-windows@1.3.1
+assimp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(assimp CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE assimp::assimp)
+
+assimp provides pkg-config modules:
+
+  # Import various well-known 3D model formats in an uniform manner.
+  assimp
+
 box2d provides CMake targets:
 
   find_package(box2d CONFIG REQUIRED)
@@ -40,6 +65,21 @@ cpp-httplib provides CMake targets:
 
     find_package(httplib CONFIG REQUIRED)
     target_link_libraries(main PRIVATE httplib::httplib)
+
+glew provides CMake targets:
+
+  # Legacy CMake find module
+  find_package(GLEW REQUIRED)
+  target_link_libraries(main PRIVATE GLEW::GLEW)
+
+  # Modern CMake config package
+  find_package(GLEW CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE GLEW::GLEW)
+
+glew provides pkg-config modules:
+
+  # The OpenGL Extension Wrangler library
+  glew
 
 The package glm provides CMake targets:
 
@@ -111,4 +151,4 @@ sdl2-ttf provides CMake targets:
     find_package(SDL2_ttf CONFIG REQUIRED)
     target_link_libraries(main PRIVATE $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
 
-All requested installations completed successfully in: 824 us
+All requested installations completed successfully in: 1.02 ms

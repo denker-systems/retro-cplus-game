@@ -1,21 +1,21 @@
-# feat(ai): Add AI World Builder with 37 Editor Tools
+# feat(editor): 3D Viewport with Unreal Engine-style Navigation
 
 ## Sammanfattning
 
-Implementerar ett komplett AI-assisterat world-building system för Retro Engine Editor. AI:n kan nu skapa och hantera levels, scenes, NPCs, items, dialogs, quests och mer - allt via naturligt språk i den inbyggda AI Chat-panelen.
+Implementerar ett komplett 3D viewport-system för Retro Engine Editor med Unreal Engine-liknande navigation, ImGuizmo transform gizmos, och OpenGL texture management. Inkluderar även planering för centraliserad input-hantering.
 
 ## Relaterad Issue
 
-Closes #N/A (Feature request)
+Closes #N/A (3D Viewport Implementation)
 
 ---
 
 ## Typ av Ändring
 
-- [x] ✨ **Feature** - Ny funktionalitet
+- [x] ✨ **Feature** - 3D viewport, UE-style navigation, ImGuizmo gizmos
+- [x] 🔧 **Refactoring** - OpenGL texture management
+- [x] 📚 **Documentation** - Checklists, workflows, changelogs
 - [ ] 🐛 **Bugfix**
-- [x] 🔧 **Refactoring** - AI system architecture
-- [x] 📚 **Documentation** - Workflows och changelogs
 - [ ] ⚡ **Performance**
 - [ ] 🧪 **Tests**
 - [ ] 💥 **Breaking Change**
@@ -26,39 +26,37 @@ Closes #N/A (Feature request)
 
 ### Added
 
-**AI Tools (37 totalt):**
+**3D Viewport:**
+- `Viewport3DPanel` - Full 3D scene rendering
+- `EditorCamera3D` - Orbit/Fly camera with UE-style controls
+- `TransformGizmo3D` - ImGuizmo integration (Translate/Rotate/Scale)
+- `GLTextureManager` - OpenGL texture loading via stb_image
 
-| Kategori | Tools |
-|----------|-------|
-| **Level/World** | `list_levels`, `create_level`, `add_scene_to_level`, `set_start_scene`, `get_world_info` |
-| **Quest** | `list_quests`, `get_quest`, `create_quest`, `add_quest_objective`, `link_quest_to_npc` |
-| **Dialog** | `list_dialogs`, `get_dialog`, `create_dialog`, `add_dialog_node` |
-| **Hotspot** | `list_hotspots`, `create_hotspot`, `modify_hotspot`, `delete_hotspot` |
-| **Item** | `list_items`, `get_item`, `create_item`, `modify_item` |
-| **Scene** | `list_scenes`, `get_scene`, `create_scene`, `modify_scene` |
-| **Actor** | `list_actors`, `get_actor`, `create_actor`, `modify_actor`, `delete_actor`, `add_component` |
-| **Context** | `get_editor_context`, `select_scene`, `select_actor` |
-| **Command** | `execute_command`, `list_commands` |
+**UE-Style Navigation:**
+| Kontroll | Funktion |
+|----------|----------|
+| RMB + WASD/QE | Fly mode |
+| RMB + Mouse | Look around |
+| Alt + LMB | Orbit |
+| Alt + RMB | Dolly |
+| MMB | Pan |
+| RMB + Scroll | Adjust fly speed |
+| F | Focus on selection |
 
-**AI System:**
-- `AIAgentSystem` - Central AI coordinator with async processing
-- `AnthropicProvider` - Claude API integration with tool calling
-- `EditorToolRegistry` - Tool registration and discovery
-- `AIChatPanel` - ImGui chat interface
+**Documentation:**
+- `3d_checklist.md` - 3D implementation checklist
+- `input_checklist.md` - Input refactoring plan
 
-**Editor Integration:**
-- `CommandPanel` - Command palette panel
-- `EditorWorldManager` - World/Level/Scene management extensions
-- `DataLoader` - saveNPCs(), saveQuests() persistence
-
-**Workflows:**
-- `/research` - Knowledge gathering workflow
+**Workflow Updates:**
+- `git-commit.md` - Added critical rule: always commit build files
 
 ### Changed
 
-- **System Prompt** - Updated with LucasArts-style world-building guidelines
-- **Scene.h** - Added separate ID field for scene lookup
-- **EditorPanelManager** - AI panel integration
+- `SpriteComponent` - GL texture support
+- `AssetBrowserPanel` - OpenGL texture rendering
+- `ActorObject` - Z coordinate support
+- `ViewportPanel_Actors` - GL rendering integration
+- `ImGuiManager` - isUsingOpenGL() helper
 
 ---
 
@@ -66,14 +64,11 @@ Closes #N/A (Feature request)
 
 | Hash | Type | Scope | Beskrivning |
 |------|------|-------|-------------|
-| `b522b53` | docs | workflows | Add research workflow |
-| `2df6126` | docs | - | Update session report |
-| `dd941a7` | feat | editor | Add AI Assistant with Anthropic Claude |
-| `2b549ea` | chore | build | Add build artifacts and vcpkg deps |
-| `4bf200d` | feat | ai | Add AI World Builder tools (37 st) |
-| `9d247db` | docs | - | Update changelog and devlog |
-| `a4c8bce` | refactor | ai | Improve AI system architecture |
-| `79bca5c` | chore | build | Update build artifacts |
+| `158eaca` | feat | editor | Add 3D viewport and unified selection/navigation sync |
+| `07648c0` | docs | - | Update CHANGELOG and ROADMAP with 3D viewport features |
+| `de26d16` | feat | editor | Add Unreal Engine-style 3D viewport navigation |
+| `7c89611` | feat | editor | Add GLTextureManager and input refactoring plan |
+| `0b00c23` | docs | workflow | Add critical rule - always commit build files |
 
 ---
 
@@ -82,34 +77,38 @@ Closes #N/A (Feature request)
 ### Arkitektur
 
 ```
-AIAgentSystem (singleton)
-├── ILLMProvider (interface)
-│   └── AnthropicProvider (Claude API)
-├── EditorToolRegistry
-│   └── IEditorTool implementations
-└── Message history
+Viewport3DPanel
+├── EditorCamera3D (UE-style controls)
+│   ├── onLookAround() - RMB + mouse
+│   ├── onOrbit() - Alt + LMB
+│   ├── onDolly() - Alt + RMB
+│   ├── onPan() - MMB
+│   └── onKeyboardMove() - WASD/QE
+├── TransformGizmo3D (ImGuizmo)
+│   ├── Translate mode (W)
+│   ├── Rotate mode (E)
+│   └── Scale mode (R)
+└── Framebuffer (OpenGL FBO)
+
+GLTextureManager (singleton)
+└── stb_image texture loading
 ```
 
 ### Nya Filer
 
-**AI Tools:**
-- `src/ai/tools/LevelTools.h/cpp` - Level/World management
-- `src/ai/tools/QuestTools.h/cpp` - Quest management
-- `src/ai/tools/DialogTools.h/cpp` - Dialog creation
-- `src/ai/tools/HotspotTools.h/cpp` - Hotspot CRUD
-- `src/ai/tools/ItemTools.h/cpp` - Item management
-- `src/ai/tools/ContextTools.h/cpp` - Editor context
-- `src/ai/tools/CommandTools.h/cpp` - Command execution
-
-**Editor:**
-- `src/editor/panels/core/CommandPanel.h/cpp` - Command palette
+- `src/editor/viewport/EditorCamera3D.h/cpp`
+- `src/editor/viewport/Viewport3DPanel.h/cpp`
+- `src/editor/gizmos/TransformGizmo3D.h/cpp`
+- `src/engine/graphics/GLTextureManager.h/cpp`
+- `3d_checklist.md`
+- `input_checklist.md`
 
 ### Modifierade Filer
 
-- `CMakeLists.txt` - Added new AI tool sources
-- `src/ai/AISystemInit.cpp` - Tool registration
-- `src/ai/core/AIAgentSystem.cpp` - Enhanced system prompt
-- `src/engine/data/DataLoader.h/cpp` - Save methods
+- `CMakeLists.txt` - Added new sources
+- `src/engine/components/SpriteComponent.h/cpp` - GL texture support
+- `src/editor/panels/assets/AssetBrowserPanel.cpp` - OpenGL textures
+- `vcpkg.json` - stb dependency
 
 ---
 
@@ -118,33 +117,43 @@ AIAgentSystem (singleton)
 ### Manuell Testning
 
 - [x] Testat i RetroEditor.exe
-- [x] AI Chat panel fungerar
-- [x] Tool execution fungerar
-- [x] Data sparas till JSON
+- [x] 3D viewport fungerar
+- [x] RMB + WASD fly mode fungerar
+- [x] Alt + LMB orbit fungerar
+- [x] ImGuizmo gizmos renderas
+- [x] Asset browser thumbnails fungerar
 
 ### Teststeg
 
 1. Starta RetroEditor
-2. Öppna AI Chat panel (View → AI Chat)
-3. Skriv: "Create a level called Haunted Mansion with 3 scenes"
-4. Verifiera att level och scenes skapas
-5. Kontrollera world.json och scenes.json
+2. Välj en Scene i hierarkin
+3. Klicka "3D" toggle i viewport
+4. Testa RMB + WASD för att flyga runt
+5. Testa Alt + LMB för att orbita
+6. Välj en actor och testa transform gizmo
+
+---
+
+## Screenshots
+
+3D viewport med actors, grid, och transform gizmo.
 
 ---
 
 ## Dokumentation
 
 - [x] CHANGELOG uppdaterad
-- [x] DEVLOG uppdaterad
-- [x] System prompt dokumenterad i kod
+- [x] ROADMAP uppdaterad
+- [x] 3d_checklist.md skapad
+- [x] input_checklist.md skapad
 
 ---
 
-## Kända Begränsningar
+## Planerade Förbättringar (input_checklist.md)
 
-1. **Scene-level association** - Nya scenes läggs till `main_game` istället för senast skapade level
-2. **Bakgrunder** - AI genererar bakgrundsnamn som inte existerar (placeholder)
-3. **Exits** - Saknar tool för att koppla scenes med exits
+- EditorInputController - Centraliserad input
+- Konfigurerbar keybindings via JSON
+- Konsekvent UE-style navigation i alla vyer
 
 ---
 
@@ -153,7 +162,7 @@ AIAgentSystem (singleton)
 ### Kod
 - [x] Följer coding standards
 - [x] Ingen debug-kod kvar
-- [x] Dokumenterad med kommentarer
+- [x] Dokumenterad med Doxygen
 
 ### Build
 - [x] Kompilerar utan errors
@@ -161,12 +170,12 @@ AIAgentSystem (singleton)
 
 ### Docs
 - [x] CHANGELOG uppdaterad
-- [x] DEVLOG uppdaterad
+- [x] Workflows uppdaterade
 
 ---
 
 ## Reviewer Notes
 
-- Fokusera på AI tool implementations i `src/ai/tools/`
-- System prompt finns i `AIAgentSystem.cpp` (DEFAULT_SYSTEM_PROMPT)
-- Alla tools följer samma mönster: execute() → ToolResult
+- Fokusera på `EditorCamera3D` för kamerakontroller
+- `TransformGizmo3D` använder ImGuizmo library
+- Debug-loggning finns kvar i `handleInput()` - kan tas bort efter test
