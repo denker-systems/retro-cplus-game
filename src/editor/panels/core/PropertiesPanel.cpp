@@ -4,12 +4,14 @@
  */
 #include "PropertiesPanel.h"
 #include "editor/core/EditorContext.h"
+#include "editor/core/SelectionManager.h"
 #include "editor/properties/world/RoomPropertyEditor.h"
 #include "editor/properties/world/HotspotPropertyEditor.h"
 #include "editor/properties/gameplay/DialogPropertyEditor.h"
 #include "editor/properties/gameplay/QuestPropertyEditor.h"
 #include "editor/properties/gameplay/ItemPropertyEditor.h"
 #include "editor/properties/characters/NPCPropertyEditor.h"
+#include "editor/properties/actors/ActorPropertyEditor.h"
 #include "engine/data/DataLoader.h"
 
 #ifdef HAS_IMGUI
@@ -25,9 +27,21 @@ PropertiesPanel::PropertiesPanel(EditorContext& context)
     m_questEditor = std::make_unique<QuestPropertyEditor>(context);
     m_itemEditor = std::make_unique<ItemPropertyEditor>(context);
     m_npcEditor = std::make_unique<NPCPropertyEditor>(context);
+    m_actorEditor = std::make_unique<ActorPropertyEditor>(context);
 }
 
 PropertiesPanel::~PropertiesPanel() = default;
+
+void PropertiesPanel::setSelectionManager(SelectionManager* selectionManager) {
+    m_selectionManager = selectionManager;
+    
+    // Register callback for selection changes
+    if (m_selectionManager) {
+        m_selectionManager->registerSelectionChangedCallback([this]() {
+            updateEditorSelection();
+        });
+    }
+}
 
 void PropertiesPanel::render() {
 #ifdef HAS_IMGUI
@@ -296,6 +310,10 @@ IPropertyEditor* PropertiesPanel::getCurrentEditor() {
             return m_itemEditor.get();
         case EditorContext::SelectionType::NPC:
             return m_npcEditor.get();
+        case EditorContext::SelectionType::Actor:
+            return m_actorEditor.get();
+        case EditorContext::SelectionType::CollisionBox:
+            return m_roomEditor.get();  // Collision boxes edited in room editor
         default:
             return nullptr;
     }
@@ -387,6 +405,21 @@ void PropertiesPanel::updateEditorSelection() {
         }
         if (npc && m_npcEditor->getNPC() != npc) {
             m_npcEditor->setNPC(npc);
+        }
+    }
+    
+    // Uppdatera actor editor
+    if (m_context.selectedType == EditorContext::SelectionType::Actor && !m_context.selectedActorId.empty()) {
+        // Get actor from selection manager
+        if (m_selectionManager) {
+            auto* actor = m_selectionManager->getSelectedActor();
+            if (actor) {
+                m_actorEditor->setActor(actor);
+            } else {
+                m_actorEditor->setActor(nullptr);
+            }
+        } else {
+            m_actorEditor->setActor(nullptr);
         }
     }
 }

@@ -101,6 +101,15 @@ void EditorState::enter() {
     viewport->setLevel(world->getActiveLevel());
     viewport->setScene(world->getActiveLevel()->getActiveScene());
     
+    // Connect selection manager to properties panel
+    auto* properties = m_panelManager->getPropertiesPanel();
+    properties->setSelectionManager(viewport->getSelectionManager());
+    
+    // Connect selection manager to hierarchy panel
+    auto* hierarchy = m_panelManager->getHierarchyPanel();
+    hierarchy->setSelectionManager(viewport->getSelectionManager());
+    hierarchy->setActiveScene(world->getActiveLevel()->getActiveScene());
+    
     m_panelManager->getSceneGraphPanel()->setScene(world->getActiveLevel()->getActiveScene());
     m_panelManager->getLayerEditorPanel()->setLayerManager(m_worldManager->getLayerManager());
     m_panelManager->getWorldViewPanel()->setWorld(world);

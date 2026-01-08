@@ -4,7 +4,10 @@
  */
 #include "HierarchyPanel.h"
 #include "editor/core/EditorContext.h"
+#include "editor/core/SelectionManager.h"
 #include "engine/data/DataLoader.h"
+#include "engine/world/Scene.h"
+#include "engine/core/ActorObjectExtended.h"
 
 #ifdef HAS_IMGUI
 #include <imgui.h>
@@ -69,9 +72,16 @@ void HierarchyPanel::render() {
                         m_context.selectedQuestId.clear();
                         m_context.selectedItemId.clear();
                         m_context.selectedHotspotIndex = -1;
+                        m_context.selectedActorId.clear();
+                        m_context.selectedCollisionBoxIndex = -1;
                         m_context.selectedType = EditorContext::SelectionType::Room;
                         if (m_onRoomSelected) m_onRoomSelected(room.id);
                     }
+                }
+                
+                // Show actors in selected scene
+                if (selected && !room.id.empty()) {
+                    renderActorsForScene(room.id);
                 }
             }
         }
@@ -231,6 +241,54 @@ void HierarchyPanel::render() {
         }
     }
     ImGui::End();
+#endif
+}
+
+void HierarchyPanel::setSelectionManager(SelectionManager* selectionManager) {
+    m_selectionManager = selectionManager;
+}
+
+void HierarchyPanel::renderActorsForScene(const std::string& roomId) {
+#ifdef HAS_IMGUI
+    ImGui::Indent();
+    
+    // Get actors from active scene
+    if (m_activeScene) {
+        const auto& actors = m_activeScene->getActors();
+        
+        for (const auto& actorPtr : actors) {
+            if (!actorPtr) continue;
+            auto& actor = actorPtr;
+            
+            // Check if this actor is selected
+            bool selected = (m_context.selectedType == EditorContext::SelectionType::Actor && 
+                           m_context.selectedActorId == actorPtr->getName());
+            
+            // Get icon based on actor type
+            const char* icon = "🎭";
+            if (actorPtr->getName().find("Background") != std::string::npos) {
+                icon = "🖼️";
+            } else if (actorPtr->getName().find("Player") != std::string::npos) {
+                icon = "👤";
+            } else if (actorPtr->getName().find("NPC") != std::string::npos) {
+                icon = "🧍";
+            } else if (actorPtr->getName().find("Item") != std::string::npos) {
+                icon = "📦";
+            }
+            
+            // Render actor item
+            if (ImGui::Selectable(("  " + std::string(icon) + " " + actorPtr->getName()).c_str(), selected)) {
+                if (m_selectionManager) {
+                    m_selectionManager->selectActor(actorPtr->getName(), m_activeScene);
+                }
+            }
+        }
+    } else {
+        // No active scene
+        ImGui::TextDisabled("  No scene selected");
+    }
+    
+    ImGui::Unindent();
 #endif
 }
 

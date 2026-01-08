@@ -28,6 +28,19 @@ void EditorContext::setSelection(::SelectionType type, const std::string& id, in
 
 void EditorContext::clearSelection() {
     m_selection.clear();
+    
+    // Clear direct selection fields too
+    selectedType = SelectionType::None;
+    selectedRoomId.clear();
+    selectedDialogId.clear();
+    selectedQuestId.clear();
+    selectedItemId.clear();
+    selectedNPCId.clear();
+    selectedLevelId.clear();
+    selectedSceneId.clear();
+    selectedHotspotIndex = -1;
+    selectedActorId.clear();
+    selectedCollisionBoxIndex = -1;
 }
 
 void EditorContext::copyToClipboard(const std::string& type, const std::any& data) {

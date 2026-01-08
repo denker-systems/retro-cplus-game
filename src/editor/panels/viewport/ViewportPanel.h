@@ -5,6 +5,7 @@
 #pragma once
 
 #include "editor/core/IEditorPanel.h"
+#include "editor/core/SelectionManager.h"
 #include "editor/tools/ToolManager.h"
 #include <string>
 #include <SDL.h>
@@ -51,6 +52,9 @@ public:
     // Actor operations
     void deleteSelectedActor();
     void duplicateSelectedActor();
+    
+    // Get selection manager for external access
+    SelectionManager* getSelectionManager() const { return m_selectionManager; }
 
 private:
     void loadRoomPreview();
@@ -68,6 +72,7 @@ private:
     void renderSceneGrid(ImDrawList* drawList, ImVec2 offset, ImVec2 size);  // NEW: Grid overlay
     
     EditorContext& m_context;
+    SelectionManager* m_selectionManager = nullptr;
     std::string m_id = "viewport";
     std::string m_title = "Viewport";
     
@@ -121,6 +126,12 @@ private:
     engine::ActorObjectExtended* m_draggedActor = nullptr;
     float m_actorDragOffsetX = 0.0f;
     float m_actorDragOffsetY = 0.0f;
+    
+    // Collision box selection state
+    int m_selectedCollisionBoxIndex = -1;
+    bool m_isDraggingCollisionBox = false;
+    float m_collisionBoxDragOffsetX = 0.0f;
+    float m_collisionBoxDragOffsetY = 0.0f;
     
     // Tool system
     ToolManager m_toolManager;

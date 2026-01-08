@@ -24,6 +24,15 @@ namespace PropertyEditorUtils {
 bool InputText(const char* label, std::string& str, ImGuiInputTextFlags flags = 0);
 
 /**
+ * @brief InputText för std::string med disabled state
+ * @param label Label för input field
+ * @param str String att editera
+ * @param disabled Om input är disabled
+ * @return true om värdet ändrades
+ */
+bool InputTextDisabled(const char* label, std::string& str, bool disabled = false);
+
+/**
  * @brief InputTextMultiline för std::string
  * @param label Label för textarea
  * @param str String att editera

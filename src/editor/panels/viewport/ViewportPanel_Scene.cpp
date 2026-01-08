@@ -8,6 +8,7 @@
 #include "editor/commands/ActorCommands.h"
 #include "engine/world/Scene.h"
 #include "engine/components/SpriteComponent.h"
+#include "editor/properties/actors/LockableComponent.h"
 #include "engine/core/ActorObjectExtended.h"
 #include "engine/data/DataLoader.h"
 #include "engine/utils/Logger.h"
@@ -257,6 +258,30 @@ void ViewportPanel::renderSceneView() {
                     if (sprite) {
                         aw = sprite->getWidth();
                         ah = sprite->getHeight();
+                    }
+                    
+                    // Check if clicking on lock icon (top-right corner)
+                    float lockSize = 16.0f;
+                    float lockX = ax + aw - lockSize - 2;
+                    float lockY = ay + 2;
+                    
+                    if (roomX >= lockX && roomX <= lockX + lockSize &&
+                        roomY >= lockY && roomY <= lockY + lockSize) {
+                        // Get or create LockableComponent
+                        auto* lockable = actor->getComponent<engine::LockableComponent>();
+                        if (!lockable) {
+                            lockable = actor->addComponent<engine::LockableComponent>();
+                        }
+                        // Toggle lock state
+                        lockable->setLocked(!lockable->isLocked());
+                        m_context.markDirty();
+                        break;
+                    }
+                    
+                    // Skip locked actors for selection
+                    auto* lockable = actor->getComponent<engine::LockableComponent>();
+                    if (lockable && lockable->isLocked()) {
+                        continue;
                     }
                     
                     if (roomX >= ax && roomX <= ax + aw &&

@@ -7,6 +7,7 @@
 #include "engine/components/SpriteComponent.h"
 #include "engine/components/Collider2DComponent.h"
 #include "engine/components/RigidBody2DComponent.h"
+#include "editor/properties/actors/LockableComponent.h"
 #include "engine/core/ActorObjectExtended.h"
 #include <algorithm>
 #include <cmath>
@@ -22,8 +23,20 @@ void ViewportPanel::renderSceneActors(ImDrawList* drawList, ImVec2 offset) {
     
     const auto& actors = m_scene->getActors();
     
+    // Sort actors by render order (z-index)
+    std::vector<engine::ActorObjectExtended*> sortedActors;
     for (const auto& actor : actors) {
-        if (!actor || !actor->isActive()) continue;
+        if (actor && actor->isActive()) {
+            sortedActors.push_back(actor.get());
+        }
+    }
+    
+    std::sort(sortedActors.begin(), sortedActors.end(), 
+              [](const engine::ActorObjectExtended* a, const engine::ActorObjectExtended* b) {
+                  return a->getRenderOrder() < b->getRenderOrder();
+              });
+    
+    for (const auto& actor : sortedActors) {
         
         // Get actor transform
         engine::Vec2 pos = actor->getPosition();
@@ -129,8 +142,8 @@ void ViewportPanel::renderSceneActors(ImDrawList* drawList, ImVec2 offset) {
             }
         }
         
-        // Draw selection highlight
-        if (actor.get() == m_selectedActor) {
+        // Draw lock icon for ALL actors (shows lock state)
+        {
             engine::Vec2 pos = actor->getPosition();
             float ax = offset.x + pos.x * m_zoom;
             float ay = offset.y + pos.y * m_zoom;
@@ -143,8 +156,75 @@ void ViewportPanel::renderSceneActors(ImDrawList* drawList, ImVec2 offset) {
                 ah = sprite->getHeight() * m_zoom;
             }
             
+            // Lock icon position (top-right corner)
+            float lockSize = 16.0f;
+            float lockX = ax + aw - lockSize - 2;
+            float lockY = ay + 2;
+            
+            // Check if locked
+            auto* lockable = actor->getComponent<engine::LockableComponent>();
+            bool isLocked = lockable && lockable->isLocked();
+            
+            // Draw lock background
+            drawList->AddRectFilled(
+                ImVec2(lockX, lockY),
+                ImVec2(lockX + lockSize, lockY + lockSize),
+                isLocked ? IM_COL32(60, 40, 20, 220) : IM_COL32(40, 40, 40, 150)
+            );
+            
+            if (isLocked) {
+                // Draw LOCKED icon (closed padlock) - gold color
+                ImU32 lockColor = IM_COL32(255, 200, 100, 255);
+                // Lock body
+                drawList->AddRectFilled(
+                    ImVec2(lockX + 3, lockY + 8),
+                    ImVec2(lockX + 13, lockY + 14),
+                    lockColor
+                );
+                // Lock shackle (closed)
+                drawList->AddRect(
+                    ImVec2(lockX + 5, lockY + 3),
+                    ImVec2(lockX + 11, lockY + 9),
+                    lockColor, 2, 0, 2.0f
+                );
+            } else {
+                // Draw UNLOCKED icon (open padlock) - gray color
+                ImU32 unlockColor = IM_COL32(150, 150, 150, 200);
+                // Lock body
+                drawList->AddRect(
+                    ImVec2(lockX + 3, lockY + 8),
+                    ImVec2(lockX + 13, lockY + 14),
+                    unlockColor, 0, 0, 1.5f
+                );
+                // Lock shackle (open - shifted up)
+                drawList->AddRect(
+                    ImVec2(lockX + 5, lockY + 1),
+                    ImVec2(lockX + 11, lockY + 7),
+                    unlockColor, 2, 0, 1.5f
+                );
+            }
+        }
+        
+        // Draw selection highlight
+        if (actor == m_selectedActor) {
+            engine::Vec2 pos = actor->getPosition();
+            float ax = offset.x + pos.x * m_zoom;
+            float ay = offset.y + pos.y * m_zoom;
+            float aw = 64.0f * m_zoom;
+            float ah = 64.0f * m_zoom;
+            
+            auto* sprite = actor->getComponent<engine::SpriteComponent>();
+            if (sprite) {
+                aw = sprite->getWidth() * m_zoom;
+                ah = sprite->getHeight() * m_zoom;
+            }
+            
+            const ImU32 actorColor = (actor == m_selectedActor) 
+                ? IM_COL32(255, 255, 0, 255)  // Yellow for selected
+                : IM_COL32(0, 255, 0, 255);    // Green for normal
+            
             // Selection border
-            ImU32 selColor = m_draggedActor == actor.get() ? 
+            ImU32 selColor = m_draggedActor == actor ? 
                              IM_COL32(255, 200, 100, 255) : 
                              IM_COL32(100, 200, 255, 255);
             drawList->AddRect(

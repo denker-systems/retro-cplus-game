@@ -29,7 +29,9 @@ enum class SelectionType {
     DialogNode,
     Quest,
     Item,
-    NPC
+    NPC,
+    Actor,
+    CollisionBox
 };
 
 /**
@@ -64,7 +66,7 @@ public:
     
     // Selection type enum
     enum class SelectionType {
-        None, Room, Dialog, Quest, Item, NPC, Hotspot
+        None, Room, Dialog, Quest, Item, NPC, Hotspot, Actor, CollisionBox
     };
     
     // Current selection (direkt åtkomst för enkelhets skull)
@@ -77,6 +79,10 @@ public:
     std::string selectedLevelId;
     std::string selectedSceneId;
     int selectedHotspotIndex = -1;
+    
+    // Actor and CollisionBox selection
+    std::string selectedActorId;  // Actor name within scene
+    int selectedCollisionBoxIndex = -1;
     
     // Selection helpers
     EditorSelection& getSelection() { return m_selection; }
