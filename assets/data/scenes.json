@@ -117,6 +117,11 @@
             "collider": {"shape": "box", "width": 50, "height": 90, "isTrigger": true}
           }
         }
+      ],
+      "collisionBoxes": [
+        {"id": "floor_main", "type": "ground", "x": 0, "y": 350, "width": 960, "height": 30},
+        {"id": "wall_left", "type": "wall", "x": 0, "y": 200, "width": 20, "height": 180},
+        {"id": "wall_right", "type": "wall", "x": 940, "y": 200, "width": 20, "height": 180}
       ]
     }
   ]
