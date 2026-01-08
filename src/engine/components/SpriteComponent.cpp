@@ -21,10 +21,17 @@ SpriteComponent::SpriteComponent(const std::string& name)
 void SpriteComponent::render(SDL_Renderer* renderer) {
     if (!m_texture || !renderer) return;
     
-    // Get transform from owner actor
-    Vec2 pos = getPosition();
+    // Get transform from owner actor (not component's own position)
+    Vec2 pos = m_position;  // Start with component's local offset
     float rotation = getRotation();
     Vec2 scale = getScale();
+    
+    // Add owner's position if available
+    if (m_owner) {
+        Vec2 ownerPos = m_owner->getPosition();
+        pos.x += ownerPos.x;
+        pos.y += ownerPos.y;
+    }
     
     // Apply scale to size
     int finalW = static_cast<int>(m_width * scale.x);

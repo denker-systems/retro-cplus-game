@@ -63,16 +63,26 @@ float CharacterActor::getY() const {
 }
 
 void CharacterActor::renderScaled(SDL_Renderer* renderer, float scale) {
-    // Legacy renderScaled - will be removed when using proper components
-    Vec2 pos = getPosition();
-    SDL_Rect rect = {
-        static_cast<int>(pos.x * scale),
-        static_cast<int>(pos.y * scale),
-        static_cast<int>(32 * scale),  // Assuming 32x32 character
-        static_cast<int>(48 * scale)
-    };
-    SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);  // Magenta for placeholder
-    SDL_RenderFillRect(renderer, &rect);
+    // Use SpriteComponent if available
+    auto* sprite = getComponent<SpriteComponent>();
+    if (sprite && sprite->getTexture()) {
+        // Save original scale, apply new scale, render, restore
+        Vec2 originalScale = sprite->getScale();
+        sprite->setScale(Vec2(scale, scale));
+        sprite->render(renderer);
+        sprite->setScale(originalScale);
+    } else {
+        // Fallback: Render magenta placeholder
+        Vec2 pos = getPosition();
+        SDL_Rect rect = {
+            static_cast<int>(pos.x),
+            static_cast<int>(pos.y),
+            static_cast<int>(32 * scale),
+            static_cast<int>(48 * scale)
+        };
+        SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
+        SDL_RenderFillRect(renderer, &rect);
+    }
 }
 
 // ============================================================================
