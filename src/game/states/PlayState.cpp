@@ -28,6 +28,7 @@
 #include "engine/graphics/Transition.h"
 #include "engine/graphics/FontManager.h"
 #include "engine/data/GameDataLoader.h"
+#include "engine/data/DataLoader.h"
 #include "engine/utils/Logger.h"
 #include "engine/data/GameSettings.h"
 #include <iostream>
@@ -106,20 +107,41 @@ void PlayState::onRoomChange(const std::string& roomId) {
             scene->setPhysicsDebugDraw(settings.isPhysicsDebugEnabled());
             std::cout << "[Physics] Enabled for scene: " << roomId << std::endl;
             
-            // Create ground collider at bottom of walk area
-            auto ground = std::make_unique<engine::ActorObjectExtended>("Ground");
-            ground->setPosition(320, static_cast<float>(wa.maxY + 10));
-            
-            auto* groundRb = ground->addComponent<engine::RigidBody2DComponent>();
-            groundRb->setBodyType(engine::RigidBody2DComponent::BodyType::Static);
-            groundRb->initializeBody(scene->getPhysicsWorld());
-            
-            auto* groundCol = ground->addComponent<engine::Collider2DComponent>();
-            groundCol->setBoxShape(640, 20);
-            groundCol->initializeShape();
-            
-            scene->addActor(std::move(ground));
-            std::cout << "[Physics] Ground collider created" << std::endl;
+            // Load collision boxes from scene data
+            const SceneData* sceneData = DataLoader::instance().getSceneById(roomId);
+            if (sceneData && !sceneData->collisionBoxes.empty()) {
+                for (const auto& box : sceneData->collisionBoxes) {
+                    auto collider = std::make_unique<engine::ActorObjectExtended>("Collider_" + box.id);
+                    // Position at center of box
+                    collider->setPosition(box.x + box.width / 2.0f, box.y + box.height / 2.0f);
+                    
+                    auto* rb = collider->addComponent<engine::RigidBody2DComponent>();
+                    rb->setBodyType(engine::RigidBody2DComponent::BodyType::Static);
+                    rb->initializeBody(scene->getPhysicsWorld());
+                    
+                    auto* col = collider->addComponent<engine::Collider2DComponent>();
+                    col->setBoxShape(box.width, box.height);
+                    col->initializeShape();
+                    
+                    scene->addActor(std::move(collider));
+                    std::cout << "[Physics] Created collision box: " << box.id << " (" << box.type << ")" << std::endl;
+                }
+            } else {
+                // Fallback: Create ground collider at bottom of walk area
+                auto ground = std::make_unique<engine::ActorObjectExtended>("Ground");
+                ground->setPosition(320, static_cast<float>(wa.maxY + 10));
+                
+                auto* groundRb = ground->addComponent<engine::RigidBody2DComponent>();
+                groundRb->setBodyType(engine::RigidBody2DComponent::BodyType::Static);
+                groundRb->initializeBody(scene->getPhysicsWorld());
+                
+                auto* groundCol = ground->addComponent<engine::Collider2DComponent>();
+                groundCol->setBoxShape(640, 20);
+                groundCol->initializeShape();
+                
+                scene->addActor(std::move(ground));
+                std::cout << "[Physics] Ground collider created (fallback)" << std::endl;
+            }
         }
         
         // ═══════════════════════════════════════════════════════════════
