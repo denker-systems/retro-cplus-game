@@ -8,6 +8,21 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ## 2026-01-07
 
+### Kväll
+
+- `4bf200d` feat(ai): add AI World Builder tools for levels and quests
+  - **AI Tools:** 37 total registered tools for comprehensive world building
+  - **Level/World:** list_levels, create_level, add_scene_to_level, set_start_scene, get_world_info
+  - **Quest:** list_quests, get_quest, create_quest, add_quest_objective, link_quest_to_npc
+  - **Dialog:** list_dialogs, get_dialog, create_dialog, add_dialog_node
+  - **Hotspot:** list_hotspots, create_hotspot, modify_hotspot, delete_hotspot
+  - **Item:** list_items, get_item, create_item, modify_item
+  - **Context:** get_editor_context, select_scene, select_actor
+  - **Command:** execute_command, list_commands
+  - **System Prompt:** Updated with world-building guidelines for consistent storytelling
+  - **DataLoader:** Added saveNPCs() and saveQuests() methods
+  - **Editor:** Added CommandPanel for command palette
+
 ### Tidig Morgon
 
 - `6c831ec` feat(physics): implement physics editor system with collision boxes
