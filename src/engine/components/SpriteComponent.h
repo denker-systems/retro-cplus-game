@@ -33,6 +33,7 @@ public:
     bool loadTexture(const std::string& path, SDL_Renderer* renderer);
     bool loadTextureCached(const std::string& path);
     const std::string& getTexturePath() const { return m_texturePath; }
+    void setTexturePath(const std::string& path) { m_texturePath = path; }
     
     void setSourceRect(SDL_Rect rect) { m_sourceRect = rect; }
     SDL_Rect getSourceRect() const { return m_sourceRect; }

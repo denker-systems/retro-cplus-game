@@ -12,6 +12,7 @@
 #include "engine/world/Scene.h"
 #include "engine/world/LayerManager.h"
 #include "engine/data/DataLoader.h"
+#include "engine/world/RoomToSceneConverter.h"
 #include "engine/graphics/TextureManager.h"
 #include "engine/components/SpriteComponent.h"
 #include "engine/utils/Logger.h"
@@ -20,8 +21,12 @@
 
 using json = nlohmann::json;
 
+// Static instance for global access
+EditorWorldManager* EditorWorldManager::s_instance = nullptr;
+
 EditorWorldManager::EditorWorldManager(EditorContext& context)
     : m_context(context) {
+    s_instance = this;
 }
 
 void EditorWorldManager::initialize(Game* game) {
@@ -400,4 +405,96 @@ void EditorWorldManager::loadActorsToContainer(engine::WorldContainer* container
 void EditorWorldManager::shutdown() {
     m_world.reset();
     m_layerManager.reset();
+}
+
+std::string EditorWorldManager::getActiveLevelId() const {
+    if (m_world && m_world->getActiveLevel()) {
+        return m_world->getActiveLevel()->getId();
+    }
+    // Return first level if no active level
+    if (!m_worldData.levels.empty()) {
+        return m_worldData.levels[0].id;
+    }
+    return "main_game";  // Default fallback
+}
+
+bool EditorWorldManager::addSceneToLevel(const std::string& sceneId, const std::string& levelId) {
+    std::string targetLevelId = levelId.empty() ? getActiveLevelId() : levelId;
+    
+    LOG_INFO("[EditorWorldManager] Adding scene '" + sceneId + "' to level '" + targetLevelId + "'");
+    
+    // 1. Add to WorldData (for saving to world.json)
+    bool foundLevel = false;
+    for (auto& level : m_worldData.levels) {
+        if (level.id == targetLevelId) {
+            // Check if already exists
+            auto it = std::find(level.sceneIds.begin(), level.sceneIds.end(), sceneId);
+            if (it == level.sceneIds.end()) {
+                level.sceneIds.push_back(sceneId);
+                LOG_INFO("[EditorWorldManager] Added scene to WorldData level");
+            } else {
+                LOG_WARNING("[EditorWorldManager] Scene already in level");
+            }
+            foundLevel = true;
+            break;
+        }
+    }
+    
+    if (!foundLevel) {
+        LOG_ERROR("[EditorWorldManager] Level not found: " + targetLevelId);
+        return false;
+    }
+    
+    // 2. Create Scene in engine::Level if room data exists
+    if (m_world) {
+        for (auto& level : m_world->getLevels()) {
+            if (level->getId() == targetLevelId) {
+                // Find room data for this scene
+                const auto& rooms = DataLoader::instance().getRooms();
+                const RoomData* roomData = nullptr;
+                for (const auto& room : rooms) {
+                    if (room.id == sceneId) {
+                        roomData = &room;
+                        break;
+                    }
+                }
+                
+                // Calculate grid position (place next to existing scenes)
+                int maxGridX = 0;
+                for (const auto& existingScene : level->getScenes()) {
+                    maxGridX = std::max(maxGridX, existingScene->getGridPosition().gridX + 1);
+                }
+                
+                if (roomData) {
+                    // Create scene from room data
+                    auto scene = engine::RoomToSceneConverter::convert(*roomData, nullptr);
+                    if (scene) {
+                        scene->setId(sceneId);  // Set ID for lookup
+                        scene->setGridPosition({maxGridX, 0, 640, 400});
+                        level->addScene(std::move(scene));
+                        LOG_INFO("[EditorWorldManager] Created engine::Scene for '" + sceneId + "' at grid (" + std::to_string(maxGridX) + ", 0)");
+                    }
+                } else {
+                    // Create empty scene for new scenes without RoomData
+                    auto scene = std::make_unique<engine::Scene>(sceneId);
+                    scene->setId(sceneId);  // Set ID for lookup
+                    scene->setGridPosition({maxGridX, 0, 640, 400});
+                    level->addScene(std::move(scene));
+                    LOG_INFO("[EditorWorldManager] Created empty engine::Scene for '" + sceneId + "' at grid (" + std::to_string(maxGridX) + ", 0)");
+                }
+                break;
+            }
+        }
+    }
+    
+    // 3. Save world.json
+    saveWorldData();
+    
+    return true;
+}
+
+void EditorWorldManager::refreshViewport() {
+    // Mark context as dirty to trigger viewport refresh
+    m_context.isDirty = true;
+    LOG_INFO("[EditorWorldManager] Viewport refresh requested");
 }

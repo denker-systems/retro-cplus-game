@@ -122,6 +122,157 @@ bool DataLoader::loadRooms(const std::string& path) {
     return loadScenes(path);
 }
 
+// ============================================================================
+// STATIC ACCESSORS FOR AI TOOLS
+// ============================================================================
+
+const SceneData* DataLoader::getSceneById(const std::string& id) {
+    for (const auto& scene : instance().m_scenes) {
+        if (scene.id == id) return &scene;
+    }
+    return nullptr;
+}
+
+SceneData* DataLoader::getSceneByIdMutable(const std::string& id) {
+    for (auto& scene : instance().m_scenes) {
+        if (scene.id == id) return &scene;
+    }
+    return nullptr;
+}
+
+const DialogData* DataLoader::getDialogById(const std::string& id) {
+    for (const auto& dialog : instance().m_dialogs) {
+        if (dialog.id == id) return &dialog;
+    }
+    return nullptr;
+}
+
+DialogData* DataLoader::getDialogByIdMutable(const std::string& id) {
+    for (auto& dialog : instance().m_dialogs) {
+        if (dialog.id == id) return &dialog;
+    }
+    return nullptr;
+}
+
+const ItemData* DataLoader::getItemById(const std::string& id) {
+    for (const auto& item : instance().m_items) {
+        if (item.id == id) return &item;
+    }
+    return nullptr;
+}
+
+ItemData* DataLoader::getItemByIdMutable(const std::string& id) {
+    for (auto& item : instance().m_items) {
+        if (item.id == id) return &item;
+    }
+    return nullptr;
+}
+
+bool DataLoader::addDialog(const DialogData& dialog) {
+    instance().m_dialogs.push_back(dialog);
+    return true;
+}
+
+bool DataLoader::addItem(const ItemData& item) {
+    instance().m_items.push_back(item);
+    return true;
+}
+
+bool DataLoader::saveScenes() {
+    try {
+        json data;
+        data["scenes"] = instance().m_scenes;
+        
+        std::ofstream file("assets/data/scenes.json");
+        if (!file.is_open()) {
+            LOG_ERROR("Could not open scenes.json for writing");
+            return false;
+        }
+        file << data.dump(2);
+        LOG_INFO("Saved scenes to assets/data/scenes.json");
+        return true;
+    } catch (const std::exception& e) {
+        LOG_ERROR("Failed to save scenes: " + std::string(e.what()));
+        return false;
+    }
+}
+
+bool DataLoader::saveDialogs() {
+    try {
+        json data;
+        data["dialogs"] = instance().m_dialogs;
+        
+        std::ofstream file("assets/data/dialogs.json");
+        if (!file.is_open()) {
+            LOG_ERROR("Could not open dialogs.json for writing");
+            return false;
+        }
+        file << data.dump(2);
+        LOG_INFO("Saved dialogs to assets/data/dialogs.json");
+        return true;
+    } catch (const std::exception& e) {
+        LOG_ERROR("Failed to save dialogs: " + std::string(e.what()));
+        return false;
+    }
+}
+
+bool DataLoader::saveItems() {
+    try {
+        json data;
+        data["items"] = instance().m_items;
+        
+        std::ofstream file("assets/data/items.json");
+        if (!file.is_open()) {
+            LOG_ERROR("Could not open items.json for writing");
+            return false;
+        }
+        file << data.dump(2);
+        LOG_INFO("Saved items to assets/data/items.json");
+        return true;
+    } catch (const std::exception& e) {
+        LOG_ERROR("Failed to save items: " + std::string(e.what()));
+        return false;
+    }
+}
+
+bool DataLoader::saveNPCs() {
+    try {
+        json data;
+        data["npcs"] = instance().m_npcs;
+        
+        std::ofstream file("assets/data/npcs.json");
+        if (!file.is_open()) {
+            LOG_ERROR("Could not open npcs.json for writing");
+            return false;
+        }
+        file << data.dump(2);
+        LOG_INFO("Saved npcs to assets/data/npcs.json");
+        return true;
+    } catch (const std::exception& e) {
+        LOG_ERROR("Failed to save npcs: " + std::string(e.what()));
+        return false;
+    }
+}
+
+bool DataLoader::saveQuests() {
+    try {
+        json data;
+        data["quests"] = instance().m_quests;
+        
+        std::ofstream file("assets/data/quests.json");
+        if (!file.is_open()) {
+            LOG_ERROR("Could not open quests.json for writing");
+            return false;
+        }
+        file << data.dump(2);
+        LOG_INFO("Saved quests to assets/data/quests.json");
+        return true;
+    } catch (const std::exception& e) {
+        LOG_ERROR("Failed to save quests: " + std::string(e.what()));
+        return false;
+    }
+}
+
 bool DataLoader::loadNPCs(const std::string& path) {
     std::ifstream file(path);
     if (!file.is_open()) {

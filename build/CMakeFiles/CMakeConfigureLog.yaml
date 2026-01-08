@@ -7796,3 +7796,999 @@ events:
         - "C:/Program Files (x86)/RetroAdventure"
       CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CheckCXXSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:162 (check_cxx_source_compiles)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:226 (_threads_check_libc)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake:40 (find_dependency)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-d6hym5"
+      binary: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-d6hym5"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: ""
+      VCPKG_INSTALLED_DIR: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/vcpkg"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-d6hym5'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Insiders/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_0f8ba.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        MSBuild version 17.15.0-preview-25421-07+49758e5ba for .NET Framework
+        Build started 1/7/2026 4:59:00 PM.
+        
+        Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-d6hym5\\cmTC_0f8ba.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-d6hym5\\Debug\\".
+          Creating directory "cmTC_0f8ba.dir\\Debug\\cmTC_0f8ba.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_0f8ba.dir\\Debug\\cmTC_0f8ba.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_0f8ba.dir\\Debug\\cmTC_0f8ba.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /std:c++17 /Fo"cmTC_0f8ba.dir\\Debug\\\\" /Fd"cmTC_0f8ba.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-d6hym5\\src.cxx"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.50.35503 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /std:c++17 /Fo"cmTC_0f8ba.dir\\Debug\\\\" /Fd"cmTC_0f8ba.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-d6hym5\\src.cxx"
+          src.cxx
+        C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-d6hym5\\src.cxx(1,10): error C1083: Cannot open include file: 'pthread.h': No such file or directory [C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-d6hym5\\cmTC_0f8ba.vcxproj]
+        Done Building Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-d6hym5\\cmTC_0f8ba.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-d6hym5\\cmTC_0f8ba.vcxproj" (default target) (1) ->
+        (ClCompile target) -> 
+          C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-d6hym5\\src.cxx(1,10): error C1083: Cannot open include file: 'pthread.h': No such file or directory [C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-d6hym5\\cmTC_0f8ba.vcxproj]
+        
+            0 Warning(s)
+            1 Error(s)
+        
+        Time Elapsed 00:00:00.18
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CheckLibraryExists.cmake:154 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:175 (check_library_exists)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:238 (_threads_check_lib)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake:40 (find_dependency)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthreads"
+    directories:
+      source: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-dobbg5"
+      binary: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-dobbg5"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: ""
+      VCPKG_INSTALLED_DIR: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/vcpkg"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREADS_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-dobbg5'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Insiders/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_35bd4.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        MSBuild version 17.15.0-preview-25421-07+49758e5ba for .NET Framework
+        Build started 1/7/2026 4:59:00 PM.
+        
+        Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-dobbg5\\cmTC_35bd4.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-dobbg5\\Debug\\".
+          Creating directory "cmTC_35bd4.dir\\Debug\\cmTC_35bd4.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_35bd4.dir\\Debug\\cmTC_35bd4.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_35bd4.dir\\Debug\\cmTC_35bd4.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /std:c++17 /Fo"cmTC_35bd4.dir\\Debug\\\\" /Fd"cmTC_35bd4.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-dobbg5\\CheckFunctionExists.cxx"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.50.35503 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /std:c++17 /Fo"cmTC_35bd4.dir\\Debug\\\\" /Fd"cmTC_35bd4.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-dobbg5\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-dobbg5\\Debug\\cmTC_35bd4.exe" /INCREMENTAL /ILK:"cmTC_35bd4.dir\\Debug\\cmTC_35bd4.ilk" /NOLOGO pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-dobbg5/Debug/cmTC_35bd4.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-dobbg5/Debug/cmTC_35bd4.lib" /MACHINE:X64  /machine:x64 cmTC_35bd4.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: cannot open file 'pthreads.lib' [C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-dobbg5\\cmTC_35bd4.vcxproj]
+        Done Building Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-dobbg5\\cmTC_35bd4.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-dobbg5\\cmTC_35bd4.vcxproj" (default target) (1) ->
+        (Link target) -> 
+          LINK : fatal error LNK1104: cannot open file 'pthreads.lib' [C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-dobbg5\\cmTC_35bd4.vcxproj]
+        
+            0 Warning(s)
+            1 Error(s)
+        
+        Time Elapsed 00:00:00.23
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CheckLibraryExists.cmake:154 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:175 (check_library_exists)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindThreads.cmake:239 (_threads_check_lib)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake:40 (find_dependency)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthread"
+    directories:
+      source: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-l8lir7"
+      binary: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-l8lir7"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: ""
+      VCPKG_INSTALLED_DIR: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/vcpkg"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREAD_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-l8lir7'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Insiders/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_902f9.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        MSBuild version 17.15.0-preview-25421-07+49758e5ba for .NET Framework
+        Build started 1/7/2026 4:59:01 PM.
+        
+        Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-l8lir7\\cmTC_902f9.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-l8lir7\\Debug\\".
+          Creating directory "cmTC_902f9.dir\\Debug\\cmTC_902f9.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_902f9.dir\\Debug\\cmTC_902f9.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_902f9.dir\\Debug\\cmTC_902f9.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /std:c++17 /Fo"cmTC_902f9.dir\\Debug\\\\" /Fd"cmTC_902f9.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-l8lir7\\CheckFunctionExists.cxx"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.50.35503 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /std:c++17 /Fo"cmTC_902f9.dir\\Debug\\\\" /Fd"cmTC_902f9.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-l8lir7\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\VC\\Tools\\MSVC\\14.50.35503\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-l8lir7\\Debug\\cmTC_902f9.exe" /INCREMENTAL /ILK:"cmTC_902f9.dir\\Debug\\cmTC_902f9.ilk" /NOLOGO pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-l8lir7/Debug/cmTC_902f9.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/CMakeScratch/TryCompile-l8lir7/Debug/cmTC_902f9.lib" /MACHINE:X64  /machine:x64 cmTC_902f9.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: cannot open file 'pthread.lib' [C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-l8lir7\\cmTC_902f9.vcxproj]
+        Done Building Project "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-l8lir7\\cmTC_902f9.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-l8lir7\\cmTC_902f9.vcxproj" (default target) (1) ->
+        (Link target) -> 
+          LINK : fatal error LNK1104: cannot open file 'pthread.lib' [C:\\Users\\Calle\\Documents\\GitHub\\retro-cplus-game\\build\\CMakeFiles\\CMakeScratch\\TryCompile-l8lir7\\cmTC_902f9.vcxproj]
+        
+            0 Warning(s)
+            1 Error(s)
+        
+        Time Elapsed 00:00:00.22
+        
+      exitCode: 1
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/openssl/vcpkg-cmake-wrapper.cmake:23 (find_path)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:862 (include)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake:48 (find_dependency)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    mode: "path"
+    variable: "OPENSSL_INCLUDE_DIR"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "openssl/ssl.h"
+      - "PATH"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include"
+    found: false
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/openssl/vcpkg-cmake-wrapper.cmake:25 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:862 (include)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake:48 (find_dependency)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    mode: "library"
+    variable: "LIB_EAY_DEBUG"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "libcrypto"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/libcrypto.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/openssl/vcpkg-cmake-wrapper.cmake:26 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:862 (include)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake:48 (find_dependency)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    mode: "library"
+    variable: "LIB_EAY_RELEASE"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "libcrypto"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/libcrypto.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/openssl/vcpkg-cmake-wrapper.cmake:27 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:862 (include)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake:48 (find_dependency)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    mode: "library"
+    variable: "SSL_EAY_DEBUG"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "libssl"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/libssl.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/openssl/vcpkg-cmake-wrapper.cmake:28 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:862 (include)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake:48 (find_dependency)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    mode: "library"
+    variable: "SSL_EAY_RELEASE"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "libssl"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/libssl.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindOpenSSL.cmake:370 (find_path)"
+      - "build/vcpkg_installed/x64-windows/share/openssl/vcpkg-cmake-wrapper.cmake:37 (_find_package)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:862 (include)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake:48 (find_dependency)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    mode: "path"
+    variable: "OPENSSL_INCLUDE_DIR"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "openssl/ssl.h"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/openssl/ssl.h"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/openssl/ssl.h"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/FindOpenSSL.cmake:836 (find_file)"
+      - "build/vcpkg_installed/x64-windows/share/openssl/vcpkg-cmake-wrapper.cmake:37 (_find_package)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:862 (include)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake:48 (find_dependency)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    mode: "file"
+    variable: "OPENSSL_APPLINK_SOURCE"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "openssl/applink.c"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/openssl/applink.c"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/openssl/applink.c"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake:62 (find_dependency)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    name: "unofficial-brotli"
+    components:
+      -
+        name: "common"
+        required: true
+        found: false
+      -
+        name: "encoder"
+        required: true
+        found: false
+      -
+        name: "decoder"
+        required: true
+        found: false
+    configs:
+      -
+        filename: "unofficial-brotliConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "unofficial-brotli-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "unofficial-brotli"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-brotliConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-brotli-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-brotliConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-brotli-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/unofficial-brotliConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/unofficial-brotli-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/unofficial-brotli/unofficial-brotliConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/unofficial-brotli/unofficial-brotli-config.cmake"
+      mode: "config"
+      version: ""
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      CMAKE_MODULE_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/httplib"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:18 (find_package)"
+    name: "httplib"
+    configs:
+      -
+        filename: "httplibConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "httplib-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "httplib"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/httplibConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/httplib-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/httplibConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/httplib-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/httplibConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/httplib-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/httplib/httplibConfig.cmake"
+      mode: "config"
+      version: "0.29.0"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+...

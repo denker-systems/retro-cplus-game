@@ -11,6 +11,7 @@
 #include "editor/panels/core/HierarchyPanel.h"
 #include "editor/panels/core/PropertiesPanel.h"
 #include "editor/panels/core/ConsolePanel.h"
+#include "editor/panels/core/CommandPanel.h"
 #include "editor/panels/viewport/ViewportPanel.h"
 #include "editor/panels/assets/AssetBrowserPanel.h"
 #include "editor/panels/assets/PlaceActorsPanel.h"
@@ -27,6 +28,9 @@
 #include "editor/legacy/TiledIntegration.h"
 #include "engine/data/DataLoader.h"
 #include "engine/utils/Logger.h"
+#include "ai/AISystemInit.h"
+#include "ai/ui/AIChatPanel.h"
+#include "editor/panels/core/EditorSettingsPanel.h"
 
 #ifdef HAS_IMGUI
 #include "editor/core/ImGuiManager.h"
@@ -62,8 +66,12 @@ void EditorState::enter() {
     m_eventDispatcher = std::make_unique<EditorEventDispatcher>(m_editorContext);
     m_eventDispatcher->setInputHandler(m_panelManager->getInputHandler());
     
+    // Create settings panel
+    m_settingsPanel = std::make_unique<editor::EditorSettingsPanel>();
+    
     // Setup menu bar callbacks
     auto* menuBar = m_panelManager->getMenuBar();
+    menuBar->setSettingsPanel(m_settingsPanel.get());
     menuBar->onSaveAll = [this]() {
         m_dataManager.syncFromEngine(m_worldManager->getWorld());
         auto result = m_dataManager.saveAll();
@@ -93,10 +101,26 @@ void EditorState::enter() {
     viewport->setLevel(world->getActiveLevel());
     viewport->setScene(world->getActiveLevel()->getActiveScene());
     
+    // Connect selection manager to properties panel
+    auto* properties = m_panelManager->getPropertiesPanel();
+    properties->setSelectionManager(viewport->getSelectionManager());
+    
+    // Connect selection manager to hierarchy panel
+    auto* hierarchy = m_panelManager->getHierarchyPanel();
+    hierarchy->setSelectionManager(viewport->getSelectionManager());
+    hierarchy->setActiveScene(world->getActiveLevel()->getActiveScene());
+    
     m_panelManager->getSceneGraphPanel()->setScene(world->getActiveLevel()->getActiveScene());
     m_panelManager->getLayerEditorPanel()->setLayerManager(m_worldManager->getLayerManager());
     m_panelManager->getWorldViewPanel()->setWorld(world);
     m_panelManager->getLevelViewPanel()->setLevel(world->getActiveLevel());
+    
+    // Initialize AI system
+    if (ai::initializeAISystem()) {
+        if (m_panelManager->getConsolePanel()) {
+            m_panelManager->getConsolePanel()->log("AI Assistant initialized");
+        }
+    }
     
     if (m_panelManager->getConsolePanel()) {
         m_panelManager->getConsolePanel()->log("Editor initialized with manager architecture");
@@ -145,6 +169,9 @@ void EditorState::exit() {
     }
     
 #ifdef HAS_IMGUI
+    // Shutdown AI system
+    ai::shutdownAISystem();
+    
     if (m_panelManager) m_panelManager->shutdown();
     if (m_worldManager) m_worldManager->shutdown();
     ImGuiManager::instance().shutdown();
@@ -159,6 +186,9 @@ void EditorState::update(float deltaTime) {
     if (m_panelManager && m_panelManager->getViewportPanel()) {
         m_panelManager->getViewportPanel()->update(deltaTime);
     }
+    
+    // Update AI system (check for async responses)
+    ai::AIAgentSystem::instance().update();
 #endif
 }
 
@@ -248,6 +278,9 @@ void EditorState::renderImGui() {
     if (m_panelManager->getConsolePanel() && m_panelManager->getConsolePanel()->isVisible()) {
         m_panelManager->getConsolePanel()->render();
     }
+    if (m_panelManager->getCommandPanel() && m_panelManager->getCommandPanel()->isVisible()) {
+        m_panelManager->getCommandPanel()->render();
+    }
     if (m_panelManager->getDialogGraphPanel() && m_panelManager->getDialogGraphPanel()->isVisible()) {
         m_panelManager->getDialogGraphPanel()->render();
     }
@@ -271,6 +304,14 @@ void EditorState::renderImGui() {
     }
     if (m_panelManager->getLevelViewPanel() && m_panelManager->getLevelViewPanel()->isVisible()) {
         m_panelManager->getLevelViewPanel()->render();
+    }
+    
+    // Render AI Chat Panel
+    ai::AIChatPanel::instance().render();
+    
+    // Render Settings Panel (modal)
+    if (m_settingsPanel) {
+        m_settingsPanel->render();
     }
     
     ImGuiManager::instance().endFrame();

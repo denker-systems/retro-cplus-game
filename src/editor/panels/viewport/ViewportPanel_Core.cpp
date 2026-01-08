@@ -17,12 +17,15 @@
 
 ViewportPanel::ViewportPanel(EditorContext& context)
     : m_context(context) {
+    // Create selection manager
+    m_selectionManager = new SelectionManager(context);
 }
 
 ViewportPanel::~ViewportPanel() {
     if (m_roomTexture) {
         SDL_DestroyTexture(m_roomTexture);
     }
+    delete m_selectionManager;
 }
 
 void ViewportPanel::update(float deltaTime) {

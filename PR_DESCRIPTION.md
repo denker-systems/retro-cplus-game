@@ -1,136 +1,172 @@
-﻿# Documentation System & Complete Project History
+# feat(ai): Add AI World Builder with 37 Editor Tools
 
-##  Overview
+## Sammanfattning
 
-Denna PR lägger till ett komplett dokumentationssystem och fullständig projekthistorik för Retro Adventure.
+Implementerar ett komplett AI-assisterat world-building system för Retro Engine Editor. AI:n kan nu skapa och hantera levels, scenes, NPCs, items, dialogs, quests och mer - allt via naturligt språk i den inbyggda AI Chat-panelen.
 
-**Branch:** `basic-system-04/01/2026`  `main`  
-**Commits:** 2  
-**Session:** 2026-01-05
+## Relaterad Issue
 
----
-
-##  New Features
-
-###  Robust Documentation System
-- **CHANGELOG.md** - Följer [Keep a Changelog](https://keepachangelog.com/) standard med SemVer
-- **docs/README.md** - Komplett dokumentations-index
-- **docs/dev/DEVLOG.md** - Kronologisk logg av alla 76 commits sedan projektstart
-- **docs/dev/decisions/** - Architecture Decision Records (ADR)
-  - Template för nya beslut
-  - ADR-001: SDL2 Tech Stack
-  - ADR-002: ImGui Editor Architecture
-
-###  Restructured Documentation
-`
-docs/
- CHANGELOG.md              # Versionerade releases
- README.md                 # Dokumentations-index
- dev/                      # Utvecklingsloggar
-    DEVLOG.md            # Alla commits
-    sessions/            # Dagliga rapporter (flyttat)
-    decisions/           # ADR
- game/                     # Spel-dokumentation
- editor/                   # Editor-dokumentation
- api/                      # API-referens
- guides/                   # How-to guides
-`
-
-###  Git Policy & Workflows
-- **.windsurf/rules/git-policy.md** - Strikta regler för git-operationer
-- **.windsurf/workflows/generate-pr.md** - Auto-generera PR descriptions
-- Uppdaterade workflows för synkad dokumentation
+Closes #N/A (Feature request)
 
 ---
 
-##  Commits
+## Typ av Ändring
 
-| Hash | Type | Description |
-|------|------|-------------|
-| `677cced` | docs | Complete DEVLOG with all 76 commits since project start |
-| `41c68e1` | docs | Add robust documentation system with CHANGELOG, ADR, and restructured folders |
-
----
-
-##  Project Statistics
-
-### Commit History
-- **Total commits:** 76
-- **2026-01-04:** 63 commits (Fas 1-3 komplett)
-- **2026-01-05:** 13 commits (ImGui editor, dokumentation)
-
-### Fas Progress
-| Fas | Status | Commits |
-|-----|--------|---------|
-| Fas 1: Core |  100% | ~15 |
-| Fas 2: Systems |  100% | ~20 |
-| Fas 3: Advanced |  100% | ~15 |
-| Fas 4: Content |  15% | ~10 |
+- [x] ✨ **Feature** - Ny funktionalitet
+- [ ] 🐛 **Bugfix**
+- [x] 🔧 **Refactoring** - AI system architecture
+- [x] 📚 **Documentation** - Workflows och changelogs
+- [ ] ⚡ **Performance**
+- [ ] 🧪 **Tests**
+- [ ] 💥 **Breaking Change**
 
 ---
 
-##  Documentation Coverage
+## Ändringar
 
-### Complete DEVLOG
-Alla 76 commits dokumenterade från projektstart (`e411fa3`) till nu (`677cced`):
-- Grupperade per datum och tid på dagen
-- Länkar till session reports
-- Fas-progress tracking
-- Statistik och highlights
+### Added
 
-### CHANGELOG
-Versionerad enligt Keep a Changelog:
-- [Unreleased] - ImGui editor, dokumentationssystem
-- [0.3.0] - AI, Save, Cutscene, UI systems
-- [0.2.0] - Room, Dialog, Inventory, Quest systems
-- [0.1.0] - Core foundation
+**AI Tools (37 totalt):**
 
-### ADR (Architecture Decision Records)
-- **001-sdl2-tech-stack.md** - Varför SDL2 valdes
-- **002-imgui-editor.md** - ImGui editor-beslut
-- **_template.md** - Mall för framtida beslut
+| Kategori | Tools |
+|----------|-------|
+| **Level/World** | `list_levels`, `create_level`, `add_scene_to_level`, `set_start_scene`, `get_world_info` |
+| **Quest** | `list_quests`, `get_quest`, `create_quest`, `add_quest_objective`, `link_quest_to_npc` |
+| **Dialog** | `list_dialogs`, `get_dialog`, `create_dialog`, `add_dialog_node` |
+| **Hotspot** | `list_hotspots`, `create_hotspot`, `modify_hotspot`, `delete_hotspot` |
+| **Item** | `list_items`, `get_item`, `create_item`, `modify_item` |
+| **Scene** | `list_scenes`, `get_scene`, `create_scene`, `modify_scene` |
+| **Actor** | `list_actors`, `get_actor`, `create_actor`, `modify_actor`, `delete_actor`, `add_component` |
+| **Context** | `get_editor_context`, `select_scene`, `select_actor` |
+| **Command** | `execute_command`, `list_commands` |
 
----
+**AI System:**
+- `AIAgentSystem` - Central AI coordinator with async processing
+- `AnthropicProvider` - Claude API integration with tool calling
+- `EditorToolRegistry` - Tool registration and discovery
+- `AIChatPanel` - ImGui chat interface
 
-##  Synced Documentation System
+**Editor Integration:**
+- `CommandPanel` - Command palette panel
+- `EditorWorldManager` - World/Level/Scene management extensions
+- `DataLoader` - saveNPCs(), saveQuests() persistence
 
-`
-Session Start  Session Report  Work + Commits  DEVLOG  Session End  PR
-`
+**Workflows:**
+- `/research` - Knowledge gathering workflow
 
-Alla dokument synkas automatiskt:
-- `docs/dev/sessions/YYYY-MM-DD.md` - Dagliga rapporter
-- `docs/dev/DEVLOG.md` - Commit-historik
-- `docs/CHANGELOG.md` - Releases
-- `docs/ROADMAP.md` - Progress
+### Changed
 
----
-
-##  Checklist
-
-- [x] CHANGELOG.md skapad med Keep a Changelog format
-- [x] DEVLOG.md täcker alla 76 commits
-- [x] ADR-system implementerat
-- [x] Sessions flyttade till docs/dev/sessions/
-- [x] Git-policy rules uppdaterade
-- [x] Workflows synkade
-- [x] Dokumentations-index (docs/README.md)
+- **System Prompt** - Updated with LucasArts-style world-building guidelines
+- **Scene.h** - Added separate ID field for scene lookup
+- **EditorPanelManager** - AI panel integration
 
 ---
 
-##  References
+## Commits
 
-- [Keep a Changelog](https://keepachangelog.com/)
-- [Semantic Versioning](https://semver.org/)
-- [Architecture Decision Records](https://adr.github.io/)
-- [Session 2026-01-05](docs/dev/sessions/2026-01-05.md)
+| Hash | Type | Scope | Beskrivning |
+|------|------|-------|-------------|
+| `b522b53` | docs | workflows | Add research workflow |
+| `2df6126` | docs | - | Update session report |
+| `dd941a7` | feat | editor | Add AI Assistant with Anthropic Claude |
+| `2b549ea` | chore | build | Add build artifacts and vcpkg deps |
+| `4bf200d` | feat | ai | Add AI World Builder tools (37 st) |
+| `9d247db` | docs | - | Update changelog and devlog |
+| `a4c8bce` | refactor | ai | Improve AI system architecture |
+| `79bca5c` | chore | build | Update build artifacts |
 
 ---
 
-##  Next Steps
+## Implementation Details
 
-Efter denna PR är mergad:
-1. Fortsätt utveckling på ny feature branch
-2. Använd `/git-commit` workflow för synkad dokumentation
-3. Uppdatera CHANGELOG vid nya features
-4. Skapa ADR för stora arkitekturbeslut
+### Arkitektur
+
+```
+AIAgentSystem (singleton)
+├── ILLMProvider (interface)
+│   └── AnthropicProvider (Claude API)
+├── EditorToolRegistry
+│   └── IEditorTool implementations
+└── Message history
+```
+
+### Nya Filer
+
+**AI Tools:**
+- `src/ai/tools/LevelTools.h/cpp` - Level/World management
+- `src/ai/tools/QuestTools.h/cpp` - Quest management
+- `src/ai/tools/DialogTools.h/cpp` - Dialog creation
+- `src/ai/tools/HotspotTools.h/cpp` - Hotspot CRUD
+- `src/ai/tools/ItemTools.h/cpp` - Item management
+- `src/ai/tools/ContextTools.h/cpp` - Editor context
+- `src/ai/tools/CommandTools.h/cpp` - Command execution
+
+**Editor:**
+- `src/editor/panels/core/CommandPanel.h/cpp` - Command palette
+
+### Modifierade Filer
+
+- `CMakeLists.txt` - Added new AI tool sources
+- `src/ai/AISystemInit.cpp` - Tool registration
+- `src/ai/core/AIAgentSystem.cpp` - Enhanced system prompt
+- `src/engine/data/DataLoader.h/cpp` - Save methods
+
+---
+
+## Testning
+
+### Manuell Testning
+
+- [x] Testat i RetroEditor.exe
+- [x] AI Chat panel fungerar
+- [x] Tool execution fungerar
+- [x] Data sparas till JSON
+
+### Teststeg
+
+1. Starta RetroEditor
+2. Öppna AI Chat panel (View → AI Chat)
+3. Skriv: "Create a level called Haunted Mansion with 3 scenes"
+4. Verifiera att level och scenes skapas
+5. Kontrollera world.json och scenes.json
+
+---
+
+## Dokumentation
+
+- [x] CHANGELOG uppdaterad
+- [x] DEVLOG uppdaterad
+- [x] System prompt dokumenterad i kod
+
+---
+
+## Kända Begränsningar
+
+1. **Scene-level association** - Nya scenes läggs till `main_game` istället för senast skapade level
+2. **Bakgrunder** - AI genererar bakgrundsnamn som inte existerar (placeholder)
+3. **Exits** - Saknar tool för att koppla scenes med exits
+
+---
+
+## Checklista
+
+### Kod
+- [x] Följer coding standards
+- [x] Ingen debug-kod kvar
+- [x] Dokumenterad med kommentarer
+
+### Build
+- [x] Kompilerar utan errors
+- [x] Inga nya warnings
+
+### Docs
+- [x] CHANGELOG uppdaterad
+- [x] DEVLOG uppdaterad
+
+---
+
+## Reviewer Notes
+
+- Fokusera på AI tool implementations i `src/ai/tools/`
+- System prompt finns i `AIAgentSystem.cpp` (DEFAULT_SYSTEM_PROMPT)
+- Alla tools följer samma mönster: execute() → ToolResult

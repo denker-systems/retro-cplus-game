@@ -28,6 +28,31 @@ bool InputText(const char* label, std::string& str, ImGuiInputTextFlags flags) {
     return false;
 }
 
+bool InputTextDisabled(const char* label, std::string& str, bool disabled) {
+#ifdef HAS_IMGUI
+    if (disabled) {
+        ImGui::BeginDisabled(true);
+    }
+    
+    char buffer[1024];
+    strncpy_s(buffer, str.c_str(), sizeof(buffer) - 1);
+    buffer[sizeof(buffer) - 1] = '\0';
+    
+    bool changed = ImGui::InputText(label, buffer, sizeof(buffer), ImGuiInputTextFlags_None);
+    
+    if (changed && !disabled) {
+        str = buffer;
+    }
+    
+    if (disabled) {
+        ImGui::EndDisabled();
+    }
+    
+    return changed && !disabled;
+#endif
+    return false;
+}
+
 bool InputTextMultiline(const char* label, std::string& str, const ImVec2& size, ImGuiInputTextFlags flags) {
 #ifdef HAS_IMGUI
     char buffer[4096];

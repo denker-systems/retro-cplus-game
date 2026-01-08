@@ -18,6 +18,8 @@
 #include "engine/components/RigidBody2DComponent.h"
 #include "engine/components/Collider2DComponent.h"
 #include "engine/components/CharacterController2D.h"
+#include "engine/components/TriggerComponent.h"
+#include "engine/physics/box2d/PhysicsWorld2D.h"
 #include "engine/world/Scene.h"
 #include "engine/Hotspot.h"
 #include "engine/systems/SceneManager.h"
@@ -28,6 +30,7 @@
 #include "engine/graphics/Transition.h"
 #include "engine/graphics/FontManager.h"
 #include "engine/data/GameDataLoader.h"
+#include "engine/data/DataLoader.h"
 #include "engine/utils/Logger.h"
 #include "engine/data/GameSettings.h"
 #include <iostream>
@@ -106,55 +109,165 @@ void PlayState::onRoomChange(const std::string& roomId) {
             scene->setPhysicsDebugDraw(settings.isPhysicsDebugEnabled());
             std::cout << "[Physics] Enabled for scene: " << roomId << std::endl;
             
-            // Create ground collider at bottom of walk area
-            auto ground = std::make_unique<engine::ActorObjectExtended>("Ground");
-            ground->setPosition(320, static_cast<float>(wa.maxY + 10));
+            // Setup contact callbacks for triggers
+            scene->getPhysicsWorld()->onContactBegin = [](const engine::physics::ContactInfo& info) {
+                if (!info.isSensorContact) return;
+                
+                // Try to find TriggerComponent on sensor actor
+                auto* actorA = dynamic_cast<engine::ActorObjectExtended*>(info.actorA);
+                auto* actorB = dynamic_cast<engine::ActorObjectExtended*>(info.actorB);
+                
+                if (actorA) {
+                    auto* trigger = actorA->getComponent<engine::TriggerComponent>();
+                    if (trigger) {
+                        trigger->onTriggerEnter(actorB);
+                    }
+                }
+                if (actorB) {
+                    auto* trigger = actorB->getComponent<engine::TriggerComponent>();
+                    if (trigger) {
+                        trigger->onTriggerEnter(actorA);
+                    }
+                }
+            };
             
-            auto* groundRb = ground->addComponent<engine::RigidBody2DComponent>();
-            groundRb->setBodyType(engine::RigidBody2DComponent::BodyType::Static);
-            groundRb->initializeBody(scene->getPhysicsWorld());
+            scene->getPhysicsWorld()->onContactEnd = [](const engine::physics::ContactInfo& info) {
+                if (!info.isSensorContact) return;
+                
+                auto* actorA = dynamic_cast<engine::ActorObjectExtended*>(info.actorA);
+                auto* actorB = dynamic_cast<engine::ActorObjectExtended*>(info.actorB);
+                
+                if (actorA) {
+                    auto* trigger = actorA->getComponent<engine::TriggerComponent>();
+                    if (trigger) {
+                        trigger->onTriggerExit(actorB);
+                    }
+                }
+                if (actorB) {
+                    auto* trigger = actorB->getComponent<engine::TriggerComponent>();
+                    if (trigger) {
+                        trigger->onTriggerExit(actorA);
+                    }
+                }
+            };
             
-            auto* groundCol = ground->addComponent<engine::Collider2DComponent>();
-            groundCol->setBoxShape(640, 20);
-            groundCol->initializeShape();
+            // Load collision boxes from scene data
+            const SceneData* sceneData = DataLoader::instance().getSceneById(roomId);
+            if (sceneData && !sceneData->collisionBoxes.empty()) {
+                for (const auto& box : sceneData->collisionBoxes) {
+                    auto collider = std::make_unique<engine::ActorObjectExtended>("Collider_" + box.id);
+                    // Position at center of box
+                    collider->setPosition(box.x + box.width / 2.0f, box.y + box.height / 2.0f);
+                    
+                    auto* rb = collider->addComponent<engine::RigidBody2DComponent>();
+                    rb->setBodyType(engine::RigidBody2DComponent::BodyType::Static);
+                    rb->initializeBody(scene->getPhysicsWorld());
+                    
+                    auto* col = collider->addComponent<engine::Collider2DComponent>();
+                    col->setBoxShape(box.width, box.height);
+                    col->initializeShape();
+                    
+                    scene->addActor(std::move(collider));
+                    std::cout << "[Physics] Created collision box: " << box.id << " (" << box.type << ")" << std::endl;
+                }
+            }
             
-            scene->addActor(std::move(ground));
-            std::cout << "[Physics] Ground collider created" << std::endl;
+            // Load hotspots with physics (triggers/gates)
+            if (sceneData) {
+                for (const auto& hs : sceneData->hotspots) {
+                    if (hs.physics.enabled && hs.physics.collider.isTrigger) {
+                        auto trigger = std::make_unique<engine::ActorObjectExtended>("Trigger_" + hs.id);
+                        trigger->setPosition(hs.x + hs.w / 2.0f, hs.y + hs.h / 2.0f);
+                        
+                        auto* rb = trigger->addComponent<engine::RigidBody2DComponent>();
+                        rb->setBodyType(engine::RigidBody2DComponent::BodyType::Static);
+                        rb->initializeBody(scene->getPhysicsWorld());
+                        
+                        auto* col = trigger->addComponent<engine::Collider2DComponent>();
+                        col->setBoxShape(static_cast<float>(hs.w), static_cast<float>(hs.h));
+                        col->setTrigger(true);
+                        col->initializeShape();
+                        
+                        // Add TriggerComponent with scene transition callback
+                        auto* triggerComp = trigger->addComponent<engine::TriggerComponent>();
+                        
+                        // Capture target scene for the callback
+                        std::string targetScene = hs.targetScene;
+                        std::string targetLevel = hs.targetLevel;
+                        std::string hsName = hs.name;
+                        
+                        if (!targetScene.empty()) {
+                            triggerComp->setOnEnter([this, targetScene, hsName](engine::ActorObjectExtended* other) {
+                                if (other->getName() == "Player") {
+                                    std::cout << "[Trigger] Player entered: " << hsName << " -> " << targetScene << std::endl;
+                                    if (!Transition::instance().isActive()) {
+                                        Transition::instance().fadeToBlack(0.5f, [targetScene]() {
+                                            SceneManager::instance().changeScene(targetScene);
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                        
+                        scene->addActor(std::move(trigger));
+                        std::cout << "[Physics] Created trigger: " << hs.id << " -> " << hs.targetScene << std::endl;
+                    }
+                }
+            }
+            
+            if (!sceneData || sceneData->collisionBoxes.empty()) {
+                // Fallback: Create ground collider at bottom of walk area
+                auto ground = std::make_unique<engine::ActorObjectExtended>("Ground");
+                ground->setPosition(320, static_cast<float>(wa.maxY + 10));
+                
+                auto* groundRb = ground->addComponent<engine::RigidBody2DComponent>();
+                groundRb->setBodyType(engine::RigidBody2DComponent::BodyType::Static);
+                groundRb->initializeBody(scene->getPhysicsWorld());
+                
+                auto* groundCol = ground->addComponent<engine::Collider2DComponent>();
+                groundCol->setBoxShape(640, 20);
+                groundCol->initializeShape();
+                
+                scene->addActor(std::move(ground));
+                std::cout << "[Physics] Ground collider created (fallback)" << std::endl;
+            }
         }
         
         // ═══════════════════════════════════════════════════════════════
-        // PLAYER PHYSICS - Initialize player physics components
+        // PLAYER PHYSICS - Initialize player physics in current scene's world
         // ═══════════════════════════════════════════════════════════════
-        if (settings.isPlatformerMode() && scene->hasPhysics() && !m_playerPhysicsInitialized) {
-            // Add RigidBody2D to player
+        if (settings.isPlatformerMode() && scene->hasPhysics()) {
+            // Get or create RigidBody2D for player
             auto* rb = m_player->getComponent<engine::RigidBody2DComponent>();
             if (!rb) {
                 rb = m_player->addComponent<engine::RigidBody2DComponent>();
             }
+            
+            // Re-initialize body in new physics world (for scene transitions)
             rb->setBodyType(engine::RigidBody2DComponent::BodyType::Dynamic);
             rb->setFixedRotation(true);
             rb->initializeBody(scene->getPhysicsWorld());
             
-            // Add Collider to player
+            // Get or create Collider for player
             auto* col = m_player->getComponent<engine::Collider2DComponent>();
             if (!col) {
                 col = m_player->addComponent<engine::Collider2DComponent>();
+                col->setCapsuleShape(24, 48); // Player hitbox
             }
-            col->setCapsuleShape(24, 48); // Player hitbox
             col->initializeShape();
             
-            // Add CharacterController2D with settings from GameSettings
+            // Get or create CharacterController2D
             auto* controller = m_player->getComponent<engine::CharacterController2D>();
             if (!controller) {
                 controller = m_player->addComponent<engine::CharacterController2D>();
+                controller->setWalkSpeed(settings.getWalkSpeed());
+                controller->setRunSpeed(settings.getRunSpeed());
+                controller->setJumpForce(settings.getJumpForce());
             }
-            controller->setWalkSpeed(settings.getWalkSpeed());
-            controller->setRunSpeed(settings.getRunSpeed());
-            controller->setJumpForce(settings.getJumpForce());
             controller->initialize(); // Find sibling RigidBody
             
             m_playerPhysicsInitialized = true;
-            std::cout << "[Physics] Player physics initialized" << std::endl;
+            std::cout << "[Physics] Player physics initialized in scene: " << roomId << std::endl;
         }
     }
     

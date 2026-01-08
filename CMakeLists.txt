@@ -15,6 +15,8 @@ find_package(SDL2_ttf CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(box2d CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
+find_package(httplib CONFIG REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 # Editor dependencies (optional)
 find_package(imgui CONFIG QUIET)
@@ -89,6 +91,7 @@ set(CORE_SOURCES
     src/engine/world/Scene.cpp
     src/engine/world/World.cpp
     src/engine/world/Level.cpp
+    src/engine/world/RoomToSceneConverter.cpp
     src/engine/world/WorldContainer.h
     src/engine/physics/CollisionShape.cpp
     src/engine/physics/PhysicsBody.cpp
@@ -214,6 +217,7 @@ set(EDITOR_SOURCES
     src/editor/panels/core/PropertiesPanel.cpp
     src/editor/panels/core/ConsolePanel.cpp
     src/editor/panels/core/GameSettingsPanel.cpp
+    src/editor/panels/core/EditorSettingsPanel.cpp
     
     # Panels - Viewport
     src/editor/panels/viewport/ViewportPanel_Core.cpp
@@ -260,6 +264,13 @@ set(EDITOR_SOURCES
     # Properties - Characters
     src/editor/properties/characters/NPCPropertyEditor.cpp
     
+    # Properties - Actors
+    src/editor/properties/actors/ActorPropertyEditor.cpp
+    src/editor/properties/actors/LockableComponent.cpp
+    
+    # Core
+    src/editor/core/SelectionManager.cpp
+    
     # Tools
     src/editor/tools/SelectTool.cpp
     src/editor/tools/ScaleTool.cpp
@@ -283,6 +294,24 @@ set(EDITOR_SOURCES
     src/editor/data/SceneSerializer.cpp
     src/editor/data/EditorDataManager.cpp
     
+    # AI System
+    src/ai/core/EditorToolRegistry.cpp
+    src/ai/core/AIAgentSystem.cpp
+    src/ai/providers/OpenAIProvider.cpp
+    src/ai/providers/AnthropicProvider.cpp
+    src/ai/tools/SceneTools.cpp
+    src/ai/tools/ActorTools.cpp
+    src/ai/tools/HotspotTools.cpp
+    src/ai/tools/DialogTools.cpp
+    src/ai/tools/ItemTools.cpp
+    src/ai/tools/CommandTools.cpp
+    src/ai/tools/ContextTools.cpp
+    src/ai/tools/LevelTools.cpp
+    src/ai/tools/QuestTools.cpp
+    src/editor/panels/core/CommandPanel.cpp
+    src/ai/ui/AIChatPanel.cpp
+    src/ai/AISystemInit.cpp
+    
     # Vendor
     src/vendor/imnodes/imnodes.cpp
     src/editor/core/ImGuiManager.cpp
@@ -300,6 +329,9 @@ target_link_libraries(RetroEditor PRIVATE
     $<TARGET_NAME_IF_EXISTS:nfd::nfd>
     $<TARGET_NAME_IF_EXISTS:spdlog::spdlog>
     $<TARGET_NAME_IF_EXISTS:efsw::efsw>
+    httplib::httplib
+    OpenSSL::SSL
+    OpenSSL::Crypto
 )
 
 # Definiera HAS_EDITOR för att inkludera editor-funktionalitet

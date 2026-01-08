@@ -34,6 +34,7 @@ void RoomPropertyEditor::render() {
     renderPlayerSpawn();
     renderWalkArea();
     renderHotspotsList();
+    renderCollisionBoxes();
     renderLayersList();
     
     // Delete button at bottom
@@ -186,6 +187,111 @@ void RoomPropertyEditor::renderHotspotsList() {
         }
         
         ImGui::PopID();
+    }
+#endif
+}
+
+void RoomPropertyEditor::renderCollisionBoxes() {
+#ifdef HAS_IMGUI
+    PropertyEditorUtils::SectionHeader("Collision Boxes");
+    
+    ImGui::Text("Count: %d", (int)m_room->collisionBoxes.size());
+    
+    if (ImGui::Button("Add Collision Box")) {
+        CollisionBoxData newBox;
+        newBox.id = "box_" + std::to_string(m_room->collisionBoxes.size());
+        newBox.type = "ground";
+        newBox.x = 0;
+        newBox.y = 350;
+        newBox.width = 640;
+        newBox.height = 30;
+        newBox.oneWay = false;
+        m_room->collisionBoxes.push_back(newBox);
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    
+    ImGui::Spacing();
+    
+    // List collision boxes with inline editing
+    int toDelete = -1;
+    for (size_t i = 0; i < m_room->collisionBoxes.size(); i++) {
+        auto& box = m_room->collisionBoxes[i];
+        ImGui::PushID((int)i);
+        
+        // Color indicator based on type
+        ImVec4 color;
+        if (box.type == "ground") color = ImVec4(0.4f, 1.0f, 0.4f, 1.0f);
+        else if (box.type == "wall") color = ImVec4(1.0f, 0.4f, 0.4f, 1.0f);
+        else if (box.type == "platform") color = ImVec4(0.4f, 0.8f, 1.0f, 1.0f);
+        else color = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);
+        
+        ImGui::PushStyleColor(ImGuiCol_Text, color);
+        bool open = ImGui::TreeNode(box.id.c_str());
+        ImGui::PopStyleColor();
+        
+        if (open) {
+            // ID
+            if (PropertyEditorUtils::InputText("ID", box.id)) {
+                m_isDirty = true;
+                m_context.markDirty();
+            }
+            
+            // Type dropdown
+            const char* types[] = { "ground", "wall", "platform", "hazard" };
+            int currentType = 0;
+            for (int t = 0; t < 4; t++) {
+                if (box.type == types[t]) { currentType = t; break; }
+            }
+            if (ImGui::Combo("Type", &currentType, types, 4)) {
+                box.type = types[currentType];
+                m_isDirty = true;
+                m_context.markDirty();
+            }
+            
+            // Position
+            int pos[2] = { static_cast<int>(box.x), static_cast<int>(box.y) };
+            if (ImGui::DragInt2("Position", pos, 1.0f)) {
+                box.x = static_cast<float>(pos[0]);
+                box.y = static_cast<float>(pos[1]);
+                m_isDirty = true;
+                m_context.markDirty();
+            }
+            
+            // Size
+            int size[2] = { static_cast<int>(box.width), static_cast<int>(box.height) };
+            if (ImGui::DragInt2("Size", size, 1.0f, 1, 1000)) {
+                box.width = static_cast<float>(size[0]);
+                box.height = static_cast<float>(size[1]);
+                m_isDirty = true;
+                m_context.markDirty();
+            }
+            
+            // One-way checkbox
+            if (ImGui::Checkbox("One-Way", &box.oneWay)) {
+                m_isDirty = true;
+                m_context.markDirty();
+            }
+            PropertyEditorUtils::HelpMarker("One-way platforms can be jumped through from below");
+            
+            // Delete button
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7f, 0.2f, 0.2f, 1.0f));
+            if (ImGui::Button("Delete")) {
+                toDelete = (int)i;
+            }
+            ImGui::PopStyleColor();
+            
+            ImGui::TreePop();
+        }
+        
+        ImGui::PopID();
+    }
+    
+    // Handle deletion outside loop
+    if (toDelete >= 0) {
+        m_room->collisionBoxes.erase(m_room->collisionBoxes.begin() + toDelete);
+        m_isDirty = true;
+        m_context.markDirty();
     }
 #endif
 }

@@ -106,9 +106,14 @@ public:
     void update(float deltaTime) override;
     void render(SDL_Renderer* renderer) override;
     
+    // Z-index/render order
+    void setRenderOrder(int order) { m_renderOrder = order; }
+    int getRenderOrder() const { return m_renderOrder; }
+    
 private:
     std::vector<std::unique_ptr<ActorComponent>> m_components;
     std::unordered_map<std::type_index, ActorComponent*> m_componentMap;
+    int m_renderOrder = 0;  // Higher values render on top
 };
 
 } // namespace engine

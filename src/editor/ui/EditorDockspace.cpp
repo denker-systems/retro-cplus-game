@@ -56,8 +56,13 @@ void EditorDockspace::setupDefaultLayout(float screenW, float screenH, float men
     ImGui::DockBuilderDockWindow("Scene Graph", dockCenter);
     ImGui::DockBuilderDockWindow("Layer Editor", dockCenter);
     ImGui::DockBuilderDockWindow("TileMap Editor", dockCenter);
+    
+    // Right side: Properties + AI Assistant (tabbed top), Asset Browser + Place Actors (tabbed bottom)
     ImGui::DockBuilderDockWindow("Properties", dockRightTop);
+    ImGui::DockBuilderDockWindow("AI Assistant", dockRightTop);
     ImGui::DockBuilderDockWindow("Asset Browser", dockRightBottom);
+    ImGui::DockBuilderDockWindow("Place Actors", dockRightBottom);
+    
     ImGui::DockBuilderDockWindow("Console", dockBottom);
     ImGui::DockBuilderFinish(m_dockspaceId);
 #endif

@@ -23,6 +23,7 @@ public:
     
     /** @brief Hämta all quest-data */
     const std::vector<QuestData>& getQuests() const { return m_quests; }
+    std::vector<QuestData>& getQuests() { return m_quests; }
     
     /** @brief Hämta all dialog-data */
     const std::vector<DialogData>& getDialogs() const { return m_dialogs; }
@@ -37,6 +38,29 @@ public:
     
     /** @brief Hämta all NPC-data */
     const std::vector<NPCData>& getNPCs() const { return m_npcs; }
+    std::vector<NPCData>& getNPCs() { return m_npcs; }
+    
+    /** @brief Hämta mutable items */
+    std::vector<ItemData>& getItems() { return m_items; }
+    
+    // Find by ID (static for AI tools)
+    static const SceneData* getSceneById(const std::string& id);
+    static SceneData* getSceneByIdMutable(const std::string& id);
+    static const DialogData* getDialogById(const std::string& id);
+    static DialogData* getDialogByIdMutable(const std::string& id);
+    static const ItemData* getItemById(const std::string& id);
+    static ItemData* getItemByIdMutable(const std::string& id);
+    
+    // Add new data
+    static bool addDialog(const DialogData& dialog);
+    static bool addItem(const ItemData& item);
+    
+    // Save to file
+    static bool saveScenes();
+    static bool saveDialogs();
+    static bool saveItems();
+    static bool saveNPCs();
+    static bool saveQuests();
 
 private:
     DataLoader() = default;

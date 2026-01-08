@@ -11,6 +11,7 @@
 #include "editor/panels/assets/AssetBrowserPanel.h"
 #include "editor/panels/assets/PlaceActorsPanel.h"
 #include "editor/panels/core/ConsolePanel.h"
+#include "editor/panels/core/CommandPanel.h"
 #include "editor/panels/world/SceneGraphPanel.h"
 #include "editor/panels/editors/LayerEditorPanel.h"
 #include "editor/panels/editors/TileMapEditorPanel.h"
@@ -38,6 +39,7 @@ void EditorPanelManager::initialize(Game* game) {
     m_placeActorsPanel = std::make_unique<PlaceActorsPanel>(m_context);
     m_placeActorsPanel->setRenderer(game->getRenderer());
     m_consolePanel = std::make_unique<ConsolePanel>(m_context);
+    m_commandPanel = std::make_unique<CommandPanel>(m_context);
     m_dialogGraphPanel = std::make_unique<DialogGraphPanel>(m_context);
     m_questGraphPanel = std::make_unique<QuestGraphPanel>(m_context);
     m_behaviorGraphPanel = std::make_unique<BehaviorGraphPanel>(m_context);

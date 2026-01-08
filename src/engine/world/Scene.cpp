@@ -161,11 +161,11 @@ std::unique_ptr<Scene> Scene::createFromData(const SceneData& data) {
         hs.id = hsData.id;
         hs.name = hsData.name;
         hs.rect = {hsData.x, hsData.y, hsData.w, hsData.h};
-        // Convert string type to enum
-        if (hsData.type == "NPC") hs.type = HotspotType::NPC;
-        else if (hsData.type == "Item") hs.type = HotspotType::Item;
-        else if (hsData.type == "Exit") hs.type = HotspotType::Exit;
-        else if (hsData.type == "Examine") hs.type = HotspotType::Examine;
+        // Convert string type to enum (case-insensitive)
+        if (hsData.type == "npc" || hsData.type == "NPC") hs.type = HotspotType::NPC;
+        else if (hsData.type == "item" || hsData.type == "Item") hs.type = HotspotType::Item;
+        else if (hsData.type == "exit" || hsData.type == "Exit") hs.type = HotspotType::Exit;
+        else if (hsData.type == "examine" || hsData.type == "Examine") hs.type = HotspotType::Examine;
         else hs.type = HotspotType::None;
         hs.dialogId = hsData.dialogId;
         hs.examineText = hsData.examineText;

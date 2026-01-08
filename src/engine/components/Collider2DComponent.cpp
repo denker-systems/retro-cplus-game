@@ -140,12 +140,15 @@ void Collider2DComponent::setCollisionMask(physics::CollisionCategory mask) {
 // ============================================================================
 
 void Collider2DComponent::initializeShape() {
-    if (m_shapeInitialized) return;
-    
     m_rigidBody = findRigidBody();
     if (!m_rigidBody || !m_rigidBody->isInitialized()) {
         std::cerr << "[Collider2DComponent] Cannot initialize - no valid RigidBody2DComponent" << std::endl;
         return;
+    }
+    
+    // Destroy old shape if re-initializing for a new physics world
+    if (m_shapeInitialized) {
+        destroyShape();
     }
     
     createShape();
@@ -173,6 +176,7 @@ void Collider2DComponent::createShape() {
     def.mask = m_mask;
     def.offset = m_offset;
     def.size = m_size;
+    def.userData = m_owner;  // Set owner actor for trigger callbacks
     
     switch (m_shapeType) {
         case ShapeType::Box:

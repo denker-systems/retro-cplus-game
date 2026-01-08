@@ -10,6 +10,17 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- **AI World Builder** - 37 total AI tools for comprehensive game world creation
+  - Level/World tools: list_levels, create_level, add_scene_to_level, set_start_scene, get_world_info
+  - Quest tools: list_quests, get_quest, create_quest, add_quest_objective, link_quest_to_npc
+  - Dialog tools: list_dialogs, get_dialog, create_dialog, add_dialog_node
+  - Hotspot tools: list_hotspots, create_hotspot, modify_hotspot, delete_hotspot
+  - Item tools: list_items, get_item, create_item, modify_item
+  - Context tools: get_editor_context, select_scene, select_actor
+  - Command tools: execute_command, list_commands
+- **AI System Prompt** - World-building guidelines for consistent storytelling (LucasArts style)
+- **DataLoader save methods** - saveNPCs(), saveQuests() for persistent data
+- **CommandPanel** - Editor command palette panel
 - **Enterprise workflows** - 8 detailed core workflows (init-session, end-session, git-commit, build, debug, investigate, new-feature, generate-pr)
 - **New workflow files** - code-review, hotfix, release, handoff, incident-response, onboard-developer, profile, refactor, retrospective, run-tests, sprint-planning, github-actions, add-component, add-test
 - **New rule files** - coding-standards, coding-standards-extended, testing, security, performance, memory-safety, error-handling, documentation, component-pattern, code-review, ci-cd, cmake-best-practices

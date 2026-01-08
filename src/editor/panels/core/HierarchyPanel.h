@@ -7,8 +7,11 @@
 #include "editor/core/IEditorPanel.h"
 #include <string>
 #include <functional>
+#include <memory>
 
 class EditorContext;
+class SelectionManager;
+namespace engine { class Scene; }
 
 /**
  * @brief Visar hierarkisk lista över alla spel-objekt
@@ -29,10 +32,17 @@ public:
     void setOnQuestSelected(SelectionCallback cb) { m_onQuestSelected = cb; }
     void setOnItemSelected(SelectionCallback cb) { m_onItemSelected = cb; }
     
+    // Set selection manager for actor selection
+    void setSelectionManager(SelectionManager* selectionManager);
+    void setActiveScene(engine::Scene* scene) { m_activeScene = scene; }
+    
 private:
     const char* getSceneIcon(const std::string& sceneId) const;
+    void renderActorsForScene(const std::string& roomId);
     
     EditorContext& m_context;
+    SelectionManager* m_selectionManager = nullptr;
+    engine::Scene* m_activeScene = nullptr;
     std::string m_id = "hierarchy";
     std::string m_title = "Hierarchy";
     

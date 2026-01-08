@@ -32,6 +32,7 @@ private:
     void renderPlayerSpawn();
     void renderWalkArea();
     void renderHotspotsList();
+    void renderCollisionBoxes();
     void renderLayersList();
     
     EditorContext& m_context;
