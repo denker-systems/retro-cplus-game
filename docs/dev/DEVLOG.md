@@ -6,6 +6,25 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ---
 
+## 2026-01-08
+
+### Eftermiddag
+
+- `a8b52dd` docs: add PR description for 3D viewport feature
+- `6fa30bd` chore: configure Git LFS for large binary files
+  - **Git LFS:** Konfigurerat för *.pdb, *.dll, *.exe, *.lib
+  - **Löser:** GitHub 100MB filstorleksbegränsning
+  - **.gitattributes:** Ny fil med LFS tracking
+- `0b00c23` docs(workflow): add critical rule - always commit build files
+  - **Workflow:** Uppdaterad git-commit.md med build-fil regel
+  - **Memory:** Skapad för att alltid commita build-filer
+- `7c89611` feat(editor): add GLTextureManager and input refactoring plan
+  - **input_checklist.md:** Detaljerad plan för input-centralisering
+  - **EditorInputController:** Planerad arkitektur dokumenterad
+- Session: [2026-01-08](sessions/2026-01-08.md)
+
+---
+
 ## 2026-01-07
 
 ### Kväll
