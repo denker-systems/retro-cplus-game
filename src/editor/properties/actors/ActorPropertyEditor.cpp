@@ -90,12 +90,13 @@ void ActorPropertyEditor::renderTransformProperties() {
     auto* lockable = m_actor->getComponent<engine::LockableComponent>();
     bool isLocked = lockable ? lockable->isLocked() : false;
     
-    // Position (disabled if locked)
+    // Position X, Y, Z (disabled if locked)
     engine::Vec2 pos = m_actor->getPosition();
-    float position[2] = { pos.x, pos.y };
-    if (ImGui::DragFloat2("Position", position, 1.0f, -1000.0f, 1000.0f, "%.0f")) {
+    float posZ = m_actor->getZ();
+    float position[3] = { pos.x, pos.y, posZ };
+    if (ImGui::DragFloat3("Position", position, 1.0f, -10000.0f, 10000.0f, "%.0f")) {
         if (!isLocked) {
-            m_actor->setPosition(position[0], position[1]);
+            m_actor->setPosition(position[0], position[1], position[2]);
             m_isDirty = true;
             m_context.markDirty();
         }
@@ -122,7 +123,7 @@ void ActorPropertyEditor::renderTransformProperties() {
         }
     }
     
-    // Z-index/Render Order
+    // Render Order (layer depth)
     int renderOrder = m_actor->getRenderOrder();
     if (ImGui::DragInt("Render Order", &renderOrder, 1, -100, 100)) {
         if (!isLocked) {

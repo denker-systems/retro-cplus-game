@@ -8,6 +8,10 @@
 
 #include <SDL.h>
 
+namespace engine {
+    class GLContext;
+}
+
 /**
  * @brief ImGui integration manager for the editor
  * 
@@ -59,6 +63,12 @@ public:
      */
     bool isInitialized() const { return m_initialized; }
     
+    /**
+     * @brief Check if using OpenGL backend
+     * @return true if using OpenGL, false if using SDL_Renderer
+     */
+    bool isUsingOpenGL() const { return m_useOpenGL; }
+    
 private:
     ImGuiManager() = default;
     ~ImGuiManager() = default;
@@ -66,8 +76,10 @@ private:
     ImGuiManager& operator=(const ImGuiManager&) = delete;
     
     bool m_initialized = false;
+    bool m_useOpenGL = false;
     SDL_Window* m_window = nullptr;
     SDL_Renderer* m_renderer = nullptr;
+    engine::GLContext* m_glContext = nullptr;
 };
 
 #endif // HAS_IMGUI

@@ -11,7 +11,11 @@
 
 class EditorContext;
 class SelectionManager;
-namespace engine { class Scene; }
+namespace engine { 
+    class World;
+    class Level;
+    class Scene; 
+}
 
 /**
  * @brief Visar hierarkisk lista över alla spel-objekt
@@ -32,17 +36,19 @@ public:
     void setOnQuestSelected(SelectionCallback cb) { m_onQuestSelected = cb; }
     void setOnItemSelected(SelectionCallback cb) { m_onItemSelected = cb; }
     
-    // Set selection manager for actor selection
+    // Set selection manager for actor selection and navigation sync
     void setSelectionManager(SelectionManager* selectionManager);
-    void setActiveScene(engine::Scene* scene) { m_activeScene = scene; }
     
 private:
+    void renderWorldHierarchy();
+    void renderLevelHierarchy();
+    void renderSceneHierarchy();
+    void renderActorsForScene();
     const char* getSceneIcon(const std::string& sceneId) const;
-    void renderActorsForScene(const std::string& roomId);
+    const char* getActorIcon(const std::string& actorName) const;
     
     EditorContext& m_context;
     SelectionManager* m_selectionManager = nullptr;
-    engine::Scene* m_activeScene = nullptr;
     std::string m_id = "hierarchy";
     std::string m_title = "Hierarchy";
     

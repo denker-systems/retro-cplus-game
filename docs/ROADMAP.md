@@ -346,6 +346,37 @@
 
 **Status:** ✅ KOMPLETT - Editor arkitektur förbättrad med proper SoC
 
+### 5F: 3D Viewport & Unified Selection ✅ KLART (2026-01-08)
+
+**Mål:** 3D visualisering av World/Level/Scene hierarki + synkroniserad selection mellan paneler
+
+#### 5F.1 OpenGL Graphics Layer ✅
+- [x] `GLContext` - OpenGL 3.3 Core context management
+- [x] `Framebuffer` - Off-screen rendering till ImGui texture
+- [x] `Shader` - GLSL shader kompilering och uniform-hantering
+- [x] `Mesh` - VAO/VBO mesh rendering (cube, plane, grid)
+
+#### 5F.2 3D Viewport Panel ✅
+- [x] `Viewport3DPanel` - 3D rendering för World/Level/Scene
+- [x] `EditorCamera3D` - Orbit-kamera med pan/zoom
+- [x] Ray-AABB intersection för 3D object picking
+- [x] 2D/3D toggle på alla hierarki-nivåer
+- [x] Dual ImGui backend (SDL2 + OpenGL3)
+
+#### 5F.3 Unified Selection System ✅
+- [x] `SelectionManager` - Centraliserad navigation state (World/Level/Scene)
+- [x] Selection callbacks notifierar alla paneler vid ändringar
+- [x] Actor selection synkad mellan Hierarchy, Viewport och Properties
+- [x] Breadcrumb navigation synkad i båda riktningar
+
+#### 5F.4 HierarchyPanel Refactoring ✅
+- [x] Hierarkisk vy baserat på navigation level
+- [x] World → visar Levels
+- [x] Level → visar Scenes
+- [x] Scene → visar Actors
+
+**Status:** ✅ KOMPLETT - 3D viewport och unified selection fungerar
+
 **Arkitektur:** OOP Scene Graph (inspirerat av Godot, Cocos2d-x, SFML)
 
 ### 4A: Core Node System 🔴 HÖG PRIORITET

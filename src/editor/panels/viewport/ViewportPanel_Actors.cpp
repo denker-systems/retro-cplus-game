@@ -8,6 +8,7 @@
 #include "engine/components/Collider2DComponent.h"
 #include "engine/components/RigidBody2DComponent.h"
 #include "editor/properties/actors/LockableComponent.h"
+#include "editor/core/ImGuiManager.h"
 #include "engine/core/ActorObjectExtended.h"
 #include <algorithm>
 #include <cmath>
@@ -46,10 +47,34 @@ void ViewportPanel::renderSceneActors(ImDrawList* drawList, ImVec2 offset) {
         // Try to get SpriteComponent
         auto* spriteComp = actor->getComponent<engine::SpriteComponent>();
         if (spriteComp) {
-            SDL_Texture* tex = spriteComp->getTexture();
-            if (tex) {
-                int w = spriteComp->getWidth();
-                int h = spriteComp->getHeight();
+            const std::string& texturePath = spriteComp->getTexturePath();
+            
+            // Get appropriate texture ID based on backend
+            ImTextureID texID = 0;
+            int w = 0, h = 0;
+            
+            if (ImGuiManager::instance().isUsingOpenGL()) {
+                // Use GLTextureManager for OpenGL textures
+                unsigned int glTexID = spriteComp->getGLTextureID();
+                if (glTexID == 0 && !texturePath.empty()) {
+                    // Load GL texture if not already loaded
+                    glTexID = const_cast<engine::SpriteComponent*>(spriteComp)->loadGLTexture(texturePath);
+                }
+                if (glTexID != 0) {
+                    texID = (ImTextureID)(intptr_t)glTexID;
+                    w = spriteComp->getWidth();
+                    h = spriteComp->getHeight();
+                }
+            } else {
+                SDL_Texture* tex = spriteComp->getTexture();
+                if (tex) {
+                    texID = (ImTextureID)(intptr_t)tex;
+                    w = spriteComp->getWidth();
+                    h = spriteComp->getHeight();
+                }
+            }
+            
+            if (texID && w > 0 && h > 0) {
                 
                 // Special handling for background images
                 if (actor->getName() == "Background") {
@@ -74,14 +99,14 @@ void ViewportPanel::renderSceneActors(ImDrawList* drawList, ImVec2 offset) {
                     
                     // Render centered background
                     drawList->AddImage(
-                        (ImTextureID)(intptr_t)tex,
+                        texID,
                         ImVec2(worldX + offsetX, worldY + offsetY),
                         ImVec2(worldX + offsetX + scaledW, worldY + offsetY + scaledH)
                     );
                 } else {
                     // Normal rendering for other sprites
                     drawList->AddImage(
-                        (ImTextureID)(intptr_t)tex,
+                        texID,
                         ImVec2(worldX, worldY),
                         ImVec2(worldX + w * m_zoom, worldY + h * m_zoom)
                     );

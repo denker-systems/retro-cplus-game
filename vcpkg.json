@@ -10,7 +10,9 @@
     "sdl2-ttf",
     "nlohmann-json",
     "box2d",
+    "glew",
     "glm",
+    "assimp",
     {
       "name": "imgui",
       "features": ["docking-experimental"]

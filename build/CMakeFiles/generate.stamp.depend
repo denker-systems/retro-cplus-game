@@ -16,6 +16,7 @@ C:/Program Files/CMake/share/cmake-4.2/Modules/Compiler/CMakeCommonCompilerMacro
 C:/Program Files/CMake/share/cmake-4.2/Modules/Compiler/MSVC-CXX.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/Compiler/MSVC.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/FeatureSummary.cmake
+C:/Program Files/CMake/share/cmake-4.2/Modules/FindOpenGL.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/FindOpenSSL.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/FindPNG.cmake
 C:/Program Files/CMake/share/cmake-4.2/Modules/FindPackageHandleStandardArgs.cmake
@@ -54,10 +55,21 @@ C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windo
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfig.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfigVersion.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/assimp/assimpConfig.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/assimp/assimpConfigVersion.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/assimp/assimpTargets-debug.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/assimp/assimpTargets-release.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/assimp/assimpTargets.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/box2d/box2dConfig-debug.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/box2d/box2dConfig-release.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/box2d/box2dConfig.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/box2d/box2dConfigVersion.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glew/CopyImportedTargetProperties.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glew/glew-config.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glew/glew-targets-debug.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glew/glew-targets-release.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glew/glew-targets.cmake
+C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glew/vcpkg-cmake-wrapper.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glm/glmConfig-debug.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glm/glmConfig-release.cmake
 C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/glm/glmConfig.cmake

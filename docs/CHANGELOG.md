@@ -10,6 +10,29 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- **3D Viewport** - OpenGL-baserad 3D-vy för World/Level/Scene navigation
+  - `Viewport3DPanel` - 3D rendering med framebuffer
+  - `EditorCamera3D` - Orbit-kamera med pan/zoom
+  - Ray-AABB intersection för 3D object picking
+  - 2D/3D toggle på alla hierarki-nivåer
+- **Unified Selection System** - Synkroniserad selection mellan alla paneler
+  - `SelectionManager` - Centraliserad navigation state (World/Level/Scene)
+  - Selection callbacks notifierar alla paneler vid ändringar
+  - Actor selection synkad mellan Hierarchy, Viewport och Properties
+- **OpenGL Graphics Layer** - Nya engine/graphics/ komponenter
+  - `GLContext` - OpenGL 3.3 Core context management
+  - `Framebuffer` - Off-screen rendering till texture
+  - `Shader` - GLSL shader kompilering och uniform-hantering
+  - `Mesh` - VAO/VBO mesh rendering
+- **Dual ImGui Backend** - SDL2 + OpenGL3 backends för hybrid rendering
+- **Architecture Documentation** - `docs/architecture/3d-hierarchy-design.md`, `unified-viewport-architecture.md`
+
+### Changed
+- **HierarchyPanel** - Visar hierarkisk vy baserat på navigation level (World→Level→Scene→Actors)
+- **ViewportPanel** - Breadcrumb navigation synkas med SelectionManager
+- **EditorState** - Callback registration före navigation state för korrekt synk
+
+### Added
 - **AI World Builder** - 37 total AI tools for comprehensive game world creation
   - Level/World tools: list_levels, create_level, add_scene_to_level, set_start_scene, get_world_info
   - Quest tools: list_quests, get_quest, create_quest, add_quest_objective, link_quest_to_npc

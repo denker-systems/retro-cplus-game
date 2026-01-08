@@ -4,6 +4,7 @@
  */
 #include "AssetBrowserPanel.h"
 #include "editor/core/EditorContext.h"
+#include "engine/graphics/GLTextureManager.h"
 #include <filesystem>
 #include <algorithm>
 #include <SDL.h>
@@ -25,25 +26,18 @@ AssetBrowserPanel::~AssetBrowserPanel() {
 }
 
 void AssetBrowserPanel::clearThumbnails() {
-    for (auto& [path, texture] : m_thumbnailCache) {
-        if (texture) {
-            SDL_DestroyTexture(texture);
-        }
-    }
-    m_thumbnailCache.clear();
+    // GLTextureManager owns the textures, just clear our cache references
+    m_glThumbnailCache.clear();
 }
 
 void AssetBrowserPanel::loadThumbnail(AssetInfo& asset) {
-    if (!m_renderer) return;
-    if (asset.thumbnail) return; // Already loaded
+    if (asset.glThumbnail != 0) return; // Already loaded
     
     // Check cache first
-    auto it = m_thumbnailCache.find(asset.path);
-    if (it != m_thumbnailCache.end()) {
-        asset.thumbnail = it->second;
-        if (asset.thumbnail) {
-            SDL_QueryTexture(asset.thumbnail, nullptr, nullptr, &asset.thumbWidth, &asset.thumbHeight);
-        }
+    auto it = m_glThumbnailCache.find(asset.path);
+    if (it != m_glThumbnailCache.end()) {
+        asset.glThumbnail = it->second;
+        engine::GLTextureManager::instance().getSize(asset.path, asset.thumbWidth, asset.thumbHeight);
         return;
     }
     
@@ -54,12 +48,12 @@ void AssetBrowserPanel::loadThumbnail(AssetInfo& asset) {
         return;
     }
     
-    // Load texture
-    SDL_Texture* texture = IMG_LoadTexture(m_renderer, asset.path.c_str());
-    if (texture) {
-        SDL_QueryTexture(texture, nullptr, nullptr, &asset.thumbWidth, &asset.thumbHeight);
-        asset.thumbnail = texture;
-        m_thumbnailCache[asset.path] = texture;
+    // Load texture via GLTextureManager
+    unsigned int glTexID = engine::GLTextureManager::instance().load(asset.path);
+    if (glTexID != 0) {
+        engine::GLTextureManager::instance().getSize(asset.path, asset.thumbWidth, asset.thumbHeight);
+        asset.glThumbnail = glTexID;
+        m_glThumbnailCache[asset.path] = glTexID;
     }
 }
 
@@ -197,8 +191,8 @@ void AssetBrowserPanel::renderAssetGrid() {
                 ImGui::SetDragDropPayload("ASSET_PATH", asset.path.c_str(), asset.path.size() + 1);
                 
                 // Show preview while dragging
-                if (asset.thumbnail) {
-                    ImGui::Image((ImTextureID)(intptr_t)asset.thumbnail, ImVec2(48, 48));
+                if (asset.glThumbnail != 0) {
+                    ImGui::Image((ImTextureID)(intptr_t)asset.glThumbnail, ImVec2(48, 48));
                 }
                 ImGui::Text("%s", asset.name.c_str());
                 ImGui::EndDragDropSource();
@@ -211,7 +205,7 @@ void AssetBrowserPanel::renderAssetGrid() {
             // Draw thumbnail or icon
             ImDrawList* drawList = ImGui::GetWindowDrawList();
             
-            if (asset.thumbnail) {
+            if (asset.glThumbnail != 0) {
                 // Calculate scaled size maintaining aspect ratio
                 float scale = std::min((cellSize - 10) / asset.thumbWidth, (cellSize - 25) / asset.thumbHeight);
                 float drawW = asset.thumbWidth * scale;
@@ -222,7 +216,7 @@ void AssetBrowserPanel::renderAssetGrid() {
                 ImVec2 uvMin(0, 0);
                 ImVec2 uvMax(1, 1);
                 drawList->AddImage(
-                    (ImTextureID)(intptr_t)asset.thumbnail,
+                    (ImTextureID)(intptr_t)asset.glThumbnail,
                     ImVec2(buttonPos.x + offsetX, buttonPos.y + offsetY),
                     ImVec2(buttonPos.x + offsetX + drawW, buttonPos.y + offsetY + drawH),
                     uvMin, uvMax);

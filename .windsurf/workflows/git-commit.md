@@ -336,12 +336,33 @@ git push --force-with-lease origin feature/my-branch
 - ✅ Granska diff innan commit
 
 ### GÖR INTE
-- ❌ Commita genererade filer (build/, *.o)
 - ❌ Inkludera debug/temp-kod
 - ❌ Gör enorma commits med många ändringar
 - ❌ Använd vaga messages ("fix stuff", "updates")
 - ❌ Commita broken code
 - ❌ Force push till delade branches
+
+---
+
+## ⚠️ VIKTIGT: BUILD-FILER
+
+**ALLTID COMMITA ALLT INKLUSIVE BUILD-FILER!**
+
+Detta projekt commitar build-filer (`build/`, `.exe`, `.dll`, `.obj`, etc.) för att:
+- Möjliggöra enkel testning utan att bygga lokalt
+- Spåra exakta binärer
+- Förenkla för teammedlemmar
+
+```powershell
+# RÄTT - commita ALLT
+git add -A
+git commit -m "..."
+
+# FEL - filtrera bort build
+git add src/  # ❌ Missar build-filer!
+```
+
+**SKAPA ALDRIG .gitignore som ignorerar build/!**
 
 ---
 

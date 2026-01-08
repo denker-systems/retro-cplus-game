@@ -8,6 +8,7 @@
 #include "editor/core/SelectionManager.h"
 #include "editor/tools/ToolManager.h"
 #include <string>
+#include <memory>
 #include <SDL.h>
 
 struct SDL_Texture;
@@ -24,6 +25,18 @@ namespace engine {
 }
 
 class EditorContext;
+
+namespace editor {
+    class Viewport3DPanel;
+}
+
+/**
+ * @brief View mode for viewport
+ */
+enum class ViewportMode {
+    Mode2D,
+    Mode3D
+};
 
 /**
  * @brief Viewport för att visa och redigera rum
@@ -43,11 +56,14 @@ public:
     void setRenderer(SDL_Renderer* renderer) { m_renderer = renderer; }
     void loadRoom(const std::string& roomId);
     
-    // World/Level/Scene navigation
-    void setWorld(engine::World* world) { m_world = world; }
+    // World/Level/Scene navigation (syncs with SelectionManager)
+    void setWorld(engine::World* world);
     void setLevel(engine::Level* level);
     void setScene(engine::Scene* scene); 
     engine::Scene* getScene() const { return m_scene; }
+    
+    // Sync navigation from SelectionManager
+    void syncFromSelectionManager();
     
     // Actor operations
     void deleteSelectedActor();
@@ -64,7 +80,9 @@ private:
     void renderWorldView();
 
     void renderWorldSpatialView();  // NEW: Spatial view for World
+    void renderWorld3D();           // 3D view for World (levels as boxes)
     void renderLevelView();
+    void renderLevel3D();           // 3D view for Level (scenes as tiles)
     void renderSceneView();
     void renderSpatialView();  // NEW: Spatial grid view for levels
     // renderSceneNode() removed - Node system deprecated
@@ -144,6 +162,10 @@ private:
     bool m_showGrid = true;
     bool m_showHotspots = true;
     bool m_showWalkArea = true;
+    
+    // 2D/3D mode
+    ViewportMode m_viewportMode = ViewportMode::Mode2D;
+    std::unique_ptr<editor::Viewport3DPanel> m_viewport3D;
     
     // Drag state
     bool m_isDragging = false;

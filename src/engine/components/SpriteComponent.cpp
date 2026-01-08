@@ -4,7 +4,9 @@
  */
 #include "SpriteComponent.h"
 #include <SDL_image.h>
+#include <GL/glew.h>
 #include "engine/graphics/TextureManager.h"
+#include "engine/graphics/GLTextureManager.h"
 
 namespace engine {
 
@@ -110,6 +112,33 @@ bool SpriteComponent::loadTextureCached(const std::string& path) {
     m_sourceRect = {0, 0, m_width, m_height};
     
     return true;
+}
+
+unsigned int SpriteComponent::getGLTextureID() const {
+    // Return cached GL texture ID if available
+    if (m_glTextureID != 0) {
+        return m_glTextureID;
+    }
+    
+    // Try to get from GLTextureManager
+    if (!m_texturePath.empty()) {
+        return GLTextureManager::instance().get(m_texturePath);
+    }
+    
+    return 0;
+}
+
+unsigned int SpriteComponent::loadGLTexture(const std::string& path) {
+    m_texturePath = path;
+    m_glTextureID = GLTextureManager::instance().load(path);
+    
+    if (m_glTextureID != 0) {
+        // Get dimensions from GLTextureManager
+        GLTextureManager::instance().getSize(path, m_width, m_height);
+        m_sourceRect = {0, 0, m_width, m_height};
+    }
+    
+    return m_glTextureID;
 }
 
 } // namespace engine

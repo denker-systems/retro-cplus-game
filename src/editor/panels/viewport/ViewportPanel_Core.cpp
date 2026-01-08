@@ -4,12 +4,14 @@
  */
 #include "ViewportPanel.h"
 #include "editor/core/EditorContext.h"
+#include "editor/viewport/Viewport3DPanel.h"
 #include "engine/world/World.h"
 #include "engine/world/Level.h"
 #include "engine/world/Scene.h"
 #include "engine/data/DataLoader.h"
 #include <SDL_image.h>
 #include <algorithm>
+#include <iostream>
 
 #ifdef HAS_IMGUI
 #include <imgui.h>
@@ -70,17 +72,38 @@ void ViewportPanel::render() {
         renderBreadcrumbs();
         ImGui::Separator();
         
-        // Render different views based on breadcrumb level
+        // Toolbar with 2D/3D toggle - shown on ALL levels
+        renderToolbar();
+        
+        // Render different views based on breadcrumb level and mode
         if (!m_level) {
             // World level - show all levels
-            renderWorldView();
+            if (m_viewportMode == ViewportMode::Mode3D) {
+                renderWorld3D();
+            } else {
+                renderWorldView();
+            }
         } else if (!m_scene) {
             // Level level - show all scenes
-            renderLevelView();
+            if (m_viewportMode == ViewportMode::Mode3D) {
+                renderLevel3D();
+            } else {
+                renderLevelView();
+            }
         } else {
             // Scene level - show scene content
-            renderToolbar();
-            renderSceneView();
+            if (m_viewportMode == ViewportMode::Mode3D) {
+                if (!m_viewport3D) {
+                    m_viewport3D = std::make_unique<editor::Viewport3DPanel>();
+                    m_viewport3D->setSelectionManager(m_selectionManager);
+                }
+                // Configure for Scene view
+                m_viewport3D->setViewLevel(editor::View3DLevel::Scene);
+                m_viewport3D->setScene(m_scene);
+                m_viewport3D->render();
+            } else {
+                renderSceneView();
+            }
         }
     }
     ImGui::End();
@@ -89,6 +112,27 @@ void ViewportPanel::render() {
 
 void ViewportPanel::renderToolbar() {
 #ifdef HAS_IMGUI
+    // 2D/3D Mode Toggle - prominent at start
+    ImGui::PushStyleColor(ImGuiCol_Button, m_viewportMode == ViewportMode::Mode2D ? 
+        ImVec4(0.2f, 0.5f, 0.8f, 1.0f) : ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
+    if (ImGui::Button("2D")) {
+        m_viewportMode = ViewportMode::Mode2D;
+    }
+    ImGui::PopStyleColor();
+    
+    ImGui::SameLine();
+    
+    ImGui::PushStyleColor(ImGuiCol_Button, m_viewportMode == ViewportMode::Mode3D ? 
+        ImVec4(0.2f, 0.5f, 0.8f, 1.0f) : ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
+    if (ImGui::Button("3D")) {
+        m_viewportMode = ViewportMode::Mode3D;
+    }
+    ImGui::PopStyleColor();
+    
+    ImGui::SameLine();
+    ImGui::Text("|");
+    ImGui::SameLine();
+    
     // Tool buttons
     m_toolManager.renderToolbar();
     ImGui::SameLine();
@@ -127,9 +171,8 @@ void ViewportPanel::renderBreadcrumbs() {
     // World level
     if (m_world) {
         if (ImGui::Button("🌍 World")) {
-            // Navigate to world view (show all levels)
-            m_level = nullptr;
-            m_scene = nullptr;
+            std::cout << "[ViewportPanel] Breadcrumb click: World" << std::endl;
+            setLevel(nullptr);
         }
         
         // Level level
@@ -139,8 +182,8 @@ void ViewportPanel::renderBreadcrumbs() {
             ImGui::SameLine();
             
             if (ImGui::Button(("📁 " + m_level->getName()).c_str())) {
-                // Navigate to level view (show all scenes)
-                m_scene = nullptr;
+                std::cout << "[ViewportPanel] Breadcrumb click: Level " << m_level->getName() << std::endl;
+                setScene(nullptr);
             }
             
             // Scene level
@@ -162,12 +205,42 @@ void ViewportPanel::renderBreadcrumbs() {
 #endif
 }
 
+void ViewportPanel::setWorld(engine::World* world) {
+    std::cout << "[ViewportPanel] setWorld: " << (world ? world->getName() : "null") << std::endl;
+    m_world = world;
+    if (m_selectionManager) {
+        m_selectionManager->setWorld(world);
+    }
+}
+
 void ViewportPanel::setLevel(engine::Level* level) {
+    std::cout << "[ViewportPanel] setLevel: " << (level ? level->getName() : "null") << std::endl;
     m_level = level;
-    // Don't auto-select scene - let user see Level View first
     m_scene = nullptr;
+    if (m_selectionManager) {
+        m_selectionManager->setActiveLevel(level);
+        m_selectionManager->setActiveScene(nullptr);
+    }
 }
 
 void ViewportPanel::setScene(engine::Scene* scene) {
+    std::cout << "[ViewportPanel] setScene: " << (scene ? scene->getName() : "null") << std::endl;
     m_scene = scene;
+    if (m_selectionManager) {
+        m_selectionManager->setActiveScene(scene);
+    }
+}
+
+void ViewportPanel::syncFromSelectionManager() {
+    if (!m_selectionManager) return;
+    
+    std::cout << "[ViewportPanel] syncFromSelectionManager - Level: " 
+              << (m_selectionManager->getActiveLevel() ? m_selectionManager->getActiveLevel()->getName() : "null")
+              << ", Scene: " << (m_selectionManager->getActiveScene() ? m_selectionManager->getActiveScene()->getName() : "null") 
+              << std::endl;
+    
+    m_world = m_selectionManager->getWorld();
+    m_level = m_selectionManager->getActiveLevel();
+    m_scene = m_selectionManager->getActiveScene();
+    m_selectedActor = m_selectionManager->getSelectedActor();
 }

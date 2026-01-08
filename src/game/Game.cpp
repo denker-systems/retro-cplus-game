@@ -53,6 +53,21 @@ bool Game::init(const std::string& title, int width, int height) {
     bool isEditor = (title.find("Editor") != std::string::npos);
     Uint32 windowFlags = SDL_WINDOW_RESIZABLE;
     
+    // Editor needs OpenGL for 3D viewport
+    // Uses GLTextureManager for proper OpenGL texture loading
+    if (isEditor) {
+        windowFlags |= SDL_WINDOW_OPENGL;
+        m_useOpenGL = true;
+        
+        // Set OpenGL attributes BEFORE window creation
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+        SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+        SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+    }
+    
     // Game: 3x native (1920x1200) eller max skärmstorlek
     // Editor: max 1600x900
     int windowWidth, windowHeight;
@@ -164,10 +179,15 @@ void Game::update(float deltaTime) {
 }
 
 void Game::render() {
-    // Clear screen to prevent artifacts
+    // When using OpenGL, ImGuiManager handles clear and swap
+    if (m_useOpenGL) {
+        m_stateManager->render(m_renderer);
+        return;
+    }
+    
+    // SDL Renderer path
     SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
     SDL_RenderClear(m_renderer);
-    
     m_stateManager->render(m_renderer);
     SDL_RenderPresent(m_renderer);
 }

@@ -34,7 +34,7 @@ struct AssetInfo {
     std::string path;
     AssetType type;
     size_t fileSize = 0;
-    SDL_Texture* thumbnail = nullptr;
+    unsigned int glThumbnail = 0;  // OpenGL texture ID for ImGui
     int thumbWidth = 0;
     int thumbHeight = 0;
 };
@@ -81,5 +81,5 @@ private:
     AssetSelectedCallback m_onAssetSelected;
     
     SDL_Renderer* m_renderer = nullptr;
-    std::unordered_map<std::string, SDL_Texture*> m_thumbnailCache;
+    std::unordered_map<std::string, unsigned int> m_glThumbnailCache;  // OpenGL texture cache
 };
