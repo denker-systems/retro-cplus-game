@@ -5,6 +5,9 @@
 #include "SceneTools.h"
 #include "engine/data/DataLoader.h"
 #include "engine/data/GameData.h"
+#include "engine/utils/Logger.h"
+#include "editor/managers/EditorWorldManager.h"
+#include "editor/core/EditorContext.h"
 
 namespace ai {
 
@@ -25,7 +28,7 @@ ToolResult ListScenesTool::execute(const nlohmann::json& params) {
     const auto& scenes = DataLoader::instance().getScenes();
     
     if (scenes.empty()) {
-        return ToolResult::ok("Inga scener hittades.", nlohmann::json::array());
+        return ToolResult::ok("No scenes found.", nlohmann::json::array());
     }
     
     nlohmann::json sceneList = nlohmann::json::array();
@@ -39,13 +42,13 @@ ToolResult ListScenesTool::execute(const nlohmann::json& params) {
         });
     }
     
-    std::string msg = "Hittade " + std::to_string(scenes.size()) + " scener.";
+    std::string msg = "Found " + std::to_string(scenes.size()) + " scenes.";
     return ToolResult::ok(msg, sceneList);
 }
 
 ToolResult GetSceneTool::execute(const nlohmann::json& params) {
     if (!params.contains("scene_id")) {
-        return ToolResult::error("scene_id krävs");
+        return ToolResult::error("scene_id is required");
     }
     
     std::string sceneId = params["scene_id"].get<std::string>();
@@ -84,16 +87,16 @@ ToolResult GetSceneTool::execute(const nlohmann::json& params) {
                 });
             }
             
-            return ToolResult::ok("Scen hittad: " + scene.name, sceneData);
+            return ToolResult::ok("Scene found: " + scene.name, sceneData);
         }
     }
     
-    return ToolResult::error("Scen hittades inte: " + sceneId);
+    return ToolResult::error("Scene not found: " + sceneId);
 }
 
 ToolResult CreateSceneTool::execute(const nlohmann::json& params) {
     if (!params.contains("id") || !params.contains("name")) {
-        return ToolResult::error("id och name krävs");
+        return ToolResult::error("id and name are required");
     }
     
     std::string id = params["id"].get<std::string>();
@@ -103,7 +106,7 @@ ToolResult CreateSceneTool::execute(const nlohmann::json& params) {
     const auto& scenes = DataLoader::instance().getScenes();
     for (size_t i = 0; i < scenes.size(); ++i) {
         if (scenes[i].id == id) {
-            return ToolResult::error("Scen med id '" + id + "' finns redan");
+            return ToolResult::error("Scene with id '" + id + "' already exists");
         }
     }
     
@@ -134,17 +137,46 @@ ToolResult CreateSceneTool::execute(const nlohmann::json& params) {
     // Add to DataLoader
     DataLoader::instance().getScenes().push_back(newScene);
     
-    // TODO: Create IEditorCommand for undo support
+    // Also add to EditorContext.rooms for viewport display (hybrid rendering)
+    auto* worldManager = EditorWorldManager::getInstance();
+    if (worldManager) {
+        worldManager->getContext().rooms.push_back(newScene);
+        LOG_INFO("[AI] Scene '" + id + "' added to EditorContext.rooms");
+    }
     
-    return ToolResult::ok("Scen skapad: " + name, {
+    // Save to JSON file
+    if (!DataLoader::saveScenes()) {
+        LOG_WARNING("[AI] Scene created in memory but failed to save to file");
+    } else {
+        LOG_INFO("[AI] Scene '" + name + "' saved to scenes.json");
+    }
+    
+    LOG_INFO("[AI] Created scene: id=" + id + ", name=" + name);
+    
+    // Add scene to current Level in EditorWorldManager
+    std::string levelId;
+    if (worldManager) {
+        levelId = worldManager->getActiveLevelId();
+        if (worldManager->addSceneToLevel(id, levelId)) {
+            LOG_INFO("[AI] Scene '" + id + "' added to level '" + levelId + "'");
+            worldManager->refreshViewport();
+        } else {
+            LOG_WARNING("[AI] Failed to add scene to level");
+        }
+    } else {
+        LOG_WARNING("[AI] EditorWorldManager not available - scene not linked to level");
+    }
+    
+    return ToolResult::ok("Scene created: " + name + " (ID: " + id + ") added to level '" + levelId + "'", {
         {"id", id},
-        {"name", name}
+        {"name", name},
+        {"level_id", levelId}
     });
 }
 
 ToolResult ModifySceneTool::execute(const nlohmann::json& params) {
     if (!params.contains("scene_id")) {
-        return ToolResult::error("scene_id krävs");
+        return ToolResult::error("scene_id is required");
     }
     
     std::string sceneId = params["scene_id"].get<std::string>();
@@ -152,7 +184,7 @@ ToolResult ModifySceneTool::execute(const nlohmann::json& params) {
     // Find scene
     SceneData* scene = findSceneById(sceneId);
     if (!scene) {
-        return ToolResult::error("Scen hittades inte: " + sceneId);
+        return ToolResult::error("Scene not found: " + sceneId);
     }
     
     // Apply changes
@@ -178,12 +210,12 @@ ToolResult ModifySceneTool::execute(const nlohmann::json& params) {
     }
     
     if (changes.empty()) {
-        return ToolResult::ok("Inga ändringar gjorda");
+        return ToolResult::ok("No changes made");
     }
     
     // TODO: Create IEditorCommand for undo support
     
-    std::string msg = "Uppdaterade scen '" + sceneId + "': ";
+    std::string msg = "Updated scene '" + sceneId + "': ";
     for (size_t i = 0; i < changes.size(); ++i) {
         if (i > 0) msg += ", ";
         msg += changes[i];

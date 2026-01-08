@@ -12,33 +12,56 @@ namespace ai {
 
 // Default system prompt
 static const char* DEFAULT_SYSTEM_PROMPT = R"(
-You are an AI assistant for the Retro Engine Editor, a 2D adventure game engine inspired by LucasArts classics.
+You are an AI assistant for the Retro Engine Editor, a 2D adventure game engine inspired by LucasArts classics like Monkey Island, Day of the Tentacle, and Full Throttle.
 
-You help the user to:
-- Create and modify scenes (rooms)
-- Place and configure hotspots and interactive objects
-- Create NPCs and dialog trees
-- Design quests and objectives
-- Generate level layouts
-- Manage actors and components
+## Your Capabilities
 
-Available tools allow you to:
-- List, create, modify, and delete scenes
-- List, create, modify, and delete actors
-- Add components to actors
+You can build complete game worlds with:
 
-Rules:
-1. Always use tools to perform changes - never just describe what could be done
-2. Ask for clarification if you're unsure about the user's intention
-3. Confirm destructive operations (delete) before executing them
-4. All changes can be undone with Ctrl+Z
-5. Respond in English
-6. Be concise and helpful
+### World Structure (Hierarchy: World → Levels → Scenes)
+- **Levels**: Create chapters/areas (e.g., "Chapter 1: The Tavern District")
+- **Scenes**: Create rooms within levels (e.g., "tavern_interior", "street")
+- **Connections**: Link scenes with exits, set starting locations
 
-Current context:
+### Content Creation
+- **NPCs**: Create characters with personalities, positions, sprites
+- **Items**: Create inventory items (keys, potions, notes)
+- **Hotspots**: Interactive areas (examine, use, talk)
+- **Dialogs**: Multi-node conversation trees with choices
+- **Quests**: Objectives with goals (talk, collect, deliver, goto)
+
+## World-Building Guidelines
+
+When creating game content, maintain consistency:
+
+1. **Theme Coherence**: Keep all elements fitting the established setting
+2. **Character Consistency**: NPCs should have consistent personalities across dialogs
+3. **Quest Logic**: Objectives should be achievable with available items/NPCs
+4. **Spatial Awareness**: Place actors at realistic positions (NPCs: y=250-350, items on surfaces)
+5. **Naming Conventions**: Use snake_case for IDs (e.g., "old_bartender", "rusty_key")
+
+## Workflow for Complete Areas
+
+When asked to create a new area/chapter:
+1. First create the Level (chapter container)
+2. Create Scenes (rooms) and add them to the level
+3. Create NPCs for each scene with appropriate dialogs
+4. Create items that serve quest purposes
+5. Create quests that tie the content together
+6. Set exits to connect scenes
+
+## Rules
+
+1. Always use tools - never just describe what could be done
+2. Be proactive - when creating a scene, also create relevant NPCs and items
+3. Maintain narrative consistency across all created content
+4. Use get_world_info to understand existing content before adding new elements
+5. Respond in English, be concise
+
+## Current Context
 - Scene: {current_room}
 - Level: {current_level}
-- Selected actor: {selected_actor}
+- Selected: {selected_actor}
 )";
 
 AIAgentSystem& AIAgentSystem::instance() {
@@ -131,14 +154,31 @@ bool AIAgentSystem::processUserMessage(const std::string& message) {
     // Get tool definitions
     m_pendingTools = EditorToolRegistry::instance().getToolDefinitions();
     
-    // Start async API call
+    // Clear streaming content
+    {
+        std::lock_guard<std::mutex> lock(m_streamMutex);
+        m_streamingContent.clear();
+    }
+    
+    // Start async API call with streaming
     auto* provider = m_provider.get();
     auto messages = m_pendingMessages;
     auto tools = m_pendingTools;
     auto config = m_config.llmConfig;
     
-    m_asyncFuture = std::async(std::launch::async, [provider, messages, tools, config]() {
-        return provider->chat(messages, tools, config);
+    // Create stream callback that updates m_streamingContent
+    StreamCallback streamCallback = [this](const std::string& chunk) {
+        std::lock_guard<std::mutex> lock(m_streamMutex);
+        m_streamingContent += chunk;
+        
+        // Also call user's stream callback if set
+        if (m_streamCallback) {
+            m_streamCallback(chunk);
+        }
+    };
+    
+    m_asyncFuture = std::async(std::launch::async, [provider, messages, tools, config, streamCallback]() {
+        return provider->chatStream(messages, tools, streamCallback, config);
     });
     
     return true;
@@ -184,6 +224,13 @@ void AIAgentSystem::handleAsyncResponse(const LLMResponse& response) {
     
     // Handle response
     if (!response.toolCalls.empty()) {
+        // Add assistant message with tool_use to history FIRST
+        m_history.push_back(Message::assistantWithToolUse(response.content, response.toolCalls));
+        
+        if (!response.content.empty()) {
+            notify(response.content);
+        }
+        
         // Check if confirmation needed
         bool needsConfirmation = false;
         if (m_config.requireConfirmation) {
@@ -212,10 +259,8 @@ void AIAgentSystem::handleAsyncResponse(const LLMResponse& response) {
             // Execute immediately
             executeToolCalls(response.toolCalls);
         }
-    }
-    
-    // Add assistant response to history
-    if (!response.content.empty()) {
+    } else if (!response.content.empty()) {
+        // No tool calls, just text response
         m_history.push_back(Message::assistant(response.content));
         notify(response.content);
     }
@@ -244,7 +289,7 @@ void AIAgentSystem::cancelAction() {
     
     m_pendingToolCalls.clear();
     m_state = AgentState::Idle;
-    notify("Åtgärd avbruten.");
+    notify("Action cancelled.");
 }
 
 void AIAgentSystem::clearHistory() {
@@ -253,6 +298,11 @@ void AIAgentSystem::clearHistory() {
 
 bool AIAgentSystem::isReady() const {
     return m_initialized && m_provider && m_provider->isAvailable();
+}
+
+std::string AIAgentSystem::getStreamingContent() const {
+    std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(m_streamMutex));
+    return m_streamingContent;
 }
 
 std::string AIAgentSystem::buildSystemPrompt() const {
@@ -302,7 +352,7 @@ void AIAgentSystem::executeToolCalls(const std::vector<ToolCall>& toolCalls) {
 }
 
 ToolResult AIAgentSystem::executeToolCall(const ToolCall& toolCall) {
-    LOG_DEBUG("[AI] Executing tool: " + toolCall.name);
+    LOG_INFO("[AI] Executing tool: " + toolCall.name + " with args: " + toolCall.arguments.dump());
     auto* tool = EditorToolRegistry::instance().getTool(toolCall.name);
     
     if (!tool) {
@@ -312,8 +362,11 @@ ToolResult AIAgentSystem::executeToolCall(const ToolCall& toolCall) {
     
     try {
         auto result = tool->execute(toolCall.arguments);
-        LOG_DEBUG("[AI] Tool " + toolCall.name + " result: " + 
-                  (result.success ? "success" : "failed"));
+        if (result.success) {
+            LOG_INFO("[AI] Tool " + toolCall.name + " SUCCESS: " + result.message);
+        } else {
+            LOG_WARNING("[AI] Tool " + toolCall.name + " FAILED: " + result.message);
+        }
         return result;
     } catch (const std::exception& e) {
         LOG_ERROR("[AI] Tool " + toolCall.name + " threw exception: " + e.what());

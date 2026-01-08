@@ -91,6 +91,7 @@ set(CORE_SOURCES
     src/engine/world/Scene.cpp
     src/engine/world/World.cpp
     src/engine/world/Level.cpp
+    src/engine/world/RoomToSceneConverter.cpp
     src/engine/world/WorldContainer.h
     src/engine/physics/CollisionShape.cpp
     src/engine/physics/PhysicsBody.cpp
@@ -293,6 +294,14 @@ set(EDITOR_SOURCES
     src/ai/providers/AnthropicProvider.cpp
     src/ai/tools/SceneTools.cpp
     src/ai/tools/ActorTools.cpp
+    src/ai/tools/HotspotTools.cpp
+    src/ai/tools/DialogTools.cpp
+    src/ai/tools/ItemTools.cpp
+    src/ai/tools/CommandTools.cpp
+    src/ai/tools/ContextTools.cpp
+    src/ai/tools/LevelTools.cpp
+    src/ai/tools/QuestTools.cpp
+    src/editor/panels/core/CommandPanel.cpp
     src/ai/ui/AIChatPanel.cpp
     src/ai/AISystemInit.cpp
     

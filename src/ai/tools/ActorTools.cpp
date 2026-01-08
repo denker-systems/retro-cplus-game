@@ -8,10 +8,18 @@
 #include "ActorTools.h"
 #include "engine/data/DataLoader.h"
 #include "engine/data/GameData.h"
+#include "engine/utils/Logger.h"
+#include "editor/managers/EditorWorldManager.h"
+#include "editor/core/EditorContext.h"
+#include "editor/core/EditorState.h"
+#include "engine/world/World.h"
+#include "engine/world/Level.h"
+#include "engine/world/Scene.h"
+#include "engine/actors/InteractiveActor.h"
 
 namespace ai {
 
-// Helper to find scene by ID
+// Helper to find scene by ID in DataLoader
 static SceneData* findSceneDataById(const std::string& id) {
     auto& scenes = DataLoader::instance().getScenes();
     for (size_t i = 0; i < scenes.size(); ++i) {
@@ -22,9 +30,50 @@ static SceneData* findSceneDataById(const std::string& id) {
     return nullptr;
 }
 
+// Helper to find scene in EditorContext.rooms (for viewport display)
+static SceneData* findEditorContextRoom(const std::string& id) {
+    auto* worldManager = EditorWorldManager::getInstance();
+    if (!worldManager) return nullptr;
+    
+    auto& context = worldManager->getContext();
+    for (size_t i = 0; i < context.rooms.size(); ++i) {
+        if (context.rooms[i].id == id) {
+            return &context.rooms[i];
+        }
+    }
+    return nullptr;
+}
+
+// Helper to find engine::Scene by ID
+static engine::Scene* findEngineSceneById(const std::string& id) {
+    auto* worldManager = EditorWorldManager::getInstance();
+    if (!worldManager) {
+        LOG_WARNING("[AI] EditorWorldManager::getInstance() returned nullptr");
+        return nullptr;
+    }
+    if (!worldManager->getWorld()) {
+        LOG_WARNING("[AI] EditorWorldManager::getWorld() returned nullptr");
+        return nullptr;
+    }
+    
+    LOG_DEBUG("[AI] Looking for engine::Scene with id: " + id);
+    for (auto& level : worldManager->getWorld()->getLevels()) {
+        LOG_DEBUG("[AI] Checking level: " + level->getName() + " with " + std::to_string(level->getScenes().size()) + " scenes");
+        for (auto& scene : level->getScenes()) {
+            LOG_DEBUG("[AI] Checking scene: " + scene->getName());
+            if (scene->getId() == id) {
+                LOG_INFO("[AI] Found engine::Scene: " + id);
+                return scene.get();
+            }
+        }
+    }
+    LOG_WARNING("[AI] engine::Scene not found: " + id);
+    return nullptr;
+}
+
 ToolResult ListActorsTool::execute(const nlohmann::json& params) {
     if (!params.contains("scene_id")) {
-        return ToolResult::error("scene_id krävs");
+        return ToolResult::error("scene_id is required");
     }
     
     std::string sceneId = params["scene_id"].get<std::string>();
@@ -34,7 +83,7 @@ ToolResult ListActorsTool::execute(const nlohmann::json& params) {
     // In a full implementation, we'd access the runtime Scene's actor list
     SceneData* sceneData = findSceneDataById(sceneId);
     if (!sceneData) {
-        return ToolResult::error("Scen hittades inte: " + sceneId);
+        return ToolResult::error("Scene not found: " + sceneId);
     }
     
     nlohmann::json actorList = nlohmann::json::array();
@@ -57,8 +106,8 @@ ToolResult ListActorsTool::execute(const nlohmann::json& params) {
     
     // TODO: Add other actor types when runtime Scene access is available
     
-    std::string msg = "Hittade " + std::to_string(actorList.size()) + 
-                      " actors i scen '" + sceneId + "'";
+    std::string msg = "Found " + std::to_string(actorList.size()) + 
+                      " actors in scene '" + sceneId + "'";
     if (typeFilter != "all") {
         msg += " (filter: " + typeFilter + ")";
     }
@@ -68,7 +117,7 @@ ToolResult ListActorsTool::execute(const nlohmann::json& params) {
 
 ToolResult GetActorTool::execute(const nlohmann::json& params) {
     if (!params.contains("scene_id") || !params.contains("actor_name")) {
-        return ToolResult::error("scene_id och actor_name krävs");
+        return ToolResult::error("scene_id and actor_name are required");
     }
     
     std::string sceneId = params["scene_id"].get<std::string>();
@@ -76,14 +125,14 @@ ToolResult GetActorTool::execute(const nlohmann::json& params) {
     
     SceneData* sceneData = findSceneDataById(sceneId);
     if (!sceneData) {
-        return ToolResult::error("Scen hittades inte: " + sceneId);
+        return ToolResult::error("Scene not found: " + sceneId);
     }
     
     // Search in hotspots
     for (size_t i = 0; i < sceneData->hotspots.size(); ++i) {
         const HotspotData& hs = sceneData->hotspots[i];
         if (hs.name == actorName || hs.id == actorName) {
-            return ToolResult::ok("Actor hittad: " + hs.name, {
+            return ToolResult::ok("Actor found: " + hs.name, {
                 {"name", hs.name},
                 {"id", hs.id},
                 {"type", "interactive"},
@@ -99,7 +148,7 @@ ToolResult GetActorTool::execute(const nlohmann::json& params) {
         }
     }
     
-    return ToolResult::error("Actor hittades inte: " + actorName);
+    return ToolResult::error("Actor not found: " + actorName);
 }
 
 ToolResult CreateActorTool::execute(const nlohmann::json& params) {
@@ -107,7 +156,7 @@ ToolResult CreateActorTool::execute(const nlohmann::json& params) {
     std::vector<std::string> required = {"scene_id", "name", "type", "x", "y"};
     for (size_t i = 0; i < required.size(); ++i) {
         if (!params.contains(required[i])) {
-            return ToolResult::error("Saknar obligatoriskt fält: " + required[i]);
+            return ToolResult::error("Missing required field: " + required[i]);
         }
     }
     
@@ -119,7 +168,7 @@ ToolResult CreateActorTool::execute(const nlohmann::json& params) {
     
     SceneData* sceneData = findSceneDataById(sceneId);
     if (!sceneData) {
-        return ToolResult::error("Scen hittades inte: " + sceneId);
+        return ToolResult::error("Scene not found: " + sceneId);
     }
     
     // For interactive actors, create as HotspotData (data-level)
@@ -140,13 +189,35 @@ ToolResult CreateActorTool::execute(const nlohmann::json& params) {
         // Check for duplicate
         for (size_t i = 0; i < sceneData->hotspots.size(); ++i) {
             if (sceneData->hotspots[i].id == hs.id) {
-                return ToolResult::error("Actor med namn '" + name + "' finns redan");
+                return ToolResult::error("Actor with name '" + name + "' already exists");
             }
         }
         
         sceneData->hotspots.push_back(hs);
         
-        return ToolResult::ok("Interactive actor skapad: " + name, {
+        // Also add to EditorContext.rooms for viewport display (hybrid rendering)
+        SceneData* editorRoom = findEditorContextRoom(sceneId);
+        if (editorRoom) {
+            editorRoom->hotspots.push_back(hs);
+            LOG_INFO("[AI] Added interactive hotspot '" + name + "' to EditorContext.rooms");
+        } else {
+            LOG_WARNING("[AI] EditorContext room not found for: " + sceneId);
+        }
+        
+        // Also add to engine::Scene
+        engine::Scene* engineScene = findEngineSceneById(sceneId);
+        if (engineScene) {
+            auto actor = std::make_unique<engine::InteractiveActor>(name);
+            actor->setPosition(x, y);
+            actor->setInteractionText(params.value("interaction_text", name));
+            engineScene->addActor(std::move(actor));
+            LOG_DEBUG("[AI] Added interactive actor to engine::Scene");
+        }
+        
+        // Save to file
+        DataLoader::saveScenes();
+        
+        return ToolResult::ok("Interactive actor created: " + name, {
             {"name", name},
             {"type", type},
             {"scene_id", sceneId}
@@ -170,7 +241,44 @@ ToolResult CreateActorTool::execute(const nlohmann::json& params) {
         
         sceneData->hotspots.push_back(hs);
         
-        return ToolResult::ok("NPC actor skapad: " + name, {
+        // Also add to EditorContext.rooms for viewport display (hybrid rendering)
+        SceneData* editorRoom = findEditorContextRoom(sceneId);
+        if (editorRoom) {
+            editorRoom->hotspots.push_back(hs);
+            LOG_INFO("[AI] Added NPC hotspot '" + name + "' to EditorContext.rooms");
+        } else {
+            LOG_WARNING("[AI] EditorContext room not found for: " + sceneId);
+        }
+        
+        // Add to DataLoader NPCs list for Hierarchy panel
+        NPCData npcData;
+        npcData.id = name;
+        npcData.name = name;
+        npcData.room = sceneId;
+        npcData.x = static_cast<int>(x);
+        npcData.y = static_cast<int>(y);
+        npcData.sprite = params.value("sprite", "");
+        if (params.contains("dialog_id")) {
+            npcData.dialogId = params["dialog_id"].get<std::string>();
+        }
+        DataLoader::instance().getNPCs().push_back(npcData);
+        LOG_INFO("[AI] Added NPC '" + name + "' to DataLoader.npcs for Hierarchy");
+        
+        // Also add to engine::Scene
+        engine::Scene* engineScene = findEngineSceneById(sceneId);
+        if (engineScene) {
+            auto actor = std::make_unique<engine::InteractiveActor>(name);
+            actor->setPosition(x, y);
+            actor->setInteractionText(name);
+            engineScene->addActor(std::move(actor));
+            LOG_DEBUG("[AI] Added NPC actor to engine::Scene");
+        }
+        
+        // Save to file
+        DataLoader::saveScenes();
+        DataLoader::saveNPCs();
+        
+        return ToolResult::ok("NPC actor created: " + name, {
             {"name", name},
             {"type", type},
             {"scene_id", sceneId}
@@ -190,7 +298,39 @@ ToolResult CreateActorTool::execute(const nlohmann::json& params) {
         
         sceneData->hotspots.push_back(hs);
         
-        return ToolResult::ok("Item actor skapad: " + name, {
+        // Also add to EditorContext.rooms for viewport display (hybrid rendering)
+        SceneData* editorRoom = findEditorContextRoom(sceneId);
+        if (editorRoom) {
+            editorRoom->hotspots.push_back(hs);
+            LOG_INFO("[AI] Added item hotspot '" + name + "' to EditorContext.rooms");
+        } else {
+            LOG_WARNING("[AI] EditorContext room not found for: " + sceneId);
+        }
+        
+        // Add to DataLoader Items list for Hierarchy panel
+        ItemData itemData;
+        itemData.id = name;
+        itemData.name = name;
+        itemData.icon = params.value("sprite", "");
+        itemData.description = params.value("description", "");
+        DataLoader::instance().getItems().push_back(itemData);
+        LOG_INFO("[AI] Added item '" + name + "' to DataLoader.items for Hierarchy");
+        
+        // Also add to engine::Scene
+        engine::Scene* engineScene = findEngineSceneById(sceneId);
+        if (engineScene) {
+            auto actor = std::make_unique<engine::InteractiveActor>(name);
+            actor->setPosition(x, y);
+            actor->setInteractionText(name);
+            engineScene->addActor(std::move(actor));
+            LOG_DEBUG("[AI] Added item actor to engine::Scene");
+        }
+        
+        // Save to file
+        DataLoader::saveScenes();
+        DataLoader::saveItems();
+        
+        return ToolResult::ok("Item actor created: " + name, {
             {"name", name},
             {"type", type},
             {"scene_id", sceneId}
@@ -210,19 +350,19 @@ ToolResult CreateActorTool::execute(const nlohmann::json& params) {
         
         sceneData->hotspots.push_back(hs);
         
-        return ToolResult::ok("Actor skapad: " + name, {
+        return ToolResult::ok("Actor created: " + name, {
             {"name", name},
             {"type", type},
             {"scene_id", sceneId}
         });
     }
     
-    return ToolResult::error("Okänd actor-typ: " + type);
+    return ToolResult::error("Unknown actor type: " + type);
 }
 
 ToolResult ModifyActorTool::execute(const nlohmann::json& params) {
     if (!params.contains("scene_id") || !params.contains("actor_name")) {
-        return ToolResult::error("scene_id och actor_name krävs");
+        return ToolResult::error("scene_id and actor_name are required");
     }
     
     std::string sceneId = params["scene_id"].get<std::string>();
@@ -230,7 +370,7 @@ ToolResult ModifyActorTool::execute(const nlohmann::json& params) {
     
     SceneData* sceneData = findSceneDataById(sceneId);
     if (!sceneData) {
-        return ToolResult::error("Scen hittades inte: " + sceneId);
+        return ToolResult::error("Scene not found: " + sceneId);
     }
     
     // Find actor in hotspots
@@ -244,7 +384,7 @@ ToolResult ModifyActorTool::execute(const nlohmann::json& params) {
     }
     
     if (!actor) {
-        return ToolResult::error("Actor hittades inte: " + actorName);
+        return ToolResult::error("Actor not found: " + actorName);
     }
     
     std::vector<std::string> changes;
@@ -266,10 +406,10 @@ ToolResult ModifyActorTool::execute(const nlohmann::json& params) {
     }
     
     if (changes.empty()) {
-        return ToolResult::ok("Inga ändringar gjorda");
+        return ToolResult::ok("No changes made");
     }
     
-    std::string msg = "Uppdaterade actor '" + actorName + "': ";
+    std::string msg = "Updated actor '" + actorName + "': ";
     for (size_t i = 0; i < changes.size(); ++i) {
         if (i > 0) msg += ", ";
         msg += changes[i];
@@ -280,7 +420,7 @@ ToolResult ModifyActorTool::execute(const nlohmann::json& params) {
 
 ToolResult DeleteActorTool::execute(const nlohmann::json& params) {
     if (!params.contains("scene_id") || !params.contains("actor_name")) {
-        return ToolResult::error("scene_id och actor_name krävs");
+        return ToolResult::error("scene_id and actor_name are required");
     }
     
     std::string sceneId = params["scene_id"].get<std::string>();
@@ -288,7 +428,7 @@ ToolResult DeleteActorTool::execute(const nlohmann::json& params) {
     
     SceneData* sceneData = findSceneDataById(sceneId);
     if (!sceneData) {
-        return ToolResult::error("Scen hittades inte: " + sceneId);
+        return ToolResult::error("Scene not found: " + sceneId);
     }
     
     // Find and remove from hotspots
@@ -297,17 +437,17 @@ ToolResult DeleteActorTool::execute(const nlohmann::json& params) {
         if (hotspots[i].name == actorName || hotspots[i].id == actorName) {
             std::string name = hotspots[i].name;
             hotspots.erase(hotspots.begin() + static_cast<std::ptrdiff_t>(i));
-            return ToolResult::ok("Actor borttagen: " + name);
+            return ToolResult::ok("Actor deleted: " + name);
         }
     }
     
-    return ToolResult::error("Actor hittades inte: " + actorName);
+    return ToolResult::error("Actor not found: " + actorName);
 }
 
 ToolResult AddComponentTool::execute(const nlohmann::json& params) {
     if (!params.contains("scene_id") || !params.contains("actor_name") || 
         !params.contains("component_type")) {
-        return ToolResult::error("scene_id, actor_name och component_type krävs");
+        return ToolResult::error("scene_id, actor_name and component_type are required");
     }
     
     std::string sceneId = params["scene_id"].get<std::string>();
