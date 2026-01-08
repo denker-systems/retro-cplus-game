@@ -1,123 +1,317 @@
 {
   "scenes": [
     {
-      "id": "tavern",
-      "name": "Tavern",
       "background": "assets/backgrounds/tavern-inside.png",
+      "camera": {
+        "boundsH": 0,
+        "boundsW": 0,
+        "boundsX": 0,
+        "boundsY": 0,
+        "followPlayer": true,
+        "offsetX": 0,
+        "offsetY": 0,
+        "shakeDuration": 0.0,
+        "shakeIntensity": 0.0,
+        "smoothing": 0.10000000149011612,
+        "zoom": 1.0
+      },
+      "collisionBoxes": [
+        {
+          "height": 30.0,
+          "id": "floor_main",
+          "oneWay": false,
+          "tag": "",
+          "type": "ground",
+          "width": 640.0,
+          "x": 0.0,
+          "y": 350.0
+        },
+        {
+          "height": 180.0,
+          "id": "wall_left",
+          "oneWay": false,
+          "tag": "",
+          "type": "wall",
+          "width": 20.0,
+          "x": 0.0,
+          "y": 200.0
+        },
+        {
+          "height": 180.0,
+          "id": "wall_right",
+          "oneWay": false,
+          "tag": "",
+          "type": "wall",
+          "width": 20.0,
+          "x": 620.0,
+          "y": 200.0
+        },
+        {
+          "height": 15.0,
+          "id": "platform_bar",
+          "oneWay": true,
+          "tag": "",
+          "type": "platform",
+          "width": 120.0,
+          "x": 500.0,
+          "y": 280.0
+        }
+      ],
       "gridPosition": {
         "gridX": 0,
         "gridY": 0,
-        "pixelWidth": 640,
-        "pixelHeight": 400
+        "pixelHeight": 400,
+        "pixelWidth": 640
       },
-      "camera": {
-        "zoom": 1.0,
-        "followPlayer": true,
-        "smoothing": 0.1,
-        "boundsX": 0,
-        "boundsY": 0,
-        "boundsW": 0,
-        "boundsH": 0,
-        "offsetX": 0,
-        "offsetY": 0,
-        "shakeIntensity": 0.0,
-        "shakeDuration": 0.0
-      },
-      "walkArea": {
-        "minX": 0,
-        "maxX": 640,
-        "minY": 260,
-        "maxY": 380,
-        "scaleTop": 0.5,
-        "scaleBottom": 1.0
-      },
-      "playerSpawnX": 320.0,
-      "playerSpawnY": 300.0,
       "hotspots": [
         {
+          "dialogId": "bartender_intro",
+          "examineText": "En storvuxen man med imponerande mustasch.",
+          "funnyFails": [],
+          "h": 60,
           "id": "bartender",
           "name": "Bartender",
+          "physics": {
+            "bodyType": "static",
+            "collider": {
+              "density": 1.0,
+              "friction": 0.30000001192092896,
+              "height": 32.0,
+              "isTrigger": false,
+              "offsetX": 0.0,
+              "offsetY": 0.0,
+              "restitution": 0.0,
+              "shape": "box",
+              "width": 32.0
+            },
+            "enabled": false,
+            "fixedRotation": true,
+            "gravityScale": 1.0
+          },
+          "targetLevel": "",
+          "targetScene": "",
+          "targetWorld": "",
           "type": "npc",
-          "x": 564,
-          "y": 162,
           "w": 40,
-          "h": 60,
-          "dialogId": "bartender_intro",
-          "examineText": "En storvuxen man med imponerande mustasch."
+          "x": 564,
+          "y": 162
         },
         {
+          "dialogId": "",
+          "examineText": "",
+          "funnyFails": [],
+          "h": 90,
           "id": "exit_street",
           "name": "Tavern Door",
-          "type": "exit",
-          "x": 300,
-          "y": 270,
-          "w": 50,
-          "h": 90,
-          "targetScene": "street",
           "physics": {
-            "enabled": true,
             "bodyType": "static",
-            "collider": {"shape": "box", "width": 50, "height": 90, "isTrigger": true}
-          }
+            "collider": {
+              "density": 1.0,
+              "friction": 0.30000001192092896,
+              "height": 90.0,
+              "isTrigger": true,
+              "offsetX": 0.0,
+              "offsetY": 0.0,
+              "restitution": 0.0,
+              "shape": "box",
+              "width": 50.0
+            },
+            "enabled": true,
+            "fixedRotation": true,
+            "gravityScale": 1.0
+          },
+          "targetLevel": "",
+          "targetScene": "street",
+          "targetWorld": "",
+          "type": "exit",
+          "w": 50,
+          "x": 300,
+          "y": 270
         }
       ],
-      "collisionBoxes": [
-        {"id": "floor_main", "type": "ground", "x": 0, "y": 350, "width": 640, "height": 30},
-        {"id": "wall_left", "type": "wall", "x": 0, "y": 200, "width": 20, "height": 180},
-        {"id": "wall_right", "type": "wall", "x": 620, "y": 200, "width": 20, "height": 180},
-        {"id": "platform_bar", "type": "platform", "x": 500, "y": 280, "width": 120, "height": 15, "oneWay": true}
-      ]
+      "id": "tavern",
+      "layers": [],
+      "name": "Tavern",
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
+      "walkArea": {
+        "maxX": 640,
+        "maxY": 380,
+        "minX": 0,
+        "minY": 260,
+        "scaleBottom": 1.0,
+        "scaleTop": 0.5
+      }
     },
     {
-      "id": "street",
-      "name": "Street",
       "background": "assets/backgrounds/tavern-inside.png",
+      "camera": {
+        "boundsH": 0,
+        "boundsW": 0,
+        "boundsX": 0,
+        "boundsY": 0,
+        "followPlayer": true,
+        "offsetX": 0,
+        "offsetY": 0,
+        "shakeDuration": 0.0,
+        "shakeIntensity": 0.0,
+        "smoothing": 0.15000000596046448,
+        "zoom": 0.800000011920929
+      },
+      "collisionBoxes": [],
       "gridPosition": {
         "gridX": 1,
         "gridY": 0,
-        "pixelWidth": 960,
-        "pixelHeight": 400
+        "pixelHeight": 400,
+        "pixelWidth": 960
       },
-      "camera": {
-        "zoom": 0.8,
-        "followPlayer": true,
-        "smoothing": 0.15,
-        "boundsX": 0,
-        "boundsY": 0,
-        "boundsW": 0,
-        "boundsH": 0,
-        "offsetX": 0,
-        "offsetY": 0,
-        "shakeIntensity": 0.0,
-        "shakeDuration": 0.0
-      },
-      "walkArea": {
-        "minX": 0,
-        "maxX": 960,
-        "minY": 220,
-        "maxY": 380,
-        "scaleTop": 0.6,
-        "scaleBottom": 1.0
-      },
-      "playerSpawnX": 100.0,
-      "playerSpawnY": 300.0,
       "hotspots": [
         {
+          "dialogId": "",
+          "examineText": "",
+          "funnyFails": [],
+          "h": 90,
           "id": "exit_tavern",
           "name": "Tavern Door",
-          "type": "exit",
-          "x": 400,
-          "y": 270,
-          "w": 50,
-          "h": 90,
-          "targetScene": "tavern",
           "physics": {
-            "enabled": true,
             "bodyType": "static",
-            "collider": {"shape": "box", "width": 50, "height": 90, "isTrigger": true}
-          }
+            "collider": {
+              "density": 1.0,
+              "friction": 0.30000001192092896,
+              "height": 90.0,
+              "isTrigger": true,
+              "offsetX": 0.0,
+              "offsetY": 0.0,
+              "restitution": 0.0,
+              "shape": "box",
+              "width": 50.0
+            },
+            "enabled": true,
+            "fixedRotation": true,
+            "gravityScale": 1.0
+          },
+          "targetLevel": "",
+          "targetScene": "tavern",
+          "targetWorld": "",
+          "type": "exit",
+          "w": 50,
+          "x": 400,
+          "y": 270
         }
-      ]
+      ],
+      "id": "street",
+      "layers": [],
+      "name": "Street",
+      "playerSpawnX": 100.0,
+      "playerSpawnY": 300.0,
+      "walkArea": {
+        "maxX": 960,
+        "maxY": 380,
+        "minX": 0,
+        "minY": 220,
+        "scaleBottom": 1.0,
+        "scaleTop": 0.6000000238418579
+      }
+    },
+    {
+      "background": "backgrounds/mansion_entrance.png",
+      "camera": null,
+      "collisionBoxes": [],
+      "gridPosition": null,
+      "hotspots": [],
+      "id": "mansion_entrance",
+      "layers": [],
+      "name": "Mansion Entrance Hall",
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
+      "walkArea": {
+        "maxX": 640,
+        "maxY": 400,
+        "minX": 0,
+        "minY": 260,
+        "scaleBottom": 1.0,
+        "scaleTop": 0.5
+      }
+    },
+    {
+      "background": "backgrounds/mansion_library.png",
+      "camera": null,
+      "collisionBoxes": [],
+      "gridPosition": null,
+      "hotspots": [],
+      "id": "mansion_library",
+      "layers": [],
+      "name": "Dusty Library",
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
+      "walkArea": {
+        "maxX": 640,
+        "maxY": 400,
+        "minX": 0,
+        "minY": 260,
+        "scaleBottom": 1.0,
+        "scaleTop": 0.5
+      }
+    },
+    {
+      "background": "backgrounds/mansion_bedroom.png",
+      "camera": null,
+      "collisionBoxes": [],
+      "gridPosition": null,
+      "hotspots": [],
+      "id": "mansion_bedroom",
+      "layers": [],
+      "name": "Master Bedroom",
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
+      "walkArea": {
+        "maxX": 640,
+        "maxY": 400,
+        "minX": 0,
+        "minY": 260,
+        "scaleBottom": 1.0,
+        "scaleTop": 0.5
+      }
+    },
+    {
+      "background": "backgrounds/mansion_lobby.png",
+      "camera": null,
+      "collisionBoxes": [],
+      "gridPosition": null,
+      "hotspots": [],
+      "id": "mansion_lobby",
+      "layers": [],
+      "name": "Mansion Lobby",
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
+      "walkArea": {
+        "maxX": 640,
+        "maxY": 400,
+        "minX": 0,
+        "minY": 260,
+        "scaleBottom": 1.0,
+        "scaleTop": 0.5
+      }
+    },
+    {
+      "background": "backgrounds/mansion_basement.png",
+      "camera": null,
+      "collisionBoxes": [],
+      "gridPosition": null,
+      "hotspots": [],
+      "id": "mansion_basement",
+      "layers": [],
+      "name": "Mansion Basement",
+      "playerSpawnX": 320.0,
+      "playerSpawnY": 300.0,
+      "walkArea": {
+        "maxX": 640,
+        "maxY": 400,
+        "minX": 0,
+        "minY": 260,
+        "scaleBottom": 1.0,
+        "scaleTop": 0.5
+      }
     }
   ]
 }

@@ -188,6 +188,60 @@
       "icon": "gem",
       "id": "gemstone",
       "name": "Ruby Gemstone"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A heavy brass key with intricate engravings. It feels cold to the touch.",
+      "icon": "items/ornate_key.png",
+      "id": "ornate_key",
+      "name": "Ornate Key"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A tarnished silver candelabra covered in cobwebs. The candles are long extinguished.",
+      "icon": "items/candelabra.png",
+      "id": "dusty_candelabra",
+      "name": "Dusty Candelabra"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A leather-bound book with strange symbols on the cover. The pages are filled with occult writings.",
+      "icon": "items/tome.png",
+      "id": "ancient_tome",
+      "name": "Ancient Tome"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A Victorian magnifying glass with a mother-of-pearl handle. Perfect for examining small details.",
+      "icon": "items/magnifying_glass.png",
+      "id": "magnifying_glass",
+      "name": "Magnifying Glass"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "A delicate silver locket containing a faded photograph of a beautiful woman. The inscription reads 'Forever, E.'",
+      "icon": "items/locket.png",
+      "id": "locket",
+      "name": "Silver Locket"
+    },
+    {
+      "combinable": false,
+      "combineResult": "",
+      "combinesWith": "",
+      "description": "An elegant music box that plays a haunting melody. The mechanism still works perfectly.",
+      "icon": "items/music_box.png",
+      "id": "music_box",
+      "name": "Music Box"
     }
   ]
 }

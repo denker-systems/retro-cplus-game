@@ -73,6 +73,14 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\providers\OpenAIProvider
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\providers\AnthropicProvider.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\AnthropicProvider.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\tools\SceneTools.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SceneTools.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\tools\ActorTools.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ActorTools.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\tools\HotspotTools.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\HotspotTools.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\tools\DialogTools.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\DialogTools.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\tools\ItemTools.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ItemTools.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\tools\CommandTools.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\CommandTools.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\tools\ContextTools.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ContextTools.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\tools\LevelTools.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\LevelTools.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\tools\QuestTools.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\QuestTools.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\CommandPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\CommandPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\ui\AIChatPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\AIChatPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\ai\AISystemInit.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\AISystemInit.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imnodes\imnodes.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\imnodes.obj

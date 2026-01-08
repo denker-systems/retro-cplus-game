@@ -229,6 +229,33 @@
       "rewardItem": "map_piece_1",
       "rewardXP": 50,
       "title": "Tavern Tales"
+    },
+    {
+      "autoStart": true,
+      "description": "The haunted mansion holds dark secrets. Speak with the butler Jeeves to learn more about the mysterious history of this place.",
+      "id": "uncover_mansion_secrets",
+      "objectives": [],
+      "rewardItem": "",
+      "rewardXP": 100,
+      "title": "Uncover the Mansion's Secrets"
+    },
+    {
+      "autoStart": false,
+      "description": "Lady Blackwood's ghost is trapped in the master bedroom. Find a way to help her find peace and move on from this world.",
+      "id": "free_lady_blackwood",
+      "objectives": [],
+      "rewardItem": "locket",
+      "rewardXP": 150,
+      "title": "Release Lady Blackwood's Spirit"
+    },
+    {
+      "autoStart": false,
+      "description": "Miss Pemberton needs help organizing the ancient library and deciphering the mysterious tome she discovered.",
+      "id": "library_mysteries",
+      "objectives": [],
+      "rewardItem": "",
+      "rewardXP": 75,
+      "title": "The Librarian's Request"
     }
   ]
 }

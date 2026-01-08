@@ -1,7 +1,7 @@
 {
   "ai": {
-    "anthropic_key": "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 ",
-    "model": 3,
+    "anthropic_key": "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",
+    "model": 0,
     "openai_key": "",
     "provider": 1
   },
