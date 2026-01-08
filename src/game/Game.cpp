@@ -54,6 +54,7 @@ bool Game::init(const std::string& title, int width, int height) {
     Uint32 windowFlags = SDL_WINDOW_RESIZABLE;
     
     // Editor needs OpenGL for 3D viewport
+    // Uses GLTextureManager for proper OpenGL texture loading
     if (isEditor) {
         windowFlags |= SDL_WINDOW_OPENGL;
         m_useOpenGL = true;

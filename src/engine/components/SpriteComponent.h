@@ -30,6 +30,18 @@ public:
     void setTexture(SDL_Texture* texture) { m_texture = texture; }
     SDL_Texture* getTexture() const { return m_texture; }
     
+    /**
+     * @brief Get OpenGL texture ID for ImGui rendering
+     * @return OpenGL texture name (GLuint), or 0 if not available
+     */
+    unsigned int getGLTextureID() const;
+    
+    /**
+     * @brief Load texture directly as OpenGL texture (for ImGui)
+     * @return OpenGL texture ID
+     */
+    unsigned int loadGLTexture(const std::string& path);
+    
     bool loadTexture(const std::string& path, SDL_Renderer* renderer);
     bool loadTextureCached(const std::string& path);
     const std::string& getTexturePath() const { return m_texturePath; }
@@ -90,6 +102,7 @@ public:
     
 private:
     SDL_Texture* m_texture = nullptr;
+    unsigned int m_glTextureID = 0;  // OpenGL texture ID for ImGui
     std::string m_texturePath;
     SDL_Rect m_sourceRect{0, 0, 32, 32};
     int m_width = 32;

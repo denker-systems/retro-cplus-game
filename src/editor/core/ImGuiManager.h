@@ -63,6 +63,12 @@ public:
      */
     bool isInitialized() const { return m_initialized; }
     
+    /**
+     * @brief Check if using OpenGL backend
+     * @return true if using OpenGL, false if using SDL_Renderer
+     */
+    bool isUsingOpenGL() const { return m_useOpenGL; }
+    
 private:
     ImGuiManager() = default;
     ~ImGuiManager() = default;

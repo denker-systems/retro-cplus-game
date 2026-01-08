@@ -16,6 +16,12 @@ void ActorObject::setPosition(float x, float y) {
     m_position.y = y;
 }
 
+void ActorObject::setPosition(float x, float y, float z) {
+    m_position.x = x;
+    m_position.y = y;
+    m_positionZ = z;
+}
+
 void ActorObject::setPosition(const Vec2& pos) {
     m_position = pos;
 }

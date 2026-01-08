@@ -35,10 +35,13 @@ public:
     // ========================================================================
     
     void setPosition(float x, float y);
+    void setPosition(float x, float y, float z);
     void setPosition(const Vec2& pos);
     Vec2 getPosition() const { return m_position; }
     float getX() const { return m_position.x; }
     float getY() const { return m_position.y; }
+    float getZ() const { return m_positionZ; }
+    void setZ(float z) { m_positionZ = z; }
     
     void setRotation(float angle) { m_rotation = angle; }
     float getRotation() const { return m_rotation; }
@@ -82,6 +85,7 @@ public:
     
 protected:
     Vec2 m_position{0.0f, 0.0f};
+    float m_positionZ = 0.0f;  // Z-component for 3D positioning
     float m_rotation = 0.0f;
     Vec2 m_scale{1.0f, 1.0f};
     bool m_visible = true;
