@@ -66,6 +66,42 @@ void PhysicsWorld2D::step(float deltaTime) {
     float clampedDt = std::min(deltaTime, 1.0f / 30.0f);
     
     b2World_Step(m_worldId, clampedDt, defaults::VELOCITY_ITERATIONS);
+    
+    // Process sensor events (triggers)
+    b2SensorEvents sensorEvents = b2World_GetSensorEvents(m_worldId);
+    
+    // Handle sensor begin events
+    for (int i = 0; i < sensorEvents.beginCount; i++) {
+        b2SensorBeginTouchEvent* event = sensorEvents.beginEvents + i;
+        
+        // Get user data from shapes to find actors
+        void* sensorUserData = b2Shape_GetUserData(event->sensorShapeId);
+        void* visitorUserData = b2Shape_GetUserData(event->visitorShapeId);
+        
+        if (sensorUserData && visitorUserData && onContactBegin) {
+            ContactInfo info;
+            info.actorA = static_cast<ActorObject*>(sensorUserData);
+            info.actorB = static_cast<ActorObject*>(visitorUserData);
+            info.isSensorContact = true;
+            onContactBegin(info);
+        }
+    }
+    
+    // Handle sensor end events
+    for (int i = 0; i < sensorEvents.endCount; i++) {
+        b2SensorEndTouchEvent* event = sensorEvents.endEvents + i;
+        
+        void* sensorUserData = b2Shape_GetUserData(event->sensorShapeId);
+        void* visitorUserData = b2Shape_GetUserData(event->visitorShapeId);
+        
+        if (sensorUserData && visitorUserData && onContactEnd) {
+            ContactInfo info;
+            info.actorA = static_cast<ActorObject*>(sensorUserData);
+            info.actorB = static_cast<ActorObject*>(visitorUserData);
+            info.isSensorContact = true;
+            onContactEnd(info);
+        }
+    }
 }
 
 // ============================================================================
@@ -148,6 +184,7 @@ b2ShapeId PhysicsWorld2D::addShape(b2BodyId bodyId, const ShapeDef2D& def) {
     shapeDef.isSensor = def.isSensor;
     shapeDef.filter.categoryBits = static_cast<uint64_t>(def.category);
     shapeDef.filter.maskBits = static_cast<uint64_t>(def.mask);
+    shapeDef.userData = def.userData;  // For trigger callbacks
     
     b2ShapeId shapeId = b2_nullShapeId;
     

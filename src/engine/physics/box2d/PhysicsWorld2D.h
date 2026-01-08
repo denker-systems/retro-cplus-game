@@ -78,6 +78,7 @@ struct ShapeDef2D {
     glm::vec2 offset{0, 0};         // Offset from body center
     float density = 1.0f;
     float friction = 0.3f;
+    void* userData = nullptr;       // Typically ActorObject* for trigger callbacks
     float restitution = 0.0f;       // Bounciness
     bool isSensor = false;          // Trigger only, no collision response
     CollisionCategory category = CollisionCategory::All;

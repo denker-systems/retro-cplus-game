@@ -18,6 +18,8 @@
 #include "engine/components/RigidBody2DComponent.h"
 #include "engine/components/Collider2DComponent.h"
 #include "engine/components/CharacterController2D.h"
+#include "engine/components/TriggerComponent.h"
+#include "engine/physics/box2d/PhysicsWorld2D.h"
 #include "engine/world/Scene.h"
 #include "engine/Hotspot.h"
 #include "engine/systems/SceneManager.h"
@@ -107,6 +109,48 @@ void PlayState::onRoomChange(const std::string& roomId) {
             scene->setPhysicsDebugDraw(settings.isPhysicsDebugEnabled());
             std::cout << "[Physics] Enabled for scene: " << roomId << std::endl;
             
+            // Setup contact callbacks for triggers
+            scene->getPhysicsWorld()->onContactBegin = [](const engine::physics::ContactInfo& info) {
+                if (!info.isSensorContact) return;
+                
+                // Try to find TriggerComponent on sensor actor
+                auto* actorA = dynamic_cast<engine::ActorObjectExtended*>(info.actorA);
+                auto* actorB = dynamic_cast<engine::ActorObjectExtended*>(info.actorB);
+                
+                if (actorA) {
+                    auto* trigger = actorA->getComponent<engine::TriggerComponent>();
+                    if (trigger) {
+                        trigger->onTriggerEnter(actorB);
+                    }
+                }
+                if (actorB) {
+                    auto* trigger = actorB->getComponent<engine::TriggerComponent>();
+                    if (trigger) {
+                        trigger->onTriggerEnter(actorA);
+                    }
+                }
+            };
+            
+            scene->getPhysicsWorld()->onContactEnd = [](const engine::physics::ContactInfo& info) {
+                if (!info.isSensorContact) return;
+                
+                auto* actorA = dynamic_cast<engine::ActorObjectExtended*>(info.actorA);
+                auto* actorB = dynamic_cast<engine::ActorObjectExtended*>(info.actorB);
+                
+                if (actorA) {
+                    auto* trigger = actorA->getComponent<engine::TriggerComponent>();
+                    if (trigger) {
+                        trigger->onTriggerExit(actorB);
+                    }
+                }
+                if (actorB) {
+                    auto* trigger = actorB->getComponent<engine::TriggerComponent>();
+                    if (trigger) {
+                        trigger->onTriggerExit(actorA);
+                    }
+                }
+            };
+            
             // Load collision boxes from scene data
             const SceneData* sceneData = DataLoader::instance().getSceneById(roomId);
             if (sceneData && !sceneData->collisionBoxes.empty()) {
@@ -126,7 +170,52 @@ void PlayState::onRoomChange(const std::string& roomId) {
                     scene->addActor(std::move(collider));
                     std::cout << "[Physics] Created collision box: " << box.id << " (" << box.type << ")" << std::endl;
                 }
-            } else {
+            }
+            
+            // Load hotspots with physics (triggers/gates)
+            if (sceneData) {
+                for (const auto& hs : sceneData->hotspots) {
+                    if (hs.physics.enabled && hs.physics.collider.isTrigger) {
+                        auto trigger = std::make_unique<engine::ActorObjectExtended>("Trigger_" + hs.id);
+                        trigger->setPosition(hs.x + hs.w / 2.0f, hs.y + hs.h / 2.0f);
+                        
+                        auto* rb = trigger->addComponent<engine::RigidBody2DComponent>();
+                        rb->setBodyType(engine::RigidBody2DComponent::BodyType::Static);
+                        rb->initializeBody(scene->getPhysicsWorld());
+                        
+                        auto* col = trigger->addComponent<engine::Collider2DComponent>();
+                        col->setBoxShape(static_cast<float>(hs.w), static_cast<float>(hs.h));
+                        col->setTrigger(true);
+                        col->initializeShape();
+                        
+                        // Add TriggerComponent with scene transition callback
+                        auto* triggerComp = trigger->addComponent<engine::TriggerComponent>();
+                        
+                        // Capture target scene for the callback
+                        std::string targetScene = hs.targetScene;
+                        std::string targetLevel = hs.targetLevel;
+                        std::string hsName = hs.name;
+                        
+                        if (!targetScene.empty()) {
+                            triggerComp->setOnEnter([this, targetScene, hsName](engine::ActorObjectExtended* other) {
+                                if (other->getName() == "Player") {
+                                    std::cout << "[Trigger] Player entered: " << hsName << " -> " << targetScene << std::endl;
+                                    if (!Transition::instance().isActive()) {
+                                        Transition::instance().fadeToBlack(0.5f, [targetScene]() {
+                                            SceneManager::instance().changeScene(targetScene);
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                        
+                        scene->addActor(std::move(trigger));
+                        std::cout << "[Physics] Created trigger: " << hs.id << " -> " << hs.targetScene << std::endl;
+                    }
+                }
+            }
+            
+            if (!sceneData || sceneData->collisionBoxes.empty()) {
                 // Fallback: Create ground collider at bottom of walk area
                 auto ground = std::make_unique<engine::ActorObjectExtended>("Ground");
                 ground->setPosition(320, static_cast<float>(wa.maxY + 10));

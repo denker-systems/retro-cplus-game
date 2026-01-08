@@ -173,6 +173,7 @@ void Collider2DComponent::createShape() {
     def.mask = m_mask;
     def.offset = m_offset;
     def.size = m_size;
+    def.userData = m_owner;  // Set owner actor for trigger callbacks
     
     switch (m_shapeType) {
         case ShapeType::Box:
