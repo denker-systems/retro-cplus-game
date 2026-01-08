@@ -3,6 +3,7 @@
  * @brief ViewportPanel Level and Spatial view rendering
  */
 #include "ViewportPanel.h"
+#include "editor/viewport/Viewport3DPanel.h"
 #include "engine/world/Level.h"
 #include "engine/world/Scene.h"
 #include <algorithm>
@@ -344,5 +345,40 @@ void ViewportPanel::renderSpatialView() {
                            m_selectedScene ? "Drag to move, Double-click to open" :
                            "Click to select, Middle-mouse to pan, Scroll to zoom";
     ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "%s", helpText);
+#endif
+}
+
+void ViewportPanel::renderLevel3D() {
+#ifdef HAS_IMGUI
+    if (!m_level) {
+        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No Level selected");
+        return;
+    }
+    
+    // Use shared 3D viewport for Level view
+    if (!m_viewport3D) {
+        m_viewport3D = std::make_unique<editor::Viewport3DPanel>();
+        m_viewport3D->setSelectionManager(m_selectionManager);
+    }
+    
+    // Configure for Level view
+    m_viewport3D->setViewLevel(editor::View3DLevel::Level);
+    m_viewport3D->setLevel(m_level);
+    
+    // Render 3D viewport
+    m_viewport3D->render();
+    
+    // Handle double-click navigation
+    if (m_viewport3D->wasDoubleClicked()) {
+        int selectedIdx = m_viewport3D->getSelectedIndex();
+        const auto& scenes = m_level->getScenes();
+        if (selectedIdx >= 0 && selectedIdx < (int)scenes.size()) {
+            setScene(scenes[selectedIdx].get());  // Use setScene to sync with SelectionManager
+            loadRoomPreview();
+            // Reset selection for new view
+            m_viewport3D->resetSelection();
+        }
+        m_viewport3D->clearDoubleClick();
+    }
 #endif
 }

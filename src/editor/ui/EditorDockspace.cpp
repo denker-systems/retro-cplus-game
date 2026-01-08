@@ -50,6 +50,7 @@ void EditorDockspace::setupDefaultLayout(float screenW, float screenH, float men
     
     ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
     ImGui::DockBuilderDockWindow("Viewport", dockCenter);
+    ImGui::DockBuilderDockWindow("3D Viewport", dockCenter);
     ImGui::DockBuilderDockWindow("Dialog Graph", dockCenter);
     ImGui::DockBuilderDockWindow("Quest Graph", dockCenter);
     ImGui::DockBuilderDockWindow("NPC Behavior", dockCenter);

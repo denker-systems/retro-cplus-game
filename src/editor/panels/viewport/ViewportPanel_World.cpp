@@ -3,6 +3,7 @@
  * @brief ViewportPanel World view rendering
  */
 #include "ViewportPanel.h"
+#include "editor/viewport/Viewport3DPanel.h"
 #include "engine/world/World.h"
 #include "engine/world/Level.h"
 #include <algorithm>
@@ -294,5 +295,39 @@ void ViewportPanel::renderWorldSpatialView() {
                            m_selectedLevel ? "Drag to move, Double-click to enter" :
                            "Click to select, Middle-mouse to pan, Scroll to zoom";
     ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "%s", helpText);
+#endif
+}
+
+void ViewportPanel::renderWorld3D() {
+#ifdef HAS_IMGUI
+    if (!m_world) {
+        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No World loaded");
+        return;
+    }
+    
+    // Use shared 3D viewport for World view
+    if (!m_viewport3D) {
+        m_viewport3D = std::make_unique<editor::Viewport3DPanel>();
+        m_viewport3D->setSelectionManager(m_selectionManager);
+    }
+    
+    // Configure for World view
+    m_viewport3D->setViewLevel(editor::View3DLevel::World);
+    m_viewport3D->setWorld(m_world);
+    
+    // Render 3D viewport
+    m_viewport3D->render();
+    
+    // Handle double-click navigation
+    if (m_viewport3D->wasDoubleClicked()) {
+        int selectedIdx = m_viewport3D->getSelectedIndex();
+        const auto& levels = m_world->getLevels();
+        if (selectedIdx >= 0 && selectedIdx < (int)levels.size()) {
+            setLevel(levels[selectedIdx].get());  // Use setLevel to sync with SelectionManager
+            // Reset selection for new view
+            m_viewport3D->resetSelection();
+        }
+        m_viewport3D->clearDoubleClick();
+    }
 #endif
 }

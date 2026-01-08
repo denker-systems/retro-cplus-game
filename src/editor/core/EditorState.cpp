@@ -13,6 +13,7 @@
 #include "editor/panels/core/ConsolePanel.h"
 #include "editor/panels/core/CommandPanel.h"
 #include "editor/panels/viewport/ViewportPanel.h"
+#include "editor/viewport/ViewportPanelNew.h"
 #include "editor/panels/assets/AssetBrowserPanel.h"
 #include "editor/panels/assets/PlaceActorsPanel.h"
 #include "editor/panels/world/WorldViewPanel.h"
@@ -31,6 +32,7 @@
 #include "ai/AISystemInit.h"
 #include "ai/ui/AIChatPanel.h"
 #include "editor/panels/core/EditorSettingsPanel.h"
+#include "editor/viewport/Viewport3DPanel.h"
 
 #ifdef HAS_IMGUI
 #include "editor/core/ImGuiManager.h"
@@ -94,21 +96,32 @@ void EditorState::enter() {
         }
     };
     
-    // Connect World/Level/Scene hierarchy to panels
+    // Get viewport and selection manager FIRST
     auto* viewport = m_panelManager->getViewportPanel();
+    auto* selectionManager = viewport->getSelectionManager();
+    
+    // Connect selection manager to all panels BEFORE setting navigation
+    auto* properties = m_panelManager->getPropertiesPanel();
+    properties->setSelectionManager(selectionManager);
+    
+    auto* hierarchy = m_panelManager->getHierarchyPanel();
+    hierarchy->setSelectionManager(selectionManager);
+    
+    // Register navigation callback BEFORE setting world/level/scene
+    selectionManager->registerNavigationChangedCallback([viewport]() {
+        viewport->syncFromSelectionManager();
+    });
+    
+    // NOW connect World/Level/Scene hierarchy to panels
     auto* world = m_worldManager->getWorld();
     viewport->setWorld(world);
     viewport->setLevel(world->getActiveLevel());
     viewport->setScene(world->getActiveLevel()->getActiveScene());
     
-    // Connect selection manager to properties panel
-    auto* properties = m_panelManager->getPropertiesPanel();
-    properties->setSelectionManager(viewport->getSelectionManager());
-    
-    // Connect selection manager to hierarchy panel
-    auto* hierarchy = m_panelManager->getHierarchyPanel();
-    hierarchy->setSelectionManager(viewport->getSelectionManager());
-    hierarchy->setActiveScene(world->getActiveLevel()->getActiveScene());
+    // Connect new unified viewport
+    if (auto* viewportNew = m_panelManager->getViewportPanelNew()) {
+        viewportNew->setWorld(world);
+    }
     
     m_panelManager->getSceneGraphPanel()->setScene(world->getActiveLevel()->getActiveScene());
     m_panelManager->getLayerEditorPanel()->setLayerManager(m_worldManager->getLayerManager());

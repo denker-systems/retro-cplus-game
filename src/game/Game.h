@@ -76,4 +76,5 @@ private:
     // Viewport för letterboxing
     SDL_Rect m_viewport = {0, 0, GAME_WIDTH, GAME_HEIGHT};
     float m_scale = 1.0f;
+    bool m_useOpenGL = false;  // True when using OpenGL for rendering
 };

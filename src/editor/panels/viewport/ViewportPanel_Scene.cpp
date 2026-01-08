@@ -291,8 +291,18 @@ void ViewportPanel::renderSceneView() {
                         m_actorDragOffsetX = roomX - ax;
                         m_actorDragOffsetY = roomY - ay;
                         m_toolContext.selectedActor = m_selectedActor;
+                        
+                        // Notify SelectionManager to sync with Hierarchy/Properties
+                        if (m_selectionManager) {
+                            m_selectionManager->selectActor(actor.get());
+                        }
                         break;
                     }
+                }
+                
+                // If no actor selected, clear selection in SelectionManager
+                if (!m_selectedActor && m_selectionManager) {
+                    m_selectionManager->clearSelection();
                 }
             }
         }

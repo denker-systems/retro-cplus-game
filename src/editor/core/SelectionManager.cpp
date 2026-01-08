@@ -3,8 +3,11 @@
  * @brief Central selection management implementation
  */
 #include "SelectionManager.h"
+#include "engine/world/World.h"
+#include "engine/world/Level.h"
 #include "engine/world/Scene.h"
 #include "engine/core/ActorObjectExtended.h"
+#include <iostream>
 
 SelectionManager::SelectionManager(EditorContext& context) 
     : m_context(context) {
@@ -81,8 +84,34 @@ void SelectionManager::notifyViewportCollisionBoxSelection(int boxIndex) {
     selectCollisionBox(boxIndex);
 }
 
+void SelectionManager::selectActor(engine::ActorObjectExtended* actor) {
+    std::cout << "[SelectionManager] selectActor: " << (actor ? actor->getName() : "nullptr") << std::endl;
+    if (actor) {
+        m_context.selectedType = EditorContext::SelectionType::Actor;
+        m_context.selectedActorId = actor->getName();
+        m_context.selectedCollisionBoxIndex = -1;
+        m_selectedActor = actor;
+        m_selectedScene = m_activeScene;
+    } else {
+        m_selectedActor = nullptr;
+    }
+    
+    notifySelectionChanged();
+}
+
 void SelectionManager::notifySelectionChanged() {
-    for (auto& cb : m_callbacks) {
+    std::cout << "[SelectionManager] notifySelectionChanged - " << m_selectionCallbacks.size() << " callbacks" << std::endl;
+    for (auto& cb : m_selectionCallbacks) {
+        cb();
+    }
+}
+
+void SelectionManager::notifyNavigationChanged() {
+    std::cout << "[SelectionManager] notifyNavigationChanged - Level: " 
+              << (m_activeLevel ? m_activeLevel->getName() : "null")
+              << ", Scene: " << (m_activeScene ? m_activeScene->getName() : "null")
+              << ", " << m_navigationCallbacks.size() << " callbacks" << std::endl;
+    for (auto& cb : m_navigationCallbacks) {
         cb();
     }
 }

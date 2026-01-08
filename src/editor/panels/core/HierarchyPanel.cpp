@@ -6,8 +6,11 @@
 #include "editor/core/EditorContext.h"
 #include "editor/core/SelectionManager.h"
 #include "engine/data/DataLoader.h"
+#include "engine/world/World.h"
+#include "engine/world/Level.h"
 #include "engine/world/Scene.h"
 #include "engine/core/ActorObjectExtended.h"
+#include <iostream>
 
 #ifdef HAS_IMGUI
 #include <imgui.h>
@@ -22,69 +25,56 @@ void HierarchyPanel::render() {
     if (!m_visible) return;
     
     if (ImGui::Begin(m_title.c_str(), &m_visible)) {
-        const auto& rooms = DataLoader::instance().getRooms();
+        // Show hierarchy based on current navigation level
+        if (m_selectionManager) {
+            auto* world = m_selectionManager->getWorld();
+            auto* level = m_selectionManager->getActiveLevel();
+            auto* scene = m_selectionManager->getActiveScene();
+            
+            // Breadcrumb navigation
+            if (world) {
+                if (ImGui::SmallButton(world->getName().c_str())) {
+                    std::cout << "[HierarchyPanel] Breadcrumb click: World" << std::endl;
+                    m_selectionManager->setActiveLevel(nullptr);
+                    m_selectionManager->setActiveScene(nullptr);
+                }
+                
+                if (level) {
+                    ImGui::SameLine();
+                    ImGui::Text(">");
+                    ImGui::SameLine();
+                    if (ImGui::SmallButton(level->getName().c_str())) {
+                        std::cout << "[HierarchyPanel] Breadcrumb click: Level " << level->getName() << std::endl;
+                        m_selectionManager->setActiveScene(nullptr);
+                    }
+                    
+                    if (scene) {
+                        ImGui::SameLine();
+                        ImGui::Text(">");
+                        ImGui::SameLine();
+                        ImGui::Text("%s", scene->getName().c_str());
+                    }
+                }
+            }
+            ImGui::Separator();
+            
+            // Render appropriate hierarchy view
+            if (scene) {
+                renderSceneHierarchy();
+            } else if (level) {
+                renderLevelHierarchy();
+            } else if (world) {
+                renderWorldHierarchy();
+            }
+        }
+        
+        ImGui::Separator();
+        
+        // Always show data categories below
         const auto& dialogs = DataLoader::instance().getDialogs();
         const auto& quests = DataLoader::instance().getQuests();
         const auto& items = DataLoader::instance().getItems();
         const auto& npcs = DataLoader::instance().getNPCs();
-        
-        // Scenes (formerly Rooms)
-        if (ImGui::CollapsingHeader("Scenes", ImGuiTreeNodeFlags_DefaultOpen)) {
-            // New Scene button
-            if (ImGui::SmallButton("+ New Scene")) {
-                RoomData newScene;
-                newScene.id = "scene_" + std::to_string(m_context.rooms.size());
-                newScene.name = "New Scene";
-                newScene.background = "assets/backgrounds/placeholder.png";
-                newScene.playerSpawnX = 320.0f;
-                newScene.playerSpawnY = 300.0f;
-                newScene.walkArea = {0, 640, 260, 400, 0.5f, 1.0f};
-                m_context.rooms.push_back(newScene);
-                m_context.markDirty();
-                
-                // Select the new scene
-                m_context.selectedRoomId = newScene.id;
-                m_context.selectedDialogId.clear();
-                m_context.selectedQuestId.clear();
-                m_context.selectedItemId.clear();
-                m_context.selectedHotspotIndex = -1;
-                m_context.selectedType = EditorContext::SelectionType::Room;
-            }
-            ImGui::Spacing();
-            
-            for (const auto& room : rooms) {
-                bool selected = (m_context.selectedType == EditorContext::SelectionType::Room && 
-                                m_context.selectedRoomId == room.id);
-                
-                // Get scene type icon based on room id/name
-                const char* icon = getSceneIcon(room.id);
-                std::string label = std::string(icon) + " " + room.name;
-                
-                if (ImGui::Selectable(label.c_str(), selected)) {
-                    // Deselect om samma item klickas igen
-                    if (selected) {
-                        m_context.selectedType = EditorContext::SelectionType::None;
-                        m_context.selectedRoomId.clear();
-                    } else {
-                        // Rensa alla andra selections
-                        m_context.selectedRoomId = room.id;
-                        m_context.selectedDialogId.clear();
-                        m_context.selectedQuestId.clear();
-                        m_context.selectedItemId.clear();
-                        m_context.selectedHotspotIndex = -1;
-                        m_context.selectedActorId.clear();
-                        m_context.selectedCollisionBoxIndex = -1;
-                        m_context.selectedType = EditorContext::SelectionType::Room;
-                        if (m_onRoomSelected) m_onRoomSelected(room.id);
-                    }
-                }
-                
-                // Show actors in selected scene
-                if (selected && !room.id.empty()) {
-                    renderActorsForScene(room.id);
-                }
-            }
-        }
         
         // Dialogs
         if (ImGui::CollapsingHeader("Dialogs")) {
@@ -246,50 +236,117 @@ void HierarchyPanel::render() {
 
 void HierarchyPanel::setSelectionManager(SelectionManager* selectionManager) {
     m_selectionManager = selectionManager;
+    
+    // Register callback to refresh when selection changes from viewport
+    if (m_selectionManager) {
+        m_selectionManager->registerSelectionChangedCallback([this]() {
+            // HierarchyPanel will automatically show correct selection 
+            // since it reads from SelectionManager each frame
+            std::cout << "[HierarchyPanel] Selection changed notification received" << std::endl;
+        });
+    }
 }
 
-void HierarchyPanel::renderActorsForScene(const std::string& roomId) {
+void HierarchyPanel::renderWorldHierarchy() {
 #ifdef HAS_IMGUI
-    ImGui::Indent();
+    if (!m_selectionManager) return;
+    auto* world = m_selectionManager->getWorld();
+    if (!world) return;
     
-    // Get actors from active scene
-    if (m_activeScene) {
-        const auto& actors = m_activeScene->getActors();
+    ImGui::Text("Levels:");
+    ImGui::Spacing();
+    
+    const auto& levels = world->getLevels();
+    for (const auto& level : levels) {
+        if (!level) continue;
         
-        for (const auto& actorPtr : actors) {
-            if (!actorPtr) continue;
-            auto& actor = actorPtr;
-            
-            // Check if this actor is selected
-            bool selected = (m_context.selectedType == EditorContext::SelectionType::Actor && 
-                           m_context.selectedActorId == actorPtr->getName());
-            
-            // Get icon based on actor type
-            const char* icon = "🎭";
-            if (actorPtr->getName().find("Background") != std::string::npos) {
-                icon = "🖼️";
-            } else if (actorPtr->getName().find("Player") != std::string::npos) {
-                icon = "👤";
-            } else if (actorPtr->getName().find("NPC") != std::string::npos) {
-                icon = "🧍";
-            } else if (actorPtr->getName().find("Item") != std::string::npos) {
-                icon = "📦";
-            }
-            
-            // Render actor item
-            if (ImGui::Selectable(("  " + std::string(icon) + " " + actorPtr->getName()).c_str(), selected)) {
-                if (m_selectionManager) {
-                    m_selectionManager->selectActor(actorPtr->getName(), m_activeScene);
-                }
-            }
+        std::string label = "[L] " + level->getName();
+        if (ImGui::Selectable(label.c_str())) {
+            m_selectionManager->setActiveLevel(level.get());
         }
-    } else {
-        // No active scene
-        ImGui::TextDisabled("  No scene selected");
+    }
+#endif
+}
+
+void HierarchyPanel::renderLevelHierarchy() {
+#ifdef HAS_IMGUI
+    if (!m_selectionManager) return;
+    auto* level = m_selectionManager->getActiveLevel();
+    if (!level) return;
+    
+    ImGui::Text("Scenes:");
+    ImGui::Spacing();
+    
+    const auto& scenes = level->getScenes();
+    for (const auto& scene : scenes) {
+        if (!scene) continue;
+        
+        const char* icon = getSceneIcon(scene->getName());
+        std::string label = std::string(icon) + " " + scene->getName();
+        if (ImGui::Selectable(label.c_str())) {
+            m_selectionManager->setActiveScene(scene.get());
+        }
+    }
+#endif
+}
+
+void HierarchyPanel::renderSceneHierarchy() {
+#ifdef HAS_IMGUI
+    if (!m_selectionManager) return;
+    auto* scene = m_selectionManager->getActiveScene();
+    if (!scene) return;
+    
+    ImGui::Text("Actors:");
+    ImGui::Spacing();
+    
+    renderActorsForScene();
+#endif
+}
+
+void HierarchyPanel::renderActorsForScene() {
+#ifdef HAS_IMGUI
+    if (!m_selectionManager) return;
+    auto* scene = m_selectionManager->getActiveScene();
+    if (!scene) {
+        ImGui::TextDisabled("No scene selected");
+        return;
     }
     
-    ImGui::Unindent();
+    const auto& actors = scene->getActors();
+    auto* selectedActor = m_selectionManager->getSelectedActor();
+    
+    for (const auto& actorPtr : actors) {
+        if (!actorPtr) continue;
+        
+        bool selected = (selectedActor == actorPtr.get());
+        const char* icon = getActorIcon(actorPtr->getName());
+        std::string label = std::string(icon) + " " + actorPtr->getName();
+        
+        if (ImGui::Selectable(label.c_str(), selected)) {
+            std::cout << "[HierarchyPanel] Actor click: " << actorPtr->getName() << std::endl;
+            m_selectionManager->selectActor(actorPtr.get());
+        }
+    }
+    
+    if (actors.empty()) {
+        ImGui::TextDisabled("No actors in scene");
+    }
 #endif
+}
+
+const char* HierarchyPanel::getActorIcon(const std::string& actorName) const {
+    if (actorName.find("Background") != std::string::npos) {
+        return "[BG]";
+    } else if (actorName.find("Player") != std::string::npos) {
+        return "[P]";
+    } else if (actorName.find("NPC") != std::string::npos) {
+        return "[NPC]";
+    } else if (actorName.find("Item") != std::string::npos) {
+        return "[I]";
+    } else if (actorName.find("Hotspot") != std::string::npos) {
+        return "[H]";
+    }
+    return "[A]";
 }
 
 const char* HierarchyPanel::getSceneIcon(const std::string& sceneId) const {

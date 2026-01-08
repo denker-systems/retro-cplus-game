@@ -23,6 +23,8 @@
 #include "editor/input/EditorInputHandler.h"
 #include "editor/ui/EditorMenuBar.h"
 #include "editor/ui/EditorDockspace.h"
+#include "editor/viewport/Viewport3DPanel.h"
+#include "editor/viewport/ViewportPanelNew.h"
 
 EditorPanelManager::EditorPanelManager(EditorContext& context)
     : m_context(context) {
@@ -48,6 +50,11 @@ void EditorPanelManager::initialize(Game* game) {
     m_tileMapEditorPanel = std::make_unique<TileMapEditorPanel>(m_context);
     m_worldViewPanel = std::make_unique<WorldViewPanel>(m_context);
     m_levelViewPanel = std::make_unique<LevelViewPanel>(m_context);
+    
+#ifdef HAS_IMGUI
+    m_viewport3DPanel = std::make_unique<editor::Viewport3DPanel>();
+    m_viewportPanelNew = std::make_unique<editor::ViewportPanelNew>(m_context);
+#endif
     
     // Create input handler
     m_inputHandler = std::make_unique<EditorInputHandler>(m_context);
