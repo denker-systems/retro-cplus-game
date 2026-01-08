@@ -264,6 +264,13 @@ set(EDITOR_SOURCES
     # Properties - Characters
     src/editor/properties/characters/NPCPropertyEditor.cpp
     
+    # Properties - Actors
+    src/editor/properties/actors/ActorPropertyEditor.cpp
+    src/editor/properties/actors/LockableComponent.cpp
+    
+    # Core
+    src/editor/core/SelectionManager.cpp
+    
     # Tools
     src/editor/tools/SelectTool.cpp
     src/editor/tools/ScaleTool.cpp

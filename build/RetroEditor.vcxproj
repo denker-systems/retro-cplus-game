@@ -517,6 +517,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\gameplay\QuestPropertyEditor.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\gameplay\ItemPropertyEditor.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\characters\NPCPropertyEditor.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\actors\ActorPropertyEditor.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\actors\LockableComponent.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\SelectionManager.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\SelectTool.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\ScaleTool.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\ToolManager.cpp" />

@@ -58,6 +58,14 @@ void AnimationComponent::resume() {
     m_paused = false;
 }
 
+void AnimationComponent::play() {
+    // Resume current animation if exists
+    if (m_currentAnimation) {
+        m_playing = true;
+        m_paused = false;
+    }
+}
+
 SDL_Rect AnimationComponent::getCurrentFrameRect() const {
     if (m_currentAnimation && 
         m_currentFrameIndex >= 0 && 

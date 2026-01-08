@@ -42,6 +42,7 @@ public:
     // ========================================================================
     
     void play(const std::string& name, bool restart = false);
+    void play();  // Resume current animation
     void stop();
     void pause();
     void resume();

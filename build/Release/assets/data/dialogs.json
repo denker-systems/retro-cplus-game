@@ -532,51 +532,6 @@
       ],
       "npcName": "Mysterious Cat",
       "startNodeId": 0
-    },
-    {
-      "id": "butler_greeting",
-      "nodes": [
-        {
-          "action": "",
-          "choices": [],
-          "id": 0,
-          "nextNodeId": -1,
-          "speaker": "Jeeves",
-          "text": "Good evening. I am Jeeves, the butler of this estate. The master has been... expecting you."
-        }
-      ],
-      "npcName": "Jeeves",
-      "startNodeId": 0
-    },
-    {
-      "id": "librarian_greeting",
-      "nodes": [
-        {
-          "action": "",
-          "choices": [],
-          "id": 0,
-          "nextNodeId": -1,
-          "speaker": "Miss Pemberton",
-          "text": "Shhh! Oh, forgive me... I've been cataloging these ancient tomes for decades. They whisper such strange things..."
-        }
-      ],
-      "npcName": "Miss Pemberton",
-      "startNodeId": 0
-    },
-    {
-      "id": "ghost_greeting",
-      "nodes": [
-        {
-          "action": "",
-          "choices": [],
-          "id": 0,
-          "nextNodeId": -1,
-          "speaker": "Lady Blackwood",
-          "text": "You can see me? How remarkable... I've been trapped in this room since the night of my murder, so many years ago..."
-        }
-      ],
-      "npcName": "Lady Blackwood",
-      "startNodeId": 0
     }
   ]
 }

@@ -169,6 +169,15 @@
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\characters\NPCPropertyEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\actors\ActorPropertyEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\actors\LockableComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\SelectionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\SelectTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

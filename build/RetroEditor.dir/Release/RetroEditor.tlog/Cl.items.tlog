@@ -54,6 +54,9 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\gameplay\
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\gameplay\QuestPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\QuestPropertyEditor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\gameplay\ItemPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ItemPropertyEditor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\characters\NPCPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\NPCPropertyEditor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\actors\ActorPropertyEditor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ActorPropertyEditor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\properties\actors\LockableComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\LockableComponent.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\SelectionManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SelectionManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\SelectTool.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SelectTool.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\ScaleTool.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ScaleTool.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\ToolManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ToolManager.obj
