@@ -1,17 +1,11 @@
 /**
  * @file Entity.cpp
- * @brief Implementation av Entity base class
+ * @brief DEPRECATED: Implementation av Entity base class
+ * 
+ * MIGRATION NOTE: Entity is now an alias to engine::ActorObject
+ * This file is kept for backward compatibility but contains no actual implementation.
  */
 #include "Entity.h"
 
-Entity::Entity(float x, float y, int width, int height)
-    : m_x(x), m_y(y), m_width(width), m_height(height) {}
-
-SDL_Rect Entity::getBounds() const {
-    return {
-        static_cast<int>(m_x),
-        static_cast<int>(m_y),
-        m_width,
-        m_height
-    };
-}
+// No implementation needed - Entity is now an alias to engine::ActorObject
+// The forwarding header in Entity.h handles all compatibility

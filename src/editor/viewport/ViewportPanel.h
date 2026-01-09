@@ -1,8 +1,11 @@
 /**
  * @file ViewportPanel.h
- * @brief Unified viewport panel using OOP renderer architecture
+ * @brief DEPRECATED: OOP renderer architecture (not in use)
  * 
- * Replaces legacy ViewportPanel with clean OOP design.
+ * MIGRATION NOTE: This is an alternative OOP design that was not adopted.
+ * The active ViewportPanel is in src/editor/panels/viewport/ViewportPanel.h
+ * 
+ * This file is kept for reference but should be removed once migration is complete.
  */
 #pragma once
 

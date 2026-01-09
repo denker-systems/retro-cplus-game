@@ -1,8 +1,16 @@
 /**
  * @file PlayerCharacter.cpp
- * @brief Implementation av spelarkaraktär
+ * @brief DEPRECATED: Implementation av spelarkaraktär
+ * 
+ * MIGRATION NOTE: PlayerCharacter is now an alias to engine::PlayerActor
+ * This file is kept for backward compatibility but contains no actual implementation.
  */
 #include "PlayerCharacter.h"
+
+// No implementation needed - PlayerCharacter is now an alias to engine::PlayerActor
+// The forwarding header in PlayerCharacter.h handles all compatibility
+
+#if 0
 #include "graphics/SpriteSheet.h"
 #include "graphics/Animation.h"
 #include <iostream>
@@ -168,3 +176,4 @@ void PlayerCharacter::renderPlaceholder(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, 60, 60, 60, 255);
     SDL_RenderFillRect(renderer, &pants);
 }
+#endif

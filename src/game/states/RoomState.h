@@ -1,6 +1,6 @@
 /**
- * @file RoomPanel.h
- * @brief Visual room editor panel
+ * @file RoomState.h
+ * @brief Room editor state for the game
  * 
  * Features:
  * - Room list with selection

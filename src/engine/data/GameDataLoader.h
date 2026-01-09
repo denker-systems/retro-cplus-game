@@ -1,6 +1,17 @@
 /**
  * @file GameDataLoader.h
- * @brief Hjälpfunktioner för att ladda JSON-data till spelsystemen
+ * @brief DEPRECATED: Hjälpfunktioner för att ladda JSON-data till spelsystemen
+ * 
+ * MIGRATION NOTE: GameDataLoader contains duplicated logic that should be
+ * distributed to individual System classes:
+ * - loadItems() → InventorySystem::loadFromData()
+ * - loadQuests() → QuestSystem::loadFromData()
+ * - loadDialogs() → DialogSystem::loadFromData()
+ * - loadRooms() → RoomManager::loadFromData()
+ * - loadScenes() → SceneManager::loadFromData()
+ * - loadNPCs() → AISystem::loadFromData()
+ * 
+ * This class will be removed once all logic is moved to respective Systems.
  */
 #pragma once
 
@@ -19,7 +30,7 @@
 #include <iostream>
 
 /**
- * @brief Laddar all speldata från JSON och registrerar i spelsystemen
+ * @brief DEPRECATED: Laddar all speldata från JSON och registrerar i spelsystemen
  */
 class GameDataLoader {
 public:

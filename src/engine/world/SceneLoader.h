@@ -17,17 +17,11 @@ namespace engine {
  * JSON Format:
  * {
  *   "name": "level1",
- *   "camera": {
- *     "zoom": 1.0,
- *     "limits": [0, 0, 1280, 800]
- *   },
- *   "layers": [
- *     {
- *       "name": "background",
- *       "type": "background",
- *       "zIndex": -10,
- *       "nodes": [...]
- *     }
+ *   "camera": { "zoom": 1.0, "bounds": [0, 0, 1280, 800] },
+ *   "actors": [
+ *     { "type": "StaticMeshActor", "name": "Cube1", "position": [0, 5, 0], ... },
+ *     { "type": "CameraActor", "name": "MainCamera", ... },
+ *     { "type": "LightActor", "name": "Sun", "lightType": "directional", ... }
  *   ]
  * }
  */
@@ -48,6 +42,8 @@ public:
 protected:
     static void loadLayers(Scene* scene, const std::string& jsonStr, SDL_Renderer* renderer);
     static void loadCamera(Scene* scene, const std::string& jsonStr);
+    static void loadActors(Scene* scene, const std::string& jsonStr);
+    static void saveActors(const Scene* scene, nlohmann::json& data);
 };
 
 } // namespace engine

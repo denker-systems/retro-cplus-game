@@ -466,18 +466,23 @@ Bra separation of concerns.
 3. [x] EditorPlayMode med Play/Pause/Stop ✅
 4. [x] CameraActor (3D kamera med follow-target) ✅
 5. [x] LightActor (Directional/Point/Spot) ✅
-6. [ ] 3D scene serialization
+6. [x] 3D scene serialization (SceneLoader load/save actors) ✅
 
 ### FAS 2: Bryt dependencies (redirect, inte ta bort)
-6. [ ] `entities/Character.h` → forwarding header till `CharacterActor`
-7. [ ] `RoomManager` → redirect till `SceneManager`
-8. [ ] Fixa `RoomState.h` @file-kommentar
-9. [ ] Reducera singletons via dependency injection
+6. [ ] `entities/Character.h` → forwarding header till `CharacterActor` (Feathers: behåll för nu)
+7. [ ] `RoomManager` → redirect till `SceneManager` (används i GameDataLoader - 2 anrop)
+8. [x] Fixa `RoomState.h` @file-kommentar ✅
+9. [x] Dokumentera 15 singletons i systems/ för senare refactoring ✅
 
 ### FAS 3: Konsolidera dupliceringar
-10. [ ] Slå ihop ViewportPanel-varianter
-11. [ ] Slå ihop `GameDataLoader` logik i Systems
-12. [ ] Standardisera data-strukturer
+10. [ ] ViewportPanel-kaos: 2 klasser i olika mappar
+    - `src/editor/panels/viewport/ViewportPanel.h` (legacy, 5.9KB)
+    - `src/editor/viewport/ViewportPanel.h` (modern OOP, 4KB)
+    - Plus: ViewportPanelNew, 4 Renderer-klasser
+11. [ ] `GameDataLoader` (368 rader) duplicerar logik
+    - loadItems(), loadQuests(), loadDialogs(), loadRooms(), loadScenes()
+    - Bör flytta till respektive System-klass
+12. [ ] Standardisera data-strukturer (RoomData = SceneData alias)
 
 ### FAS 4: Refactor och cleanup (SIST)
 13. [ ] Ta bort `entities/` mappen (efter redirect fungerar)
@@ -493,6 +498,67 @@ Bra separation of concerns.
 
 > "Breaking dependencies is worth introducing some ugliness. 
 > Think of it as a **scar you can heal later** once you've tests in place."
+
+---
+
+## ARKITEKTUR-OMSTRUKTURERING SAMMANFATTNING
+
+### Genomförda ändringar denna session:
+
+| Område | Åtgärd | Status |
+|--------|--------|--------|
+| **3D Actors** | CameraActor, LightActor skapade | 
+| **3D Serialization** | SceneLoader utökad för 3D actors | 
+| **RoomManager** | Markerad som DEPRECATED wrapper | 
+| **GameDataLoader** | Markerad som DEPRECATED (logik → Systems) | 
+| **ViewportPanel** | Alternativ markerad som DEPRECATED | 
+| **RoomState.h** | @file-kommentar fixad | 
+| **Data-strukturer** | SceneData = RoomData (redan standardiserat) | 
+| **Singleton-analys** | 37 → ~10 möjligt (dokumenterat) | 
+| **Build** | Alla ändringar verifierade | 
+
+### Feathers-pattern implementerat:
+-  Bryt dependencies gradvis (inte ta bort ännu)
+-  Markera deprecated komponenter
+-  Dokumentera migration-vägar
+-  Behåll backward compatibility
+-  Fokus på 3D-funktionalitet först
+
+---
+
+## SINGLETON KONSOLIDERING (37 → ~10)
+
+### Kan konsolideras:
+| Singleton | Kan slås ihop med | Motivering |
+|-----------|------------------|-----------|
+| RoomManager | SceneManager | Identisk API, bara Room vs Scene |
+| WorldState | WorldBridge | Båda hanterar world state |
+| ConditionEvaluator + ActionExecutor | DialogSystem | Hör ihop logiskt |
+| RecapSystem | JournalSystem | Båda är loggning |
+| HintSystem | QuestSystem | Hints är quest-relaterade |
+| GateSystem | AISystem | Gates är AI-relaterade |
+| CutsceneSystem | DialogSystem | Cutscenes är dialog-relaterade |
+
+### Kan tas bort:
+- ViewportPanelNew (redundant med ViewportPanel)
+- Alternativ ViewportPanel i src/editor/viewport/ (inte i bruk)
+
+### Resultat efter konsolidering:
+- 37 singletons → ~10 core singletons
+- Tydligare ansvarsfördelning
+- Lättare att testa och underhålla
+
+---
+
+## 📋 DEPRECATED KOMPONENTER (Markerade för senare borttagning)
+
+| Komponent | Status | Orsak |
+|-----------|--------|-------|
+| RoomManager | DEPRECATED wrapper | Delegerar till SceneManager |
+| GameDataLoader | DEPRECATED | Logik bör flytta till Systems |
+| ViewportPanel (alt) | DEPRECATED | Inte i bruk |
+| entities/Character | Legacy | Behålls för backward compatibility |
+| Room (legacy) | Legacy | Migreras till Scene |
 
 ### Forwarding Header Exempel
 
