@@ -22,7 +22,8 @@ void PlaceActorsPanel::initializeTemplates() {
     
     // Characters
     m_templates.push_back({"NPC", "👤", ActorCategory::Characters, "Non-player character", "", true});
-    m_templates.push_back({"Player Spawn", "⚑", ActorCategory::Characters, "Player spawn point", "", false});
+    m_templates.push_back({"Player Start", "⚑", ActorCategory::Characters, "Player spawn point (3D)", "PlayerStart", false});
+    m_templates.push_back({"Player 3D", "🏃", ActorCategory::Characters, "3D player character", "Player3D", false});
     m_templates.push_back({"Enemy", "👾", ActorCategory::Characters, "Enemy character", "", true});
     
     // Props
