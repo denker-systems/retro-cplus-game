@@ -15,6 +15,8 @@
 namespace engine {
     class World;
     class Scene;
+    class Player3DActor;
+    class PlayerStartActor;
 }
 
 namespace editor {
@@ -111,12 +113,21 @@ public:
     int getFrameCount() const { return m_frameCount; }
     float getAverageFPS() const { return m_frameCount > 0 ? m_frameCount / m_playTime : 0.0f; }
     
+    // Player access (for viewport rendering)
+    engine::Player3DActor* getPlayer() const { return m_player.get(); }
+    
+    // Player input
+    void handleMouseLook(float deltaX, float deltaY);
+    
 private:
     void saveSceneState();
     void restoreSceneState();
     void initializePhysicsBodies();
     void cleanupPhysicsBodies();
     void createTestPhysicsActor();
+    void spawnPlayerAtStart();
+    void updatePlayer(float deltaTime);
+    engine::PlayerStartActor* findPlayerStart() const;
     
     // State
     PlayState m_state = PlayState::Stopped;
@@ -141,6 +152,9 @@ private:
     
     // Ground plane for physics simulation
     void* m_groundPlane = nullptr;
+    
+    // Player character (spawned at PlayerStart)
+    std::unique_ptr<engine::Player3DActor> m_player;
 };
 
 } // namespace editor

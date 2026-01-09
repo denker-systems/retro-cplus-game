@@ -25,6 +25,7 @@ namespace physx {
     class PxRigidStatic;
     class PxShape;
     class PxRigidActor;
+    class PxControllerManager;
 }
 
 namespace engine {
@@ -139,6 +140,8 @@ public:
     
     physx::PxScene* getScene() const { return m_scene; }
     physx::PxPhysics* getPhysics() const { return m_physics; }
+    physx::PxControllerManager* getControllerManager();
+    physx::PxMaterial* getDefaultMaterial() const { return m_defaultMaterial; }
     
 private:
     void initializeFoundation();
@@ -157,6 +160,7 @@ private:
     // Optional
     physx::PxPvd* m_pvd = nullptr;
     physx::PxCudaContextManager* m_cudaContext = nullptr;
+    physx::PxControllerManager* m_controllerManager = nullptr;
     
     // State
     bool m_initialized = false;

@@ -5,12 +5,11 @@
 #include "ViewportPanel.h"
 #include "ui/ViewportToolbar.h"
 #include "ui/ViewportBreadcrumbs.h"
-#include "renderers/3d/World3DRenderer.h"
-#include "renderers/3d/Level3DRenderer.h"
 #include "renderers/3d/Scene3DRenderer.h"
+#include "renderers/2d/Scene2DRenderer.h"
 #include "renderers/2d/World2DRenderer.h"
 #include "renderers/2d/Level2DRenderer.h"
-#include "renderers/2d/Scene2DRenderer.h"
+#include "3d/Viewport3DPanel.h"
 #include "editor/core/EditorContext.h"
 #include "editor/core/SelectionManager.h"
 #include "editor/tools/ToolManager.h"
@@ -18,6 +17,7 @@
 #include "engine/world/World.h"
 #include "engine/world/Level.h"
 #include "engine/world/Scene.h"
+#include <iostream>
 
 #ifdef HAS_IMGUI
 #include <imgui.h>
@@ -34,10 +34,11 @@ ViewportPanel::ViewportPanel(EditorContext& context)
     m_toolbar = std::make_unique<ViewportToolbar>();
     m_breadcrumbs = std::make_unique<ViewportBreadcrumbs>();
     
-    // Create renderers using inheritance hierarchy
-    // Start with Scene renderers (most specific) which inherit from Level and World
-    m_3dRenderer = std::make_unique<Scene3DRenderer>();  // 3D PRIMARY
-    m_2dRenderer = std::make_unique<Scene2DRenderer>();  // 2D SECONDARY (inherits Level2D→World2D)
+    // Create 3D renderer - Scene3DRenderer inherits World→Level→Scene hierarchy
+    m_3dRenderer = std::make_unique<Scene3DRenderer>();
+    
+    // Create 2D renderer (uses inheritance chain)
+    m_2dRenderer = std::make_unique<Scene2DRenderer>();
     
     // Initialize renderers
     m_3dRenderer->initialize(&m_context, m_selectionManager);
@@ -99,56 +100,46 @@ void ViewportPanel::renderContent() {
     
     ImDrawList* drawList = ImGui::GetWindowDrawList();
     
-    // Render based on hierarchy level (like old ViewportPanel)
-    if (!m_activeLevel) {
-        // World level - show all levels
-        if (m_renderMode == RenderMode::Mode3D) {
-            if (auto* world3D = dynamic_cast<World3DRenderer*>(m_3dRenderer.get())) {
-                world3D->setWorld(m_world);
-                m_3dRenderer->render(drawList, m_renderContext);
-            }
-        } else {
-            if (auto* scene2D = dynamic_cast<Scene2DRenderer*>(m_2dRenderer.get())) {
-                scene2D->setWorld(m_world);
-                scene2D->setLevel(nullptr);
-                scene2D->setScene(nullptr);
-                m_2dRenderer->render(drawList, m_renderContext);
-            }
-        }
-    } else if (!m_activeScene) {
-        // Level level - show all scenes
-        if (m_renderMode == RenderMode::Mode3D) {
-            if (auto* level3D = dynamic_cast<Level3DRenderer*>(m_3dRenderer.get())) {
-                level3D->setLevel(m_activeLevel);
-                m_3dRenderer->render(drawList, m_renderContext);
-            }
-        } else {
-            if (auto* scene2D = dynamic_cast<Scene2DRenderer*>(m_2dRenderer.get())) {
-                scene2D->setWorld(m_world);
-                scene2D->setLevel(m_activeLevel);
-                scene2D->setScene(nullptr);
-                m_2dRenderer->render(drawList, m_renderContext);
-            }
-        }
+    // Set data on 3D renderer (Scene3DRenderer inherits World→Level→Scene)
+    // All data is always set - the renderer decides what to show based on hierarchy
+    m_3dRenderer->setWorld(m_world);
+    m_3dRenderer->setLevel(m_activeLevel);
+    m_3dRenderer->setScene(m_activeScene);
+    
+    // Render based on mode (3D or 2D)
+    if (m_renderMode == RenderMode::Mode3D) {
+        m_3dRenderer->render(drawList, m_renderContext);
     } else {
-        // Scene level - show scene content
-        if (m_renderMode == RenderMode::Mode3D) {
-            if (auto* scene3D = dynamic_cast<Scene3DRenderer*>(m_3dRenderer.get())) {
-                scene3D->setScene(m_activeScene);
-                m_3dRenderer->render(drawList, m_renderContext);
-            }
-        } else {
-            if (auto* scene2D = dynamic_cast<Scene2DRenderer*>(m_2dRenderer.get())) {
-                scene2D->setWorld(m_world);
-                scene2D->setLevel(m_activeLevel);
-                scene2D->setScene(m_activeScene);
-                m_2dRenderer->render(drawList, m_renderContext);
-            }
+        if (auto* scene2D = dynamic_cast<Scene2DRenderer*>(m_2dRenderer.get())) {
+            scene2D->setWorld(m_world);
+            scene2D->setLevel(m_activeLevel);
+            scene2D->setScene(m_activeScene);
+            m_2dRenderer->render(drawList, m_renderContext);
         }
     }
     
-    // Check for navigation (2D only)
-    if (m_renderMode == RenderMode::Mode2D && m_2dRenderer) {
+    // Check for navigation - 3D mode
+    if (m_renderMode == RenderMode::Mode3D && m_3dRenderer) {
+        if (auto* viewport3D = m_3dRenderer->getViewport3D()) {
+            if (viewport3D->wasDoubleClicked()) {
+                if (!m_activeLevel) {
+                    // World level - navigate to selected level
+                    if (auto* level = viewport3D->getSelectedLevel()) {
+                        setLevel(level);
+                    }
+                }
+                else if (!m_activeScene) {
+                    // Level level - navigate to selected scene
+                    if (auto* scene = viewport3D->getSelectedScene()) {
+                        setScene(scene);
+                    }
+                }
+                viewport3D->clearDoubleClick();
+            }
+        }
+    }
+    // Check for navigation - 2D mode
+    else if (m_renderMode == RenderMode::Mode2D && m_2dRenderer) {
         if (m_2dRenderer->wasDoubleClicked()) {
             if (!m_activeLevel) {
                 // World level - check for level selection
@@ -175,14 +166,13 @@ void ViewportPanel::handleNavigation() {
     if (!m_breadcrumbs) return;
     
     if (m_breadcrumbs->shouldNavigateToWorld()) {
-        m_activeLevel = nullptr;
-        m_activeScene = nullptr;
-        m_hierarchyLevel = HierarchyLevel::World;
+        // Use setLevel/setScene to update SelectionManager and sync with Hierarchy
+        setLevel(nullptr);
         m_breadcrumbs->resetNavigation();
     }
     else if (m_breadcrumbs->shouldNavigateToLevel()) {
-        m_activeScene = nullptr;
-        m_hierarchyLevel = HierarchyLevel::Level;
+        // Use setScene to update SelectionManager and sync with Hierarchy
+        setScene(nullptr);
         m_breadcrumbs->resetNavigation();
     }
 }
@@ -253,6 +243,19 @@ void ViewportPanel::deleteSelectedActor() {
 void ViewportPanel::duplicateSelectedActor() {
     if (auto* scene2D = dynamic_cast<Scene2DRenderer*>(m_2dRenderer.get())) {
         scene2D->duplicateSelectedActor();
+    }
+}
+
+void ViewportPanel::setPlayMode(EditorPlayMode* playMode) {
+    std::cout << "[ViewportPanel] setPlayMode called - playMode=" 
+              << (playMode ? "SET" : "NULL") << std::endl;
+    m_playMode = playMode;
+    // Forward to 3D renderer so Viewport3DPanel can render the player
+    if (m_3dRenderer) {
+        std::cout << "[ViewportPanel] Forwarding to m_3dRenderer" << std::endl;
+        m_3dRenderer->setPlayMode(playMode);
+    } else {
+        std::cout << "[ViewportPanel] WARNING: m_3dRenderer is NULL!" << std::endl;
     }
 }
 

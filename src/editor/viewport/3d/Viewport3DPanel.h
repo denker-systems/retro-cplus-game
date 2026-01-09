@@ -17,6 +17,10 @@
 
 class SelectionManager;
 
+namespace editor {
+    class EditorPlayMode;
+}
+
 namespace engine {
     class World;
     class Level;
@@ -80,6 +84,7 @@ public:
     void setLevel(engine::Level* level) { m_level = level; }
     void setScene(engine::Scene* scene) { m_scene = scene; }
     void setSelectionManager(SelectionManager* selMgr);
+    void setPlayMode(EditorPlayMode* playMode);
     
     // Selection
     int getSelectedIndex() const { return m_selectedIndex; }
@@ -88,6 +93,11 @@ public:
     bool wasDoubleClicked() const { return m_doubleClicked; }
     void clearDoubleClick() { m_doubleClicked = false; }
     void resetSelection() { m_selectedIndex = -1; m_hoveredIndex = -1; m_objectBounds.clear(); }
+    
+    // Navigation - get selected Level/Scene for double-click navigation
+    View3DLevel getViewLevel() const { return m_viewLevel; }
+    engine::Level* getSelectedLevel() const;   // Returns selected level in World view
+    engine::Scene* getSelectedScene() const;   // Returns selected scene in Level view
     
     // Actor creation
     void handleActorDrop(const std::string& templateName);
@@ -128,6 +138,7 @@ private:
     bool m_doubleClicked = false;
     engine::ActorObjectExtended* m_selectedActor = nullptr;
     SelectionManager* m_selectionManager = nullptr;
+    EditorPlayMode* m_playMode = nullptr;
     
     // Drag state for 3D movement
     bool m_isDragging = false;

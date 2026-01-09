@@ -6,6 +6,7 @@
 
 // PhysX includes
 #include <PxPhysicsAPI.h>
+#include <characterkinematic/PxControllerManager.h>
 #include <iostream>
 
 using namespace physx;
@@ -166,6 +167,9 @@ void PhysicsWorld3D::shutdown() {
     }
     m_bodies.clear();
     
+    // Release controller manager first
+    if (m_controllerManager) { m_controllerManager->release(); m_controllerManager = nullptr; }
+    
     // Release PhysX objects in order
     if (m_scene) { m_scene->release(); m_scene = nullptr; }
     if (m_dispatcher) { m_dispatcher->release(); m_dispatcher = nullptr; }
@@ -202,6 +206,19 @@ void PhysicsWorld3D::setGravity(glm::vec3 gravity) {
 
 glm::vec3 PhysicsWorld3D::getGravity() const {
     return m_gravity;
+}
+
+PxControllerManager* PhysicsWorld3D::getControllerManager() {
+    if (!m_scene) return nullptr;
+    
+    // Create on demand
+    if (!m_controllerManager) {
+        m_controllerManager = PxCreateControllerManager(*m_scene);
+        if (m_controllerManager) {
+            std::cout << "[PhysicsWorld3D] Controller manager created" << std::endl;
+        }
+    }
+    return m_controllerManager;
 }
 
 // ============================================================================
@@ -264,7 +281,10 @@ PxShape* PhysicsWorld3D::addBoxShape(PxRigidActor* body, const glm::vec3& halfEx
     if (!body || !m_physics || !m_defaultMaterial) return nullptr;
     
     PxBoxGeometry geometry(halfExtents.x, halfExtents.y, halfExtents.z);
-    PxShape* shape = m_physics->createShape(geometry, *m_defaultMaterial);
+    
+    // Create shape with both simulation and scene query flags for character controller collision
+    PxShapeFlags shapeFlags = PxShapeFlag::eSIMULATION_SHAPE | PxShapeFlag::eSCENE_QUERY_SHAPE;
+    PxShape* shape = m_physics->createShape(geometry, *m_defaultMaterial, true, shapeFlags);
     
     if (shape) {
         body->attachShape(*shape);
@@ -278,7 +298,8 @@ PxShape* PhysicsWorld3D::addSphereShape(PxRigidActor* body, float radius) {
     if (!body || !m_physics || !m_defaultMaterial) return nullptr;
     
     PxSphereGeometry geometry(radius);
-    PxShape* shape = m_physics->createShape(geometry, *m_defaultMaterial);
+    PxShapeFlags shapeFlags = PxShapeFlag::eSIMULATION_SHAPE | PxShapeFlag::eSCENE_QUERY_SHAPE;
+    PxShape* shape = m_physics->createShape(geometry, *m_defaultMaterial, true, shapeFlags);
     
     if (shape) {
         body->attachShape(*shape);
@@ -292,7 +313,8 @@ PxShape* PhysicsWorld3D::addCapsuleShape(PxRigidActor* body, float radius, float
     if (!body || !m_physics || !m_defaultMaterial) return nullptr;
     
     PxCapsuleGeometry geometry(radius, halfHeight);
-    PxShape* shape = m_physics->createShape(geometry, *m_defaultMaterial);
+    PxShapeFlags shapeFlags = PxShapeFlag::eSIMULATION_SHAPE | PxShapeFlag::eSCENE_QUERY_SHAPE;
+    PxShape* shape = m_physics->createShape(geometry, *m_defaultMaterial, true, shapeFlags);
     
     if (shape) {
         body->attachShape(*shape);

@@ -9,6 +9,8 @@
 #include "engine/components/RigidBody3DComponent.h"
 #include "engine/components/RigidBody2DComponent.h"
 #include "engine/actors/StaticMeshActor.h"
+#include "engine/actors/PlayerStartActor.h"
+#include "engine/actors/Character3DActor.h"
 #include "engine/utils/Logger.h"
 #include <PxPhysicsAPI.h>
 #include <iostream>
@@ -57,6 +59,7 @@ void EditorPlayMode::play() {
         
         saveSceneState();
         initializePhysicsBodies();
+        spawnPlayerAtStart();
         
         m_playTime = 0.0f;
         m_frameCount = 0;
@@ -83,6 +86,13 @@ void EditorPlayMode::stop() {
     
     LOG_INFO("[EditorPlayMode] Stopping play mode...");
     
+    // Cleanup player
+    if (m_player) {
+        m_player->shutdownController();
+        m_player.reset();
+        LOG_INFO("[EditorPlayMode] Player destroyed");
+    }
+    
     cleanupPhysicsBodies();
     restoreSceneState();
     
@@ -108,6 +118,9 @@ void EditorPlayMode::update(float deltaTime) {
     scaledDt = std::min(scaledDt, m_maxDeltaTime);
     
     m_physicsManager.step(scaledDt);
+    
+    // Update player
+    updatePlayer(scaledDt);
     
     // Log test body position
     if (m_testBody && m_physicsManager.getWorld3D()) {
@@ -206,13 +219,14 @@ void EditorPlayMode::initializePhysicsBodies() {
     auto* world2D = m_physicsManager.getWorld2D();
     
     // Create ground plane at Y=0 for 3D physics
+    // Position the box so its TOP surface is at Y=0 (center at Y=-0.5)
     if (world3D && !m_groundPlane) {
-        auto* groundBody = world3D->createStaticBody(glm::vec3(0.0f, 0.0f, 0.0f));
+        auto* groundBody = world3D->createStaticBody(glm::vec3(0.0f, -0.5f, 0.0f));
         if (groundBody) {
             // Add a large flat box as ground (100x1x100 units)
             world3D->addBoxShape(groundBody, glm::vec3(50.0f, 0.5f, 50.0f));
             m_groundPlane = groundBody;
-            LOG_INFO("[EditorPlayMode] Created ground plane at Y=0");
+            LOG_INFO("[EditorPlayMode] Created ground plane (top surface at Y=0)");
         }
     }
     
@@ -270,6 +284,16 @@ void EditorPlayMode::createTestPhysicsActor() {
         return;
     }
     
+    // Create ground plane if not already created
+    if (!m_groundPlane) {
+        auto* groundBody = world3D->createStaticBody(glm::vec3(0.0f, -0.5f, 0.0f));
+        if (groundBody) {
+            world3D->addBoxShape(groundBody, glm::vec3(50.0f, 0.5f, 50.0f));
+            m_groundPlane = groundBody;
+            LOG_INFO("[EditorPlayMode] Created ground plane (top surface at Y=0)");
+        }
+    }
+    
     LOG_INFO("[EditorPlayMode] ----------------------------------------");
     LOG_INFO("[EditorPlayMode] CREATING TEST PHYSICS ACTOR");
     LOG_INFO("[EditorPlayMode] ----------------------------------------");
@@ -311,6 +335,107 @@ void EditorPlayMode::cleanupPhysicsBodies() {
     }
     
     LOG_DEBUG("[EditorPlayMode] Physics bodies cleaned up");
+}
+
+void EditorPlayMode::handleMouseLook(float deltaX, float deltaY) {
+    if (m_state == PlayState::Playing && m_player) {
+        std::cout << "[EditorPlayMode] handleMouseLook - delta=(" 
+                  << deltaX << "," << deltaY << ") yaw=" << m_player->getYaw() << std::endl;
+        m_player->handleMouseLook(deltaX, deltaY);
+    }
+}
+
+engine::PlayerStartActor* EditorPlayMode::findPlayerStart() const {
+    // Search in active scene first
+    if (m_activeScene) {
+        for (const auto& actor : m_activeScene->getActors()) {
+            if (auto* playerStart = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
+                return playerStart;
+            }
+        }
+    }
+    
+    // Search in active level
+    if (m_world && m_world->getActiveLevel()) {
+        auto* level = m_world->getActiveLevel();
+        for (const auto& actor : level->getActors()) {
+            if (auto* playerStart = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
+                return playerStart;
+            }
+        }
+        // Also search in level's scenes
+        for (const auto& scene : level->getScenes()) {
+            for (const auto& actor : scene->getActors()) {
+                if (auto* playerStart = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
+                    return playerStart;
+                }
+            }
+        }
+    }
+    
+    // Search in world actors
+    if (m_world) {
+        for (const auto& actor : m_world->getActors()) {
+            if (auto* playerStart = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
+                return playerStart;
+            }
+        }
+    }
+    
+    return nullptr;
+}
+
+void EditorPlayMode::spawnPlayerAtStart() {
+    auto* world3D = m_physicsManager.getWorld3D();
+    if (!world3D || !world3D->isInitialized()) {
+        LOG_WARNING("[EditorPlayMode] Cannot spawn player - PhysX not initialized");
+        return;
+    }
+    
+    // Find PlayerStart actor
+    glm::vec3 spawnPos(0.0f, 2.0f, 0.0f);  // Default spawn position
+    
+    auto* playerStart = findPlayerStart();
+    if (playerStart) {
+        spawnPos = playerStart->getSpawnPosition();
+        LOG_INFO("[EditorPlayMode] Found PlayerStart at (" + 
+                 std::to_string(spawnPos.x) + ", " + 
+                 std::to_string(spawnPos.y) + ", " + 
+                 std::to_string(spawnPos.z) + ")");
+    } else {
+        LOG_INFO("[EditorPlayMode] No PlayerStart found - using default position");
+    }
+    
+    // Create player
+    m_player = std::make_unique<engine::Player3DActor>();
+    m_player->setPosition3D(spawnPos);
+    
+    // Initialize character controller
+    if (m_player->initializeController(world3D)) {
+        LOG_INFO("[EditorPlayMode] Player spawned and controller initialized");
+        LOG_INFO("[EditorPlayMode] Controls: WASD to move, SPACE to jump");
+    } else {
+        LOG_ERROR("[EditorPlayMode] Failed to initialize player controller");
+        m_player.reset();
+    }
+}
+
+void EditorPlayMode::updatePlayer(float deltaTime) {
+    if (!m_player) return;
+    
+    // Update player (handles input and physics)
+    m_player->update(deltaTime);
+    
+    // Log player position occasionally
+    if (m_frameCount % 60 == 0) {
+        glm::vec3 pos = m_player->getPosition3D();
+        bool grounded = m_player->isGrounded();
+        LOG_DEBUG("[EditorPlayMode] Player pos: (" + 
+                  std::to_string(pos.x) + ", " + 
+                  std::to_string(pos.y) + ", " + 
+                  std::to_string(pos.z) + ") grounded: " + 
+                  (grounded ? "YES" : "NO"));
+    }
 }
 
 } // namespace editor

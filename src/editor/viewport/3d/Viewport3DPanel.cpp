@@ -9,6 +9,9 @@
 #include "engine/world/Scene.h"
 #include "engine/core/ActorObjectExtended.h"
 #include "engine/actors/StaticMeshActor.h"
+#include "engine/actors/PlayerStartActor.h"
+#include "engine/actors/Character3DActor.h"
+#include "editor/core/EditorPlayMode.h"
 #include "engine/utils/Logger.h"
 
 #ifdef HAS_IMGUI
@@ -140,6 +143,31 @@ bool Viewport3DPanel::createShaders() {
 
 void Viewport3DPanel::update(float deltaTime) {
     if (m_camera) {
+        // Follow player during play mode
+        if (m_playMode && m_playMode->isPlaying()) {
+            if (auto* player = m_playMode->getPlayer()) {
+                glm::vec3 playerPos = player->getPosition3D();
+                
+                // Debug logging
+                static int updateLogCounter = 0;
+                if (updateLogCounter++ % 60 == 0) {
+                    std::cout << "[Viewport3D] Camera follow - playerPos=(" 
+                              << playerPos.x << "," << playerPos.y << "," << playerPos.z << ")" << std::endl;
+                }
+                
+                // Smooth camera follow
+                glm::vec3 targetPos = playerPos + glm::vec3(0.0f, 3.0f, 5.0f);  // Behind and above player
+                glm::vec3 currentPos = m_camera->getPosition();
+                
+                // Lerp for smooth movement
+                float followSpeed = 5.0f * deltaTime;
+                glm::vec3 newPos = currentPos + (targetPos - currentPos) * followSpeed;
+                
+                m_camera->setPosition(newPos);
+                m_camera->setTarget(playerPos);  // Look at player
+            }
+        }
+        
         m_camera->update(deltaTime);
     }
 }
@@ -202,8 +230,8 @@ void Viewport3DPanel::render() {
         ImGui::EndDragDropTarget();
     }
     
-    // Render transform gizmo for selected actor (in Scene view)
-    if (m_viewLevel == View3DLevel::Scene && m_selectedActor && m_camera) {
+    // Render transform gizmo for selected actor (all view levels)
+    if (m_selectedActor && m_camera) {
         ImGuizmo::BeginFrame();
         bool gizmoUsed = m_gizmo.render(m_camera.get(), m_selectedActor, m_viewportPos, m_viewportSize);
         if (gizmoUsed) {
@@ -241,6 +269,7 @@ void Viewport3DPanel::renderWorldView() {
     
     // Clear and rebuild bounds
     m_objectBounds.clear();
+    m_actorBounds.clear();
     
     m_shader->bind();
     
@@ -259,6 +288,7 @@ void Viewport3DPanel::renderWorldView() {
         glm::vec3 boxMin = pos - scale * 0.5f;
         glm::vec3 boxMax = pos + scale * 0.5f;
         m_objectBounds.push_back({boxMin, boxMax});
+        m_actorBounds.push_back(nullptr);  // Level, not actor
         
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, pos);
@@ -285,6 +315,45 @@ void Viewport3DPanel::renderWorldView() {
         index++;
     }
     
+    // Render World-level actors (actors owned directly by World)
+    float actorScale = 0.5f;
+    for (const auto& actor : m_world->getActors()) {
+        if (!actor) continue;
+        
+        auto pos2D = actor->getPosition();
+        float posZ = actor->getZ();
+        glm::vec3 actorPos(pos2D.x / 100.0f, posZ / 100.0f + actorScale / 2.0f, pos2D.y / 100.0f);
+        
+        // Store bounds for picking
+        glm::vec3 boundsMin = actorPos - glm::vec3(actorScale / 2.0f);
+        glm::vec3 boundsMax = actorPos + glm::vec3(actorScale / 2.0f);
+        m_objectBounds.push_back({boundsMin, boundsMax});
+        m_actorBounds.push_back(actor.get());
+        
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), actorPos);
+        model = glm::scale(model, glm::vec3(actorScale));
+        glm::mat4 mvp = projection * view * model;
+        
+        m_shader->setMat4("u_MVP", mvp);
+        m_shader->setMat4("u_Model", model);
+        
+        // Color based on selection
+        glm::vec3 color;
+        if (actor.get() == m_selectedActor) {
+            color = glm::vec3(1.0f, 0.8f, 0.2f);  // Yellow for selected
+        } else {
+            auto* meshActor = dynamic_cast<engine::StaticMeshActor*>(actor.get());
+            if (meshActor) {
+                color = meshActor->getMeshColor();
+            } else {
+                color = glm::vec3(0.8f, 0.4f, 0.3f);  // Default actor color
+            }
+        }
+        m_shader->setVec3("u_Color", color);
+        
+        m_cubeMesh->render();
+    }
+    
     m_shader->unbind();
 }
 
@@ -296,6 +365,7 @@ void Viewport3DPanel::renderLevelView() {
     
     // Clear and rebuild bounds
     m_objectBounds.clear();
+    m_actorBounds.clear();
     
     m_shader->bind();
     
@@ -318,6 +388,7 @@ void Viewport3DPanel::renderLevelView() {
         glm::vec3 boxMin = pos - scale * 0.5f;
         glm::vec3 boxMax = pos + scale * 0.5f;
         m_objectBounds.push_back({boxMin, boxMax});
+        m_actorBounds.push_back(nullptr);  // Scene tile, not actor
         
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, pos);
@@ -344,11 +415,60 @@ void Viewport3DPanel::renderLevelView() {
         index++;
     }
     
+    // Render Level-level actors (actors owned directly by Level)
+    float actorScale = 0.5f;
+    for (const auto& actor : m_level->getActors()) {
+        if (!actor) continue;
+        
+        auto pos2D = actor->getPosition();
+        float posZ = actor->getZ();
+        glm::vec3 actorPos(pos2D.x / 100.0f, posZ / 100.0f + actorScale / 2.0f, pos2D.y / 100.0f);
+        
+        // Store bounds for picking
+        glm::vec3 boundsMin = actorPos - glm::vec3(actorScale / 2.0f);
+        glm::vec3 boundsMax = actorPos + glm::vec3(actorScale / 2.0f);
+        m_objectBounds.push_back({boundsMin, boundsMax});
+        m_actorBounds.push_back(actor.get());
+        
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), actorPos);
+        model = glm::scale(model, glm::vec3(actorScale));
+        glm::mat4 mvp = projection * view * model;
+        
+        m_shader->setMat4("u_MVP", mvp);
+        m_shader->setMat4("u_Model", model);
+        
+        // Color based on selection
+        glm::vec3 color;
+        if (actor.get() == m_selectedActor) {
+            color = glm::vec3(1.0f, 0.8f, 0.2f);  // Yellow for selected
+        } else {
+            auto* meshActor = dynamic_cast<engine::StaticMeshActor*>(actor.get());
+            if (meshActor) {
+                color = meshActor->getMeshColor();
+            } else {
+                color = glm::vec3(0.8f, 0.4f, 0.3f);  // Default actor color
+            }
+        }
+        m_shader->setVec3("u_Color", color);
+        
+        m_cubeMesh->render();
+    }
+    
     m_shader->unbind();
 }
 
 void Viewport3DPanel::renderSceneView() {
     if (!m_shader || !m_cubeMesh) return;
+    
+    // Debug: Check play mode status
+    static int sceneViewLogCounter = 0;
+    if (sceneViewLogCounter++ % 120 == 0) {
+        std::cout << "[Viewport3D] renderSceneView called - m_playMode=" 
+                  << (m_playMode ? "SET" : "NULL")
+                  << " isPlaying=" << (m_playMode && m_playMode->isPlaying() ? "YES" : "NO")
+                  << " hasPlayer=" << (m_playMode && m_playMode->getPlayer() ? "YES" : "NO")
+                  << std::endl;
+    }
     
     glm::mat4 view = m_camera->getViewMatrix();
     glm::mat4 projection = m_camera->getProjectionMatrix();
@@ -431,6 +551,37 @@ void Viewport3DPanel::renderSceneView() {
         m_cubeMesh->render();
     }
     
+    // Render player during play mode
+    if (m_playMode && m_playMode->isPlaying()) {
+        if (auto* player = m_playMode->getPlayer()) {
+            glm::vec3 playerPos = player->getPosition3D();
+            
+            // Debug: Log player rendering
+            static int renderLogCounter = 0;
+            if (renderLogCounter++ % 60 == 0) {
+                std::cout << "[Viewport3D] Rendering player at (" 
+                          << playerPos.x << "," << playerPos.y << "," << playerPos.z << ")" << std::endl;
+            }
+            
+            // Render player as a colored capsule/box with rotation
+            glm::mat4 model = glm::translate(glm::mat4(1.0f), playerPos);
+            model = glm::rotate(model, glm::radians(player->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate around Y-axis
+            model = glm::scale(model, glm::vec3(0.4f, 0.9f, 0.4f));  // Capsule-ish
+            glm::mat4 mvp = projection * view * model;
+            
+            m_shader->setMat4("u_MVP", mvp);
+            m_shader->setMat4("u_Model", model);
+            m_shader->setVec3("u_Color", glm::vec3(0.2f, 0.8f, 0.2f));  // Green for player
+            m_cubeMesh->render();
+        } else {
+            static bool loggedOnce = false;
+            if (!loggedOnce) {
+                std::cout << "[Viewport3D] WARNING: m_playMode->getPlayer() returned null!" << std::endl;
+                loggedOnce = true;
+            }
+        }
+    }
+    
     m_shader->unbind();
 }
 
@@ -474,8 +625,19 @@ void Viewport3DPanel::handleInput() {
         }
     }
     
-    // RMB + Mouse: Look around (fly mode rotation)
-    if (rmb && !alt && !lmb) {
+    // Check if in play mode - disable camera fly mode during play
+    bool isPlayMode = m_playMode && m_playMode->isPlaying();
+    
+    // RMB + Mouse during play mode: Rotate player
+    if (rmb && !alt && !lmb && isPlayMode) {
+        if (delta.x != 0 || delta.y != 0) {
+            std::cout << "[Viewport3D] Mouse look during play mode - delta=(" 
+                      << delta.x << "," << delta.y << ")" << std::endl;
+            m_playMode->handleMouseLook(delta.x, delta.y);
+        }
+    }
+    // RMB + Mouse: Look around (fly mode rotation) - disabled during play mode
+    else if (rmb && !alt && !lmb && !isPlayMode) {
         if (!m_isOrbiting) {
             m_isOrbiting = true;
             std::cout << "[Viewport3D] Started fly mode (RMB)" << std::endl;
@@ -541,8 +703,10 @@ void Viewport3DPanel::handleInput() {
         }
     }
     
-    // RMB + WASD/QE: Fly mode (keyboard movement)
-    if (rmb && m_viewportFocused) {
+    // During play mode: WASD controls player via SDL (no camera control)
+    // Outside play mode: RMB + WASD controls camera
+    if (!isPlayMode && rmb && m_viewportFocused) {
+        // Camera fly mode (only when NOT in play mode)
         float forward = 0.0f, right = 0.0f, up = 0.0f;
         
         if (ImGui::IsKeyDown(ImGuiKey_W)) forward += 1.0f;
@@ -620,9 +784,8 @@ void Viewport3DPanel::handlePicking() {
         if (m_hoveredIndex >= 0) {
             m_selectedIndex = m_hoveredIndex;
             
-            // Get selected actor and sync with SelectionManager
-            if (m_viewLevel == View3DLevel::Scene && 
-                m_hoveredIndex < (int)m_actorBounds.size() && 
+            // Get selected actor and sync with SelectionManager (works for all view levels)
+            if (m_hoveredIndex < (int)m_actorBounds.size() && 
                 m_actorBounds[m_hoveredIndex]) {
                 m_selectedActor = m_actorBounds[m_hoveredIndex];
                 if (m_selectionManager) {
@@ -793,12 +956,37 @@ void Viewport3DPanel::handleDragging() {
 }
 
 void Viewport3DPanel::handleActorDrop(const std::string& templateName) {
-    if (!m_scene) {
-        LOG_WARNING("[Viewport3D] Cannot drop actor - no active scene");
+    // Add actor to current view level container
+    engine::WorldContainer* targetContainer = nullptr;
+    std::string containerName;
+    
+    switch (m_viewLevel) {
+        case View3DLevel::World:
+            if (m_world) {
+                targetContainer = m_world;
+                containerName = "World: " + m_world->getName();
+            }
+            break;
+        case View3DLevel::Level:
+            if (m_level) {
+                targetContainer = m_level;
+                containerName = "Level: " + m_level->getName();
+            }
+            break;
+        case View3DLevel::Scene:
+            if (m_scene) {
+                targetContainer = m_scene;
+                containerName = "Scene: " + m_scene->getName();
+            }
+            break;
+    }
+    
+    if (!targetContainer) {
+        LOG_WARNING("[Viewport3D] Cannot drop actor - no container available for current view level");
         return;
     }
     
-    LOG_INFO("[Viewport3D] Dropping actor: " + templateName);
+    LOG_INFO("[Viewport3D] Dropping actor to " + containerName + ": " + templateName);
     
     // Calculate drop position in 3D world (in front of camera)
     glm::vec3 dropPos(0.0f, 2.0f, 0.0f);  // Default position above ground
@@ -861,9 +1049,9 @@ void Viewport3DPanel::handleActorDrop(const std::string& templateName) {
         // Set position (setPosition3D handles the coordinate mapping)
         actor->setPosition3D(dropPos);
         
-        // Add to scene
+        // Add to target container (World, Level, or Scene)
         engine::ActorObjectExtended* actorPtr = actor.get();
-        m_scene->addActor(std::move(actor));
+        targetContainer->addActor(std::move(actor));
         
         // Select the new actor
         m_selectedActor = actorPtr;
@@ -871,7 +1059,46 @@ void Viewport3DPanel::handleActorDrop(const std::string& templateName) {
             m_selectionManager->selectActor(actorPtr);
         }
         
-        LOG_INFO("[Viewport3D] Actor added to scene at (" + 
+        LOG_INFO("[Viewport3D] Actor added to " + containerName + " at (" + 
+                 std::to_string(dropPos.x) + ", " + 
+                 std::to_string(dropPos.y) + ", " + 
+                 std::to_string(dropPos.z) + ")");
+    }
+    else if (templateName == "PlayerStart" || templateName == "Player Start") {
+        // Create PlayerStart actor
+        static int playerStartCounter = 0;
+        std::string actorName = "PlayerStart_" + std::to_string(++playerStartCounter);
+        
+        auto actor = std::make_unique<engine::PlayerStartActor>(actorName);
+        actor->setSpawnPosition(dropPos);
+        
+        engine::ActorObjectExtended* actorPtr = actor.get();
+        targetContainer->addActor(std::move(actor));
+        
+        m_selectedActor = actorPtr;
+        if (m_selectionManager) {
+            m_selectionManager->selectActor(actorPtr);
+        }
+        
+        LOG_INFO("[Viewport3D] Created PlayerStart at (" + 
+                 std::to_string(dropPos.x) + ", " + 
+                 std::to_string(dropPos.y) + ", " + 
+                 std::to_string(dropPos.z) + ")");
+    }
+    else if (templateName == "Player3D" || templateName == "Player 3D") {
+        // Create Player3D actor
+        auto actor = std::make_unique<engine::Player3DActor>();
+        actor->setPosition3D(dropPos);
+        
+        engine::ActorObjectExtended* actorPtr = actor.get();
+        targetContainer->addActor(std::move(actor));
+        
+        m_selectedActor = actorPtr;
+        if (m_selectionManager) {
+            m_selectionManager->selectActor(actorPtr);
+        }
+        
+        LOG_INFO("[Viewport3D] Created Player3D at (" + 
                  std::to_string(dropPos.x) + ", " + 
                  std::to_string(dropPos.y) + ", " + 
                  std::to_string(dropPos.z) + ")");
@@ -879,6 +1106,38 @@ void Viewport3DPanel::handleActorDrop(const std::string& templateName) {
     else {
         LOG_WARNING("[Viewport3D] Unknown template: " + templateName);
     }
+}
+
+engine::Level* Viewport3DPanel::getSelectedLevel() const {
+    // Only valid in World view when a level is selected
+    if (m_viewLevel != View3DLevel::World || m_selectedIndex < 0 || !m_world) {
+        return nullptr;
+    }
+    
+    const auto& levels = m_world->getLevels();
+    if (m_selectedIndex >= 0 && m_selectedIndex < static_cast<int>(levels.size())) {
+        return levels[m_selectedIndex].get();
+    }
+    return nullptr;
+}
+
+engine::Scene* Viewport3DPanel::getSelectedScene() const {
+    // Only valid in Level view when a scene is selected
+    if (m_viewLevel != View3DLevel::Level || m_selectedIndex < 0 || !m_level) {
+        return nullptr;
+    }
+    
+    const auto& scenes = m_level->getScenes();
+    if (m_selectedIndex >= 0 && m_selectedIndex < static_cast<int>(scenes.size())) {
+        return scenes[m_selectedIndex].get();
+    }
+    return nullptr;
+}
+
+void Viewport3DPanel::setPlayMode(EditorPlayMode* playMode) {
+    std::cout << "[Viewport3DPanel] setPlayMode called - playMode=" 
+              << (playMode ? "SET" : "NULL") << std::endl;
+    m_playMode = playMode;
 }
 
 } // namespace editor

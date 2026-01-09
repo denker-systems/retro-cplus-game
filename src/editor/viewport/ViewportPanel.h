@@ -36,8 +36,7 @@ namespace viewport {
 class ViewportToolbar;
 class ViewportBreadcrumbs;
 class BaseViewRenderer;
-class World2DRenderer;
-class World3DRenderer;
+class Scene3DRenderer;
 
 /**
  * @class ViewportPanel
@@ -70,8 +69,8 @@ public:
     // Selection manager access
     SelectionManager* getSelectionManager() const { return m_selectionManager; }
     
-    // Play mode
-    void setPlayMode(EditorPlayMode* playMode) { m_playMode = playMode; }
+    // Play mode - forward to 3D renderer
+    void setPlayMode(EditorPlayMode* playMode);
 
 private:
     void renderContent();
@@ -88,10 +87,11 @@ private:
     std::unique_ptr<ViewportToolbar> m_toolbar;
     std::unique_ptr<ViewportBreadcrumbs> m_breadcrumbs;
     
-    // Renderers using inheritance hierarchy
-    // 3D is PRIMARY (default), 2D is SECONDARY (fallback)
-    std::unique_ptr<BaseViewRenderer> m_3dRenderer;  // World3D/Level3D/Scene3D
-    std::unique_ptr<BaseViewRenderer> m_2dRenderer;  // World2D→Level2D→Scene2D
+    // 3D Renderer - Scene3DRenderer inherits World→Level→Scene hierarchy
+    std::unique_ptr<Scene3DRenderer> m_3dRenderer;
+    
+    // 2D Renderer (uses inheritance chain)
+    std::unique_ptr<BaseViewRenderer> m_2dRenderer;
     
     // Navigation state
     engine::World* m_world = nullptr;

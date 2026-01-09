@@ -110,6 +110,9 @@ set(CORE_SOURCES
     src/engine/actors/StaticMeshActor.cpp
     src/engine/actors/CameraActor.cpp
     src/engine/actors/LightActor.cpp
+    src/engine/actors/PlayerStartActor.cpp
+    src/engine/actors/Character3DActor.cpp
+    src/engine/components/CharacterController3DComponent.cpp
     src/engine/Renderer.cpp
     src/engine/input/Input.cpp
     src/engine/Room.cpp

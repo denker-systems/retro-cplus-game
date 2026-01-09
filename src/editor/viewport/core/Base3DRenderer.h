@@ -9,6 +9,7 @@
 
 namespace editor {
     class Viewport3DPanel;
+    class EditorPlayMode;
 }
 
 namespace editor {
@@ -27,7 +28,14 @@ public:
     virtual ~Base3DRenderer();
     
     void initialize(EditorContext* context, SelectionManager* selectionManager) override;
+    void update(float deltaTime) override;
     void render(ImDrawList* drawList, const RenderContext& ctx) override;
+    
+    // Access to Viewport3DPanel for navigation
+    editor::Viewport3DPanel* getViewport3D() const { return m_viewport3D.get(); }
+    
+    // Play mode - forward to Viewport3DPanel
+    void setPlayMode(editor::EditorPlayMode* playMode);
 
 protected:
     /**
