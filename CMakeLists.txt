@@ -84,6 +84,7 @@ set(CORE_SOURCES
     src/engine/actors/EnvironmentActor.cpp
     src/engine/actors/SpriteActor.cpp
     src/engine/actors/NPC.cpp
+    src/engine/actors/NPC3DActor.cpp
     # LEGACY NODES - PARTIALLY DISABLED (Node system replaced by Actor system)
     # src/engine/nodes/Sprite.cpp
     # src/engine/nodes/AnimatedSprite.cpp

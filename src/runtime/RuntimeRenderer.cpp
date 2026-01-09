@@ -5,6 +5,8 @@
 #include "RuntimeRenderer.h"
 #include "editor/viewport/3d/EditorCamera3D.h"
 #include "engine/actors/Character3DActor.h"
+#include "engine/actors/NPC3DActor.h"
+#include "engine/world/Scene.h"
 #include "engine/utils/Logger.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -28,12 +30,13 @@ bool RuntimeRenderer::initialize() {
     
     createGroundMesh();
     createPlayerMesh();
+    createNPCMesh();
     
     LOG_INFO("[RuntimeRenderer] Initialized successfully");
     return true;
 }
 
-void RuntimeRenderer::render(editor::EditorCamera3D* camera, engine::Player3DActor* player) {
+void RuntimeRenderer::render(editor::EditorCamera3D* camera, engine::Player3DActor* player, engine::Scene* scene) {
     if (!camera || !player) return;
     
     glUseProgram(m_shaderProgram);
@@ -82,6 +85,45 @@ void RuntimeRenderer::render(editor::EditorCamera3D* camera, engine::Player3DAct
         glDrawElements(GL_TRIANGLES, m_playerIndexCount, GL_UNSIGNED_INT, 0);
     }
     
+    // Render all other actors (NPCs, etc.)
+    if (scene) {
+        static bool logged = false;
+        int npcCount = 0;
+        
+        for (const auto& actor : scene->getActors()) {
+            // Skip player (already rendered)
+            if (actor.get() == player) continue;
+            
+            // Render NPCs and other actors
+            if (auto* npc = dynamic_cast<engine::NPC3DActor*>(actor.get())) {
+                npcCount++;
+                
+                // Get 3D position directly
+                glm::vec3 pos3d = npc->getPosition3D();
+                
+                if (!logged) {
+                    LOG_INFO("[RuntimeRenderer] Rendering NPC '" + npc->getName() + "' at (" +
+                             std::to_string(pos3d.x) + ", " + std::to_string(pos3d.y) + ", " + std::to_string(pos3d.z) + ")");
+                }
+                
+                glm::mat4 model = glm::mat4(1.0f);
+                model = glm::translate(model, pos3d);
+                model = glm::scale(model, glm::vec3(0.4f, 0.8f, 0.4f)); // Smaller than player
+                
+                GLint modelLoc = glGetUniformLocation(m_shaderProgram, "uModel");
+                glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+                
+                glBindVertexArray(m_npcVAO);  // Use NPC mesh (pink/brown)
+                glDrawElements(GL_TRIANGLES, m_npcIndexCount, GL_UNSIGNED_INT, 0);
+            }
+        }
+        
+        if (!logged && npcCount > 0) {
+            LOG_INFO("[RuntimeRenderer] Rendered " + std::to_string(npcCount) + " NPCs");
+            logged = true;
+        }
+    }
+    
     glBindVertexArray(0);
     glUseProgram(0);
 }
@@ -94,6 +136,10 @@ void RuntimeRenderer::shutdown() {
     if (m_playerVAO) glDeleteVertexArrays(1, &m_playerVAO);
     if (m_playerVBO) glDeleteBuffers(1, &m_playerVBO);
     if (m_playerEBO) glDeleteBuffers(1, &m_playerEBO);
+    
+    if (m_npcVAO) glDeleteVertexArrays(1, &m_npcVAO);
+    if (m_npcVBO) glDeleteBuffers(1, &m_npcVBO);
+    if (m_npcEBO) glDeleteBuffers(1, &m_npcEBO);
     
     if (m_shaderProgram) glDeleteProgram(m_shaderProgram);
 }
@@ -339,6 +385,89 @@ void RuntimeRenderer::createPlayerMesh() {
     glBindVertexArray(0);
     
     LOG_INFO("[RuntimeRenderer] Player mesh created");
+}
+
+void RuntimeRenderer::createNPCMesh() {
+    LOG_INFO("[RuntimeRenderer] Creating NPC mesh...");
+    
+    // Simple cube with pink/brown color (similar to editor NPCs)
+    float vertices[] = {
+        // Position          Normal            Color (pink/brown)
+        // Front face
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.8f, 0.5f, 0.5f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.8f, 0.5f, 0.5f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.8f, 0.5f, 0.5f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.8f, 0.5f, 0.5f,
+        
+        // Back face
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.7f, 0.4f, 0.4f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.7f, 0.4f, 0.4f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.7f, 0.4f, 0.4f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.7f, 0.4f, 0.4f,
+        
+        // Top face
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.9f, 0.6f, 0.6f,
+         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.9f, 0.6f, 0.6f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.9f, 0.6f, 0.6f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.9f, 0.6f, 0.6f,
+        
+        // Bottom face
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.6f, 0.3f, 0.3f,
+         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.6f, 0.3f, 0.3f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.6f, 0.3f, 0.3f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.6f, 0.3f, 0.3f,
+        
+        // Right face
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.75f, 0.45f, 0.45f,
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.75f, 0.45f, 0.45f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.75f, 0.45f, 0.45f,
+         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.75f, 0.45f, 0.45f,
+        
+        // Left face
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.65f, 0.35f, 0.35f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.65f, 0.35f, 0.35f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.65f, 0.35f, 0.35f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.65f, 0.35f, 0.35f,
+    };
+    
+    unsigned int indices[] = {
+        0, 1, 2,  2, 3, 0,    // Front
+        4, 6, 5,  6, 4, 7,    // Back
+        8, 9, 10, 10, 11, 8,  // Top
+        12, 14, 13, 14, 12, 15, // Bottom
+        16, 17, 18, 18, 19, 16, // Right
+        20, 22, 21, 22, 20, 23  // Left
+    };
+    
+    m_npcIndexCount = 36;
+    
+    glGenVertexArrays(1, &m_npcVAO);
+    glGenBuffers(1, &m_npcVBO);
+    glGenBuffers(1, &m_npcEBO);
+    
+    glBindVertexArray(m_npcVAO);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, m_npcVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_npcEBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    // Position
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    
+    // Normal
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    
+    // Color
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+    
+    glBindVertexArray(0);
+    
+    LOG_INFO("[RuntimeRenderer] NPC mesh created");
 }
 
 GLuint RuntimeRenderer::compileShader(const std::string& source, GLenum type) {

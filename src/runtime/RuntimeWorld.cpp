@@ -8,6 +8,7 @@
 #include "engine/world/Scene.h"
 #include "engine/actors/PlayerStartActor.h"
 #include "engine/actors/StaticMeshActor.h"
+#include "engine/actors/NPC3DActor.h"
 #include "engine/physics/PhysicsManager.h"
 #include "engine/physics/box2d/PhysicsWorld2D.h"
 #include "engine/physics/physx/PhysicsWorld3D.h"
@@ -208,17 +209,28 @@ engine::Scene* RuntimeWorld::createSceneFromJSON(const void* data) {
                 for (const auto& npcData : npcJson["npcs"]) {
                     // Check if NPC belongs to this scene
                     if (npcData.contains("room") && npcData["room"] == sceneId) {
-                        auto npc = std::make_unique<engine::NPCActor>();
+                        auto npc = std::make_unique<engine::NPC3DActor>();
                         
                         if (npcData.contains("name")) {
                             npc->setName(npcData["name"]);
                         }
                         
-                        // Set 2D position (NPCActor uses 2D coordinates)
+                        // Convert 2D position to 3D
                         if (npcData.contains("x") && npcData.contains("y")) {
                             float x = npcData["x"];
                             float y = npcData["y"];
-                            npc->setPosition(x, y);
+                            glm::vec3 pos3d(x / 100.0f, 1.0f, y / 100.0f);  // Scale down, Y=1 for standing
+                            npc->setPosition3D(pos3d);
+                        }
+                        
+                        // Set dialog ID
+                        if (npcData.contains("dialogId")) {
+                            npc->setDialogId(npcData["dialogId"]);
+                        }
+                        
+                        // Set sprite name
+                        if (npcData.contains("sprite")) {
+                            npc->setSpriteName(npcData["sprite"]);
                         }
                         
                         scene->addActor(std::move(npc));

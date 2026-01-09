@@ -413,7 +413,7 @@ void RuntimeApp::render() {
     }
     
     // Render 3D scene
-    m_renderer->render(m_camera.get(), m_player.get());
+    m_renderer->render(m_camera.get(), m_player.get(), m_activeScene);
     
     // Swap buffers
     SDL_GL_SwapWindow(m_window);

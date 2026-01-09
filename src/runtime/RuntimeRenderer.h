@@ -14,6 +14,8 @@ namespace editor {
 
 namespace engine {
     class Player3DActor;
+    class Scene;
+    class ActorObjectExtended;
 }
 
 /**
@@ -37,7 +39,7 @@ public:
     /**
      * @brief Rendera scene
      */
-    void render(editor::EditorCamera3D* camera, engine::Player3DActor* player);
+    void render(editor::EditorCamera3D* camera, engine::Player3DActor* player, engine::Scene* scene);
     
     /**
      * @brief Cleanup
@@ -48,6 +50,7 @@ private:
     bool loadShaders();
     void createGroundMesh();
     void createPlayerMesh();
+    void createNPCMesh();
     
     GLuint compileShader(const std::string& source, GLenum type);
     GLuint linkProgram(GLuint vertexShader, GLuint fragmentShader);
@@ -67,6 +70,12 @@ private:
     GLuint m_playerVBO = 0;
     GLuint m_playerEBO = 0;
     int m_playerIndexCount = 0;
+    
+    // NPC mesh
+    GLuint m_npcVAO = 0;
+    GLuint m_npcVBO = 0;
+    GLuint m_npcEBO = 0;
+    int m_npcIndexCount = 0;
     
     // Lighting
     glm::vec3 m_lightPos = glm::vec3(10.0f, 20.0f, 10.0f);

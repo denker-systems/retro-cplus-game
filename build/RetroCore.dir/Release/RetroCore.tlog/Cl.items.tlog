@@ -33,6 +33,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\CharacterActo
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\EnvironmentActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\EnvironmentActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\SpriteActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\SpriteActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\NPC.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\NPC.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\NPC3DActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\NPC3DActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\nodes\TileMapLayer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\TileMapLayer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\world\Camera2D.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Camera2D.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\world\Scene.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Scene.obj
