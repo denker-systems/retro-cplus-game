@@ -48,6 +48,8 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\physx\Physic
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\RigidBody3DComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\RigidBody3DComponent.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\MeshComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\MeshComponent.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\StaticMeshActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\StaticMeshActor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\CameraActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\CameraActor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\LightActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\LightActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Renderer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Renderer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\input\Input.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Input.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Room.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Room.obj

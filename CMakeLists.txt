@@ -108,6 +108,8 @@ set(CORE_SOURCES
     src/engine/components/RigidBody3DComponent.cpp
     src/engine/components/MeshComponent.cpp
     src/engine/actors/StaticMeshActor.cpp
+    src/engine/actors/CameraActor.cpp
+    src/engine/actors/LightActor.cpp
     src/engine/Renderer.cpp
     src/engine/input/Input.cpp
     src/engine/Room.cpp

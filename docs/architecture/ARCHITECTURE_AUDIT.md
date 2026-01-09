@@ -464,8 +464,9 @@ Bra separation of concerns.
 1. [x] StaticMeshActor med physics ✅
 2. [x] RigidBody3DComponent ✅
 3. [x] EditorPlayMode med Play/Pause/Stop ✅
-4. [ ] Fler 3D actor-typer (CameraActor, LightActor)
-5. [ ] 3D scene serialization
+4. [x] CameraActor (3D kamera med follow-target) ✅
+5. [x] LightActor (Directional/Point/Spot) ✅
+6. [ ] 3D scene serialization
 
 ### FAS 2: Bryt dependencies (redirect, inte ta bort)
 6. [ ] `entities/Character.h` → forwarding header till `CharacterActor`
