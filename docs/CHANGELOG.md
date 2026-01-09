@@ -10,6 +10,15 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- **Viewport OOP Inheritance Architecture** - Komplett omdesign med korrekt inheritance
+  - `BaseViewRenderer` - Abstract base för alla renderers
+  - `Base3DRenderer` (PRIMARY) - 3D som default rendering mode
+  - `Base2DRenderer` (SECONDARY) - 2D som fallback med inheritance chain
+  - World2DRenderer → Level2DRenderer → Scene2DRenderer (ärver funktionalitet)
+  - Organiserad mappstruktur: core/, renderers/3d/, renderers/2d/, ui/, input/, 3d/
+  - Play/Pause/Stop buttons integrerade i ViewportToolbar
+  - EditorPlayMode korrekt kopplad till aktiv Scene för fysik simulation
+  - Reducerade kodbas med 1,769 rader (-27%) samtidigt som funktionalitet förbättras
 - **3D Viewport** - OpenGL-baserad 3D-vy för World/Level/Scene navigation
   - `Viewport3DPanel` - 3D rendering med framebuffer
   - `EditorCamera3D` - Orbit-kamera med pan/zoom
@@ -190,6 +199,12 @@ och projektet använder [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **Hot reload borttaget** - Använd restart-workflow istället (enklare, stabilare)
 
 ### Removed
+- **Legacy Viewport System** - 18 gamla viewport filer borttagna (7,703 rader)
+  - panels/viewport/ViewportPanel*.cpp (7 split files)
+  - viewport/ViewportPanel.h/cpp, ViewportRenderer.h/cpp
+  - viewport/ViewportWorldRenderer.h/cpp, ViewportLevelRenderer.h/cpp, ViewportSceneRenderer.h/cpp
+  - viewport/ViewportInput.h/cpp, IViewportRenderer.h
+  - viewport/ViewportPanelNew.h/cpp
 - **Legacy Scene files** - Removed src/engine/Scene.h and src/engine/Scene.cpp
 - **RoomToSceneConverter** - No longer needed, functionality moved to Scene::createFromData
 - **entities/NPC.h** - Legacy NPC class removed and replaced with actors/NPC.h
