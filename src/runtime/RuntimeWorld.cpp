@@ -48,14 +48,19 @@ bool RuntimeWorld::loadFromJSON(engine::physics::PhysicsManager* physicsManager)
 }
 
 bool RuntimeWorld::loadScenes() {
-    LOG_INFO("[RuntimeWorld] Loading scenes from assets/data/scenes.json...");
+    LOG_INFO("[RuntimeWorld] Loading world from assets/data/world.json...");
     
-    // Try to load scenes.json
-    std::ifstream file("assets/data/scenes.json");
-    if (!file.is_open()) {
-        LOG_WARNING("[RuntimeWorld] scenes.json not found, creating default scene");
+    // Try to load world.json first (contains level/scene hierarchy)
+    std::ifstream worldFile("assets/data/world.json");
+    if (!worldFile.is_open()) {
+        LOG_WARNING("[RuntimeWorld] world.json not found, trying scenes.json...");
         
-        // Create default test scene
+        // Fallback to scenes.json
+        std::ifstream scenesFile("assets/data/scenes.json");
+        if (!scenesFile.is_open()) {
+            LOG_WARNING("[RuntimeWorld] scenes.json not found, creating default scene");
+            
+            // Create default test scene
         auto level = std::make_unique<engine::Level>();
         level->setName("DefaultLevel");
         
@@ -71,37 +76,67 @@ bool RuntimeWorld::loadScenes() {
         level->addScene(std::move(scene));
         m_world->addLevel(std::move(level));
         
-        LOG_INFO("[RuntimeWorld] Default scene created");
-        return true;
+            LOG_INFO("[RuntimeWorld] Default scene created");
+            return true;
+        }
+        
+        // If scenesFile is open, continue to parse it below
     }
     
-    // Parse JSON
-    nlohmann::json j;
+    // Parse world.json
+    nlohmann::json worldJson;
     try {
-        file >> j;
+        worldFile >> worldJson;
     } catch (const std::exception& e) {
-        LOG_ERROR("[RuntimeWorld] Failed to parse scenes.json: " + std::string(e.what()));
+        LOG_ERROR("[RuntimeWorld] Failed to parse world.json: " + std::string(e.what()));
         return false;
     }
     
-    // Create levels and scenes from JSON
-    if (j.contains("levels")) {
-        for (const auto& levelData : j["levels"]) {
+    // Load scenes.json for scene data
+    std::ifstream scenesFile("assets/data/scenes.json");
+    nlohmann::json scenesJson;
+    if (scenesFile.is_open()) {
+        try {
+            scenesFile >> scenesJson;
+        } catch (const std::exception& e) {
+            LOG_ERROR("[RuntimeWorld] Failed to parse scenes.json: " + std::string(e.what()));
+            return false;
+        }
+    } else {
+        LOG_WARNING("[RuntimeWorld] scenes.json not found");
+    }
+    
+    // Create levels from world.json
+    if (worldJson.contains("levels")) {
+        for (const auto& levelData : worldJson["levels"]) {
             auto level = std::make_unique<engine::Level>();
             
             if (levelData.contains("name")) {
                 level->setName(levelData["name"]);
             }
             
-            if (levelData.contains("scenes")) {
-                for (const auto& sceneData : levelData["scenes"]) {
-                    auto scene = createSceneFromJSON(&sceneData);
-                    if (scene) {
-                        // Set first scene as active
-                        if (!m_activeScene) {
-                            m_activeScene = scene;
+            // Load scenes for this level
+            if (levelData.contains("sceneIds") && scenesJson.contains("scenes")) {
+                for (const auto& sceneId : levelData["sceneIds"]) {
+                    std::string id = sceneId;
+                    
+                    // Find scene data in scenes.json
+                    for (const auto& sceneData : scenesJson["scenes"]) {
+                        if (sceneData.contains("id") && sceneData["id"] == id) {
+                            auto scene = createSceneFromJSON(&sceneData);
+                            if (scene) {
+                                // Set first scene as active (or start scene from world.json)
+                                if (!m_activeScene) {
+                                    m_activeScene = scene;
+                                }
+                                if (worldJson.contains("startSceneId") && worldJson["startSceneId"] == id) {
+                                    m_activeScene = scene;
+                                }
+                                level->addScene(std::unique_ptr<engine::Scene>(scene));
+                                LOG_INFO("[RuntimeWorld] Loaded scene: " + id);
+                            }
+                            break;
                         }
-                        level->addScene(std::unique_ptr<engine::Scene>(scene));
                     }
                 }
             }
@@ -141,24 +176,15 @@ engine::Scene* RuntimeWorld::createSceneFromJSON(const void* data) {
         scene->setName(sceneData["name"]);
     }
     
-    // Add PlayerStart if specified
-    if (sceneData.contains("playerSpawn")) {
+    // Add PlayerStart from playerSpawnX/Y (convert 2D to 3D)
+    if (sceneData.contains("playerSpawnX") && sceneData.contains("playerSpawnY")) {
         auto playerStart = std::make_unique<engine::PlayerStartActor>();
         
-        glm::vec3 spawnPos(0.0f, 2.0f, 0.0f);
-        try {
-            if (sceneData.at("playerSpawn").contains("x")) {
-                spawnPos.x = sceneData.at("playerSpawn").at("x");
-            }
-            if (sceneData.at("playerSpawn").contains("y")) {
-                spawnPos.y = sceneData.at("playerSpawn").at("y");
-            }
-            if (sceneData.at("playerSpawn").contains("z")) {
-                spawnPos.z = sceneData.at("playerSpawn").at("z");
-            }
-        } catch (...) {
-            LOG_WARNING("[RuntimeWorld] Failed to parse playerSpawn, using default");
-        }
+        float spawnX = sceneData["playerSpawnX"];
+        float spawnY = sceneData["playerSpawnY"];
+        
+        // Convert 2D spawn (X,Y) to 3D (X, height, Z)
+        glm::vec3 spawnPos(spawnX / 100.0f, 2.0f, spawnY / 100.0f);  // Scale down from pixels
         
         playerStart->setSpawnPosition(spawnPos);
         scene->addActor(std::move(playerStart));
@@ -169,8 +195,44 @@ engine::Scene* RuntimeWorld::createSceneFromJSON(const void* data) {
                  std::to_string(spawnPos.z) + ")");
     }
     
-    // TODO: Load actors from JSON
-    // TODO: Load static meshes from JSON
+    // Load NPCs from npcs.json
+    std::ifstream npcFile("assets/data/npcs.json");
+    if (npcFile.is_open()) {
+        nlohmann::json npcJson;
+        try {
+            npcFile >> npcJson;
+            
+            if (npcJson.contains("npcs")) {
+                std::string sceneId = sceneData.contains("id") ? sceneData["id"].get<std::string>() : "";
+                
+                for (const auto& npcData : npcJson["npcs"]) {
+                    // Check if NPC belongs to this scene
+                    if (npcData.contains("room") && npcData["room"] == sceneId) {
+                        auto npc = std::make_unique<engine::NPCActor>();
+                        
+                        if (npcData.contains("name")) {
+                            npc->setName(npcData["name"]);
+                        }
+                        
+                        // Set 2D position (NPCActor uses 2D coordinates)
+                        if (npcData.contains("x") && npcData.contains("y")) {
+                            float x = npcData["x"];
+                            float y = npcData["y"];
+                            npc->setPosition(x, y);
+                        }
+                        
+                        scene->addActor(std::move(npc));
+                        LOG_INFO("[RuntimeWorld] Added NPC: " + npcData["name"].get<std::string>());
+                    }
+                }
+            }
+        } catch (const std::exception& e) {
+            LOG_WARNING("[RuntimeWorld] Failed to load NPCs: " + std::string(e.what()));
+        }
+    }
+    
+    // TODO: Load hotspots as InteractiveActors
+    // TODO: Load static meshes from scene data
     
     return scene;
 }
