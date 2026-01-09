@@ -367,6 +367,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\CameraActor.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\LightActor.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\PlayerStartActor.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\PlayerConfigActor.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\Character3DActor.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\CharacterController3DComponent.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Renderer.cpp" />

@@ -1,0 +1,23 @@
+{
+  "levels": [
+    {
+      "description": "The main game world containing all scenes",
+      "gridPosition": {
+        "gridX": 0,
+        "gridY": 0,
+        "pixelHeight": 600,
+        "pixelWidth": 800
+      },
+      "id": "main_game",
+      "name": "Main Game",
+      "sceneIds": [
+        "tavern",
+        "street"
+      ]
+    }
+  ],
+  "name": "Retro Adventure",
+  "startLevelId": "main_game",
+  "startSceneId": "tavern",
+  "version": "1.0"
+}

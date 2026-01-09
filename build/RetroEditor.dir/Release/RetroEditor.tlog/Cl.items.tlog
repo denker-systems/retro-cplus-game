@@ -52,6 +52,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\world\LevelVi
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\world\SceneGraphPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SceneGraphPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\editors\LayerEditorPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\LayerEditorPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\editors\TileMapEditorPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\TileMapEditorPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\editors\ActorDetailsPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ActorDetailsPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\graphs\INodeGraphPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\INodeGraphPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\graphs\dialog\DialogNode.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\DialogNode.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\graphs\dialog\DialogGraphPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\DialogGraphPanel.obj

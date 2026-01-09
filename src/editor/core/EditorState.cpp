@@ -21,6 +21,7 @@
 #include "editor/panels/world/SceneGraphPanel.h"
 #include "editor/panels/editors/LayerEditorPanel.h"
 #include "editor/panels/editors/TileMapEditorPanel.h"
+#include "editor/panels/editors/ActorDetailsPanel.h"
 #include "editor/panels/graphs/dialog/DialogGraphPanel.h"
 #include "editor/panels/graphs/quest/QuestGraphPanel.h"
 #include "editor/panels/graphs/npc/BehaviorGraphPanel.h"
@@ -112,6 +113,17 @@ void EditorState::enter() {
     
     auto* hierarchy = m_panelManager->getHierarchyPanel();
     hierarchy->setSelectionManager(selectionManager);
+    
+    // Connect ActorDetailsPanel to SelectionManager
+    auto* actorDetails = m_panelManager->getActorDetailsPanel();
+    actorDetails->setSelectionManager(selectionManager);
+    
+    // Register selection callback to open ActorDetailsPanel when actor is selected
+    selectionManager->registerSelectionChangedCallback([actorDetails, selectionManager]() {
+        if (auto* selectedActor = selectionManager->getSelectedActor()) {
+            actorDetails->setActor(selectedActor);
+        }
+    });
     
     // Register navigation callback BEFORE setting world/level/scene
     selectionManager->registerNavigationChangedCallback([viewport]() {
@@ -324,6 +336,9 @@ void EditorState::renderImGui() {
     }
     if (m_panelManager->getLevelViewPanel() && m_panelManager->getLevelViewPanel()->isVisible()) {
         m_panelManager->getLevelViewPanel()->render();
+    }
+    if (m_panelManager->getActorDetailsPanel() && m_panelManager->getActorDetailsPanel()->isVisible()) {
+        m_panelManager->getActorDetailsPanel()->render();
     }
     
     // Render AI Chat Panel

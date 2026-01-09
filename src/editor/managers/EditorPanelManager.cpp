@@ -17,6 +17,7 @@
 #include "editor/panels/editors/TileMapEditorPanel.h"
 #include "editor/panels/world/WorldViewPanel.h"
 #include "editor/panels/world/LevelViewPanel.h"
+#include "editor/panels/editors/ActorDetailsPanel.h"
 #include "editor/panels/graphs/dialog/DialogGraphPanel.h"
 #include "editor/panels/graphs/quest/QuestGraphPanel.h"
 #include "editor/panels/graphs/npc/BehaviorGraphPanel.h"
@@ -47,6 +48,7 @@ void EditorPanelManager::initialize(Game* game) {
     m_tileMapEditorPanel = std::make_unique<TileMapEditorPanel>(m_context);
     m_worldViewPanel = std::make_unique<WorldViewPanel>(m_context);
     m_levelViewPanel = std::make_unique<LevelViewPanel>(m_context);
+    m_actorDetailsPanel = std::make_unique<ActorDetailsPanel>(m_context);
     
     // Create input handler
     m_inputHandler = std::make_unique<EditorInputHandler>(m_context);

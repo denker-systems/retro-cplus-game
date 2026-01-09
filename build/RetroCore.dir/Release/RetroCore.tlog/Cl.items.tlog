@@ -51,6 +51,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\StaticMeshAct
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\CameraActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\CameraActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\LightActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\LightActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\PlayerStartActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PlayerStartActor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\PlayerConfigActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PlayerConfigActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\Character3DActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Character3DActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\CharacterController3DComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\CharacterController3DComponent.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Renderer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Renderer.obj

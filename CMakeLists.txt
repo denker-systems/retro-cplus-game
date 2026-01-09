@@ -111,6 +111,7 @@ set(CORE_SOURCES
     src/engine/actors/CameraActor.cpp
     src/engine/actors/LightActor.cpp
     src/engine/actors/PlayerStartActor.cpp
+    src/engine/actors/PlayerConfigActor.cpp
     src/engine/actors/Character3DActor.cpp
     src/engine/components/CharacterController3DComponent.cpp
     src/engine/Renderer.cpp
@@ -287,6 +288,7 @@ set(EDITOR_SOURCES
     # Panels - Editors
     src/editor/panels/editors/LayerEditorPanel.cpp
     src/editor/panels/editors/TileMapEditorPanel.cpp
+    src/editor/panels/editors/ActorDetailsPanel.cpp
     
     # Panels - Graphs
     src/editor/panels/graphs/INodeGraphPanel.cpp

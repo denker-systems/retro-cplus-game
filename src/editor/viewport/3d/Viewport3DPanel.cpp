@@ -10,6 +10,7 @@
 #include "engine/core/ActorObjectExtended.h"
 #include "engine/actors/StaticMeshActor.h"
 #include "engine/actors/PlayerStartActor.h"
+#include "engine/actors/PlayerConfigActor.h"
 #include "engine/actors/Character3DActor.h"
 #include "editor/core/EditorPlayMode.h"
 #include "engine/utils/Logger.h"
@@ -148,20 +149,45 @@ void Viewport3DPanel::update(float deltaTime) {
             if (auto* player = m_playMode->getPlayer()) {
                 glm::vec3 playerPos = player->getPosition3D();
                 
-                // Debug logging
-                static int updateLogCounter = 0;
-                if (updateLogCounter++ % 60 == 0) {
-                    std::cout << "[Viewport3D] Camera follow - playerPos=(" 
-                              << playerPos.x << "," << playerPos.y << "," << playerPos.z << ")" << std::endl;
+                // Get camera offset from PlayerConfigActor if available
+                glm::vec3 cameraOffset(0.0f, 3.0f, 5.0f);  // Default
+                float followSpeed = 5.0f;
+                bool foundPlayerConfig = false;
+                
+                // Search for PlayerConfigActor in scene to get camera settings
+                if (m_scene) {
+                    for (const auto& actor : m_scene->getActors()) {
+                        if (auto* playerConfig = dynamic_cast<engine::PlayerConfigActor*>(actor.get())) {
+                            cameraOffset = playerConfig->getCameraOffset();
+                            followSpeed = playerConfig->getCameraFollowSpeed();
+                            foundPlayerConfig = true;
+                            
+                            static int configLogCounter = 0;
+                            if (configLogCounter++ % 120 == 0) {
+                                std::cout << "[Viewport3D] Using PlayerConfig - offset=(" 
+                                          << cameraOffset.x << "," << cameraOffset.y << "," << cameraOffset.z << ")" 
+                                          << " followSpeed=" << followSpeed << std::endl;
+                            }
+                            break;
+                        }
+                    }
                 }
                 
-                // Smooth camera follow
-                glm::vec3 targetPos = playerPos + glm::vec3(0.0f, 3.0f, 5.0f);  // Behind and above player
+                if (!foundPlayerConfig) {
+                    static bool loggedOnce = false;
+                    if (!loggedOnce) {
+                        std::cout << "[Viewport3D] No PlayerConfigActor found - using default camera offset" << std::endl;
+                        loggedOnce = true;
+                    }
+                }
+                
+                // Smooth camera follow with configurable offset
+                glm::vec3 targetPos = playerPos + cameraOffset;
                 glm::vec3 currentPos = m_camera->getPosition();
                 
                 // Lerp for smooth movement
-                float followSpeed = 5.0f * deltaTime;
-                glm::vec3 newPos = currentPos + (targetPos - currentPos) * followSpeed;
+                float lerpFactor = followSpeed * deltaTime;
+                glm::vec3 newPos = currentPos + (targetPos - currentPos) * lerpFactor;
                 
                 m_camera->setPosition(newPos);
                 m_camera->setTarget(playerPos);  // Look at player
@@ -509,12 +535,18 @@ void Viewport3DPanel::renderSceneView() {
             // Check if this is a StaticMeshActor for custom rendering
             auto* meshActor = dynamic_cast<engine::StaticMeshActor*>(actor.get());
             
+            // Check if this actor has a CameraComponent
+            bool hasCamera = actor->getComponent<engine::CameraComponent>() != nullptr;
+            
             // Color based on selection or actor type
             glm::vec3 color;
             if (index == m_selectedIndex || actor.get() == m_selectedActor) {
                 color = glm::vec3(1.0f, 0.8f, 0.2f);  // Yellow for selected
             } else if (index == m_hoveredIndex) {
                 color = glm::vec3(0.4f, 0.7f, 1.0f);  // Blue for hovered
+            } else if (hasCamera) {
+                // Cyan for camera actors
+                color = glm::vec3(0.2f, 0.9f, 0.9f);
             } else if (meshActor) {
                 // Use mesh color from StaticMeshActor
                 color = meshActor->getMeshColor();
@@ -579,6 +611,66 @@ void Viewport3DPanel::renderSceneView() {
                 std::cout << "[Viewport3D] WARNING: m_playMode->getPlayer() returned null!" << std::endl;
                 loggedOnce = true;
             }
+        }
+    }
+    
+    // Render camera visualization for PlayerConfigActor
+    if (m_scene) {
+        // Find PlayerConfigActor and PlayerStart to visualize camera offset
+        engine::PlayerConfigActor* playerConfig = nullptr;
+        engine::PlayerStartActor* playerStart = nullptr;
+        glm::vec3 playerStartPos(0.0f);
+        
+        for (const auto& actor : m_scene->getActors()) {
+            if (auto* pc = dynamic_cast<engine::PlayerConfigActor*>(actor.get())) {
+                playerConfig = pc;
+            }
+            if (auto* ps = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
+                playerStart = ps;
+                playerStartPos = ps->getSpawnPosition();
+            }
+        }
+        
+        // Debug logging
+        static int vizLogCounter = 0;
+        if (vizLogCounter++ % 120 == 0) {
+            std::cout << "[Viewport3D] Camera viz - PlayerConfig=" << (playerConfig ? "FOUND" : "NULL")
+                      << " PlayerStart=" << (playerStart ? "FOUND" : "NULL")
+                      << " startPos=(" << playerStartPos.x << "," << playerStartPos.y << "," << playerStartPos.z << ")" << std::endl;
+            if (playerConfig) {
+                glm::vec3 offset = playerConfig->getCameraOffset();
+                std::cout << "[Viewport3D] Camera offset=(" << offset.x << "," << offset.y << "," << offset.z << ")" << std::endl;
+            }
+        }
+        
+        // If we have both PlayerConfig and PlayerStart, visualize camera offset
+        if (playerConfig) {
+            // Draw PlayerConfig actor itself (cyan cube)
+            auto pos2D = playerConfig->getPosition();
+            float posZ = playerConfig->getZ();
+            glm::vec3 configPos(pos2D.x / 100.0f, posZ / 100.0f + 0.5f, pos2D.y / 100.0f);
+            
+            glm::mat4 model = glm::translate(glm::mat4(1.0f), configPos);
+            model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.5f));
+            glm::mat4 mvp = projection * view * model;
+            
+            m_shader->setMat4("u_MVP", mvp);
+            m_shader->setMat4("u_Model", model);
+            m_shader->setVec3("u_Color", glm::vec3(0.2f, 0.9f, 0.9f));  // Cyan
+            m_cubeMesh->render();
+            
+            // Draw camera offset visualization (where camera will be during play)
+            glm::vec3 cameraOffset = playerConfig->getCameraOffset();
+            glm::vec3 cameraTargetPos = playerStartPos + cameraOffset;
+            
+            model = glm::translate(glm::mat4(1.0f), cameraTargetPos);
+            model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.3f));
+            mvp = projection * view * model;
+            
+            m_shader->setMat4("u_MVP", mvp);
+            m_shader->setMat4("u_Model", model);
+            m_shader->setVec3("u_Color", glm::vec3(1.0f, 1.0f, 0.0f));  // Yellow for camera preview
+            m_cubeMesh->render();
         }
     }
     
@@ -1081,6 +1173,25 @@ void Viewport3DPanel::handleActorDrop(const std::string& templateName) {
         }
         
         LOG_INFO("[Viewport3D] Created PlayerStart at (" + 
+                 std::to_string(dropPos.x) + ", " + 
+                 std::to_string(dropPos.y) + ", " + 
+                 std::to_string(dropPos.z) + ")");
+    }
+    else if (templateName == "PlayerConfigActor" || templateName == "Player Config") {
+        // Create PlayerConfigActor (2D) with camera
+        auto actor = std::make_unique<engine::PlayerConfigActor>();
+        actor->setPosition(dropPos.x * 100.0f, dropPos.z * 100.0f);
+        actor->setZ(dropPos.y * 100.0f);
+        
+        engine::ActorObjectExtended* actorPtr = actor.get();
+        targetContainer->addActor(std::move(actor));
+        
+        m_selectedActor = actorPtr;
+        if (m_selectionManager) {
+            m_selectionManager->selectActor(actorPtr);
+        }
+        
+        LOG_INFO("[Viewport3D] Created PlayerConfigActor at (" + 
                  std::to_string(dropPos.x) + ", " + 
                  std::to_string(dropPos.y) + ", " + 
                  std::to_string(dropPos.z) + ")");
