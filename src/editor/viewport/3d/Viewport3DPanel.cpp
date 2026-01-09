@@ -12,6 +12,7 @@
 #include "engine/actors/PlayerStartActor.h"
 #include "engine/actors/PlayerConfigActor.h"
 #include "engine/actors/Character3DActor.h"
+#include "engine/actors/NPC3DActor.h"
 #include "editor/core/EditorPlayMode.h"
 #include "engine/utils/Logger.h"
 
@@ -512,12 +513,22 @@ void Viewport3DPanel::renderSceneView() {
         for (const auto& actor : actors) {
             if (!actor) continue;
             
-            // Get actor position (convert from 2D to 3D)
-            auto pos2D = actor->getPosition();
-            float posZ = actor->getZ();
-            // Scale down from pixel coords to world coords
-            // X stays X, Z in 3D = Y in 2D, Y in 3D = actor's Z component
-            glm::vec3 pos(pos2D.x / 100.0f, posZ / 100.0f + scale / 2.0f, pos2D.y / 100.0f);
+            // Get actor position (handle both 2D and 3D actors)
+            glm::vec3 pos;
+            
+            // Check if this is a 3D actor (Character3DActor, NPC3DActor, StaticMeshActor, etc.)
+            if (auto* char3d = dynamic_cast<engine::Character3DActor*>(actor.get())) {
+                pos = char3d->getPosition3D();
+            } else if (auto* meshActor = dynamic_cast<engine::StaticMeshActor*>(actor.get())) {
+                pos = meshActor->getPosition3D();
+            } else if (auto* playerStart = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
+                pos = playerStart->getSpawnPosition();
+            } else {
+                // Legacy 2D actor - convert to 3D
+                auto pos2D = actor->getPosition();
+                float posZ = actor->getZ();
+                pos = glm::vec3(pos2D.x / 100.0f, posZ / 100.0f + scale / 2.0f, pos2D.y / 100.0f);
+            }
             
             // Store bounds and actor pointer for picking
             glm::vec3 boundsMin = pos - glm::vec3(scale / 2.0f);
@@ -550,6 +561,9 @@ void Viewport3DPanel::renderSceneView() {
             } else if (meshActor) {
                 // Use mesh color from StaticMeshActor
                 color = meshActor->getMeshColor();
+            } else if (dynamic_cast<engine::NPC3DActor*>(actor.get())) {
+                // Pink/brown for NPCs (same as runtime)
+                color = glm::vec3(0.8f, 0.5f, 0.5f);
             } else {
                 // Vary color by actor type/index
                 float hue = (float)index / std::max(1, (int)actors.size());
