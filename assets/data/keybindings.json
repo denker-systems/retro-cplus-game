@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "camera": {
+    "fly_forward": "W",
+    "fly_back": "S",
+    "fly_left": "A",
+    "fly_right": "D",
+    "fly_up": "E",
+    "fly_down": "Q",
+    "focus": "F",
+    "reset": "Home"
+  },
+  "gizmo": {
+    "translate": "W",
+    "rotate": "E",
+    "scale": "R",
+    "toggle_space": "Space"
+  },
+  "selection": {
+    "delete": "Delete",
+    "duplicate": "Ctrl+D",
+    "deselect": "Escape",
+    "select_all": "Ctrl+A"
+  },
+  "file": {
+    "save": "Ctrl+S",
+    "save_as": "Ctrl+Shift+S",
+    "open": "Ctrl+O",
+    "new": "Ctrl+N"
+  },
+  "edit": {
+    "undo": "Ctrl+Z",
+    "redo": "Ctrl+Y",
+    "cut": "Ctrl+X",
+    "copy": "Ctrl+C",
+    "paste": "Ctrl+V"
+  },
+  "view": {
+    "zoom_in": "Ctrl+Plus",
+    "zoom_out": "Ctrl+Minus",
+    "zoom_reset": "Ctrl+0",
+    "toggle_grid": "G",
+    "toggle_2d_3d": "P"
+  }
+}

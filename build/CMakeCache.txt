@@ -200,6 +200,66 @@ LIB_EAY_DEBUG:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vc
 //Path to a library.
 LIB_EAY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/libcrypto.lib
 
+//Path to a file.
+OMNIVERSE-PHYSX-SDK-GPU_DEVICE_LIBRARY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/PhysXDevice64.dll
+
+//Path to a file.
+OMNIVERSE-PHYSX-SDK-GPU_LIBRARY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/PhysXGpu_64.dll
+
+//Path to a library.
+OMNIVERSE-PHYSX-SDK_LIBRARY_DEBUG:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysX_64.lib
+
+//Path to a library.
+OMNIVERSE-PHYSX-SDK_LIBRARY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysX_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXCharacterKinematic_LIBRARY_DEBUG:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXCharacterKinematic_static_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXCharacterKinematic_LIBRARY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXCharacterKinematic_static_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXCommon_LIBRARY_DEBUG:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXCommon_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXCommon_LIBRARY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXCommon_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXCooking_LIBRARY_DEBUG:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXCooking_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXCooking_LIBRARY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXCooking_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXExtensions_LIBRARY_DEBUG:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXExtensions_static_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXExtensions_LIBRARY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXExtensions_static_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXFoundation_LIBRARY_DEBUG:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXFoundation_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXFoundation_LIBRARY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXFoundation_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXPvdSDK_LIBRARY_DEBUG:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXPvdSDK_static_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXPvdSDK_LIBRARY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXPvdSDK_static_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXVehicle2_LIBRARY_DEBUG:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXVehicle2_static_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXVehicle2_LIBRARY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXVehicle2_static_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXVehicle_LIBRARY_DEBUG:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXVehicle_static_64.lib
+
+//Path to a library.
+OMNIVERSE_PhysXVehicle_LIBRARY_RELEASE:FILEPATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXVehicle_static_64.lib
+
 //OpenGL library for win32
 OPENGL_gl_LIBRARY:STRING=opengl32
 
@@ -358,6 +418,9 @@ spdlog_DIR:PATH=spdlog_DIR-NOTFOUND
 //The directory containing a CMake configuration file for unofficial-brotli.
 unofficial-brotli_DIR:PATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/unofficial-brotli
 
+//The directory containing a CMake configuration file for unofficial-omniverse-physx-sdk.
+unofficial-omniverse-physx-sdk_DIR:PATH=C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk
+
 
 ########################
 # INTERNAL cache entries
@@ -501,6 +564,38 @@ FIND_PACKAGE_MESSAGE_DETAILS_ZLIB:INTERNAL=[optimized;C:/Users/Calle/Documents/G
 FIND_PACKAGE_MESSAGE_DETAILS_httplib:INTERNAL=[C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/httplib.h]
 //Details about finding nlohmann_json
 FIND_PACKAGE_MESSAGE_DETAILS_nlohmann_json:INTERNAL=[C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/share/nlohmann_json/nlohmann_jsonConfig.cmake][v3.12.0()]
+//ADVANCED property for variable: OMNIVERSE_PhysXCharacterKinematic_LIBRARY_DEBUG
+OMNIVERSE_PhysXCharacterKinematic_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXCharacterKinematic_LIBRARY_RELEASE
+OMNIVERSE_PhysXCharacterKinematic_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXCommon_LIBRARY_DEBUG
+OMNIVERSE_PhysXCommon_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXCommon_LIBRARY_RELEASE
+OMNIVERSE_PhysXCommon_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXCooking_LIBRARY_DEBUG
+OMNIVERSE_PhysXCooking_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXCooking_LIBRARY_RELEASE
+OMNIVERSE_PhysXCooking_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXExtensions_LIBRARY_DEBUG
+OMNIVERSE_PhysXExtensions_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXExtensions_LIBRARY_RELEASE
+OMNIVERSE_PhysXExtensions_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXFoundation_LIBRARY_DEBUG
+OMNIVERSE_PhysXFoundation_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXFoundation_LIBRARY_RELEASE
+OMNIVERSE_PhysXFoundation_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXPvdSDK_LIBRARY_DEBUG
+OMNIVERSE_PhysXPvdSDK_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXPvdSDK_LIBRARY_RELEASE
+OMNIVERSE_PhysXPvdSDK_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXVehicle2_LIBRARY_DEBUG
+OMNIVERSE_PhysXVehicle2_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXVehicle2_LIBRARY_RELEASE
+OMNIVERSE_PhysXVehicle2_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXVehicle_LIBRARY_DEBUG
+OMNIVERSE_PhysXVehicle_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OMNIVERSE_PhysXVehicle_LIBRARY_RELEASE
+OMNIVERSE_PhysXVehicle_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENGL_gl_LIBRARY
 OPENGL_gl_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENGL_glu_LIBRARY

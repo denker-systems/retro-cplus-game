@@ -44,6 +44,10 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\PhysicsBody.
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\KinematicBody.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\KinematicBody.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\SpatialGrid.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\SpatialGrid.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\box2d\PhysicsWorld2D.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PhysicsWorld2D.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\physx\PhysicsWorld3D.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PhysicsWorld3D.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\RigidBody3DComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\RigidBody3DComponent.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\MeshComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\MeshComponent.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\StaticMeshActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\StaticMeshActor.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Renderer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Renderer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\input\Input.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Input.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Room.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Room.obj

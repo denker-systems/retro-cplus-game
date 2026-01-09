@@ -7,6 +7,7 @@
  */
 #pragma once
 
+#include "engine/physics/IPhysicsWorld.h"
 #include <box2d/box2d.h>
 #include <glm/glm.hpp>
 #include <vector>
@@ -83,18 +84,6 @@ struct ShapeDef2D {
     bool isSensor = false;          // Trigger only, no collision response
     CollisionCategory category = CollisionCategory::All;
     CollisionCategory mask = CollisionCategory::All;
-};
-
-// ============================================================================
-// CONTACT INFO
-// ============================================================================
-
-struct ContactInfo {
-    ActorObject* actorA = nullptr;
-    ActorObject* actorB = nullptr;
-    glm::vec2 normal{0, 0};
-    glm::vec2 point{0, 0};
-    bool isSensorContact = false;
 };
 
 // ============================================================================

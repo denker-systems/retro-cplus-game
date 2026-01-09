@@ -8,6 +8,7 @@
 #include "engine/components/SpriteComponent.h"
 #include "engine/components/AnimationComponent.h"
 #include "editor/properties/actors/LockableComponent.h"
+#include "engine/actors/StaticMeshActor.h"
 
 #ifdef HAS_IMGUI
 #include <imgui.h>
@@ -27,6 +28,7 @@ void ActorPropertyEditor::render() {
     renderBasicProperties();
     renderTransformProperties();
     renderComponentProperties();
+    renderPhysicsProperties();
 #endif
 }
 
@@ -188,6 +190,93 @@ void ActorPropertyEditor::renderComponentProperties() {
             }
             
             ImGui::TreePop();
+        }
+    }
+#endif
+}
+
+void ActorPropertyEditor::renderPhysicsProperties() {
+#ifdef HAS_IMGUI
+    // Check if this is a StaticMeshActor
+    auto* meshActor = dynamic_cast<engine::StaticMeshActor*>(m_actor);
+    if (!meshActor) return;
+    
+    PropertyEditorUtils::SectionHeader("Physics");
+    
+    // Check if locked
+    auto* lockable = m_actor->getComponent<engine::LockableComponent>();
+    bool isLocked = lockable ? lockable->isLocked() : false;
+    
+    // Physics enabled
+    bool physicsEnabled = meshActor->isPhysicsEnabled();
+    if (ImGui::Checkbox("Enable Physics", &physicsEnabled)) {
+        if (!isLocked) {
+            meshActor->setPhysicsEnabled(physicsEnabled);
+            m_isDirty = true;
+            m_context.markDirty();
+        }
+    }
+    
+    if (physicsEnabled) {
+        ImGui::Indent();
+        
+        // Body type
+        const char* bodyTypes[] = { "Static", "Kinematic", "Dynamic" };
+        int currentType = static_cast<int>(meshActor->getBodyType());
+        if (ImGui::Combo("Body Type", &currentType, bodyTypes, 3)) {
+            if (!isLocked) {
+                meshActor->setBodyType(static_cast<engine::physics::BodyType>(currentType));
+                m_isDirty = true;
+                m_context.markDirty();
+            }
+        }
+        
+        // Mass (only for dynamic)
+        if (meshActor->getBodyType() == engine::physics::BodyType::Dynamic) {
+            float mass = meshActor->getMass();
+            if (ImGui::DragFloat("Mass", &mass, 0.1f, 0.01f, 1000.0f, "%.2f kg")) {
+                if (!isLocked) {
+                    meshActor->setMass(mass);
+                    m_isDirty = true;
+                    m_context.markDirty();
+                }
+            }
+            
+            // Use gravity
+            bool useGravity = meshActor->usesGravity();
+            if (ImGui::Checkbox("Use Gravity", &useGravity)) {
+                if (!isLocked) {
+                    meshActor->setUseGravity(useGravity);
+                    m_isDirty = true;
+                    m_context.markDirty();
+                }
+            }
+        }
+        
+        ImGui::Unindent();
+    }
+    
+    // Mesh settings
+    PropertyEditorUtils::SectionHeader("Mesh");
+    
+    const char* primitives[] = { "Cube", "Sphere", "Plane", "Cylinder" };
+    int currentPrimitive = static_cast<int>(meshActor->getMeshPrimitive());
+    if (ImGui::Combo("Primitive", &currentPrimitive, primitives, 4)) {
+        if (!isLocked) {
+            meshActor->setMeshPrimitive(static_cast<engine::PrimitiveMeshType>(currentPrimitive));
+            m_isDirty = true;
+            m_context.markDirty();
+        }
+    }
+    
+    // Mesh color
+    glm::vec3 color = meshActor->getMeshColor();
+    float colorArr[3] = { color.r, color.g, color.b };
+    if (ImGui::ColorEdit3("Color", colorArr)) {
+        if (!isLocked) {
+            meshActor->setMeshColor(glm::vec3(colorArr[0], colorArr[1], colorArr[2]));
+            m_isDirty = true;
+            m_context.markDirty();
         }
     }
 #endif

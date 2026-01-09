@@ -28,6 +28,7 @@ class EditorContext;
 
 namespace editor {
     class Viewport3DPanel;
+    class EditorPlayMode;
 }
 
 /**
@@ -71,6 +72,10 @@ public:
     
     // Get selection manager for external access
     SelectionManager* getSelectionManager() const { return m_selectionManager; }
+    
+    // Play mode
+    void setPlayMode(editor::EditorPlayMode* playMode) { m_playMode = playMode; }
+    editor::EditorPlayMode* getPlayMode() const { return m_playMode; }
 
 private:
     void loadRoomPreview();
@@ -166,6 +171,9 @@ private:
     // 2D/3D mode
     ViewportMode m_viewportMode = ViewportMode::Mode2D;
     std::unique_ptr<editor::Viewport3DPanel> m_viewport3D;
+    
+    // Play mode reference
+    editor::EditorPlayMode* m_playMode = nullptr;
     
     // Drag state
     bool m_isDragging = false;

@@ -8,6 +8,8 @@
 #include "engine/world/Level.h"
 #include "engine/world/Scene.h"
 #include "engine/core/ActorObjectExtended.h"
+#include "engine/actors/StaticMeshActor.h"
+#include "engine/utils/Logger.h"
 
 #ifdef HAS_IMGUI
 
@@ -190,6 +192,15 @@ void Viewport3DPanel::render() {
     // Track focus and hover state
     m_viewportFocused = ImGui::IsWindowFocused();
     m_viewportHovered = ImGui::IsItemHovered();
+    
+    // Handle drag-drop from Place Actors panel
+    if (ImGui::BeginDragDropTarget()) {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ACTOR_TEMPLATE")) {
+            std::string templateName(static_cast<const char*>(payload->Data));
+            handleActorDrop(templateName);
+        }
+        ImGui::EndDragDropTarget();
+    }
     
     // Render transform gizmo for selected actor (in Scene view)
     if (m_viewLevel == View3DLevel::Scene && m_selectedActor && m_camera) {
@@ -375,12 +386,18 @@ void Viewport3DPanel::renderSceneView() {
             m_shader->setMat4("u_MVP", mvp);
             m_shader->setMat4("u_Model", model);
             
-            // Color based on selection
+            // Check if this is a StaticMeshActor for custom rendering
+            auto* meshActor = dynamic_cast<engine::StaticMeshActor*>(actor.get());
+            
+            // Color based on selection or actor type
             glm::vec3 color;
-            if (index == m_selectedIndex) {
+            if (index == m_selectedIndex || actor.get() == m_selectedActor) {
                 color = glm::vec3(1.0f, 0.8f, 0.2f);  // Yellow for selected
             } else if (index == m_hoveredIndex) {
                 color = glm::vec3(0.4f, 0.7f, 1.0f);  // Blue for hovered
+            } else if (meshActor) {
+                // Use mesh color from StaticMeshActor
+                color = meshActor->getMeshColor();
             } else {
                 // Vary color by actor type/index
                 float hue = (float)index / std::max(1, (int)actors.size());
@@ -772,6 +789,95 @@ void Viewport3DPanel::handleDragging() {
         
         // Update actor position (keep Z unchanged)
         m_selectedActor->setPosition(newX, newY);
+    }
+}
+
+void Viewport3DPanel::handleActorDrop(const std::string& templateName) {
+    if (!m_scene) {
+        LOG_WARNING("[Viewport3D] Cannot drop actor - no active scene");
+        return;
+    }
+    
+    LOG_INFO("[Viewport3D] Dropping actor: " + templateName);
+    
+    // Calculate drop position in 3D world (in front of camera)
+    glm::vec3 dropPos(0.0f, 2.0f, 0.0f);  // Default position above ground
+    if (m_camera) {
+        glm::vec3 camPos = m_camera->getPosition();
+        glm::vec3 target = m_camera->getTarget();
+        glm::vec3 forward = glm::normalize(target - camPos);
+        dropPos = camPos + forward * 5.0f;
+    }
+    
+    // Parse template name for StaticMeshActor variants
+    // Format: "StaticMeshActor:Primitive:BodyType" e.g., "StaticMeshActor:Cube:Dynamic"
+    if (templateName.find("StaticMeshActor") != std::string::npos || 
+        templateName == "Static Mesh" ||
+        templateName == "Physics Cube" ||
+        templateName == "Physics Sphere" ||
+        templateName == "Static Platform") {
+        
+        // Generate unique name
+        static int actorCounter = 0;
+        std::string actorName = "StaticMesh_" + std::to_string(++actorCounter);
+        
+        auto actor = std::make_unique<engine::StaticMeshActor>(actorName);
+        
+        // Configure based on template
+        if (templateName == "Physics Cube" || templateName.find(":Cube:Dynamic") != std::string::npos) {
+            actor->setMeshPrimitive(engine::PrimitiveMeshType::Cube);
+            actor->setMeshColor(glm::vec3(0.8f, 0.4f, 0.1f));  // Orange
+            actor->setPhysicsEnabled(true);
+            actor->setBodyType(engine::physics::BodyType::Dynamic);
+            actor->setMass(1.0f);
+            actor->setUseGravity(true);
+            LOG_INFO("[Viewport3D] Created Physics Cube (Dynamic)");
+        }
+        else if (templateName == "Physics Sphere" || templateName.find(":Sphere:Dynamic") != std::string::npos) {
+            actor->setMeshPrimitive(engine::PrimitiveMeshType::Sphere);
+            actor->setMeshColor(glm::vec3(0.1f, 0.6f, 0.8f));  // Cyan
+            actor->setPhysicsEnabled(true);
+            actor->setBodyType(engine::physics::BodyType::Dynamic);
+            actor->setMass(1.0f);
+            actor->setUseGravity(true);
+            LOG_INFO("[Viewport3D] Created Physics Sphere (Dynamic)");
+        }
+        else if (templateName == "Static Platform" || templateName.find(":Cube:Static") != std::string::npos) {
+            actor->setMeshPrimitive(engine::PrimitiveMeshType::Cube);
+            actor->setMeshScale(glm::vec3(4.0f, 0.5f, 4.0f));  // Wide platform
+            actor->setMeshColor(glm::vec3(0.3f, 0.3f, 0.35f)); // Gray
+            actor->setPhysicsEnabled(true);
+            actor->setBodyType(engine::physics::BodyType::Static);
+            dropPos.y = 0.0f;  // Place on ground
+            LOG_INFO("[Viewport3D] Created Static Platform");
+        }
+        else {
+            // Default Static Mesh
+            actor->setMeshPrimitive(engine::PrimitiveMeshType::Cube);
+            actor->setMeshColor(glm::vec3(0.6f, 0.6f, 0.7f));
+            LOG_INFO("[Viewport3D] Created Static Mesh (no physics)");
+        }
+        
+        // Set position (setPosition3D handles the coordinate mapping)
+        actor->setPosition3D(dropPos);
+        
+        // Add to scene
+        engine::ActorObjectExtended* actorPtr = actor.get();
+        m_scene->addActor(std::move(actor));
+        
+        // Select the new actor
+        m_selectedActor = actorPtr;
+        if (m_selectionManager) {
+            m_selectionManager->selectActor(actorPtr);
+        }
+        
+        LOG_INFO("[Viewport3D] Actor added to scene at (" + 
+                 std::to_string(dropPos.x) + ", " + 
+                 std::to_string(dropPos.y) + ", " + 
+                 std::to_string(dropPos.z) + ")");
+    }
+    else {
+        LOG_WARNING("[Viewport3D] Unknown template: " + templateName);
     }
 }
 

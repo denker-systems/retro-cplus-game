@@ -88,6 +88,9 @@ public:
     bool wasDoubleClicked() const { return m_doubleClicked; }
     void clearDoubleClick() { m_doubleClicked = false; }
     void resetSelection() { m_selectedIndex = -1; m_hoveredIndex = -1; m_objectBounds.clear(); }
+    
+    // Actor creation
+    void handleActorDrop(const std::string& templateName);
 
 private:
     bool m_initialized = false;

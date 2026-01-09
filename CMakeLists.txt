@@ -20,6 +20,7 @@ find_package(OpenGL REQUIRED)
 find_package(assimp CONFIG REQUIRED)
 find_package(httplib CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
 
 # Editor dependencies (optional)
 find_package(imgui CONFIG QUIET)
@@ -103,6 +104,10 @@ set(CORE_SOURCES
     src/engine/physics/KinematicBody.cpp
     src/engine/physics/SpatialGrid.cpp
     src/engine/physics/box2d/PhysicsWorld2D.cpp
+    src/engine/physics/physx/PhysicsWorld3D.cpp
+    src/engine/components/RigidBody3DComponent.cpp
+    src/engine/components/MeshComponent.cpp
+    src/engine/actors/StaticMeshActor.cpp
     src/engine/Renderer.cpp
     src/engine/input/Input.cpp
     src/engine/Room.cpp
@@ -157,6 +162,7 @@ target_link_libraries(RetroCore PUBLIC
     glm::glm
     GLEW::GLEW
     OpenGL::GL
+    unofficial::omniverse-physx-sdk::sdk
 )
 
 # Hot Reload alltid tillgängligt (polling-baserat, ingen extern dependency)
@@ -209,6 +215,7 @@ set(EDITOR_SOURCES
     # Core
     src/editor/core/EditorState.cpp
     src/editor/core/EditorContext.cpp
+    src/editor/core/EditorPlayMode.cpp
     src/editor/core/EditorCore.cpp
     src/editor/core/EditorApp.cpp
     src/editor/core/CommandManager.cpp

@@ -33,6 +33,7 @@
 #include "ai/ui/AIChatPanel.h"
 #include "editor/panels/core/EditorSettingsPanel.h"
 #include "editor/viewport/Viewport3DPanel.h"
+#include "editor/core/EditorPlayMode.h"
 
 #ifdef HAS_IMGUI
 #include "editor/core/ImGuiManager.h"
@@ -70,6 +71,11 @@ void EditorState::enter() {
     
     // Create settings panel
     m_settingsPanel = std::make_unique<editor::EditorSettingsPanel>();
+    
+    // Create and initialize play mode
+    m_playMode = std::make_unique<editor::EditorPlayMode>();
+    m_playMode->initialize();
+    m_playMode->setWorld(m_worldManager->getWorld());
     
     // Setup menu bar callbacks
     auto* menuBar = m_panelManager->getMenuBar();
@@ -117,6 +123,7 @@ void EditorState::enter() {
     viewport->setWorld(world);
     viewport->setLevel(world->getActiveLevel());
     viewport->setScene(world->getActiveLevel()->getActiveScene());
+    viewport->setPlayMode(m_playMode.get());
     
     // Connect new unified viewport
     if (auto* viewportNew = m_panelManager->getViewportPanelNew()) {
@@ -195,6 +202,11 @@ void EditorState::update(float deltaTime) {
     m_statusTimer = std::max(0.0f, m_statusTimer - deltaTime);
     
 #ifdef HAS_IMGUI
+    // Update play mode (physics simulation when playing)
+    if (m_playMode) {
+        m_playMode->update(deltaTime);
+    }
+    
     // Update panels
     if (m_panelManager && m_panelManager->getViewportPanel()) {
         m_panelManager->getViewportPanel()->update(deltaTime);

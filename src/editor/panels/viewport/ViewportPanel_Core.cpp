@@ -4,6 +4,7 @@
  */
 #include "ViewportPanel.h"
 #include "editor/core/EditorContext.h"
+#include "editor/core/EditorPlayMode.h"
 #include "editor/viewport/Viewport3DPanel.h"
 #include "engine/world/World.h"
 #include "engine/world/Level.h"
@@ -160,6 +161,66 @@ void ViewportPanel::renderToolbar() {
     ImGui::Checkbox("Walk Area", &m_showWalkArea);
     ImGui::SameLine();
     ImGui::Checkbox("Physics", &m_showPhysicsDebug);
+    
+    // Play mode controls (right-aligned)
+    if (m_playMode) {
+        ImGui::SameLine(ImGui::GetWindowWidth() - 200);
+        ImGui::Text("|");
+        ImGui::SameLine();
+        
+        bool isPlaying = m_playMode->isPlaying();
+        bool isPaused = m_playMode->isPaused();
+        bool isStopped = m_playMode->isStopped();
+        
+        // Play button (green when stopped/paused)
+        if (!isPlaying) {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.6f, 0.2f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.7f, 0.3f, 1.0f));
+        } else {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 0.4f, 0.4f, 1.0f));
+        }
+        if (ImGui::Button("Play")) {
+            // Set scene BEFORE play() so initializePhysicsBodies() has access to it
+            if (m_scene) m_playMode->setActiveScene(m_scene);
+            m_playMode->play();
+        }
+        ImGui::PopStyleColor(2);
+        ImGui::SameLine();
+        
+        // Pause button (yellow when playing)
+        if (isPlaying) {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7f, 0.6f, 0.1f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.7f, 0.2f, 1.0f));
+        } else {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 0.4f, 0.4f, 1.0f));
+        }
+        if (ImGui::Button("Pause")) {
+            m_playMode->pause();
+        }
+        ImGui::PopStyleColor(2);
+        ImGui::SameLine();
+        
+        // Stop button (red when playing/paused)
+        if (!isStopped) {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7f, 0.2f, 0.2f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.3f, 0.3f, 1.0f));
+        } else {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4f, 0.4f, 0.4f, 1.0f));
+        }
+        if (ImGui::Button("Stop")) {
+            m_playMode->stop();
+        }
+        ImGui::PopStyleColor(2);
+        
+        // Show play time when playing
+        if (!isStopped) {
+            ImGui::SameLine();
+            ImGui::Text("%.1fs", m_playMode->getPlayTime());
+        }
+    }
 #endif
 }
 
