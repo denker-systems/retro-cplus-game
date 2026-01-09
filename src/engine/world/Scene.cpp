@@ -4,6 +4,7 @@
  */
 #include "Scene.h"
 #include "engine/actors/CharacterActor.h"
+#include "engine/actors/NPC3DActor.h"
 #include "engine/data/GameData.h"
 #include "engine/data/DataLoader.h"
 #include "engine/core/ActorObjectExtended.h"
@@ -134,22 +135,33 @@ std::unique_ptr<Scene> Scene::createFromData(const SceneData& data) {
     for (const auto& npcData : npcs) {
         std::cout << "[DEBUG] NPC " << npcData.name << " is in room: " << npcData.room << std::endl;
         if (npcData.room == data.id) {  // Match against data.id (e.g. "tavern")
-            std::cout << "[DEBUG] Creating NPCActor: " << npcData.name << std::endl;
-            auto npcActor = std::make_unique<engine::NPCActor>(npcData.name, npcData.sprite);
-            npcActor->setPosition(static_cast<float>(npcData.x), static_cast<float>(npcData.y));
+            std::cout << "[DEBUG] Creating NPC3DActor: " << npcData.name << std::endl;
+            auto npcActor = std::make_unique<engine::NPC3DActor>(npcData.name);
             
-            // Set speed
-            npcActor->setSpeed(npcData.moveSpeed);
+            // Convert 2D position to 3D (pixels → scaled 3D coordinates)
+            glm::vec3 pos3d(npcData.x / 100.0f, 1.0f, npcData.y / 100.0f);
+            npcActor->setPosition3D(pos3d);
+            
+            // Set move speed
+            npcActor->setMoveSpeed(npcData.moveSpeed);
             
             // Set dialog
             if (!npcData.dialogId.empty()) {
                 npcActor->setDialogId(npcData.dialogId);
             }
             
+            // Set sprite name
+            npcActor->setSpriteName(npcData.sprite);
+            
             // Set interaction text
             npcActor->setInteractionText("Prata med " + npcData.name);
             
+            // Set if NPC can move
+            npcActor->setCanMove(npcData.canMove);
+            
             scene->addActor(std::move(npcActor));
+            std::cout << "[DEBUG] Added NPC3DActor '" << npcData.name << "' at 3D pos (" 
+                      << pos3d.x << ", " << pos3d.y << ", " << pos3d.z << ")" << std::endl;
         }
     }
     
