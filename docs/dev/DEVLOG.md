@@ -8,6 +8,24 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ## 2026-01-08
 
+### Kväll (22:50-23:28)
+
+- `7e44dee` refactor(viewport): redesign with OOP inheritance architecture
+  - **Arkitektur:** Komplett OOP inheritance hierarki
+    - BaseViewRenderer → Base3DRenderer/Base2DRenderer
+    - 3D renderers: World3D, Level3D, Scene3D
+    - 2D renderers: World2D → Level2D → Scene2D (inheritance chain)
+  - **Nya filer:** 20 st i organiserad mappstruktur (core/, renderers/3d/, renderers/2d/, ui/, input/, 3d/)
+  - **Borttagna:** 18 gamla viewport filer (7,703 rader)
+  - **Statistik:** 219 filer, +4,517/-6,286 rader, netto -1,769 (-27%)
+  - **Features:** Play/Pause/Stop buttons, EditorPlayMode integration, fysik simulation
+  - **Verifierat:** 3D/2D rendering, navigation, selection, play mode fungerar
+- `443cb1c` docs: update CHANGELOG and ROADMAP for viewport refactoring
+  - **CHANGELOG:** Dokumenterade viewport OOP architecture
+  - **ROADMAP:** Uppdaterade Fas 4 till 20%
+  - **Ny fil:** docs/architecture/viewport-oop-inheritance.md
+- Session: [2026-01-08](sessions/2026-01-08.md)
+
 ### Eftermiddag
 
 - `a8b52dd` docs: add PR description for 3D viewport feature
@@ -21,7 +39,6 @@ Kronologisk logg av alla ändringar sedan projektets start.
 - `7c89611` feat(editor): add GLTextureManager and input refactoring plan
   - **input_checklist.md:** Detaljerad plan för input-centralisering
   - **EditorInputController:** Planerad arkitektur dokumenterad
-- Session: [2026-01-08](sessions/2026-01-08.md)
 
 ---
 

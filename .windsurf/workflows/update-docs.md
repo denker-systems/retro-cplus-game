@@ -30,12 +30,12 @@ git diff --stat HEAD~1
 | Ändring | Uppdatera |
 |---------|-----------|
 | Ny Actor/Component | Fil-header + klass-docs |
-| Nytt system (engine/) | `docs/architecture/` + API |
-| Ny feature | `CHANGELOG.md` |
-| Bugfix | `CHANGELOG.md` |
-| Arkitekturändring | `docs/architecture/` + ADR |
-| Ny JSON-struktur | `assets/data/` schema |
-| Editor-ändring | `docs/guides/editor.md` |
+| Nytt system (engine/) | `docs/dev/DEVLOG.md` + session rapport |
+| Ny feature | `docs/dev/DEVLOG.md` + `CHANGELOG.md` |
+| Bugfix | `docs/dev/DEVLOG.md` + `CHANGELOG.md` |
+| Arkitekturändring | `docs/dev/sessions/YYYY-MM-DD.md` med detaljer |
+| Ny JSON-struktur | `assets/data/` schema + DEVLOG |
+| Editor-ändring | `docs/dev/DEVLOG.md` + session rapport |
 
 ---
 
@@ -84,58 +84,47 @@ bool moveTo(Vec2 target);
 
 ## 4. Projektdokumentation
 
-### docs/CHANGELOG.md
+### docs/dev/DEVLOG.md (PRIMÄR)
+```markdown
+## YYYY-MM-DD
+
+### Kväll (HH:MM-HH:MM)
+
+- `abc123` type(scope): beskrivning
+  - **Nya filer:** Lista alla nya filer
+  - **Borttagna:** Lista borttagna filer
+  - **Statistik:** X filer, +A/-B rader
+  - **Features:** Beskriv nya features
+  - **Verifierat:** Lista vad som testats
+- Session: [YYYY-MM-DD](sessions/YYYY-MM-DD.md)
+```
+
+### docs/dev/sessions/YYYY-MM-DD.md (SEKUNDÄR)
+Detaljerad session rapport med:
+- Commits denna session
+- Utfört arbete
+- Nya/borttagna/modifierade filer
+- Tekniska beslut
+- Nästa session
+- Handoff notes
+
+### docs/CHANGELOG.md (TERTIÄR)
 ```markdown
 ## [Unreleased]
 
 ### Added
-- `PlayerActor` med walk area support
-- `SpriteComponent` rendering pipeline
+- Feature beskrivning
 
 ### Changed
-- Scene använder nu WorldContainer
+- Ändring beskrivning
 
 ### Fixed
-- Walk area laddas korrekt från JSON (#123)
-```
-
-### docs/ROADMAP.md
-```markdown
-## Fas 5: Actor System
-- [x] Object/ActorObject base classes
-- [x] Component system
-- [ ] Full SpriteComponent rendering
-- [ ] AnimationComponent integration
+- Buggfix beskrivning
 ```
 
 ---
 
-## 5. Arkitekturdokumentation
-
-### När krävs uppdatering?
-- Ny actor-typ eller component
-- Nya system-beroenden
-- Ändrad data-flow
-- Nya design patterns
-
-### docs/architecture/actors.md
-```markdown
-## Actor Hierarki
-
-\`\`\`
-Object (abstract)
-└── ActorObject
-    └── ActorObjectExtended
-        ├── CharacterActor
-        │   ├── PlayerActor
-        │   └── NPCActor
-        └── SpriteActor
-\`\`\`
-```
-
----
-
-## 6. JSON Schema Dokumentation
+## 5. JSON Schema Dokumentation
 
 Vid ändringar i `assets/data/`:
 
@@ -152,7 +141,7 @@ Vid ändringar i `assets/data/`:
 
 ---
 
-## 7. Verifiera
+## 6. Verifiera
 
 // turbo
 ```powershell
@@ -169,12 +158,11 @@ cd build; cmake --build . --config Release
 - [ ] Publika metoder dokumenterade
 - [ ] Inline-kommentarer förklarar VARFÖR
 
-### Projekt
-- [ ] CHANGELOG uppdaterad
-- [ ] ROADMAP uppdaterad (vid milestones)
-- [ ] README aktuell
+### Projekt (PRIMÄRT)
+- [ ] **docs/dev/DEVLOG.md** uppdaterad med commit detaljer
+- [ ] **docs/dev/sessions/YYYY-MM-DD.md** session rapport komplett
+- [ ] **docs/CHANGELOG.md** uppdaterad (vid releases)
 
-### Arkitektur (vid behov)
-- [ ] System-diagram uppdaterat
-- [ ] Actor/Component-hierarki dokumenterad
-- [ ] JSON-schema dokumenterat
+### Arkitektur (vid stora ändringar)
+- [ ] Skapa docs/architecture/[feature].md om nödvändigt
+- [ ] Dokumentera tekniska beslut i session rapport
