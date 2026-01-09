@@ -126,26 +126,20 @@ set(ENGINE_PATH ")";
     cmake += R"(")
 
 # ============================================================================
-# GAME EXECUTABLE
+# GAME EXECUTABLE - Runtime Player (3D from scratch)
 # ============================================================================
-set(GAME_SOURCES
+# Uses new /runtime architecture instead of legacy /game states
+set(RUNTIME_SOURCES
     src/main.cpp
-    ${ENGINE_PATH}/src/game/Game.cpp
-    ${ENGINE_PATH}/src/game/states/StateManager.cpp
-    ${ENGINE_PATH}/src/game/states/MenuState.cpp
-    ${ENGINE_PATH}/src/game/states/PlayState.cpp
-    ${ENGINE_PATH}/src/game/states/OptionsState.cpp
-    ${ENGINE_PATH}/src/game/states/PauseState.cpp
-    ${ENGINE_PATH}/src/game/states/DialogState.cpp
-    ${ENGINE_PATH}/src/game/states/InventoryState.cpp
-    ${ENGINE_PATH}/src/game/states/QuestLogState.cpp
-    ${ENGINE_PATH}/src/game/states/SaveLoadState.cpp
+    ${ENGINE_PATH}/src/runtime/RuntimeApp.cpp
+    ${ENGINE_PATH}/src/runtime/RuntimeWorld.cpp
+    ${ENGINE_PATH}/src/runtime/RuntimeRenderer.cpp
+    ${ENGINE_PATH}/src/editor/viewport/3d/EditorCamera3D.cpp
 )
 
 add_executable()";
-    
     cmake += projectName;
-    cmake += R"( ${GAME_SOURCES})
+    cmake += R"( ${RUNTIME_SOURCES})
 
 target_include_directories()";
     cmake += projectName;
@@ -158,8 +152,8 @@ target_link_libraries()";
     cmake += projectName;
     cmake += R"( PRIVATE
     ${ENGINE_PATH}/build/Release/RetroCore.lib
+    SDL2::SDL2
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
     $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
     $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>
     $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
@@ -176,7 +170,6 @@ target_link_libraries()";
 # POST BUILD - Copy assets
 # ============================================================================
 add_custom_command(TARGET )";
-    
     cmake += projectName;
     cmake += R"( POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -190,31 +183,43 @@ add_custom_command(TARGET )";
 }
 
 std::string CMakeGenerator::generateMainCpp(const std::string& projectName) {
-    std::string main = R"(/**
+    std::string main = R"(
+/**
  * @file main.cpp
  * @brief )";
     
     main += projectName;
-    main += R"( entry point
+    main += R"( entry point - Runtime Player
  */
-#include "game/Game.h"
-#include "game/states/MenuState.h"
-#include "game/states/PlayState.h"
+#include "runtime/RuntimeApp.h"
+#include "engine/utils/Logger.h"
 #include <iostream>
 
 int main(int argc, char* argv[]) {
-    Game game;
+    // Initialize logger
+    Logger::instance().init("assets/logs/runtime.log");
     
-    if (game.init(")";
+    LOG_INFO("========================================");
+    LOG_INFO("=== )";
     main += projectName;
-    main += R"(", 1280, 720)) {
-        // Start with menu state
-        game.changeState(std::make_unique<MenuState>());
-        game.run();
-    } else {
-        std::cerr << "Failed to initialize game" << std::endl;
-        return 1;
+    main += R"( STARTING ===");
+    LOG_INFO("========================================");
+    
+    RuntimeApp app;
+    
+    if (!app.init()) {
+        LOG_ERROR("Failed to initialize RuntimeApp");
+        return -1;
     }
+    
+    app.run();
+    app.shutdown();
+    
+    LOG_INFO("========================================");
+    LOG_INFO("=== )";
+    main += projectName;
+    main += R"( SHUTDOWN ===");
+    LOG_INFO("========================================");
     
     return 0;
 }

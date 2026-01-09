@@ -178,31 +178,30 @@ target_link_libraries(RetroCore PUBLIC
 message(STATUS "Hot Reload enabled (polling-based FileWatcher)")
 
 # ============================================================================
-# RETRO GAME - Huvudspel executable (utan editor)
+# RETRO GAME - Runtime Player (NEW - Ren 3D från grunden)
 # ============================================================================
-set(GAME_SOURCES
-    src/game/main.cpp
-    src/game/Game.cpp
-    src/game/states/StateManager.cpp
-    src/game/states/MenuState.cpp
-    src/game/states/PlayState.cpp
-    src/game/states/OptionsState.cpp
-    src/game/states/PauseState.cpp
-    src/game/states/DialogState.cpp
-    src/game/states/InventoryState.cpp
-    src/game/states/QuestLogState.cpp
-    src/game/states/SaveLoadState.cpp
+# Legacy /game folder är DEPRECATED - använder nya /runtime istället
+set(RUNTIME_SOURCES
+    src/runtime/main.cpp
+    src/runtime/RuntimeApp.cpp
+    src/runtime/RuntimeWorld.cpp
+    src/runtime/RuntimeRenderer.cpp
+    src/editor/viewport/3d/EditorCamera3D.cpp
 )
 
 # Windows icon resources
 if(WIN32)
-    list(APPEND GAME_SOURCES src/game/RetroGame.rc)
+    list(APPEND RUNTIME_SOURCES src/game/RetroGame.rc)
 endif()
 
-add_executable(RetroGame ${GAME_SOURCES})
+add_executable(RetroGame ${RUNTIME_SOURCES})
 target_link_libraries(RetroGame PRIVATE
     RetroCore
+    SDL2::SDL2
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+    OpenGL::GL
+    GLEW::GLEW
+    unofficial::omniverse-physx-sdk::sdk
 )
 
 # ============================================================================
@@ -217,6 +216,7 @@ set(IMGUI_BACKEND_SOURCES
 
 set(EDITOR_SOURCES
     src/game/Game.cpp
+    # Legacy states - Still needed by Game.cpp (TODO: Refactor Game.cpp to not need these)
     src/game/states/StateManager.cpp
     src/game/states/MenuState.cpp
     src/game/states/PlayState.cpp
