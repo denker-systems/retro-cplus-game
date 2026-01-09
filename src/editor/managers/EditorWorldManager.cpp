@@ -174,16 +174,32 @@ void EditorWorldManager::createWorldFromWorldData(Game* game) {
                 // Add default PlayerStart to Tavern scene for quick testing
                 if (sceneId == "tavern") {
                     auto playerStart = std::make_unique<engine::PlayerStartActor>();
-                    playerStart->setSpawnPosition(glm::vec3(0.0f, 2.5f, 4.0f));
+                    
+                    // Load position from sceneData if available
+                    const auto* sceneData = DataLoader::getSceneById(sceneId);
+                    if (sceneData && (sceneData->playerSpawnX != 320.0f || sceneData->playerSpawnY != 300.0f)) {
+                        // Load saved position from JSON (Y is stored as Z for 3D)
+                        float spawnX = sceneData->playerSpawnX;
+                        float spawnY = 0.0f;  // Y is always 0 (ground level)
+                        float spawnZ = sceneData->playerSpawnY;  // Z stored in playerSpawnY
+                        playerStart->setSpawnPosition(glm::vec3(spawnX, spawnY, spawnZ));
+                        LOG_INFO("[EditorWorldManager] Loaded PlayerStart position from JSON: (" + 
+                                std::to_string(spawnX) + ", " + std::to_string(spawnY) + ", " + std::to_string(spawnZ) + ")");
+                    } else {
+                        // Default position (0, 10, 0) - Y=10 so player doesn't fall through ground
+                        playerStart->setSpawnPosition(glm::vec3(0.0f, 10.0f, 0.0f));
+                        LOG_INFO("[EditorWorldManager] Using default PlayerStart position (0, 10, 0)");
+                    }
+                    
                     scene->addActor(std::move(playerStart));
-                    LOG_INFO("[EditorWorldManager] Added default PlayerStart to Tavern scene");
+                    LOG_INFO("[EditorWorldManager] Added PlayerStart to Tavern scene");
                     
                     // Add default PlayerConfigActor for camera settings
                     auto playerConfig = std::make_unique<engine::PlayerConfigActor>();
                     playerConfig->setPosition(0.0f, 0.0f);
                     playerConfig->setZ(0.0f);
                     scene->addActor(std::move(playerConfig));
-                    LOG_INFO("[EditorWorldManager] Added default PlayerConfigActor to Tavern scene");
+                    LOG_INFO("[EditorWorldManager] Added PlayerConfigActor to Tavern scene");
                 }
                 
                 level->addScene(std::move(scene));

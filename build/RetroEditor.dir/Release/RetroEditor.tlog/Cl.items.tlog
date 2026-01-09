@@ -28,6 +28,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\Properti
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\ConsolePanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ConsolePanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\GameSettingsPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\GameSettingsPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\EditorSettingsPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorSettingsPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\BuildPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\BuildPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\ViewportPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\core\BaseViewRenderer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\BaseViewRenderer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\core\Base3DRenderer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\Base3DRenderer.obj
@@ -75,6 +76,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\ScaleTool.cpp;
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\tools\ToolManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ToolManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\ui\EditorMenuBar.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorMenuBar.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\ui\EditorDockspace.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorDockspace.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\ui\EditorTheme.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorTheme.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\input\EditorInputHandler.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorInputHandler.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\managers\EditorPanelManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorPanelManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\managers\EditorWorldManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorWorldManager.obj

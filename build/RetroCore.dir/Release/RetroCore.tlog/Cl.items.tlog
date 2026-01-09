@@ -91,3 +91,6 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Entity.cpp;
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\ui\Widget.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Widget.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\Logger.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Logger.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\FileWatcher.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\FileWatcher.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\IconLoader.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\IconLoader.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\build\CMakeGenerator.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\CMakeGenerator.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\build\BuildManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\BuildManager.obj

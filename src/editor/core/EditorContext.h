@@ -121,6 +121,10 @@ public:
     std::vector<ItemData> items;
     std::vector<NPCData> npcs;
     
+    // Current project
+    std::string currentProjectPath;  // Path to current project directory
+    std::string currentProjectName;  // Name of current project
+    
     // Load/Save
     void loadFromDataLoader();
     void saveToFiles();
@@ -130,8 +134,8 @@ public:
 
 private:
     EditorState* m_editorState = nullptr;
+    
     EditorSelection m_selection;
     std::unordered_map<std::string, std::any> m_clipboard;
     std::unordered_map<std::string, SDL_Texture*> m_textureCache;
 };
-

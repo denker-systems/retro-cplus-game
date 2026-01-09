@@ -16,6 +16,7 @@ class PropertiesPanel;
 class DialogGraphPanel;
 class QuestGraphPanel;
 class BehaviorGraphPanel;
+class BuildPanel;
 
 namespace editor {
 class EditorSettingsPanel;
@@ -42,6 +43,7 @@ public:
         AssetBrowserPanel* assetBrowser,
         PlaceActorsPanel* placeActors,
         ConsolePanel* console,
+        BuildPanel* build,
         DialogGraphPanel* dialogGraph,
         QuestGraphPanel* questGraph,
         BehaviorGraphPanel* behaviorGraph
@@ -73,6 +75,7 @@ private:
     AssetBrowserPanel* m_assetBrowserPanel = nullptr;
     PlaceActorsPanel* m_placeActorsPanel = nullptr;
     ConsolePanel* m_consolePanel = nullptr;
+    BuildPanel* m_buildPanel = nullptr;
     DialogGraphPanel* m_dialogGraphPanel = nullptr;
     QuestGraphPanel* m_questGraphPanel = nullptr;
     BehaviorGraphPanel* m_behaviorGraphPanel = nullptr;

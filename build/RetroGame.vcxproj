@@ -472,6 +472,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\InventoryState.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\QuestLogState.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\SaveLoadState.cpp" />
+    <ResourceCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\RetroGame.rc" />
     <Natvis Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_json.natvis">
     </Natvis>
   </ItemGroup>

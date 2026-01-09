@@ -11,6 +11,7 @@
 		<BuildDependency Project="RetroCore.vcxproj"/>
 		<BuildDependency Project="RetroEditor.vcxproj"/>
 		<BuildDependency Project="RetroGame.vcxproj"/>
+		<BuildDependency Project="RetroLauncher.vcxproj"/>
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 		<Build Solution="Debug|*" Project="false"/>
 		<Build Solution="Release|*" Project="false"/>
@@ -26,6 +27,9 @@
 	</Project>
 	<Project Path="RetroGame.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="6370b79e-8cf2-32f5-87d7-c494c1cfddfe">
 		<BuildDependency Project="RetroCore.vcxproj"/>
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="RetroLauncher.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="360386ac-ec28-33aa-b801-36d18a6be7dc">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
 	<Project Path="ZERO_CHECK.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="654b689d-40a7-3be7-99e0-02d2a38094f6"/>

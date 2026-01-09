@@ -186,6 +186,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{6370B79E-8CF2-32F5-87D7-C494C1CFDDFE}</Project>
       <Name>RetroGame</Name>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.vcxproj">
+      <Project>{360386AC-EC28-33AA-B801-36D18A6BE7DC}</Project>
+      <Name>RetroLauncher</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

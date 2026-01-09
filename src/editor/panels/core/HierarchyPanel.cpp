@@ -326,10 +326,37 @@ void HierarchyPanel::renderActorsForScene() {
             std::cout << "[HierarchyPanel] Actor click: " << actorPtr->getName() << std::endl;
             m_selectionManager->selectActor(actorPtr.get());
         }
+        
+        // Double-click to open Actor Details
+        if (ImGui::IsItemHovered()) {
+            if (ImGui::IsMouseDoubleClicked(0)) {
+                std::cout << "[HierarchyPanel] ========================================" << std::endl;
+                std::cout << "[HierarchyPanel] DOUBLE-CLICK detected on: " << actorPtr->getName() << std::endl;
+                std::cout << "[HierarchyPanel] SelectionManager: " << (m_selectionManager ? "SET" : "NULL") << std::endl;
+                
+                if (m_selectionManager) {
+                    std::cout << "[HierarchyPanel] Calling openActorDetails()..." << std::endl;
+                    m_selectionManager->openActorDetails(actorPtr.get());
+                    std::cout << "[HierarchyPanel] openActorDetails() returned" << std::endl;
+                } else {
+                    std::cout << "[HierarchyPanel] ERROR: SelectionManager is null!" << std::endl;
+                }
+                
+                std::cout << "[HierarchyPanel] ========================================" << std::endl;
+            }
+        }
     }
     
     if (actors.empty()) {
         ImGui::TextDisabled("No actors in scene");
+    }
+    
+    // Click in empty space to deselect
+    if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered()) {
+        std::cout << "[HierarchyPanel] Clicked in empty space - clearing selection" << std::endl;
+        if (m_selectionManager) {
+            m_selectionManager->clearSelection();
+        }
     }
 #endif
 }

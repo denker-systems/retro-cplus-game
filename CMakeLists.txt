@@ -154,6 +154,9 @@ set(CORE_SOURCES
     src/engine/ui/Widget.cpp
     src/engine/utils/Logger.cpp
     src/engine/utils/FileWatcher.cpp
+    src/engine/utils/IconLoader.cpp
+    src/engine/build/CMakeGenerator.cpp
+    src/engine/build/BuildManager.cpp
 )
 
 add_library(RetroCore STATIC ${CORE_SOURCES})
@@ -190,6 +193,11 @@ set(GAME_SOURCES
     src/game/states/QuestLogState.cpp
     src/game/states/SaveLoadState.cpp
 )
+
+# Windows icon resources
+if(WIN32)
+    list(APPEND GAME_SOURCES src/game/RetroGame.rc)
+endif()
 
 add_executable(RetroGame ${GAME_SOURCES})
 target_link_libraries(RetroGame PRIVATE
@@ -244,6 +252,7 @@ set(EDITOR_SOURCES
     src/editor/panels/core/ConsolePanel.cpp
     src/editor/panels/core/GameSettingsPanel.cpp
     src/editor/panels/core/EditorSettingsPanel.cpp
+    src/editor/panels/core/BuildPanel.cpp
     
     # Viewport - Main Panel
     src/editor/viewport/ViewportPanel.cpp
@@ -329,6 +338,7 @@ set(EDITOR_SOURCES
     # UI
     src/editor/ui/EditorMenuBar.cpp
     src/editor/ui/EditorDockspace.cpp
+    src/editor/ui/EditorTheme.cpp
     
     # Input
     src/editor/input/EditorInputHandler.cpp
@@ -368,6 +378,11 @@ set(EDITOR_SOURCES
     ${IMGUI_BACKEND_SOURCES}
 )
 
+# Windows icon resources
+if(WIN32)
+    list(APPEND EDITOR_SOURCES src/editor/RetroEditor.rc)
+endif()
+
 add_executable(RetroEditor src/editor/core/main.cpp ${EDITOR_SOURCES})
 target_include_directories(RetroEditor PRIVATE src/vendor)
 target_link_libraries(RetroEditor PRIVATE
@@ -403,6 +418,52 @@ target_compile_definitions(RetroEditor PRIVATE HAS_IMNODES=1)
 if(nfd_FOUND)
     target_compile_definitions(RetroEditor PRIVATE HAS_NFD=1)
 endif()
+
+# ============================================================================
+# RETRO LAUNCHER - Project launcher and manager
+# ============================================================================
+set(LAUNCHER_SOURCES
+    src/launcher/LauncherApp.cpp
+    # Project
+    src/launcher/project/ProjectManager.cpp
+    src/launcher/project/ProjectService.cpp
+    # UI
+    src/launcher/ui/LauncherHeader.cpp
+    src/launcher/ui/ProjectGrid.cpp
+    src/launcher/ui/NewProjectDialog.cpp
+    # Core
+    src/launcher/core/LauncherConfig.cpp
+    # Editor theme
+    src/editor/ui/EditorTheme.cpp
+    ${IMGUI_BACKEND_SOURCES}
+)
+
+# Windows icon resources
+if(WIN32)
+    list(APPEND LAUNCHER_SOURCES src/launcher/RetroLauncher.rc)
+endif()
+
+add_executable(RetroLauncher src/launcher/main.cpp ${LAUNCHER_SOURCES})
+target_include_directories(RetroLauncher PRIVATE src src/vendor)
+target_link_libraries(RetroLauncher PRIVATE
+    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+    nlohmann_json::nlohmann_json
+    $<TARGET_NAME_IF_EXISTS:imgui::imgui>
+)
+
+# Definiera HAS_IMGUI
+if(imgui_FOUND)
+    target_compile_definitions(RetroLauncher PRIVATE HAS_IMGUI=1)
+endif()
+
+# Copy launcher logo to build directory
+add_custom_command(TARGET RetroLauncher POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${CMAKE_SOURCE_DIR}/src/launcher/retroengine.png
+    $<TARGET_FILE_DIR:RetroLauncher>/retroengine.png
+)
 
 # ============================================================================
 # POST BUILD - Kopiera assets

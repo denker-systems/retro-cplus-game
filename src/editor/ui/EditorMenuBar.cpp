@@ -5,10 +5,12 @@
 #include "EditorMenuBar.h"
 #include "editor/core/EditorContext.h"
 #include "editor/panels/core/HierarchyPanel.h"
+#include <iostream>
 #include "editor/viewport/ViewportPanel.h"
 #include "editor/panels/core/PropertiesPanel.h"
 #include "editor/panels/assets/AssetBrowserPanel.h"
 #include "editor/panels/core/ConsolePanel.h"
+#include "editor/panels/core/BuildPanel.h"
 #include "editor/panels/graphs/dialog/DialogGraphPanel.h"
 #include "editor/panels/graphs/quest/QuestGraphPanel.h"
 #include "editor/panels/graphs/npc/BehaviorGraphPanel.h"
@@ -31,6 +33,7 @@ void EditorMenuBar::setPanels(
     AssetBrowserPanel* assetBrowser,
     PlaceActorsPanel* placeActors,
     ConsolePanel* console,
+    BuildPanel* build,
     DialogGraphPanel* dialogGraph,
     QuestGraphPanel* questGraph,
     BehaviorGraphPanel* behaviorGraph)
@@ -41,6 +44,7 @@ void EditorMenuBar::setPanels(
     m_assetBrowserPanel = assetBrowser;
     m_placeActorsPanel = placeActors;
     m_consolePanel = console;
+    m_buildPanel = build;
     m_dialogGraphPanel = dialogGraph;
     m_questGraphPanel = questGraph;
     m_behaviorGraphPanel = behaviorGraph;
@@ -159,6 +163,20 @@ void EditorMenuBar::renderViewMenu() {
 void EditorMenuBar::renderToolsMenu() {
 #ifdef HAS_IMGUI
     if (ImGui::BeginMenu("Tools")) {
+        // Build menu item - opens as dialog
+        if (ImGui::MenuItem("Build Project...", "Ctrl+B")) {
+            std::cout << "[EditorMenuBar] Build Project menu item clicked!" << std::endl;
+            if (m_buildPanel) {
+                std::cout << "[EditorMenuBar] Opening BuildPanel..." << std::endl;
+                m_buildPanel->setVisible(true);
+                std::cout << "[EditorMenuBar] BuildPanel visible: " << (m_buildPanel->isVisible() ? "YES" : "NO") << std::endl;
+            } else {
+                std::cout << "[EditorMenuBar] ERROR: BuildPanel is null!" << std::endl;
+            }
+        }
+        
+        ImGui::Separator();
+        
         if (ImGui::MenuItem("Validate All Data")) {
             if (m_consolePanel) m_consolePanel->logWarning("Validation not implemented yet");
         }

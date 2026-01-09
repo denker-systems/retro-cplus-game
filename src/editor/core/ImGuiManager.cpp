@@ -6,6 +6,7 @@
 
 #include "ImGuiManager.h"
 #include "engine/graphics/GLContext.h"
+#include "editor/ui/EditorTheme.h"
 #include <imgui.h>
 #include "imgui/imgui_impl_sdl2.h"
 #include "imgui/imgui_impl_sdlrenderer2.h"
@@ -36,12 +37,9 @@ bool ImGuiManager::init(SDL_Window* window, SDL_Renderer* renderer) {
     // Enable docking
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     
-    // Setup style
-    ImGui::StyleColorsDark();
-    ImGuiStyle& style = ImGui::GetStyle();
-    style.WindowRounding = 4.0f;
-    style.FrameRounding = 2.0f;
-    style.ScrollbarRounding = 2.0f;
+    // Load fonts and apply theme
+    editor::EditorTheme::LoadFonts();
+    editor::EditorTheme::Apply(editor::EditorTheme::Theme::RetroEngine);
     
     // Setup Platform/Renderer backends
     if (m_useOpenGL) {

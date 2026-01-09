@@ -13,6 +13,7 @@
 #include <SDL_image.h>
 #include <fstream>
 #include <filesystem>
+#include <iostream>
 
 using json = nlohmann::json;
 
@@ -82,6 +83,20 @@ void EditorContext::clearTextureCache() {
 }
 
 void EditorContext::loadFromDataLoader() {
+    // Try to load current project info from .current_project file
+    std::ifstream projectFile(".current_project");
+    if (projectFile.is_open()) {
+        std::getline(projectFile, currentProjectPath);
+        std::getline(projectFile, currentProjectName);
+        projectFile.close();
+        
+        if (!currentProjectPath.empty()) {
+            std::cout << "[EditorContext] Loaded project info from .current_project" << std::endl;
+            std::cout << "[EditorContext] Project: " << currentProjectName << std::endl;
+            std::cout << "[EditorContext] Path: " << currentProjectPath << std::endl;
+        }
+    }
+    
     // Copy data from DataLoader (make mutable copies for editing)
     const auto& dl = DataLoader::instance();
     

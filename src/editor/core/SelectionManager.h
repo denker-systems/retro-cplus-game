@@ -20,6 +20,7 @@ namespace engine {
 class SelectionManager {
 public:
     using SelectionCallback = std::function<void()>;
+    using OpenActorDetailsCallback = std::function<void(engine::ActorObjectExtended*)>;
     
     explicit SelectionManager(EditorContext& context);
     
@@ -56,6 +57,12 @@ public:
     void notifyViewportSelection(engine::ActorObjectExtended* actor, engine::Scene* scene);
     void notifyViewportCollisionBoxSelection(int boxIndex);
     
+    // Open Actor Details panel (called on double-click)
+    void openActorDetails(engine::ActorObjectExtended* actor);
+    void setOpenActorDetailsCallback(OpenActorDetailsCallback cb) {
+        m_openActorDetailsCallback = cb;
+    }
+    
 private:
     EditorContext& m_context;
     
@@ -70,6 +77,7 @@ private:
     
     std::vector<SelectionCallback> m_selectionCallbacks;
     std::vector<SelectionCallback> m_navigationCallbacks;
+    OpenActorDetailsCallback m_openActorDetailsCallback;
     
     void notifySelectionChanged();
     void notifyNavigationChanged();

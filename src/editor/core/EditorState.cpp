@@ -5,6 +5,7 @@
 #include "EditorState.h"
 #include "game/Game.h"
 #include "editor/managers/EditorPanelManager.h"
+#include <iostream>
 #include "editor/managers/EditorWorldManager.h"
 #include "editor/managers/EditorEventDispatcher.h"
 #include "editor/input/EditorInputHandler.h"
@@ -13,6 +14,7 @@
 #include "editor/panels/core/PropertiesPanel.h"
 #include "editor/panels/core/ConsolePanel.h"
 #include "editor/panels/core/CommandPanel.h"
+#include "editor/panels/core/BuildPanel.h"
 #include "editor/viewport/ViewportPanel.h"
 #include "editor/panels/assets/AssetBrowserPanel.h"
 #include "editor/panels/assets/PlaceActorsPanel.h"
@@ -118,11 +120,39 @@ void EditorState::enter() {
     auto* actorDetails = m_panelManager->getActorDetailsPanel();
     actorDetails->setSelectionManager(selectionManager);
     
-    // Register selection callback to open ActorDetailsPanel when actor is selected
-    selectionManager->registerSelectionChangedCallback([actorDetails, selectionManager]() {
-        if (auto* selectedActor = selectionManager->getSelectedActor()) {
-            actorDetails->setActor(selectedActor);
+    // Hide Actor Details by default (only opens on double-click)
+    actorDetails->setVisible(false);
+    
+    // Register double-click callback to open/close ActorDetailsPanel
+    selectionManager->setOpenActorDetailsCallback([actorDetails](engine::ActorObjectExtended* actor) {
+        std::cout << "[EditorState] ========================================" << std::endl;
+        std::cout << "[EditorState] openActorDetails callback invoked" << std::endl;
+        std::cout << "[EditorState] Actor: " << (actor ? actor->getName() : "nullptr (closing)") << std::endl;
+        std::cout << "[EditorState] ActorDetailsPanel: " << (actorDetails ? "SET" : "NULL") << std::endl;
+        
+        if (actorDetails) {
+            if (actor) {
+                // Open Actor Details
+                std::cout << "[EditorState] Setting actor on ActorDetailsPanel..." << std::endl;
+                actorDetails->setActor(actor);
+                
+                std::cout << "[EditorState] Setting ActorDetailsPanel visible..." << std::endl;
+                actorDetails->setVisible(true);
+                
+                std::cout << "[EditorState] ActorDetailsPanel is now visible: YES" << std::endl;
+            } else {
+                // Close Actor Details
+                std::cout << "[EditorState] Closing ActorDetailsPanel..." << std::endl;
+                actorDetails->setVisible(false);
+                actorDetails->setActor(nullptr);
+                
+                std::cout << "[EditorState] ActorDetailsPanel is now visible: NO" << std::endl;
+            }
+        } else {
+            std::cout << "[EditorState] ERROR: ActorDetailsPanel is null!" << std::endl;
         }
+        
+        std::cout << "[EditorState] ========================================" << std::endl;
     });
     
     // Register navigation callback BEFORE setting world/level/scene
@@ -312,6 +342,9 @@ void EditorState::renderImGui() {
     }
     if (m_panelManager->getCommandPanel() && m_panelManager->getCommandPanel()->isVisible()) {
         m_panelManager->getCommandPanel()->render();
+    }
+    if (m_panelManager->getBuildPanel() && m_panelManager->getBuildPanel()->isVisible()) {
+        m_panelManager->getBuildPanel()->render();
     }
     if (m_panelManager->getDialogGraphPanel() && m_panelManager->getDialogGraphPanel()->isVisible()) {
         m_panelManager->getDialogGraphPanel()->render();

@@ -1,0 +1,12 @@
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\launcher\main.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\main.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\launcher\LauncherApp.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\LauncherApp.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\launcher\project\ProjectManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\ProjectManager.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\launcher\project\ProjectService.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\ProjectService.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\launcher\ui\LauncherHeader.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\LauncherHeader.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\launcher\ui\ProjectGrid.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\ProjectGrid.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\launcher\ui\NewProjectDialog.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\NewProjectDialog.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\launcher\core\LauncherConfig.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\LauncherConfig.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\ui\EditorTheme.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\EditorTheme.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_sdl2.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\imgui_impl_sdl2.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_sdlrenderer2.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\imgui_impl_sdlrenderer2.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_opengl3.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroLauncher.dir\Release\imgui_impl_opengl3.obj

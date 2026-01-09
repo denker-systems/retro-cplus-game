@@ -50,6 +50,7 @@ void EditorDockspace::setupDefaultLayout(float screenW, float screenH, float men
     
     ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
     ImGui::DockBuilderDockWindow("Viewport", dockCenter);
+    ImGui::DockBuilderDockWindow("Actor Details", dockCenter);
     ImGui::DockBuilderDockWindow("3D Viewport", dockCenter);
     ImGui::DockBuilderDockWindow("Dialog Graph", dockCenter);
     ImGui::DockBuilderDockWindow("Quest Graph", dockCenter);
@@ -64,7 +65,10 @@ void EditorDockspace::setupDefaultLayout(float screenW, float screenH, float men
     ImGui::DockBuilderDockWindow("Asset Browser", dockRightBottom);
     ImGui::DockBuilderDockWindow("Place Actors", dockRightBottom);
     
+    // Bottom: Console + Command Panel (tabbed)
     ImGui::DockBuilderDockWindow("Console", dockBottom);
+    ImGui::DockBuilderDockWindow("Command", dockBottom);
+    
     ImGui::DockBuilderFinish(m_dockspaceId);
 #endif
 }

@@ -6,6 +6,9 @@
 #include "editor/core/EditorState.h"
 #include "engine/utils/Logger.h"
 #include <SDL.h>
+#include <filesystem>
+#include <iostream>
+#include <string>
 
 int main(int argc, char* argv[]) {
     LOG_INFO("=== RetroAdventure Editor Starting ===");

@@ -5,6 +5,7 @@
 #include "SceneSerializer.h"
 #include "engine/utils/Logger.h"
 #include "engine/core/ActorObjectExtended.h"
+#include "engine/actors/PlayerStartActor.h"
 #include <fstream>
 #include <algorithm>
 
@@ -83,24 +84,41 @@ void SceneSerializer::syncFromEngine(engine::Scene* scene) {
     // Sync camera config
     sceneData->camera = scene->getCameraConfig();
     
-    // Sync actor positions to hotspots
+    // Sync actor positions
     for (const auto& actor : scene->getActors()) {
         std::string actorName = actor->getName();
-        engine::Vec2 pos = actor->getPosition();
         
-        // Find matching hotspot
+        // Save PlayerStart position (3D position)
+        if (actorName == "PlayerStart") {
+            // Cast to PlayerStartActor to get spawn position
+            if (auto* playerStart = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
+                glm::vec3 spawnPos = playerStart->getSpawnPosition();
+                sceneData->playerSpawnX = spawnPos.x;
+                sceneData->playerSpawnY = spawnPos.z;  // Store Z as Y for 3D
+                LOG_DEBUG("Synced PlayerStart spawn position: (" + 
+                         std::to_string(spawnPos.x) + ", " + 
+                         std::to_string(spawnPos.y) + ", " + 
+                         std::to_string(spawnPos.z) + ")");
+            }
+            continue;
+        }
+        
+        // Save PlayerConfig position
+        if (actorName == "PlayerConfig") {
+            engine::Vec2 pos = actor->getPosition();
+            LOG_DEBUG("Synced PlayerConfig position: (" + std::to_string(pos.x) + ", " + std::to_string(pos.y) + ")");
+            continue;
+        }
+        
+        // Find matching hotspot for other actors
+        engine::Vec2 pos = actor->getPosition();
         for (auto& hs : sceneData->hotspots) {
             if (hs.name == actorName || hs.id == actorName) {
                 hs.x = static_cast<int>(pos.x);
                 hs.y = static_cast<int>(pos.y);
+                LOG_DEBUG("Synced hotspot '" + actorName + "' position: (" + std::to_string(hs.x) + ", " + std::to_string(hs.y) + ")");
                 break;
             }
-        }
-        
-        // Check player spawn
-        if (actorName == "PlayerSpawn" || actorName == "Spawn") {
-            sceneData->playerSpawnX = static_cast<int>(pos.x);
-            sceneData->playerSpawnY = static_cast<int>(pos.y);
         }
     }
     

@@ -65,9 +65,17 @@ void SelectionManager::selectHotspot(const std::string& roomId, int hotspotIndex
 }
 
 void SelectionManager::clearSelection() {
+    std::cout << "[SelectionManager] clearSelection() called" << std::endl;
+    
     m_context.clearSelection();
     m_selectedActor = nullptr;
     m_selectedScene = nullptr;
+    
+    // Close Actor Details when selection is cleared
+    if (m_openActorDetailsCallback) {
+        std::cout << "[SelectionManager] Closing Actor Details (passing nullptr)" << std::endl;
+        m_openActorDetailsCallback(nullptr);
+    }
     
     notifySelectionChanged();
 }
@@ -114,4 +122,26 @@ void SelectionManager::notifyNavigationChanged() {
     for (auto& cb : m_navigationCallbacks) {
         cb();
     }
+}
+
+void SelectionManager::openActorDetails(engine::ActorObjectExtended* actor) {
+    std::cout << "[SelectionManager] ========================================" << std::endl;
+    std::cout << "[SelectionManager] openActorDetails() called" << std::endl;
+    std::cout << "[SelectionManager] Actor: " << (actor ? actor->getName() : "nullptr") << std::endl;
+    std::cout << "[SelectionManager] Callback registered: " << (m_openActorDetailsCallback ? "YES" : "NO") << std::endl;
+    
+    if (m_openActorDetailsCallback && actor) {
+        std::cout << "[SelectionManager] Invoking callback..." << std::endl;
+        m_openActorDetailsCallback(actor);
+        std::cout << "[SelectionManager] Callback completed" << std::endl;
+    } else {
+        if (!m_openActorDetailsCallback) {
+            std::cout << "[SelectionManager] ERROR: No callback registered!" << std::endl;
+        }
+        if (!actor) {
+            std::cout << "[SelectionManager] ERROR: Actor is null!" << std::endl;
+        }
+    }
+    
+    std::cout << "[SelectionManager] ========================================" << std::endl;
 }
