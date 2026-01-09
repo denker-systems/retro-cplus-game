@@ -1,423 +1,262 @@
 /**
  * @file ViewportPanel.cpp
- * @brief Unified viewport panel implementation using OOP renderers
+ * @brief Implementation of main viewport panel with inheritance hierarchy
  */
-#include "editor/viewport/ViewportPanel.h"
+#include "ViewportPanel.h"
+#include "ui/ViewportToolbar.h"
+#include "ui/ViewportBreadcrumbs.h"
+#include "renderers/3d/World3DRenderer.h"
+#include "renderers/3d/Level3DRenderer.h"
+#include "renderers/3d/Scene3DRenderer.h"
+#include "renderers/2d/World2DRenderer.h"
+#include "renderers/2d/Level2DRenderer.h"
+#include "renderers/2d/Scene2DRenderer.h"
 #include "editor/core/EditorContext.h"
+#include "editor/core/SelectionManager.h"
+#include "editor/tools/ToolManager.h"
+#include "editor/core/EditorPlayMode.h"
 #include "engine/world/World.h"
 #include "engine/world/Level.h"
 #include "engine/world/Scene.h"
-#include "engine/core/ActorObjectExtended.h"
-#include <iostream>
 
 #ifdef HAS_IMGUI
-
 #include <imgui.h>
 
 namespace editor {
+namespace viewport {
 
 ViewportPanel::ViewportPanel(EditorContext& context)
     : m_context(context)
-    , m_selectionManager(context)
-    , m_worldRenderer(std::make_unique<ViewportWorldRenderer>())
-    , m_levelRenderer(std::make_unique<ViewportLevelRenderer>())
-    , m_sceneRenderer(std::make_unique<ViewportSceneRenderer>())
-    , m_viewport3D(std::make_unique<Viewport3DPanel>())
 {
-    EditorInputController::instance().initialize();
+    m_selectionManager = new SelectionManager(context);
     
-    // Initialize 2D renderers with selection manager
-    m_worldRenderer->initialize(&m_context, &m_selectionManager);
-    m_levelRenderer->initialize(&m_context, &m_selectionManager);
-    m_sceneRenderer->initialize(&m_context, &m_selectionManager);
+    // Create UI components
+    m_toolbar = std::make_unique<ViewportToolbar>();
+    m_breadcrumbs = std::make_unique<ViewportBreadcrumbs>();
     
-    // Initialize 3D viewport
-    m_viewport3D->initialize();
-    m_viewport3D->setSelectionManager(&m_selectionManager);
+    // Create renderers using inheritance hierarchy
+    // Start with Scene renderers (most specific) which inherit from Level and World
+    m_3dRenderer = std::make_unique<Scene3DRenderer>();  // 3D PRIMARY
+    m_2dRenderer = std::make_unique<Scene2DRenderer>();  // 2D SECONDARY (inherits Level2D→World2D)
+    
+    // Initialize renderers
+    m_3dRenderer->initialize(&m_context, m_selectionManager);
+    m_2dRenderer->initialize(&m_context, m_selectionManager);
+    
+    // Initialize render context
+    m_renderContext.zoom = 1.0f;
+    m_renderContext.panX = 0.0f;
+    m_renderContext.panY = 0.0f;
+    m_renderContext.renderMode = RenderMode::Mode3D;  // 3D is PRIMARY
+}
+
+ViewportPanel::~ViewportPanel() {
+    delete m_selectionManager;
 }
 
 void ViewportPanel::update(float deltaTime) {
-    if (m_renderMode == RenderMode::Mode3D) {
-        if (m_viewport3D) {
-            m_viewport3D->update(deltaTime);
-        }
-    } else {
-        if (auto* renderer = getCurrentRenderer()) {
-            renderer->update(deltaTime);
-        }
-    }
+    if (m_3dRenderer) m_3dRenderer->update(deltaTime);
+    if (m_2dRenderer) m_2dRenderer->update(deltaTime);
 }
 
 void ViewportPanel::render() {
     if (!m_visible) return;
     
     if (ImGui::Begin(m_title.c_str(), &m_visible)) {
-        renderBreadcrumbs();
+        // Breadcrumbs
+        if (m_breadcrumbs) {
+            m_breadcrumbs->render(m_world, m_activeLevel, m_activeScene);
+            handleNavigation();
+        }
         ImGui::Separator();
-        renderToolbar();
-        ImGui::Separator();
         
-        // Get viewport region
-        ImVec2 viewportPos = ImGui::GetCursorScreenPos();
-        ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+        // Toolbar
+        if (m_toolbar) {
+            m_toolbar->render(m_renderContext.renderMode, m_renderContext.zoom, 
+                            m_renderContext.panX, m_renderContext.panY, m_playMode);
+            
+            // Update render context from toolbar
+            m_renderContext.showGrid = m_toolbar->showGrid();
+            m_renderContext.showHotspots = m_toolbar->showHotspots();
+            m_renderContext.showWalkArea = m_toolbar->showWalkArea();
+            m_renderContext.showPhysicsDebug = m_toolbar->showPhysicsDebug();
+        }
         
-        m_viewportPos = glm::vec2(viewportPos.x, viewportPos.y);
-        m_viewportSize = glm::vec2(viewportSize.x, viewportSize.y);
-        
-        // Invisible button for input capture
-        ImGui::InvisibleButton("viewport_area", viewportSize, 
-            ImGuiButtonFlags_MouseButtonLeft | 
-            ImGuiButtonFlags_MouseButtonRight | 
-            ImGuiButtonFlags_MouseButtonMiddle);
-        
-        m_viewportHovered = ImGui::IsItemHovered();
-        m_viewportFocused = ImGui::IsItemFocused();
-        
-        // Render content via current renderer
-        renderViewportContent();
-        
-        // Handle input
-        handleInput();
-        handleNavigation();
+        // Content area
+        renderContent();
     }
     ImGui::End();
 }
 
-void ViewportPanel::renderToolbar() {
-    // 2D/3D toggle
-    ImGui::PushStyleColor(ImGuiCol_Button, m_renderMode == RenderMode::Mode2D ? 
-        ImVec4(0.2f, 0.5f, 0.8f, 1.0f) : ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
-    if (ImGui::Button("2D")) {
-        m_renderMode = RenderMode::Mode2D;
-    }
-    ImGui::PopStyleColor();
+void ViewportPanel::renderContent() {
+    // Get viewport region
+    ImVec2 viewportPos = ImGui::GetCursorScreenPos();
+    ImVec2 viewportSize = ImGui::GetContentRegionAvail();
     
-    ImGui::SameLine();
+    m_renderContext.viewportPos = glm::vec2(viewportPos.x, viewportPos.y);
+    m_renderContext.viewportSize = glm::vec2(viewportSize.x, viewportSize.y);
+    m_renderContext.renderMode = m_renderMode;
     
-    ImGui::PushStyleColor(ImGuiCol_Button, m_renderMode == RenderMode::Mode3D ? 
-        ImVec4(0.2f, 0.5f, 0.8f, 1.0f) : ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
-    if (ImGui::Button("3D")) {
-        m_renderMode = RenderMode::Mode3D;
-    }
-    ImGui::PopStyleColor();
-    
-    ImGui::SameLine();
-    ImGui::Text("|");
-    ImGui::SameLine();
-    
-    // Zoom control (2D only)
-    if (m_renderMode == RenderMode::Mode2D) {
-        ImGui::Text("Zoom: %.0f%%", m_zoom * 100.0f);
-        ImGui::SameLine();
-        if (ImGui::Button("-")) { m_zoom = std::max(0.25f, m_zoom * 0.9f); }
-        ImGui::SameLine();
-        if (ImGui::Button("+")) { m_zoom = std::min(4.0f, m_zoom * 1.1f); }
-        ImGui::SameLine();
-        if (ImGui::Button("100%")) { m_zoom = 1.0f; m_panX = 0; m_panY = 0; }
-    }
-}
-
-void ViewportPanel::renderBreadcrumbs() {
-    if (m_world) {
-        if (ImGui::SmallButton(("World: " + m_world->getName()).c_str())) {
-            m_activeLevel = nullptr;
-            m_activeScene = nullptr;
-            m_hierarchyLevel = HierarchyLevel::World;
-            if (auto* r = getCurrentRenderer()) r->clearSelection();
-        }
-    }
-    
-    if (m_activeLevel) {
-        ImGui::SameLine();
-        ImGui::Text(">");
-        ImGui::SameLine();
-        if (ImGui::SmallButton(m_activeLevel->getName().c_str())) {
-            m_activeScene = nullptr;
-            m_hierarchyLevel = HierarchyLevel::Level;
-            if (auto* r = getCurrentRenderer()) r->clearSelection();
-        }
-    }
-    
-    if (m_activeScene) {
-        ImGui::SameLine();
-        ImGui::Text(">");
-        ImGui::SameLine();
-        ImGui::Text("%s", m_activeScene->getName().c_str());
-    }
-}
-
-void ViewportPanel::renderViewportContent() {
-    // Debug: Check what we have
-    std::cout << "[ViewportPanel] renderViewportContent - Mode: " << (m_renderMode == RenderMode::Mode2D ? "2D" : "3D")
-              << ", Level: " << static_cast<int>(m_hierarchyLevel)
-              << ", World: " << (m_world ? "YES" : "NULL")
-              << ", ActiveLevel: " << (m_activeLevel ? "YES" : "NULL")
-              << ", ActiveScene: " << (m_activeScene ? m_activeScene->getName() : "NULL") << std::endl;
-    
-    // 3D mode - use Viewport3DPanel
-    if (m_renderMode == RenderMode::Mode3D) {
-        if (m_viewport3D && m_viewport3D->isInitialized()) {
-            // Configure 3D viewport based on hierarchy level
-            switch (m_hierarchyLevel) {
-                case HierarchyLevel::World:
-                    m_viewport3D->setViewLevel(View3DLevel::World);
-                    m_viewport3D->setWorld(m_world);
-                    break;
-                case HierarchyLevel::Level:
-                    m_viewport3D->setViewLevel(View3DLevel::Level);
-                    m_viewport3D->setLevel(m_activeLevel);
-                    break;
-                case HierarchyLevel::Scene:
-                    m_viewport3D->setViewLevel(View3DLevel::Scene);
-                    m_viewport3D->setScene(m_activeScene);
-                    break;
-            }
-            m_viewport3D->render();
-        } else {
-            // Show error message if 3D not initialized
-            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "3D viewport not initialized");
-            ImGui::Text("OpenGL may not be available");
-        }
-        return;
-    }
-    
-    // 2D mode - use OOP renderers
     ImDrawList* drawList = ImGui::GetWindowDrawList();
     
-    ViewportRenderContext ctx;
-    ctx.viewportPos = m_viewportPos;
-    ctx.viewportSize = m_viewportSize;
-    ctx.zoom = m_zoom;
-    ctx.panX = m_panX;
-    ctx.panY = m_panY;
-    ctx.isHovered = m_viewportHovered;
-    ctx.isFocused = m_viewportFocused;
-    
-    // Configure and render based on hierarchy level
-    switch (m_hierarchyLevel) {
-        case HierarchyLevel::World:
-            m_worldRenderer->setWorld(m_world);
-            m_worldRenderer->render(drawList, ctx);
-            break;
-            
-        case HierarchyLevel::Level:
-            m_levelRenderer->setLevel(m_activeLevel);
-            m_levelRenderer->render(drawList, ctx);
-            break;
-            
-        case HierarchyLevel::Scene:
-            m_sceneRenderer->setScene(m_activeScene);
-            m_sceneRenderer->setSDLRenderer(m_sdlRenderer);
-            m_sceneRenderer->render(drawList, ctx);
-            break;
-    }
-}
-
-void ViewportPanel::handleInput() {
-    if (!m_viewportHovered) return;
-    
-    ViewportRenderContext ctx;
-    ctx.viewportPos = m_viewportPos;
-    ctx.viewportSize = m_viewportSize;
-    ctx.zoom = m_zoom;
-    ctx.panX = m_panX;
-    ctx.panY = m_panY;
-    
-    ImVec2 mousePos = ImGui::GetIO().MousePos;
-    float mx = mousePos.x;
-    float my = mousePos.y;
-    
-    auto* renderer = getCurrentRenderer();
-    if (!renderer) return;
-    
-    // Mouse click
-    if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-        renderer->onMouseClick(mx, my, ctx);
+    // Render based on hierarchy level (like old ViewportPanel)
+    if (!m_activeLevel) {
+        // World level - show all levels
+        if (m_renderMode == RenderMode::Mode3D) {
+            if (auto* world3D = dynamic_cast<World3DRenderer*>(m_3dRenderer.get())) {
+                world3D->setWorld(m_world);
+                m_3dRenderer->render(drawList, m_renderContext);
+            }
+        } else {
+            if (auto* scene2D = dynamic_cast<Scene2DRenderer*>(m_2dRenderer.get())) {
+                scene2D->setWorld(m_world);
+                scene2D->setLevel(nullptr);
+                scene2D->setScene(nullptr);
+                m_2dRenderer->render(drawList, m_renderContext);
+            }
+        }
+    } else if (!m_activeScene) {
+        // Level level - show all scenes
+        if (m_renderMode == RenderMode::Mode3D) {
+            if (auto* level3D = dynamic_cast<Level3DRenderer*>(m_3dRenderer.get())) {
+                level3D->setLevel(m_activeLevel);
+                m_3dRenderer->render(drawList, m_renderContext);
+            }
+        } else {
+            if (auto* scene2D = dynamic_cast<Scene2DRenderer*>(m_2dRenderer.get())) {
+                scene2D->setWorld(m_world);
+                scene2D->setLevel(m_activeLevel);
+                scene2D->setScene(nullptr);
+                m_2dRenderer->render(drawList, m_renderContext);
+            }
+        }
+    } else {
+        // Scene level - show scene content
+        if (m_renderMode == RenderMode::Mode3D) {
+            if (auto* scene3D = dynamic_cast<Scene3DRenderer*>(m_3dRenderer.get())) {
+                scene3D->setScene(m_activeScene);
+                m_3dRenderer->render(drawList, m_renderContext);
+            }
+        } else {
+            if (auto* scene2D = dynamic_cast<Scene2DRenderer*>(m_2dRenderer.get())) {
+                scene2D->setWorld(m_world);
+                scene2D->setLevel(m_activeLevel);
+                scene2D->setScene(m_activeScene);
+                m_2dRenderer->render(drawList, m_renderContext);
+            }
+        }
     }
     
-    // Mouse drag
-    if (ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
-        ImVec2 delta = ImGui::GetIO().MouseDelta;
-        renderer->onMouseDrag(mx, my, delta.x, delta.y, ctx);
+    // Check for navigation (2D only)
+    if (m_renderMode == RenderMode::Mode2D && m_2dRenderer) {
+        if (m_2dRenderer->wasDoubleClicked()) {
+            if (!m_activeLevel) {
+                // World level - check for level selection
+                if (auto* world2D = dynamic_cast<World2DRenderer*>(m_2dRenderer.get())) {
+                    if (auto* level = world2D->getSelectedLevel()) {
+                        setLevel(level);
+                    }
+                }
+            }
+            else if (!m_activeScene) {
+                // Level level - check for scene selection
+                if (auto* level2D = dynamic_cast<Level2DRenderer*>(m_2dRenderer.get())) {
+                    if (auto* scene = level2D->getSelectedScene()) {
+                        setScene(scene);
+                    }
+                }
+            }
+            m_2dRenderer->clearDoubleClick();
+        }
     }
-    
-    // Mouse release
-    if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
-        renderer->onMouseRelease(mx, my, ctx);
-    }
-    
-    // Middle mouse pan
-    if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle)) {
-        ImVec2 delta = ImGui::GetIO().MouseDelta;
-        m_panX += delta.x;
-        m_panY += delta.y;
-    }
-    
-    // Scroll zoom
-    float wheel = ImGui::GetIO().MouseWheel;
-    if (wheel != 0.0f) {
-        m_zoom = std::clamp(m_zoom + wheel * 0.1f, 0.25f, 4.0f);
-    }
-}
-
-IViewportRenderer* ViewportPanel::getCurrentRenderer() {
-    switch (m_hierarchyLevel) {
-        case HierarchyLevel::World:  return m_worldRenderer.get();
-        case HierarchyLevel::Level:  return m_levelRenderer.get();
-        case HierarchyLevel::Scene:  return m_sceneRenderer.get();
-    }
-    return nullptr;
 }
 
 void ViewportPanel::handleNavigation() {
-    // Check for double-click navigation
-    ViewportRenderContext ctx;
-    ctx.viewportPos = m_viewportPos;
-    ctx.viewportSize = m_viewportSize;
-    ctx.zoom = m_zoom;
-    ctx.panX = m_panX;
-    ctx.panY = m_panY;
+    if (!m_breadcrumbs) return;
     
-    if (!ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) || !m_viewportHovered) return;
-    
-    ImVec2 mousePos = ImGui::GetIO().MousePos;
-    auto* renderer = getCurrentRenderer();
-    if (!renderer) return;
-    
-    bool shouldNavigate = renderer->onDoubleClick(mousePos.x, mousePos.y, ctx);
-    if (!shouldNavigate) return;
-    
-    void* selected = renderer->getSelectedItem();
-    if (!selected) return;
-    
-    switch (m_hierarchyLevel) {
-        case HierarchyLevel::World:
-            navigateToLevel(static_cast<engine::Level*>(selected));
-            break;
-            
-        case HierarchyLevel::Level:
-            navigateToScene(static_cast<engine::Scene*>(selected));
-            break;
-            
-        case HierarchyLevel::Scene:
-            // No navigation from scene level
-            break;
+    if (m_breadcrumbs->shouldNavigateToWorld()) {
+        m_activeLevel = nullptr;
+        m_activeScene = nullptr;
+        m_hierarchyLevel = HierarchyLevel::World;
+        m_breadcrumbs->resetNavigation();
+    }
+    else if (m_breadcrumbs->shouldNavigateToLevel()) {
+        m_activeScene = nullptr;
+        m_hierarchyLevel = HierarchyLevel::Level;
+        m_breadcrumbs->resetNavigation();
     }
 }
 
 void ViewportPanel::setWorld(engine::World* world) {
-    std::cout << "[ViewportPanel] setWorld: " << (world ? world->getName() : "NULL") << std::endl;
     m_world = world;
     m_activeLevel = nullptr;
     m_activeScene = nullptr;
     m_hierarchyLevel = HierarchyLevel::World;
-    m_worldRenderer->clearSelection();
     
-    // Sync SelectionManager with world
-    m_selectionManager.setWorld(world);
-}
-
-void ViewportPanel::navigateToLevel(engine::Level* level) {
-    m_activeLevel = level;
-    m_activeScene = nullptr;
-    m_hierarchyLevel = HierarchyLevel::Level;
-    m_levelRenderer->clearSelection();
-}
-
-void ViewportPanel::navigateToScene(engine::Scene* scene) {
-    m_activeScene = scene;
-    m_hierarchyLevel = HierarchyLevel::Scene;
-    m_sceneRenderer->clearSelection();
-}
-
-void ViewportPanel::navigateUp() {
-    switch (m_hierarchyLevel) {
-        case HierarchyLevel::Scene:
-            m_activeScene = nullptr;
-            m_hierarchyLevel = HierarchyLevel::Level;
-            break;
-        case HierarchyLevel::Level:
-            m_activeLevel = nullptr;
-            m_hierarchyLevel = HierarchyLevel::World;
-            break;
-        case HierarchyLevel::World:
-            break;
+    if (m_selectionManager) {
+        m_selectionManager->setWorld(world);
     }
-    if (auto* r = getCurrentRenderer()) r->clearSelection();
 }
 
 void ViewportPanel::setLevel(engine::Level* level) {
-    std::cout << "[ViewportPanel] setLevel: " << (level ? level->getName() : "NULL") << std::endl;
     m_activeLevel = level;
-    if (level) {
-        m_hierarchyLevel = HierarchyLevel::Level;
+    m_activeScene = nullptr;
+    m_hierarchyLevel = level ? HierarchyLevel::Level : HierarchyLevel::World;
+    
+    if (m_selectionManager) {
+        m_selectionManager->setActiveLevel(level);
+        m_selectionManager->setActiveScene(nullptr);
     }
-    m_levelRenderer->clearSelection();
-    m_selectionManager.setActiveLevel(level);
 }
 
 void ViewportPanel::setScene(engine::Scene* scene) {
-    std::cout << "[ViewportPanel] setScene: " << (scene ? scene->getName() : "NULL") << std::endl;
     m_activeScene = scene;
-    if (scene) {
-        m_hierarchyLevel = HierarchyLevel::Scene;
+    m_hierarchyLevel = scene ? HierarchyLevel::Scene : HierarchyLevel::Level;
+    
+    if (m_selectionManager) {
+        m_selectionManager->setActiveScene(scene);
     }
-    m_sceneRenderer->clearSelection();
-    m_selectionManager.setActiveScene(scene);
+    
+    if (m_playMode && scene) {
+        m_playMode->setActiveScene(scene);
+    }
 }
 
 void ViewportPanel::syncFromSelectionManager() {
-    // Sync navigation state from SelectionManager
-    if (m_selectionManager.getWorld()) {
-        m_world = m_selectionManager.getWorld();
-    }
-    if (m_selectionManager.getActiveLevel()) {
-        m_activeLevel = m_selectionManager.getActiveLevel();
-        m_hierarchyLevel = HierarchyLevel::Level;
-    }
-    if (m_selectionManager.getActiveScene()) {
-        m_activeScene = m_selectionManager.getActiveScene();
+    if (!m_selectionManager) return;
+    
+    m_world = m_selectionManager->getWorld();
+    m_activeLevel = m_selectionManager->getActiveLevel();
+    m_activeScene = m_selectionManager->getActiveScene();
+    
+    // Update hierarchy level
+    if (m_activeScene) {
         m_hierarchyLevel = HierarchyLevel::Scene;
+    } else if (m_activeLevel) {
+        m_hierarchyLevel = HierarchyLevel::Level;
+    } else {
+        m_hierarchyLevel = HierarchyLevel::World;
+    }
+    
+    // Update EditorPlayMode with active scene
+    if (m_playMode && m_activeScene) {
+        m_playMode->setActiveScene(m_activeScene);
     }
 }
 
 void ViewportPanel::deleteSelectedActor() {
-    if (m_hierarchyLevel != HierarchyLevel::Scene || !m_activeScene) return;
-    
-    auto* selectedActor = static_cast<engine::ActorObjectExtended*>(
-        m_sceneRenderer->getSelectedItem());
-    if (!selectedActor) return;
-    
-    // TODO: Use CommandManager for undo support
-    m_activeScene->removeActor(selectedActor);
-    m_sceneRenderer->clearSelection();
-}
-
-void ViewportPanel::duplicateSelectedActor() {
-    if (m_hierarchyLevel != HierarchyLevel::Scene || !m_activeScene) return;
-    
-    auto* selectedActor = static_cast<engine::ActorObjectExtended*>(
-        m_sceneRenderer->getSelectedItem());
-    if (!selectedActor) return;
-    
-    // TODO: Implement actor duplication
-}
-
-void ViewportPanel::loadRoom(const std::string& roomId) {
-    // Legacy compatibility - find scene by room ID
-    if (!m_world) return;
-    
-    for (const auto& level : m_world->getLevels()) {
-        for (const auto& scene : level->getScenes()) {
-            if (scene->getName() == roomId) {
-                navigateToLevel(level.get());
-                navigateToScene(scene.get());
-                return;
-            }
-        }
+    if (auto* scene2D = dynamic_cast<Scene2DRenderer*>(m_2dRenderer.get())) {
+        scene2D->deleteSelectedActor();
     }
 }
 
+void ViewportPanel::duplicateSelectedActor() {
+    if (auto* scene2D = dynamic_cast<Scene2DRenderer*>(m_2dRenderer.get())) {
+        scene2D->duplicateSelectedActor();
+    }
+}
+
+} // namespace viewport
 } // namespace editor
 
 #endif // HAS_IMGUI

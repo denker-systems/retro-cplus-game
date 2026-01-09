@@ -1,126 +1,97 @@
 /**
  * @file ViewportPanel.h
- * @brief DEPRECATED: OOP renderer architecture (not in use)
- * 
- * MIGRATION NOTE: This is an alternative OOP design that was not adopted.
- * The active ViewportPanel is in src/editor/panels/viewport/ViewportPanel.h
- * 
- * This file is kept for reference but should be removed once migration is complete.
+ * @brief Main viewport panel orchestrator
  */
 #pragma once
 
-#ifdef HAS_IMGUI
-
+#include "ViewportTypes.h"
 #include "editor/core/IEditorPanel.h"
-#include "editor/core/SelectionManager.h"
-#include "editor/viewport/IViewportRenderer.h"
-#include "editor/viewport/ViewportWorldRenderer.h"
-#include "editor/viewport/ViewportLevelRenderer.h"
-#include "editor/viewport/ViewportSceneRenderer.h"
-#include "editor/viewport/Viewport3DPanel.h"
-#include "editor/input/EditorInputController.h"
 #include <memory>
 #include <string>
-#include <SDL.h>
 
+// Forward declarations
 class EditorContext;
+class SelectionManager;
+class ToolManager;
+class EditorPlayMode;
+
+struct ImDrawList;
+struct ImVec2;
+struct SceneData;
 
 namespace engine {
     class World;
     class Level;
     class Scene;
+    class ActorObjectExtended;
 }
 
 namespace editor {
 
-/**
- * @brief Current hierarchy level being viewed
- */
-enum class HierarchyLevel {
-    World,
-    Level,
-    Scene
-};
+class Viewport3DPanel;
+class EditorPlayMode;
 
-/**
- * @brief Render mode
- */
-enum class RenderMode {
-    Mode2D,
-    Mode3D
-};
+namespace viewport {
+
+class ViewportToolbar;
+class ViewportBreadcrumbs;
+class BaseViewRenderer;
+class World2DRenderer;
+class World3DRenderer;
 
 /**
  * @class ViewportPanel
- * @brief Main viewport panel implementing IEditorPanel
+ * @brief Main viewport panel that orchestrates all viewport rendering
+ * 
+ * This is a lightweight orchestrator that delegates to specialized renderers.
+ * Max 275 lines to maintain clean architecture.
  */
 class ViewportPanel : public IEditorPanel {
 public:
-    explicit ViewportPanel(EditorContext& context);
-    ~ViewportPanel() override = default;
+    ViewportPanel(EditorContext& context);
+    ~ViewportPanel() override;
     
     // IEditorPanel interface
+    void update(float deltaTime) override;
+    void render() override;
     const std::string& getId() const override { return m_id; }
     const std::string& getTitle() const override { return m_title; }
-    void render() override;
-    void update(float deltaTime) override;
     
-    // Navigation (legacy compatibility)
+    // Navigation
     void setWorld(engine::World* world);
     void setLevel(engine::Level* level);
     void setScene(engine::Scene* scene);
-    void navigateToLevel(engine::Level* level);
-    void navigateToScene(engine::Scene* scene);
-    void navigateUp();
-    
-    // Sync with SelectionManager
     void syncFromSelectionManager();
     
-    // State accessors
-    engine::World* getWorld() const { return m_world; }
-    engine::Level* getActiveLevel() const { return m_activeLevel; }
-    engine::Scene* getActiveScene() const { return m_activeScene; }
-    engine::Scene* getScene() const { return m_activeScene; }
-    HierarchyLevel getHierarchyLevel() const { return m_hierarchyLevel; }
-    
-    // SDL Renderer (legacy compatibility)
-    void setRenderer(SDL_Renderer* renderer) { m_sdlRenderer = renderer; }
-    void setSDLRenderer(SDL_Renderer* renderer) { m_sdlRenderer = renderer; }
-    
-    // Selection Manager
-    SelectionManager* getSelectionManager() { return &m_selectionManager; }
-    
-    // Actor operations (for EditorInputHandler)
+    // Actor operations
     void deleteSelectedActor();
     void duplicateSelectedActor();
     
-    // Legacy compatibility
-    void loadRoom(const std::string& roomId);
+    // Selection manager access
+    SelectionManager* getSelectionManager() const { return m_selectionManager; }
+    
+    // Play mode
+    void setPlayMode(EditorPlayMode* playMode) { m_playMode = playMode; }
 
 private:
-    void renderToolbar();
-    void renderBreadcrumbs();
-    void renderViewportContent();
-    void handleInput();
+    void renderContent();
     void handleNavigation();
     
-    IViewportRenderer* getCurrentRenderer();
-    
     EditorContext& m_context;
-    SelectionManager m_selectionManager;
-    SDL_Renderer* m_sdlRenderer = nullptr;
+    SelectionManager* m_selectionManager = nullptr;
+    EditorPlayMode* m_playMode = nullptr;
     
-    // Panel ID
     std::string m_id = "viewport";
     std::string m_title = "Viewport";
     
-    // Hierarchy-specific renderers (2D)
-    std::unique_ptr<ViewportWorldRenderer> m_worldRenderer;
-    std::unique_ptr<ViewportLevelRenderer> m_levelRenderer;
-    std::unique_ptr<ViewportSceneRenderer> m_sceneRenderer;
+    // UI components
+    std::unique_ptr<ViewportToolbar> m_toolbar;
+    std::unique_ptr<ViewportBreadcrumbs> m_breadcrumbs;
     
-    // 3D viewport
-    std::unique_ptr<Viewport3DPanel> m_viewport3D;
+    // Renderers using inheritance hierarchy
+    // 3D is PRIMARY (default), 2D is SECONDARY (fallback)
+    std::unique_ptr<BaseViewRenderer> m_3dRenderer;  // World3D/Level3D/Scene3D
+    std::unique_ptr<BaseViewRenderer> m_2dRenderer;  // World2D→Level2D→Scene2D
     
     // Navigation state
     engine::World* m_world = nullptr;
@@ -128,19 +99,10 @@ private:
     engine::Scene* m_activeScene = nullptr;
     HierarchyLevel m_hierarchyLevel = HierarchyLevel::World;
     
-    // Render mode
-    RenderMode m_renderMode = RenderMode::Mode2D;
-    
-    // Viewport state
-    glm::vec2 m_viewportPos{0.0f, 0.0f};
-    glm::vec2 m_viewportSize{0.0f, 0.0f};
-    float m_zoom = 1.0f;
-    float m_panX = 0.0f;
-    float m_panY = 0.0f;
-    bool m_viewportHovered = false;
-    bool m_viewportFocused = false;
+    // Render state
+    RenderContext m_renderContext;
+    RenderMode m_renderMode = RenderMode::Mode3D;  // 3D is PRIMARY (default)
 };
 
+} // namespace viewport
 } // namespace editor
-
-#endif // HAS_IMGUI

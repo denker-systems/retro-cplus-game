@@ -259,12 +259,6 @@
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Character.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\PlayerCharacter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\ui\Widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

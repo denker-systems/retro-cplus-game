@@ -6,7 +6,7 @@
 #include "editor/core/EditorContext.h"
 #include "editor/panels/core/HierarchyPanel.h"
 #include "editor/panels/core/PropertiesPanel.h"
-#include "editor/panels/viewport/ViewportPanel.h"
+#include "editor/viewport/ViewportPanel.h"
 #include "editor/panels/assets/AssetBrowserPanel.h"
 #include "editor/panels/core/ConsolePanel.h"
 #include "editor/panels/world/SceneGraphPanel.h"

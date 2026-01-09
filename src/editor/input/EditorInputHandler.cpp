@@ -5,7 +5,7 @@
 #include "EditorInputHandler.h"
 #include "editor/core/EditorContext.h"
 #include "editor/core/CommandManager.h"
-#include "editor/panels/viewport/ViewportPanel.h"
+#include "editor/viewport/ViewportPanel.h"
 #include "engine/utils/Logger.h"
 
 EditorInputHandler::EditorInputHandler(EditorContext& context)

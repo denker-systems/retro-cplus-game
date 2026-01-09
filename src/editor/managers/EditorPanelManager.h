@@ -11,10 +11,11 @@ class Game;
 class EditorContext;
 class HierarchyPanel;
 class PropertiesPanel;
-class ViewportPanel;
 
 namespace editor {
-    class ViewportPanelNew;
+namespace viewport {
+    class ViewportPanel;
+}
 }
 class AssetBrowserPanel;
 class PlaceActorsPanel;
@@ -31,10 +32,6 @@ class LevelViewPanel;
 class EditorInputHandler;
 class EditorMenuBar;
 class EditorDockspace;
-
-namespace editor {
-    class Viewport3DPanel;
-}
 
 namespace engine {
     class LayerManager;
@@ -54,8 +51,7 @@ public:
     // Panel access
     HierarchyPanel* getHierarchyPanel() const { return m_hierarchyPanel.get(); }
     PropertiesPanel* getPropertiesPanel() const { return m_propertiesPanel.get(); }
-    ViewportPanel* getViewportPanel() const { return m_viewportPanel.get(); }
-    editor::ViewportPanelNew* getViewportPanelNew() const { return m_viewportPanelNew.get(); }
+    editor::viewport::ViewportPanel* getViewportPanel() const { return m_viewportPanel.get(); }
     AssetBrowserPanel* getAssetBrowserPanel() const { return m_assetBrowserPanel.get(); }
     PlaceActorsPanel* getPlaceActorsPanel() const { return m_placeActorsPanel.get(); }
     ConsolePanel* getConsolePanel() const { return m_consolePanel.get(); }
@@ -68,7 +64,6 @@ public:
     TileMapEditorPanel* getTileMapEditorPanel() const { return m_tileMapEditorPanel.get(); }
     WorldViewPanel* getWorldViewPanel() const { return m_worldViewPanel.get(); }
     LevelViewPanel* getLevelViewPanel() const { return m_levelViewPanel.get(); }
-    editor::Viewport3DPanel* getViewport3DPanel() const { return m_viewport3DPanel.get(); }
     EditorInputHandler* getInputHandler() const { return m_inputHandler.get(); }
     EditorMenuBar* getMenuBar() const { return m_menuBar.get(); }
     EditorDockspace* getDockspace() const { return m_dockspace.get(); }
@@ -79,8 +74,7 @@ private:
     // Panels
     std::unique_ptr<HierarchyPanel> m_hierarchyPanel;
     std::unique_ptr<PropertiesPanel> m_propertiesPanel;
-    std::unique_ptr<ViewportPanel> m_viewportPanel;
-    std::unique_ptr<editor::ViewportPanelNew> m_viewportPanelNew;
+    std::unique_ptr<editor::viewport::ViewportPanel> m_viewportPanel;
     std::unique_ptr<AssetBrowserPanel> m_assetBrowserPanel;
     std::unique_ptr<PlaceActorsPanel> m_placeActorsPanel;
     std::unique_ptr<ConsolePanel> m_consolePanel;
@@ -93,7 +87,6 @@ private:
     std::unique_ptr<TileMapEditorPanel> m_tileMapEditorPanel;
     std::unique_ptr<WorldViewPanel> m_worldViewPanel;
     std::unique_ptr<LevelViewPanel> m_levelViewPanel;
-    std::unique_ptr<editor::Viewport3DPanel> m_viewport3DPanel;
     
     // Input handler
     std::unique_ptr<EditorInputHandler> m_inputHandler;

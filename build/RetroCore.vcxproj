@@ -400,8 +400,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\GLTextureManager.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\audio\AudioManager.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Entity.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Character.cpp" />
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\PlayerCharacter.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\ui\Widget.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\Logger.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\FileWatcher.cpp" />

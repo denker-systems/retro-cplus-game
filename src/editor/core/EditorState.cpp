@@ -8,12 +8,12 @@
 #include "editor/managers/EditorWorldManager.h"
 #include "editor/managers/EditorEventDispatcher.h"
 #include "editor/input/EditorInputHandler.h"
+#include "editor/core/SelectionManager.h"
 #include "editor/panels/core/HierarchyPanel.h"
 #include "editor/panels/core/PropertiesPanel.h"
 #include "editor/panels/core/ConsolePanel.h"
 #include "editor/panels/core/CommandPanel.h"
-#include "editor/panels/viewport/ViewportPanel.h"
-#include "editor/viewport/ViewportPanelNew.h"
+#include "editor/viewport/ViewportPanel.h"
 #include "editor/panels/assets/AssetBrowserPanel.h"
 #include "editor/panels/assets/PlaceActorsPanel.h"
 #include "editor/panels/world/WorldViewPanel.h"
@@ -32,7 +32,7 @@
 #include "ai/AISystemInit.h"
 #include "ai/ui/AIChatPanel.h"
 #include "editor/panels/core/EditorSettingsPanel.h"
-#include "editor/viewport/Viewport3DPanel.h"
+#include "editor/viewport/3d/Viewport3DPanel.h"
 #include "editor/core/EditorPlayMode.h"
 
 #ifdef HAS_IMGUI
@@ -120,15 +120,10 @@ void EditorState::enter() {
     
     // NOW connect World/Level/Scene hierarchy to panels
     auto* world = m_worldManager->getWorld();
+    viewport->setPlayMode(m_playMode.get());  // Set BEFORE setScene so playMode exists
     viewport->setWorld(world);
     viewport->setLevel(world->getActiveLevel());
     viewport->setScene(world->getActiveLevel()->getActiveScene());
-    viewport->setPlayMode(m_playMode.get());
-    
-    // Connect new unified viewport
-    if (auto* viewportNew = m_panelManager->getViewportPanelNew()) {
-        viewportNew->setWorld(world);
-    }
     
     m_panelManager->getSceneGraphPanel()->setScene(world->getActiveLevel()->getActiveScene());
     m_panelManager->getLayerEditorPanel()->setLayerManager(m_worldManager->getLayerManager());

@@ -91,40 +91,55 @@
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\EditorSettingsPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\ViewportPanelNew.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\ViewportPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\ViewportRenderer.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\core\BaseViewRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\ViewportInput.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\core\Base3DRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\EditorCamera3D.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\core\Base2DRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\Viewport3DPanel.cpp">
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\renderers\3d\World3DRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\renderers\3d\Level3DRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\renderers\3d\Scene3DRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\renderers\2d\World2DRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\renderers\2d\Level2DRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\renderers\2d\Scene2DRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\ui\ViewportToolbar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\ui\ViewportBreadcrumbs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\ui\ViewportActorRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\input\ViewportInputHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\3d\EditorCamera3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\3d\Viewport3DPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\gizmos\TransformGizmo3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Core.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Level.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Actors.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\viewport\ViewportPanel_Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\assets\AssetBrowserPanel.cpp">
