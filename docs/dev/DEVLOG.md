@@ -6,6 +6,61 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ---
 
+## 2026-01-09
+
+### Natt (00:50-03:05)
+
+- `74f2c01` feat(editor,actors): add ActorDetailsPanel and PlayerConfigActor
+  - **ActorDetailsPanel:** Detaljerad actor editor i separat panel
+    - Transform editor (position, rotation, yaw, scale)
+    - Component editors (CharacterController3D, Camera, Sprite, RigidBody3D)
+    - Add Component dropdown
+    - Auto-open vid actor selection
+  - **PlayerConfigActor:** Global player-konfiguration med kamera
+    - CameraComponent automatiskt tillagd
+    - Camera offset settings (X, Y, Z)
+    - Camera follow speed
+    - Default-skapad i Tavern scene
+  - **Camera Visualization:** Cyan kub för PlayerConfig, gul kub för camera preview
+  - **Nya filer:** ActorDetailsPanel.h/cpp, PlayerConfigActor.h/cpp
+  - **Statistik:** 55 filer, +1,768/-526 rader
+  - **Verifierat:** Actor Details öppnas vid selection, camera settings redigerbara
+
+- `efb2585` chore(build): add build artifacts and temp files
+  - **Build artifacts:** .obj, .exe, .lib filer
+  - **Statistik:** 91 filer, +422/-1,813 rader
+
+- `50320de` feat(engine,editor): add 3D character system with PhysX controller
+  - **3D Character System:** Komplett implementation
+    - PlayerStartActor: Spawn-punkt för 3D-spelare
+    - Character3DActor: Bas-klass för 3D-karaktärer
+    - Player3DActor: Spelbar karaktär med WASD + mouse look
+    - CharacterController3DComponent: PhysX character controller wrapper
+  - **Features:**
+    - WASD-rörelse rotation-relativ (W = framåt i spelarens riktning)
+    - RMB + mus för player rotation (yaw)
+    - SPACE för hopp
+    - Grounded-detektion
+    - Kamera följer player automatiskt (smooth lerp)
+    - Player renderas som grön kub med rotation
+  - **PhysX Integration:**
+    - PxControllerManager för character controllers
+    - PxCapsuleController för player collision
+    - eSCENE_QUERY_SHAPE flag för ground detection
+    - Ground plane vid Y=0
+  - **Editor Integration:**
+    - EditorPlayMode spawnar player vid PlayerStart
+    - Viewport3DPanel renderar player med rotation
+    - Default PlayerStart i Tavern scene
+    - Camera follow i Viewport3DPanel::update()
+    - m_playMode vidarebefordras: ViewportPanel → Base3DRenderer → Viewport3DPanel
+  - **Nya filer:** 6 st (Character3DActor, Player3DActor, PlayerStartActor, CharacterController3DComponent)
+  - **Statistik:** 18 filer, +1,343/-86 rader
+  - **Verifierat:** WASD fungerar, mouse look fungerar, kamera följer, hopp fungerar, grounded detection fungerar
+- Session: [2026-01-09](sessions/2026-01-09.md)
+
+---
+
 ## 2026-01-08
 
 ### Kväll (22:50-23:28)
