@@ -39,6 +39,9 @@ public:
     // Set selection manager for actor selection and navigation sync
     void setSelectionManager(SelectionManager* selectionManager);
     
+    // Set actor details panel for opening details view
+    void setActorDetailsPanel(class ActorDetailsPanel* detailsPanel) { m_actorDetailsPanel = detailsPanel; }
+    
 private:
     void renderWorldHierarchy();
     void renderLevelHierarchy();
@@ -49,6 +52,7 @@ private:
     
     EditorContext& m_context;
     SelectionManager* m_selectionManager = nullptr;
+    class ActorDetailsPanel* m_actorDetailsPanel = nullptr;
     std::string m_id = "hierarchy";
     std::string m_title = "Hierarchy";
     

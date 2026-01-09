@@ -9019,3 +9019,1987 @@ events:
         - "C:/Program Files (x86)/RetroAdventure"
       CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
 ...
+
+---
+events:
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    name: "unofficial-omniverse-physx-sdk"
+    configs:
+      -
+        filename: "unofficial-omniverse-physx-sdkConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "unofficial-omniverse-physx-sdk-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "unofficial-omniverse-physx-sdk"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/CMakeFiles/pkgRedirects/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/Scripts/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Python314/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/wbem/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/WindowsPowerShell/v1.0/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Windows/System32/OpenSSH/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Git/cmd/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/150/Tools/Binn/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/dotnet/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Incredibuild/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Customization/Yasb/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/nodejs/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/ProgramData/chocolatey/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/Docker/Docker/resources/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/Scripts/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Python/Python311/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/scoop/shims/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Microsoft/WindowsApps/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/GitHubDesktop/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Windsurf/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Roaming/npm/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/AppData/Local/Programs/Ollama/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/.windsurf/extensions/ms-python.debugpy-2025.18.0-win32-x64/bundled/scripts/noConfigScripts/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/Calle/.windsurf/extensions/ms-python.debugpy-2025.18.0-win32-x64/bundled/scripts/noConfigScripts/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files/CMake/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/unofficial-omniverse-physx-sdkConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Program Files (x86)/unofficial-omniverse-physx-sdk-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found: null
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+...
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:24 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE-PHYSX-SDK_LIBRARY_RELEASE"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysX_static_64"
+      - "PhysX_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysX_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:25 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE-PHYSX-SDK_LIBRARY_DEBUG"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysX_static_64"
+      - "PhysX_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysX_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:63 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXExtensions_LIBRARY_RELEASE"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXExtensions_static_64"
+      - "PhysXExtensions_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXExtensions_static_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:69 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXExtensions_LIBRARY_DEBUG"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXExtensions_static_64"
+      - "PhysXExtensions_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXExtensions_static_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:63 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXPvdSDK_LIBRARY_RELEASE"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXPvdSDK_static_64"
+      - "PhysXPvdSDK_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXPvdSDK_static_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:69 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXPvdSDK_LIBRARY_DEBUG"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXPvdSDK_static_64"
+      - "PhysXPvdSDK_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXPvdSDK_static_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:63 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXCharacterKinematic_LIBRARY_RELEASE"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXCharacterKinematic_static_64"
+      - "PhysXCharacterKinematic_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXCharacterKinematic_static_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:69 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXCharacterKinematic_LIBRARY_DEBUG"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXCharacterKinematic_static_64"
+      - "PhysXCharacterKinematic_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXCharacterKinematic_static_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:63 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXCooking_LIBRARY_RELEASE"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXCooking_static_64"
+      - "PhysXCooking_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXCooking_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:69 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXCooking_LIBRARY_DEBUG"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXCooking_static_64"
+      - "PhysXCooking_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXCooking_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:63 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXCommon_LIBRARY_RELEASE"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXCommon_static_64"
+      - "PhysXCommon_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXCommon_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:69 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXCommon_LIBRARY_DEBUG"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXCommon_static_64"
+      - "PhysXCommon_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXCommon_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:63 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXFoundation_LIBRARY_RELEASE"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXFoundation_static_64"
+      - "PhysXFoundation_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXFoundation_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:69 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXFoundation_LIBRARY_DEBUG"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXFoundation_static_64"
+      - "PhysXFoundation_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXFoundation_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:63 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXVehicle_LIBRARY_RELEASE"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXVehicle_static_64"
+      - "PhysXVehicle_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXVehicle_static_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:69 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXVehicle_LIBRARY_DEBUG"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXVehicle_static_64"
+      - "PhysXVehicle_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXVehicle_static_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:63 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXVehicle2_LIBRARY_RELEASE"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXVehicle2_static_64"
+      - "PhysXVehicle2_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/PhysXVehicle2_static_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:69 (find_library)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "OMNIVERSE_PhysXVehicle2_LIBRARY_DEBUG"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXVehicle2_static_64"
+      - "PhysXVehicle2_64"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/PhysXVehicle2_static_64.lib"
+    search_context:
+      CMAKE_LIBRARY_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/lib/manual-link"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/lib/manual-link"
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/RetroAdventure/bin"
+        - "C:/Program Files/CMake/bin"
+        - "/bin"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:98 (find_file)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "file"
+    variable: "OMNIVERSE-PHYSX-SDK-GPU_LIBRARY_RELEASE"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXGpu_64.dll"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/PhysXGpu_64.dll"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/PhysXGpu_64.dll"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build/vcpkg_installed/x64-windows/share/unofficial-omniverse-physx-sdk/unofficial-omniverse-physx-sdk-config.cmake:99 (find_file)"
+      - "C:/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "file"
+    variable: "OMNIVERSE-PHYSX-SDK-GPU_DEVICE_LIBRARY_RELEASE"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "LAST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "PhysXDevice64.dll"
+    candidate_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/"
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/"
+    searched_directories:
+      - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/PhysXDevice64.dll"
+    found: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/tools/PhysXDevice64.dll"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug"
+        - "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+      ENV{PATH}:
+        - "C:\\Python314\\Scripts\\"
+        - "C:\\Python314\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Incredibuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Customization\\Yasb\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\Calle\\scoop\\shims"
+        - "C:\\Users\\Calle\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Calle\\.dotnet\\tools"
+        - "C:\\Users\\Calle\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.2.2.1\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Windsurf\\bin"
+        - "C:\\Users\\Calle\\AppData\\Roaming\\npm"
+        - "C:\\Users\\Calle\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\Calle\\AppData\\Local\\Programs\\Ollama"
+        - "c:\\Users\\Calle\\.windsurf\\extensions\\ms-python.debugpy-2025.18.0-win32-x64\\bundled\\scripts\\noConfigScripts"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/RetroAdventure"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/debug;C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows"
+...

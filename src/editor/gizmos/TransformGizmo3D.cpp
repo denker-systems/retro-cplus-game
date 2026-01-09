@@ -3,7 +3,7 @@
  * @brief 3D transform gizmo implementation
  */
 #include "TransformGizmo3D.h"
-#include "editor/viewport/EditorCamera3D.h"
+#include "editor/viewport/3d/EditorCamera3D.h"
 #include "engine/core/ActorObjectExtended.h"
 
 #ifdef HAS_IMGUI

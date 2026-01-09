@@ -20,6 +20,7 @@ find_package(OpenGL REQUIRED)
 find_package(assimp CONFIG REQUIRED)
 find_package(httplib CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
 
 # Editor dependencies (optional)
 find_package(imgui CONFIG QUIET)
@@ -103,6 +104,16 @@ set(CORE_SOURCES
     src/engine/physics/KinematicBody.cpp
     src/engine/physics/SpatialGrid.cpp
     src/engine/physics/box2d/PhysicsWorld2D.cpp
+    src/engine/physics/physx/PhysicsWorld3D.cpp
+    src/engine/components/RigidBody3DComponent.cpp
+    src/engine/components/MeshComponent.cpp
+    src/engine/actors/StaticMeshActor.cpp
+    src/engine/actors/CameraActor.cpp
+    src/engine/actors/LightActor.cpp
+    src/engine/actors/PlayerStartActor.cpp
+    src/engine/actors/PlayerConfigActor.cpp
+    src/engine/actors/Character3DActor.cpp
+    src/engine/components/CharacterController3DComponent.cpp
     src/engine/Renderer.cpp
     src/engine/input/Input.cpp
     src/engine/Room.cpp
@@ -137,8 +148,8 @@ set(CORE_SOURCES
     src/engine/graphics/GLTextureManager.cpp
     src/engine/audio/AudioManager.cpp
     src/engine/entities/Entity.cpp
-    src/engine/entities/Character.cpp
-    src/engine/entities/PlayerCharacter.cpp
+    # src/engine/entities/Character.cpp  # DEPRECATED: Use CharacterActor
+    # src/engine/entities/PlayerCharacter.cpp  # DEPRECATED: Use PlayerActor
     # src/engine/entities/NPC.cpp  # Migrated to src/engine/actors/NPC.cpp
     src/engine/ui/Widget.cpp
     src/engine/utils/Logger.cpp
@@ -157,6 +168,7 @@ target_link_libraries(RetroCore PUBLIC
     glm::glm
     GLEW::GLEW
     OpenGL::GL
+    unofficial::omniverse-physx-sdk::sdk
 )
 
 # Hot Reload alltid tillgängligt (polling-baserat, ingen extern dependency)
@@ -209,6 +221,7 @@ set(EDITOR_SOURCES
     # Core
     src/editor/core/EditorState.cpp
     src/editor/core/EditorContext.cpp
+    src/editor/core/EditorPlayMode.cpp
     src/editor/core/EditorCore.cpp
     src/editor/core/EditorApp.cpp
     src/editor/core/CommandManager.cpp
@@ -232,21 +245,36 @@ set(EDITOR_SOURCES
     src/editor/panels/core/GameSettingsPanel.cpp
     src/editor/panels/core/EditorSettingsPanel.cpp
     
-    # Viewport (Unified architecture)
-    src/editor/viewport/ViewportPanelNew.cpp
-    src/editor/viewport/ViewportRenderer.cpp
-    src/editor/viewport/ViewportInput.cpp
-    src/editor/viewport/EditorCamera3D.cpp
-    src/editor/viewport/Viewport3DPanel.cpp
-    src/editor/gizmos/TransformGizmo3D.cpp
+    # Viewport - Main Panel
+    src/editor/viewport/ViewportPanel.cpp
     
-    # Legacy viewport (keeping for now - has dependencies)
-    src/editor/panels/viewport/ViewportPanel_Core.cpp
-    src/editor/panels/viewport/ViewportPanel_World.cpp
-    src/editor/panels/viewport/ViewportPanel_Level.cpp
-    src/editor/panels/viewport/ViewportPanel_Scene.cpp
-    src/editor/panels/viewport/ViewportPanel_Actors.cpp
-    src/editor/panels/viewport/ViewportPanel_Input.cpp
+    # Viewport - Core Base Classes
+    src/editor/viewport/core/BaseViewRenderer.cpp
+    src/editor/viewport/core/Base3DRenderer.cpp
+    src/editor/viewport/core/Base2DRenderer.cpp
+    
+    # Viewport - 3D Renderers
+    src/editor/viewport/renderers/3d/World3DRenderer.cpp
+    src/editor/viewport/renderers/3d/Level3DRenderer.cpp
+    src/editor/viewport/renderers/3d/Scene3DRenderer.cpp
+    
+    # Viewport - 2D Renderers
+    src/editor/viewport/renderers/2d/World2DRenderer.cpp
+    src/editor/viewport/renderers/2d/Level2DRenderer.cpp
+    src/editor/viewport/renderers/2d/Scene2DRenderer.cpp
+    
+    # Viewport - UI Components
+    src/editor/viewport/ui/ViewportToolbar.cpp
+    src/editor/viewport/ui/ViewportBreadcrumbs.cpp
+    src/editor/viewport/ui/ViewportActorRenderer.cpp
+    
+    # Viewport - Input
+    src/editor/viewport/input/ViewportInputHandler.cpp
+    
+    # Viewport - 3D Support
+    src/editor/viewport/3d/EditorCamera3D.cpp
+    src/editor/viewport/3d/Viewport3DPanel.cpp
+    src/editor/gizmos/TransformGizmo3D.cpp
     
     # Panels - Assets
     src/editor/panels/assets/AssetBrowserPanel.cpp
@@ -260,6 +288,7 @@ set(EDITOR_SOURCES
     # Panels - Editors
     src/editor/panels/editors/LayerEditorPanel.cpp
     src/editor/panels/editors/TileMapEditorPanel.cpp
+    src/editor/panels/editors/ActorDetailsPanel.cpp
     
     # Panels - Graphs
     src/editor/panels/graphs/INodeGraphPanel.cpp

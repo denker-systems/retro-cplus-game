@@ -75,12 +75,20 @@ void Level::transitionToScene(const std::string& sceneId) {
 }
 
 void Level::update(float deltaTime) {
+    // Update Level-level actors first (chapter-wide actors)
+    updateActors(deltaTime);
+    
+    // Then update active scene
     if (m_activeScene) {
         m_activeScene->update(deltaTime);
     }
 }
 
 void Level::render(SDL_Renderer* renderer) {
+    // Render Level-level actors first (chapter-wide actors)
+    renderActors(renderer);
+    
+    // Then render active scene
     if (m_activeScene) {
         m_activeScene->render(renderer);
     }

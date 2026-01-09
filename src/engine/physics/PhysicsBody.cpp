@@ -7,16 +7,16 @@
 namespace engine {
 
 PhysicsBody::PhysicsBody()
-    : ActorObject("PhysicsBody") {}
+    : ActorObjectExtended("PhysicsBody") {}
 
-PhysicsBody::PhysicsBody(const std::string& name) : ActorObject(name) {}
+PhysicsBody::PhysicsBody(const std::string& name) : ActorObjectExtended(name) {}
 
 void PhysicsBody::update(float deltaTime) {
     if (!m_isStatic) {
         applyPhysics(deltaTime);
     }
     
-    ActorObject::update(deltaTime);
+    ActorObjectExtended::update(deltaTime);
 }
 
 void PhysicsBody::applyPhysics(float deltaTime) {

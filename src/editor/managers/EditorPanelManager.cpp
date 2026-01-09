@@ -7,7 +7,7 @@
 #include "editor/core/EditorContext.h"
 #include "editor/panels/core/HierarchyPanel.h"
 #include "editor/panels/core/PropertiesPanel.h"
-#include "editor/panels/viewport/ViewportPanel.h"
+#include "editor/viewport/ViewportPanel.h"
 #include "editor/panels/assets/AssetBrowserPanel.h"
 #include "editor/panels/assets/PlaceActorsPanel.h"
 #include "editor/panels/core/ConsolePanel.h"
@@ -17,14 +17,13 @@
 #include "editor/panels/editors/TileMapEditorPanel.h"
 #include "editor/panels/world/WorldViewPanel.h"
 #include "editor/panels/world/LevelViewPanel.h"
+#include "editor/panels/editors/ActorDetailsPanel.h"
 #include "editor/panels/graphs/dialog/DialogGraphPanel.h"
 #include "editor/panels/graphs/quest/QuestGraphPanel.h"
 #include "editor/panels/graphs/npc/BehaviorGraphPanel.h"
 #include "editor/input/EditorInputHandler.h"
 #include "editor/ui/EditorMenuBar.h"
 #include "editor/ui/EditorDockspace.h"
-#include "editor/viewport/Viewport3DPanel.h"
-#include "editor/viewport/ViewportPanelNew.h"
 
 EditorPanelManager::EditorPanelManager(EditorContext& context)
     : m_context(context) {
@@ -34,8 +33,7 @@ void EditorPanelManager::initialize(Game* game) {
     // Create panels
     m_hierarchyPanel = std::make_unique<HierarchyPanel>(m_context);
     m_propertiesPanel = std::make_unique<PropertiesPanel>(m_context);
-    m_viewportPanel = std::make_unique<ViewportPanel>(m_context);
-    m_viewportPanel->setRenderer(game->getRenderer());
+    m_viewportPanel = std::make_unique<editor::viewport::ViewportPanel>(m_context);
     m_assetBrowserPanel = std::make_unique<AssetBrowserPanel>(m_context);
     m_assetBrowserPanel->setRenderer(game->getRenderer());
     m_placeActorsPanel = std::make_unique<PlaceActorsPanel>(m_context);
@@ -50,11 +48,7 @@ void EditorPanelManager::initialize(Game* game) {
     m_tileMapEditorPanel = std::make_unique<TileMapEditorPanel>(m_context);
     m_worldViewPanel = std::make_unique<WorldViewPanel>(m_context);
     m_levelViewPanel = std::make_unique<LevelViewPanel>(m_context);
-    
-#ifdef HAS_IMGUI
-    m_viewport3DPanel = std::make_unique<editor::Viewport3DPanel>();
-    m_viewportPanelNew = std::make_unique<editor::ViewportPanelNew>(m_context);
-#endif
+    m_actorDetailsPanel = std::make_unique<ActorDetailsPanel>(m_context);
     
     // Create input handler
     m_inputHandler = std::make_unique<EditorInputHandler>(m_context);

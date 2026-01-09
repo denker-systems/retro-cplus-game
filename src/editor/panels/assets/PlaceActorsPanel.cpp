@@ -22,7 +22,9 @@ void PlaceActorsPanel::initializeTemplates() {
     
     // Characters
     m_templates.push_back({"NPC", "👤", ActorCategory::Characters, "Non-player character", "", true});
-    m_templates.push_back({"Player Spawn", "⚑", ActorCategory::Characters, "Player spawn point", "", false});
+    m_templates.push_back({"Player Config", "🎮", ActorCategory::Characters, "Player settings with camera (2D)", "PlayerConfigActor", false});
+    m_templates.push_back({"Player Start", "⚑", ActorCategory::Characters, "Player spawn point (3D)", "PlayerStart", false});
+    m_templates.push_back({"Player 3D", "🏃", ActorCategory::Characters, "3D player character", "Player3D", false});
     m_templates.push_back({"Enemy", "👾", ActorCategory::Characters, "Enemy character", "", true});
     
     // Props
@@ -30,6 +32,12 @@ void PlaceActorsPanel::initializeTemplates() {
     m_templates.push_back({"Interactive Prop", "🎁", ActorCategory::Props, "Clickable/usable object", "", true});
     m_templates.push_back({"Door", "🚪", ActorCategory::Props, "Door/exit to another scene", "", false});
     m_templates.push_back({"Container", "📥", ActorCategory::Props, "Container with items", "", true});
+    
+    // 3D Physics Props
+    m_templates.push_back({"Static Mesh", "🧊", ActorCategory::Props, "3D mesh with optional physics", "StaticMeshActor", true});
+    m_templates.push_back({"Physics Cube", "⬜", ActorCategory::Props, "Falling physics cube", "StaticMeshActor:Cube:Dynamic", true});
+    m_templates.push_back({"Physics Sphere", "⚪", ActorCategory::Props, "Rolling physics sphere", "StaticMeshActor:Sphere:Dynamic", true});
+    m_templates.push_back({"Static Platform", "▬", ActorCategory::Props, "Static physics platform", "StaticMeshActor:Cube:Static", true});
     
     // Triggers
     m_templates.push_back({"Trigger Zone", "⬜", ActorCategory::Triggers, "Invisible trigger area", "", false});

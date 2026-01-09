@@ -188,34 +188,30 @@ Hanterar walk area clamping och movement.
 
 ---
 
-## 6. Uppdatera DEVLOG
+## 6. Uppdatera DEVLOG (PRIMÄRT)
 
 Lägg till i `docs/dev/DEVLOG.md`:
 
 ```markdown
 ## YYYY-MM-DD
 
-### [Developer Name] - Session X
+### Kväll (HH:MM-HH:MM)
 
-#### Commits
-- `abc123` feat(core): Added PlayerActor with walk area
-  - Ny PlayerActor-klass med movement
-  - Walk area clamping implementerat
-  - Se: [Session Report](sessions/YYYY-MM-DD.md)
-
-- `def456` fix(world): Fixed walk area loading from JSON
-  - Root cause: JSON field parsades inte
-  - Lösning: La till parsing i DataLoader
-
-#### Sammanfattning
-- Implementerade PlayerActor med full walk area support
-- Fixade bug där walk area inte laddades från JSON
-- Förberedde för NPCActor implementation
-
-#### Nästa Steg
-- [ ] NPCActor implementation
-- [ ] Pathfinding integration
+- `abc123` type(scope): beskrivning
+  - **Nya filer:** Lista alla nya filer med sökvägar
+  - **Borttagna:** Lista borttagna filer
+  - **Statistik:** X filer, +A/-B rader, netto ±C
+  - **Features:** Beskriv nya features i detalj
+  - **Verifierat:** Lista vad som testats och fungerar
+  - **Arkitektur:** Beskriv arkitekturändringar om relevanta
+- `def456` type(scope): beskrivning
+  - **Root cause:** Varför buggen uppstod
+  - **Lösning:** Hur den fixades
+  - **Verifierat:** Hur du testade att det fungerar
+- Session: [YYYY-MM-DD](sessions/YYYY-MM-DD.md)
 ```
+
+**VIKTIGT:** DEVLOG är primär dokumentation - var noggrann och detaljerad!
 
 ---
 
@@ -245,36 +241,7 @@ Under `[Unreleased]` i `docs/CHANGELOG.md`:
 
 ---
 
-## 8. Uppdatera ROADMAP
-
-Markera klara uppgifter i `docs/ROADMAP.md`:
-
-```markdown
-## Fas 5: Actor System
-
-### 5A: Core Classes ✅
-- [x] Object base class
-- [x] ActorObject med transform
-- [x] ActorObjectExtended med components
-
-### 5B: Character Actors ⏳
-- [x] CharacterActor base class
-- [x] PlayerActor implementation
-- [ ] NPCActor implementation (0%)
-- [ ] EnemyActor implementation (0%)
-
-### 5C: Component System ⏳
-- [x] SpriteComponent rendering
-- [x] AnimationComponent playback
-- [ ] CollisionComponent (0%)
-- [ ] DialogComponent (0%)
-
-### Progress: 60% complete
-```
-
----
-
-## 9. Skapa ADR (Om Arkitekturbeslut Gjordes)
+## 8. Skapa ADR (Om Arkitekturbeslut Gjordes)
 
 Om betydande arkitekturbeslut gjordes, skapa `docs/adr/NNN-title.md`:
 

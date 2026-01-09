@@ -12,7 +12,6 @@ class ConsolePanel;
 class AssetBrowserPanel;
 class PlaceActorsPanel;
 class HierarchyPanel;
-class ViewportPanel;
 class PropertiesPanel;
 class DialogGraphPanel;
 class QuestGraphPanel;
@@ -20,6 +19,9 @@ class BehaviorGraphPanel;
 
 namespace editor {
 class EditorSettingsPanel;
+namespace viewport {
+    class ViewportPanel;
+}
 }
 
 /**
@@ -35,7 +37,7 @@ public:
     // Set panel references for visibility toggles
     void setPanels(
         HierarchyPanel* hierarchy,
-        ViewportPanel* viewport,
+        editor::viewport::ViewportPanel* viewport,
         PropertiesPanel* properties,
         AssetBrowserPanel* assetBrowser,
         PlaceActorsPanel* placeActors,
@@ -66,7 +68,7 @@ private:
     
     // Panel pointers for visibility
     HierarchyPanel* m_hierarchyPanel = nullptr;
-    ViewportPanel* m_viewportPanel = nullptr;
+    editor::viewport::ViewportPanel* m_viewportPanel = nullptr;
     PropertiesPanel* m_propertiesPanel = nullptr;
     AssetBrowserPanel* m_assetBrowserPanel = nullptr;
     PlaceActorsPanel* m_placeActorsPanel = nullptr;

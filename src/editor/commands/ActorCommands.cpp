@@ -6,31 +6,31 @@
 #include "engine/utils/Logger.h"
 
 // DeleteActorCommand
-DeleteActorCommand::DeleteActorCommand(engine::Scene* scene, 
+DeleteActorCommand::DeleteActorCommand(engine::WorldContainer* container, 
                                       engine::ActorObjectExtended* actor)
-    : m_scene(scene), m_actor(actor), 
+    : m_container(container), m_actor(actor), 
       m_actorName(actor ? actor->getName() : "") {
 }
 
 bool DeleteActorCommand::execute() {
-    if (!m_scene || !m_actor) return false;
+    if (!m_container || !m_actor) return false;
     
-    // Remove the actor from scene
-    m_scene->removeActor(m_actor);
+    // Remove the actor from container (World/Level/Scene)
+    m_container->removeActor(m_actor);
     
     LOG_INFO("Deleted actor: " + m_actorName);
     return true;
 }
 
 bool DeleteActorCommand::undo() {
-    if (!m_scene || !m_actor) return false;
+    if (!m_container || !m_actor) return false;
     
     // Create a new actor with same properties
     auto newActor = std::make_unique<engine::ActorObjectExtended>(m_actorName);
     newActor->setPosition(m_actor->getX(), m_actor->getY());
     
-    // Re-add to scene
-    m_scene->addActor(std::move(newActor));
+    // Re-add to container
+    m_container->addActor(std::move(newActor));
     
     LOG_INFO("Restored actor: " + m_actorName);
     return true;
@@ -41,16 +41,16 @@ std::string DeleteActorCommand::getDescription() const {
 }
 
 // AddActorCommand
-AddActorCommand::AddActorCommand(engine::Scene* scene, 
+AddActorCommand::AddActorCommand(engine::WorldContainer* container, 
                                 std::unique_ptr<engine::ActorObjectExtended> actor)
-    : m_scene(scene), m_actor(std::move(actor)), 
+    : m_container(container), m_actor(std::move(actor)), 
       m_actorName(m_actor ? m_actor->getName() : "") {
 }
 
 bool AddActorCommand::execute() {
-    if (!m_scene || !m_actor) return false;
+    if (!m_container || !m_actor) return false;
     
-    m_scene->addActor(std::move(m_actor));
+    m_container->addActor(std::move(m_actor));
     m_executed = true;
     
     LOG_INFO("Added actor: " + m_actorName);
@@ -58,7 +58,7 @@ bool AddActorCommand::execute() {
 }
 
 bool AddActorCommand::undo() {
-    if (!m_scene || !m_executed) return false;
+    if (!m_container || !m_executed) return false;
     
     // Find and remove the actor we added
     // Note: This is simplified - in practice you'd store the shared_ptr
@@ -110,13 +110,13 @@ void MoveActorCommand::mergeWith(const IEditorCommand* other) {
 }
 
 // DuplicateActorCommand
-DuplicateActorCommand::DuplicateActorCommand(engine::Scene* scene,
+DuplicateActorCommand::DuplicateActorCommand(engine::WorldContainer* container,
                                            engine::ActorObjectExtended* original)
-    : m_scene(scene), m_original(original) {
+    : m_container(container), m_original(original) {
 }
 
 bool DuplicateActorCommand::execute() {
-    if (!m_scene || !m_original) return false;
+    if (!m_container || !m_original) return false;
     
     // Create duplicate with new name
     m_duplicateName = m_original->getName() + "_copy";
@@ -125,7 +125,7 @@ bool DuplicateActorCommand::execute() {
     // Copy position and other properties
     m_duplicate->setPosition(m_original->getX(), m_original->getY());
     
-    m_scene->addActor(std::move(m_duplicate));
+    m_container->addActor(std::move(m_duplicate));
     m_executed = true;
     
     LOG_INFO("Duplicated actor: " + m_duplicateName);
@@ -133,7 +133,7 @@ bool DuplicateActorCommand::execute() {
 }
 
 bool DuplicateActorCommand::undo() {
-    if (!m_scene || !m_executed) return false;
+    if (!m_container || !m_executed) return false;
     
     // Find and remove the duplicate
     // Note: Simplified - would need to store reference for proper removal

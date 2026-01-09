@@ -48,6 +48,7 @@ class EditorEventDispatcher;
 
 namespace editor {
 class EditorSettingsPanel;
+class EditorPlayMode;
 }
 
 /**
@@ -160,10 +161,12 @@ private:
     std::unique_ptr<EditorWorldManager> m_worldManager;
     std::unique_ptr<EditorEventDispatcher> m_eventDispatcher;
     std::unique_ptr<editor::EditorSettingsPanel> m_settingsPanel;
+    std::unique_ptr<editor::EditorPlayMode> m_playMode;
     
 public:
     // Accessors for EditorContext
     EditorWorldManager* getWorldManager() const { return m_worldManager.get(); }
+    editor::EditorPlayMode* getPlayMode() const { return m_playMode.get(); }
     
     // Data manager for all save/load operations
     editor::EditorDataManager m_dataManager;

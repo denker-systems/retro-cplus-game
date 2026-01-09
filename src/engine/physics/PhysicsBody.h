@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "core/ActorObject.h"
+#include "core/ActorObjectExtended.h"
 #include "CollisionShape.h"
 #include <vector>
 #include <memory>
@@ -14,8 +14,10 @@ namespace engine {
 
 /**
  * @brief Physics body with velocity and collision
+ * 
+ * Now inherits from ActorObjectExtended to support components.
  */
-class PhysicsBody : public ActorObject {
+class PhysicsBody : public ActorObjectExtended {
 public:
     PhysicsBody();
     explicit PhysicsBody(const std::string& name);

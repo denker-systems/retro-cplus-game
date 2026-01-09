@@ -15,6 +15,8 @@
 #include "engine/world/RoomToSceneConverter.h"
 #include "engine/graphics/TextureManager.h"
 #include "engine/components/SpriteComponent.h"
+#include "engine/actors/PlayerStartActor.h"
+#include "engine/actors/PlayerConfigActor.h"
 #include "engine/utils/Logger.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -167,6 +169,21 @@ void EditorWorldManager::createWorldFromWorldData(Game* game) {
                         defaultGridX = 0;
                         defaultGridY++;
                     }
+                }
+                
+                // Add default PlayerStart to Tavern scene for quick testing
+                if (sceneId == "tavern") {
+                    auto playerStart = std::make_unique<engine::PlayerStartActor>();
+                    playerStart->setSpawnPosition(glm::vec3(0.0f, 2.5f, 4.0f));
+                    scene->addActor(std::move(playerStart));
+                    LOG_INFO("[EditorWorldManager] Added default PlayerStart to Tavern scene");
+                    
+                    // Add default PlayerConfigActor for camera settings
+                    auto playerConfig = std::make_unique<engine::PlayerConfigActor>();
+                    playerConfig->setPosition(0.0f, 0.0f);
+                    playerConfig->setZ(0.0f);
+                    scene->addActor(std::move(playerConfig));
+                    LOG_INFO("[EditorWorldManager] Added default PlayerConfigActor to Tavern scene");
                 }
                 
                 level->addScene(std::move(scene));

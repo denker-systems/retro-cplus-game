@@ -8,12 +8,12 @@
 #include "editor/managers/EditorWorldManager.h"
 #include "editor/managers/EditorEventDispatcher.h"
 #include "editor/input/EditorInputHandler.h"
+#include "editor/core/SelectionManager.h"
 #include "editor/panels/core/HierarchyPanel.h"
 #include "editor/panels/core/PropertiesPanel.h"
 #include "editor/panels/core/ConsolePanel.h"
 #include "editor/panels/core/CommandPanel.h"
-#include "editor/panels/viewport/ViewportPanel.h"
-#include "editor/viewport/ViewportPanelNew.h"
+#include "editor/viewport/ViewportPanel.h"
 #include "editor/panels/assets/AssetBrowserPanel.h"
 #include "editor/panels/assets/PlaceActorsPanel.h"
 #include "editor/panels/world/WorldViewPanel.h"
@@ -21,6 +21,7 @@
 #include "editor/panels/world/SceneGraphPanel.h"
 #include "editor/panels/editors/LayerEditorPanel.h"
 #include "editor/panels/editors/TileMapEditorPanel.h"
+#include "editor/panels/editors/ActorDetailsPanel.h"
 #include "editor/panels/graphs/dialog/DialogGraphPanel.h"
 #include "editor/panels/graphs/quest/QuestGraphPanel.h"
 #include "editor/panels/graphs/npc/BehaviorGraphPanel.h"
@@ -32,7 +33,8 @@
 #include "ai/AISystemInit.h"
 #include "ai/ui/AIChatPanel.h"
 #include "editor/panels/core/EditorSettingsPanel.h"
-#include "editor/viewport/Viewport3DPanel.h"
+#include "editor/viewport/3d/Viewport3DPanel.h"
+#include "editor/core/EditorPlayMode.h"
 
 #ifdef HAS_IMGUI
 #include "editor/core/ImGuiManager.h"
@@ -71,6 +73,11 @@ void EditorState::enter() {
     // Create settings panel
     m_settingsPanel = std::make_unique<editor::EditorSettingsPanel>();
     
+    // Create and initialize play mode
+    m_playMode = std::make_unique<editor::EditorPlayMode>();
+    m_playMode->initialize();
+    m_playMode->setWorld(m_worldManager->getWorld());
+    
     // Setup menu bar callbacks
     auto* menuBar = m_panelManager->getMenuBar();
     menuBar->setSettingsPanel(m_settingsPanel.get());
@@ -107,6 +114,17 @@ void EditorState::enter() {
     auto* hierarchy = m_panelManager->getHierarchyPanel();
     hierarchy->setSelectionManager(selectionManager);
     
+    // Connect ActorDetailsPanel to SelectionManager
+    auto* actorDetails = m_panelManager->getActorDetailsPanel();
+    actorDetails->setSelectionManager(selectionManager);
+    
+    // Register selection callback to open ActorDetailsPanel when actor is selected
+    selectionManager->registerSelectionChangedCallback([actorDetails, selectionManager]() {
+        if (auto* selectedActor = selectionManager->getSelectedActor()) {
+            actorDetails->setActor(selectedActor);
+        }
+    });
+    
     // Register navigation callback BEFORE setting world/level/scene
     selectionManager->registerNavigationChangedCallback([viewport]() {
         viewport->syncFromSelectionManager();
@@ -114,14 +132,10 @@ void EditorState::enter() {
     
     // NOW connect World/Level/Scene hierarchy to panels
     auto* world = m_worldManager->getWorld();
+    viewport->setPlayMode(m_playMode.get());  // Set BEFORE setScene so playMode exists
     viewport->setWorld(world);
     viewport->setLevel(world->getActiveLevel());
     viewport->setScene(world->getActiveLevel()->getActiveScene());
-    
-    // Connect new unified viewport
-    if (auto* viewportNew = m_panelManager->getViewportPanelNew()) {
-        viewportNew->setWorld(world);
-    }
     
     m_panelManager->getSceneGraphPanel()->setScene(world->getActiveLevel()->getActiveScene());
     m_panelManager->getLayerEditorPanel()->setLayerManager(m_worldManager->getLayerManager());
@@ -195,6 +209,11 @@ void EditorState::update(float deltaTime) {
     m_statusTimer = std::max(0.0f, m_statusTimer - deltaTime);
     
 #ifdef HAS_IMGUI
+    // Update play mode (physics simulation when playing)
+    if (m_playMode) {
+        m_playMode->update(deltaTime);
+    }
+    
     // Update panels
     if (m_panelManager && m_panelManager->getViewportPanel()) {
         m_panelManager->getViewportPanel()->update(deltaTime);
@@ -317,6 +336,9 @@ void EditorState::renderImGui() {
     }
     if (m_panelManager->getLevelViewPanel() && m_panelManager->getLevelViewPanel()->isVisible()) {
         m_panelManager->getLevelViewPanel()->render();
+    }
+    if (m_panelManager->getActorDetailsPanel() && m_panelManager->getActorDetailsPanel()->isVisible()) {
+        m_panelManager->getActorDetailsPanel()->render();
     }
     
     // Render AI Chat Panel

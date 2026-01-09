@@ -1,9 +1,21 @@
 /**
  * @file PlayerCharacter.h
- * @brief Spelarkaraktären som användaren kontrollerar
+ * @brief DEPRECATED: Forwarding header for legacy compatibility
+ * 
+ * USE INSTEAD: engine::PlayerActor (in engine/actors/CharacterActor.h)
+ * 
+ * This file is kept for backward compatibility during migration.
+ * All new code should use engine::PlayerActor directly.
  */
 #pragma once
 
+#include "engine/actors/CharacterActor.h"
+
+// DEPRECATED: Use engine::PlayerActor instead
+using PlayerCharacter = engine::PlayerActor;
+
+// Legacy class definition kept for reference (DO NOT USE)
+#if 0
 #include "Character.h"
 #include <memory>
 
@@ -11,7 +23,7 @@ class SpriteSheet;
 class Animation;
 
 /**
- * @brief Spelarkaraktären med input-hantering
+ * @brief DEPRECATED: Spelarkaraktären med input-hantering
  * 
  * Stödjer både tangentbord (WASD) och point-and-click rörelse.
  */
@@ -48,3 +60,4 @@ private:
     int m_walkMinX, m_walkMaxX;
     int m_walkMinY, m_walkMaxY;
 };
+#endif

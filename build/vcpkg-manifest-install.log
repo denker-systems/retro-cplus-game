@@ -25,6 +25,7 @@ The following packages are already installed:
   * opengl:x64-windows@2022-12-04#3
   * opengl-registry:x64-windows@2025-10-23
     openssl:x64-windows@3.6.0#3
+    physx:x64-windows@5.5.0#1
   * polyclipping:x64-windows@6.4.2#13
   * pugixml:x64-windows@1.15#1
   * rapidjson:x64-windows@2025-02-26
@@ -127,6 +128,37 @@ For more information, see the docs here:
     
     https://json.nlohmann.me/api/macros/json_use_implicit_conversions/
 
+[Sample port usage]
+physx provides CMake targets:
+
+    cmake_minimum_required(VERSION 3.15)
+
+    find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE unofficial::omniverse-physx-sdk::sdk)
+
+    # Optional: import the defined target to copy over the GPU acceleration libraries (3rd party provided by NVIDIA)
+    if(TARGET unofficial::omniverse-physx-sdk::gpu-library)
+        if(UNIX)
+            # Add rpath setting to find .so libraries on unix based systems
+            set_target_properties(main PROPERTIES
+                BUILD_WITH_INSTALL_RPATH TRUE
+                INSTALL_RPATH "$ORIGIN"
+            )
+        endif()
+        add_custom_command(TARGET main POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                        $<TARGET_FILE:unofficial::omniverse-physx-sdk::gpu-library>
+                        $<TARGET_FILE_DIR:main>)
+        if(WIN32)
+            add_custom_command(TARGET main POST_BUILD
+                            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                            $<TARGET_FILE:unofficial::omniverse-physx-sdk::gpu-device-library>
+                            $<TARGET_FILE_DIR:main>)
+        endif()
+    else()
+        message(WARNING "GPU acceleration library target not defined - GPU acceleration will NOT be available!")
+    endif()
+
 sdl2 provides CMake targets:
 
     find_package(SDL2 CONFIG REQUIRED)
@@ -151,4 +183,4 @@ sdl2-ttf provides CMake targets:
     find_package(SDL2_ttf CONFIG REQUIRED)
     target_link_libraries(main PRIVATE $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
 
-All requested installations completed successfully in: 1.02 ms
+All requested installations completed successfully in: 1.25 ms

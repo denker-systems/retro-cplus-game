@@ -30,6 +30,7 @@ private:
     void renderBasicProperties();
     void renderTransformProperties();
     void renderComponentProperties();
+    void renderPhysicsProperties();
     
     EditorContext& m_context;
     engine::ActorObjectExtended* m_actor = nullptr;

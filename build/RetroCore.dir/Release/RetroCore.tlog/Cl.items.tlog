@@ -44,6 +44,16 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\PhysicsBody.
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\KinematicBody.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\KinematicBody.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\SpatialGrid.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\SpatialGrid.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\box2d\PhysicsWorld2D.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PhysicsWorld2D.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\physx\PhysicsWorld3D.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PhysicsWorld3D.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\RigidBody3DComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\RigidBody3DComponent.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\MeshComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\MeshComponent.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\StaticMeshActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\StaticMeshActor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\CameraActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\CameraActor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\LightActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\LightActor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\PlayerStartActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PlayerStartActor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\PlayerConfigActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PlayerConfigActor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\Character3DActor.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Character3DActor.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\components\CharacterController3DComponent.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\CharacterController3DComponent.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Renderer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Renderer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\input\Input.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Input.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\Room.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Room.obj
@@ -78,8 +88,6 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\Mesh.cpp;C:
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\GLTextureManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\GLTextureManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\audio\AudioManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\AudioManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Entity.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Entity.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Character.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Character.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\PlayerCharacter.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\PlayerCharacter.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\ui\Widget.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Widget.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\Logger.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Logger.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\FileWatcher.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\FileWatcher.obj

@@ -10,7 +10,12 @@
 #include <unordered_map>
 
 class EditorContext;
-class ViewportPanel;
+
+namespace editor {
+namespace viewport {
+    class ViewportPanel;
+}
+}
 
 /**
  * @brief Shortcut action identifiers
@@ -60,7 +65,7 @@ class EditorInputHandler {
 public:
     explicit EditorInputHandler(EditorContext& context);
     
-    void setViewportPanel(ViewportPanel* viewport) { m_viewportPanel = viewport; }
+    void setViewportPanel(editor::viewport::ViewportPanel* viewport) { m_viewportPanel = viewport; }
     
     /**
      * @brief Process SDL event and trigger actions
@@ -85,6 +90,6 @@ private:
     void executeAction(EditorAction action);
     
     EditorContext& m_context;
-    ViewportPanel* m_viewportPanel = nullptr;
+    editor::viewport::ViewportPanel* m_viewportPanel = nullptr;
     std::unordered_map<EditorAction, ActionCallback> m_callbacks;
 };

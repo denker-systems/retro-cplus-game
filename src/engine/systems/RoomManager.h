@@ -1,6 +1,12 @@
 /**
  * @file RoomManager.h
- * @brief Hanterar rum och rumsövergångar
+ * @brief DEPRECATED: Wrapper for legacy Room-based code
+ * 
+ * MIGRATION NOTE: RoomManager is now a wrapper around SceneManager
+ * for backward compatibility during the Room → Scene migration.
+ * 
+ * New code should use SceneManager directly.
+ * This class will be removed once all Room references are migrated to Scene.
  */
 #pragma once
 
@@ -11,7 +17,7 @@
 #include <functional>
 
 /**
- * @brief Singleton för rumhantering
+ * @brief DEPRECATED: Singleton för rumhantering (wrapper för SceneManager)
  */
 class RoomManager {
 public:
@@ -53,6 +59,7 @@ public:
 private:
     RoomManager() = default;
     
+    // Legacy storage - behålls för backward compatibility
     std::unordered_map<std::string, std::unique_ptr<Room>> m_rooms;
     Room* m_currentRoom = nullptr;
     std::function<void(const std::string&)> m_onRoomChange;

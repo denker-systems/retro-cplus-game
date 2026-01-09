@@ -1,13 +1,27 @@
 /**
  * @file Entity.h
- * @brief Abstract base class för alla spelobjekt
+ * @brief DEPRECATED: Forwarding header for legacy compatibility
+ * 
+ * USE INSTEAD: engine::ActorObject (in engine/core/ActorObject.h)
+ * 
+ * This file is kept for backward compatibility during migration.
+ * All new code should use engine::ActorObject directly.
+ * 
+ * MIGRATION NOTE: Entity is now a forwarding alias to engine::ActorObject
  */
 #pragma once
 
+#include "engine/core/ActorObject.h"
+
+// DEPRECATED: Use engine::ActorObject instead
+using Entity = engine::ActorObject;
+
+// Legacy class definition kept for reference (DO NOT USE)
+#if 0
 #include <SDL.h>
 
 /**
- * @brief Abstrakt basklass för alla entities i spelet
+ * @brief DEPRECATED: Abstrakt basklass för alla entities i spelet
  * 
  * Alla spelobjekt (characters, items, hotspots) ärver från denna.
  * Definierar gemensamt interface för update och render.
@@ -44,3 +58,4 @@ protected:
     int m_width, m_height;   // Storlek
     bool m_active = true;    // Om entity ska uppdateras/ritas
 };
+#endif

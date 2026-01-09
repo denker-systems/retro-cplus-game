@@ -13,6 +13,9 @@ void World::update(float deltaTime) {
         updateTransition(deltaTime);
     }
     
+    // Update World-level actors first (global/persistent actors)
+    updateActors(deltaTime);
+    
     // Update active level (new hierarchy)
     if (m_activeLevel) {
         m_activeLevel->update(deltaTime);
@@ -25,6 +28,9 @@ void World::update(float deltaTime) {
 
 void World::render(SDL_Renderer* renderer) {
     if (!renderer) return;
+    
+    // Render World-level actors first (global/persistent actors)
+    renderActors(renderer);
     
     // Render active level (new hierarchy)
     if (m_activeLevel) {

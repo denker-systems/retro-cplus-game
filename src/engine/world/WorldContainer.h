@@ -143,6 +143,26 @@ protected:
         }
     }
     
+    /** @brief Update all actors in this container (call in update) */
+    void updateActors(float deltaTime) {
+        stepPhysics(deltaTime);
+        for (auto& actor : m_actors) {
+            if (actor && actor->isActive()) {
+                actor->update(deltaTime);
+            }
+        }
+    }
+    
+    /** @brief Render all actors in this container (call in render) */
+    void renderActors(SDL_Renderer* renderer) {
+        for (const auto& actor : m_actors) {
+            if (actor && actor->isActive()) {
+                actor->render(renderer);
+            }
+        }
+        renderPhysicsDebug(renderer);
+    }
+    
     /** @brief Render physics debug (call in render) */
     void renderPhysicsDebug(SDL_Renderer* renderer, glm::vec2 cameraOffset = {0, 0}, float zoom = 1.0f) {
         if (m_physicsWorld && m_physicsWorld->isDebugDrawEnabled()) {

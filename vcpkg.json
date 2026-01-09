@@ -24,7 +24,8 @@
       "name": "cpp-httplib",
       "features": ["openssl"]
     },
-    "openssl"
+    "openssl",
+    "physx"
   ],
   "features": {
     "editor": {

@@ -423,3 +423,13 @@ Abi: d95d132a6375539bf6041bc17810122a0eba7f2690904bc61ef1e50524546030
 Description: The OpenGL Extension Wrangler Library (GLEW) is a cross-platform open-source C/C++ extension loading library.
 Status: install ok installed
 
+Package: physx
+Version: 5.5.0
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config, vcpkg-cmake-get-vars
+Architecture: x64-windows
+Multi-Arch: same
+Abi: efeb6d6750ec8db8dd781cc10f26529c3e1c62549eb71756210184640dfdc98d
+Description: The NVIDIA PhysX SDK is a scalable multi-platform physics solution supporting a wide range of devices, from smartphones to high-end multicore CPUs and GPUs. This is the latest NVIDIA official version of the PhysX engine which also directly integrates into Omniverse. This port is NOT officially supported by NVIDIA.
+Status: install ok installed
+

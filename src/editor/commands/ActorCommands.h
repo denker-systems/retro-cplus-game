@@ -5,40 +5,40 @@
 #pragma once
 
 #include "editor/core/IEditorCommand.h"
-#include "engine/world/Scene.h"
+#include "engine/world/WorldContainer.h"
 #include "engine/core/ActorObjectExtended.h"
 #include <memory>
 
 /**
- * @brief Delete an actor from scene
+ * @brief Delete an actor from any container (World/Level/Scene)
  */
 class DeleteActorCommand : public IEditorCommand {
 public:
-    DeleteActorCommand(engine::Scene* scene, engine::ActorObjectExtended* actor);
+    DeleteActorCommand(engine::WorldContainer* container, engine::ActorObjectExtended* actor);
     
     bool execute() override;
     bool undo() override;
     std::string getDescription() const override;
 
 private:
-    engine::Scene* m_scene;
+    engine::WorldContainer* m_container;
     engine::ActorObjectExtended* m_actor;
     std::string m_actorName;
 };
 
 /**
- * @brief Add an actor to scene
+ * @brief Add an actor to any container (World/Level/Scene)
  */
 class AddActorCommand : public IEditorCommand {
 public:
-    AddActorCommand(engine::Scene* scene, std::unique_ptr<engine::ActorObjectExtended> actor);
+    AddActorCommand(engine::WorldContainer* container, std::unique_ptr<engine::ActorObjectExtended> actor);
     
     bool execute() override;
     bool undo() override;
     std::string getDescription() const override;
 
 private:
-    engine::Scene* m_scene;
+    engine::WorldContainer* m_container;
     std::unique_ptr<engine::ActorObjectExtended> m_actor;
     std::string m_actorName;
     bool m_executed = false;
@@ -66,11 +66,11 @@ private:
 };
 
 /**
- * @brief Duplicate an actor
+ * @brief Duplicate an actor in any container (World/Level/Scene)
  */
 class DuplicateActorCommand : public IEditorCommand {
 public:
-    DuplicateActorCommand(engine::Scene* scene, 
+    DuplicateActorCommand(engine::WorldContainer* container, 
                          engine::ActorObjectExtended* original);
     
     bool execute() override;
@@ -78,7 +78,7 @@ public:
     std::string getDescription() const override;
 
 private:
-    engine::Scene* m_scene;
+    engine::WorldContainer* m_container;
     engine::ActorObjectExtended* m_original;
     std::unique_ptr<engine::ActorObjectExtended> m_duplicate;
     std::string m_duplicateName;
