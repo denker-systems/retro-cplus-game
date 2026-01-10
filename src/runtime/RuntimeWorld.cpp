@@ -54,9 +54,9 @@ bool RuntimeWorld::loadScenes() {
     // Try to load world.json first (contains level/scene hierarchy)
     std::ifstream worldFile("assets/data/world.json");
     if (!worldFile.is_open()) {
-        LOG_WARNING("[RuntimeWorld] world.json not found, trying scenes.json...");
+        LOG_WARNING("[RuntimeWorld] world.json not found, loading scenes.json directly...");
         
-        // Fallback to scenes.json
+        // Load scenes.json directly
         std::ifstream scenesFile("assets/data/scenes.json");
         if (!scenesFile.is_open()) {
             LOG_WARNING("[RuntimeWorld] scenes.json not found, creating default scene");
@@ -81,7 +81,37 @@ bool RuntimeWorld::loadScenes() {
             return true;
         }
         
-        // If scenesFile is open, continue to parse it below
+        // Parse scenes.json directly (no world.json)
+        nlohmann::json scenesJson;
+        try {
+            scenesFile >> scenesJson;
+        } catch (const std::exception& e) {
+            LOG_ERROR("[RuntimeWorld] Failed to parse scenes.json: " + std::string(e.what()));
+            return false;
+        }
+        
+        // Create default level and load all scenes
+        auto level = std::make_unique<engine::Level>();
+        level->setName("Main Game");
+        
+        if (scenesJson.contains("scenes")) {
+            for (const auto& sceneData : scenesJson["scenes"]) {
+                auto scene = createSceneFromJSON(&sceneData);
+                if (scene) {
+                    if (!m_activeScene) {
+                        m_activeScene = scene;
+                    }
+                    level->addScene(std::unique_ptr<engine::Scene>(scene));
+                    
+                    std::string sceneName = sceneData.contains("id") ? sceneData["id"].get<std::string>() : "unknown";
+                    LOG_INFO("[RuntimeWorld] Loaded scene from scenes.json: " + sceneName);
+                }
+            }
+        }
+        
+        m_world->addLevel(std::move(level));
+        LOG_INFO("[RuntimeWorld] Loaded " + std::to_string(m_world->getLevels().size()) + " levels from scenes.json");
+        return true;
     }
     
     // Parse world.json
