@@ -11,6 +11,7 @@
 #include "engine/actors/StaticMeshActor.h"
 #include "engine/actors/PlayerStartActor.h"
 #include "engine/actors/Character3DActor.h"
+#include "engine/actors/NPC3DActor.h"
 #include "engine/utils/Logger.h"
 #include <PxPhysicsAPI.h>
 #include <iostream>
@@ -136,8 +137,20 @@ void EditorPlayMode::update(float deltaTime) {
     
     if (m_activeScene) {
         for (const auto& actor : m_activeScene->getActors()) {
+            // Update NPC3DActor (no physics, just update)
+            if (auto* npc = dynamic_cast<engine::NPC3DActor*>(actor.get())) {
+                npc->update(scaledDt);
+                
+                // Log NPC position every 120 frames
+                if (m_frameCount % 120 == 0) {
+                    glm::vec3 pos = npc->getPosition3D();
+                    LOG_DEBUG("[EditorPlayMode] NPC '" + npc->getName() + 
+                              "' at (" + std::to_string(pos.x) + ", " + 
+                              std::to_string(pos.y) + ", " + std::to_string(pos.z) + ")");
+                }
+            }
             // Use StaticMeshActor's syncFromPhysics for correct coordinate mapping
-            if (auto* meshActor = dynamic_cast<engine::StaticMeshActor*>(actor.get())) {
+            else if (auto* meshActor = dynamic_cast<engine::StaticMeshActor*>(actor.get())) {
                 if (meshActor->isPhysicsEnabled()) {
                     meshActor->syncFromPhysics();
                     
