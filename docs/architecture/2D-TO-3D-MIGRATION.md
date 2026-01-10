@@ -132,13 +132,13 @@
 - [x] Uppdatera RuntimeRenderer
 - [x] Verifiera NPCs renderas
 
-### Fas 2: Editor Integration ⏳ PÅGÅENDE (~70% klar)
+### Fas 2: Editor Integration ⏳ PÅGÅENDE (~90% klar)
 - [x] Scene.cpp skapar NPC3DActor (commit d3c667b)
 - [x] Viewport3DPanel renderar NPC3DActor (commit 7c777d9)
 - [x] RuntimeWorld laddar scenes.json fallback (commit 91eb4b8)
-- [ ] Testa editor Play mode med NPC3DActor
-- [ ] Verifiera NPCs syns i editor viewport
-- [ ] Bygga om tester projekt med uppdaterad kod
+- [x] EditorPlayMode uppdaterar NPC3DActor (commit nästa)
+- [ ] Testa editor Play mode - verifiera NPCs syns
+- [ ] Testa tester.exe - verifiera NPCs laddas från scenes.json
 
 ### Fas 3: 2D Projection Mode (3-4 timmar)
 - [ ] Implementera Camera3D::setProjectionMode(Orthographic)

@@ -114,7 +114,15 @@ glm::mat4 EditorCamera3D::getViewMatrix() const {
 }
 
 glm::mat4 EditorCamera3D::getProjectionMatrix() const {
-    return glm::perspective(glm::radians(m_fov), m_aspectRatio, m_nearClip, m_farClip);
+    if (m_projectionMode == ProjectionMode::Orthographic) {
+        // Orthographic projection for 2D mode
+        float halfHeight = m_orthoSize * 0.5f;
+        float halfWidth = halfHeight * m_aspectRatio;
+        return glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, m_nearPlane, m_farPlane);
+    } else {
+        // Perspective projection for 3D mode
+        return glm::perspective(glm::radians(m_fov), m_aspectRatio, m_nearPlane, m_farPlane);
+    }
 }
 
 glm::mat4 EditorCamera3D::getViewProjection() const {

@@ -10,6 +10,14 @@
 namespace editor {
 
 /**
+ * @brief Camera projection modes
+ */
+enum class ProjectionMode {
+    Perspective,   // 3D mode (default)
+    Orthographic   // 2D mode (top-down or side view)
+};
+
+/**
  * @class EditorCamera3D
  * @brief Orbit camera for 3D scene editing (Unreal Engine-style controls)
  * 
@@ -123,6 +131,18 @@ public:
     void setFOV(float fov) { m_fov = fov; }
     
     /**
+     * @brief Set projection mode (Perspective or Orthographic)
+     */
+    void setProjectionMode(ProjectionMode mode) { m_projectionMode = mode; }
+    ProjectionMode getProjectionMode() const { return m_projectionMode; }
+    
+    /**
+     * @brief Set orthographic size (height of view in world units)
+     */
+    void setOrthoSize(float size) { m_orthoSize = size; }
+    float getOrthoSize() const { return m_orthoSize; }
+    
+    /**
      * @brief Focus on a point with specific distance
      */
     void focusOn(const glm::vec3& target, float distance = 10.0f);
@@ -169,8 +189,12 @@ private:
     // Projection parameters
     float m_fov = 45.0f;
     float m_aspectRatio = 16.0f / 9.0f;
-    float m_nearClip = 0.1f;
-    float m_farClip = 1000.0f;
+    float m_nearPlane = 0.1f;
+    float m_farPlane = 1000.0f;
+    
+    // Projection mode
+    ProjectionMode m_projectionMode = ProjectionMode::Perspective;
+    float m_orthoSize = 10.0f;  // Height of orthographic view in world units
     
     /**
      * @brief Recalculate camera vectors from yaw/pitch/distance
