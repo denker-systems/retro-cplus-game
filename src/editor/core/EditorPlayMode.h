@@ -83,7 +83,6 @@ public:
     
     engine::physics::PhysicsManager* getPhysicsManager() { return &m_physicsManager; }
     engine::physics::PhysicsWorld3D* getPhysicsWorld3D() { return m_physicsManager.getWorld3D(); }
-    engine::physics::PhysicsWorld2D* getPhysicsWorld2D() { return m_physicsManager.getWorld2D(); }
     
     bool isGPUAccelerationAvailable() const { return m_physicsManager.isGPUAccelerationAvailable(); }
     

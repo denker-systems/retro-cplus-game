@@ -11,7 +11,6 @@
 #pragma once
 
 #include "engine/core/ActorObjectExtended.h"
-#include "engine/physics/box2d/PhysicsWorld2D.h"
 #include "GridTypes.h"
 #include <string>
 #include <memory>
@@ -99,53 +98,9 @@ public:
     // PHYSICS (Box2D)
     // ═══════════════════════════════════════════════════════════════════
     
-    /** @brief Enable physics for this container */
-    void enablePhysics(glm::vec2 gravity = {0.0f, 980.0f}) {
-        if (!m_physicsWorld) {
-            m_physicsWorld = std::make_unique<physics::PhysicsWorld2D>();
-            m_physicsWorld->initialize(gravity);
-        }
-    }
-    
-    /** @brief Disable and cleanup physics */
-    void disablePhysics() {
-        if (m_physicsWorld) {
-            m_physicsWorld->shutdown();
-            m_physicsWorld.reset();
-        }
-    }
-    
-    /** @brief Check if physics is enabled */
-    bool hasPhysics() const { return m_physicsWorld != nullptr; }
-    
-    /** @brief Get physics world (may be null) */
-    physics::PhysicsWorld2D* getPhysicsWorld() const { return m_physicsWorld.get(); }
-    
-    /** @brief Set gravity (pixels/s²) */
-    void setGravity(glm::vec2 gravity) {
-        if (m_physicsWorld) {
-            m_physicsWorld->setGravity(gravity);
-        }
-    }
-    
-    /** @brief Enable/disable physics debug rendering */
-    void setPhysicsDebugDraw(bool enabled) {
-        if (m_physicsWorld) {
-            m_physicsWorld->setDebugDraw(enabled);
-        }
-    }
-    
 protected:
-    /** @brief Step physics simulation (call in update) */
-    void stepPhysics(float deltaTime) {
-        if (m_physicsWorld) {
-            m_physicsWorld->step(deltaTime);
-        }
-    }
-    
     /** @brief Update all actors in this container (call in update) */
     void updateActors(float deltaTime) {
-        stepPhysics(deltaTime);
         for (auto& actor : m_actors) {
             if (actor && actor->isActive()) {
                 actor->update(deltaTime);
@@ -160,20 +115,12 @@ protected:
                 actor->render(renderer);
             }
         }
-        renderPhysicsDebug(renderer);
-    }
-    
-    /** @brief Render physics debug (call in render) */
-    void renderPhysicsDebug(SDL_Renderer* renderer, glm::vec2 cameraOffset = {0, 0}, float zoom = 1.0f) {
-        if (m_physicsWorld && m_physicsWorld->isDebugDrawEnabled()) {
-            m_physicsWorld->debugDraw(renderer, cameraOffset, zoom);
-        }
     }
     
     std::string m_name;
     std::vector<std::unique_ptr<ActorObjectExtended>> m_actors;
     GridPosition m_gridPosition = {0, 0, 640, 400};  // Default size
-    std::unique_ptr<physics::PhysicsWorld2D> m_physicsWorld;  // Optional physics
+    // Physics removed - managed by PhysicsManager instead
 };
 
 } // namespace engine

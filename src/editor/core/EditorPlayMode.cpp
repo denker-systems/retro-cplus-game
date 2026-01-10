@@ -7,7 +7,6 @@
 #include "engine/world/Scene.h"
 #include "engine/core/ActorObjectExtended.h"
 #include "engine/components/RigidBody3DComponent.h"
-#include "engine/components/RigidBody2DComponent.h"
 #include "engine/actors/StaticMeshActor.h"
 #include "engine/actors/PlayerStartActor.h"
 #include "engine/actors/Character3DActor.h"
@@ -54,7 +53,6 @@ void EditorPlayMode::play() {
         LOG_INFO("[EditorPlayMode] ========================================");
         LOG_INFO("[EditorPlayMode] World: " + std::string(m_world ? m_world->getName() : "NULL"));
         LOG_INFO("[EditorPlayMode] Scene: " + std::string(m_activeScene ? m_activeScene->getName() : "NULL"));
-        LOG_INFO("[EditorPlayMode] Physics 2D: " + std::string(m_physicsManager.is2DInitialized() ? "YES" : "NO"));
         LOG_INFO("[EditorPlayMode] Physics 3D: " + std::string(m_physicsManager.is3DInitialized() ? "YES" : "NO"));
         LOG_INFO("[EditorPlayMode] GPU Acceleration: " + std::string(m_physicsManager.isGPUAccelerationAvailable() ? "YES" : "NO"));
         
@@ -229,7 +227,6 @@ void EditorPlayMode::initializePhysicsBodies() {
     }
     
     auto* world3D = m_physicsManager.getWorld3D();
-    auto* world2D = m_physicsManager.getWorld2D();
     
     // Create ground plane at Y=0 for 3D physics
     // Position the box so its TOP surface is at Y=0 (center at Y=-0.5)
@@ -244,7 +241,6 @@ void EditorPlayMode::initializePhysicsBodies() {
     }
     
     int bodyCount3D = 0;
-    int bodyCount2D = 0;
     
     LOG_INFO("[EditorPlayMode] Scanning " + std::to_string(m_activeScene->getActors().size()) + " actors for physics components...");
     
@@ -271,20 +267,13 @@ void EditorPlayMode::initializePhysicsBodies() {
             }
         }
         
-        if (auto* rb2d = actor->getComponent<engine::RigidBody2DComponent>()) {
-            LOG_DEBUG("[EditorPlayMode]   -> Has RigidBody2DComponent");
-            if (!rb2d->isInitialized() && world2D) {
-                rb2d->initializeBody(world2D);
-                bodyCount2D++;
-                LOG_INFO("[EditorPlayMode]   -> Initialized 2D body for: " + actor->getName());
-            }
-        }
+        // RigidBody2D removed - using only 3D physics
     }
     
-    LOG_INFO("[EditorPlayMode] Physics bodies initialized: 3D=" + std::to_string(bodyCount3D) + ", 2D=" + std::to_string(bodyCount2D));
+    LOG_INFO("[EditorPlayMode] Physics bodies initialized: 3D=" + std::to_string(bodyCount3D));
     
     // If no physics bodies found, create a test one
-    if (bodyCount3D == 0 && bodyCount2D == 0) {
+    if (bodyCount3D == 0) {
         LOG_INFO("[EditorPlayMode] No physics bodies found - creating test actor");
         createTestPhysicsActor();
     }
@@ -341,9 +330,6 @@ void EditorPlayMode::cleanupPhysicsBodies() {
     for (const auto& actor : m_activeScene->getActors()) {
         if (auto* rb3d = actor->getComponent<engine::RigidBody3DComponent>()) {
             rb3d->shutdown();
-        }
-        if (auto* rb2d = actor->getComponent<engine::RigidBody2DComponent>()) {
-            rb2d->shutdown();
         }
     }
     

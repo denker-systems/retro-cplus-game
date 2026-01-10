@@ -8,7 +8,6 @@
 #include <memory>
 #include <string>
 
-class StateManager;
 class IState;
 
 /**
@@ -69,7 +68,7 @@ private:
 
     SDL_Window* m_window = nullptr;
     SDL_Renderer* m_renderer = nullptr;
-    std::unique_ptr<StateManager> m_stateManager;
+    std::unique_ptr<IState> m_currentState;  // Single state (no stack needed)
     bool m_running = false;
     Uint32 m_lastFrameTime = 0;
     

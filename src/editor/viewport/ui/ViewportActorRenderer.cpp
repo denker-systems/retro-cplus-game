@@ -6,8 +6,7 @@
 #include "engine/world/Scene.h"
 #include "engine/core/ActorObjectExtended.h"
 #include "engine/components/SpriteComponent.h"
-#include "engine/components/Collider2DComponent.h"
-#include "engine/components/RigidBody2DComponent.h"
+// 2D components removed - using 3D physics only
 #include "editor/properties/actors/LockableComponent.h"
 #include "editor/core/ImGuiManager.h"
 #include <algorithm>
@@ -181,12 +180,8 @@ void ViewportActorRenderer::renderActorLockIcon(ImDrawList* drawList, engine::Ac
 
 void ViewportActorRenderer::renderActorPhysicsDebug(ImDrawList* drawList, engine::ActorObjectExtended* actor,
                                                     float worldX, float worldY, float zoom) {
-    auto* collider = actor->getComponent<engine::Collider2DComponent>();
-    if (collider) {
-        ImU32 colliderColor = collider->isTrigger() ? IM_COL32(0, 255, 255, 150) : IM_COL32(0, 255, 0, 150);
-        drawList->AddRect(ImVec2(worldX, worldY), ImVec2(worldX + 64 * zoom, worldY + 64 * zoom),
-                         colliderColor, 0, 0, 2.0f);
-    }
+    // 2D collider debug removed - using 3D physics visualization
+    // TODO: Add 3D physics debug visualization if needed
 }
 
 } // namespace viewport

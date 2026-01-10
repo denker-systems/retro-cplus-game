@@ -4,9 +4,7 @@
  */
 #include "Game.h"
 #include "VideoSettings.h"
-#include "states/StateManager.h"
 #include "states/IState.h"
-#include "states/MenuState.h"
 #include "graphics/TextureManager.h"
 #include "graphics/FontManager.h"
 #include "audio/AudioManager.h"
@@ -132,11 +130,8 @@ bool Game::init(const std::string& title, int width, int height) {
     
     LOG_INFO("Scale: " + std::to_string(m_scale) + " (fonts scaled for sharp rendering)");
 
-    // Skapa StateManager och starta med MenuState
-    m_stateManager = std::make_unique<StateManager>();
-    auto menuState = std::make_unique<MenuState>();
-    menuState->setGame(this);
-    m_stateManager->pushState(std::move(menuState));
+    // Note: Editor will call changeState() to set EditorState
+    // No default state needed - editor-driven
 
     m_running = true;
     m_lastFrameTime = SDL_GetTicks();
@@ -146,13 +141,12 @@ bool Game::init(const std::string& title, int width, int height) {
 }
 
 void Game::run() {
-    while (m_running && !m_stateManager->isEmpty()) {
+    while (m_running && m_currentState) {
         Uint32 currentTime = SDL_GetTicks();
         float deltaTime = (currentTime - m_lastFrameTime) / 1000.0f;
         m_lastFrameTime = currentTime;
 
         handleEvents();
-        m_stateManager->processPendingChanges();  // Process deferred state changes
         update(deltaTime);
         render();
     }
@@ -170,40 +164,61 @@ void Game::handleEvents() {
             AudioManager::instance().toggleMute();
         }
         
-        m_stateManager->handleEvent(event);
+        if (m_currentState) {
+            m_currentState->handleEvent(event);
+        }
     }
 }
 
 void Game::update(float deltaTime) {
-    m_stateManager->update(deltaTime);
+    if (m_currentState) {
+        m_currentState->update(deltaTime);
+    }
 }
 
 void Game::render() {
     // When using OpenGL, ImGuiManager handles clear and swap
     if (m_useOpenGL) {
-        m_stateManager->render(m_renderer);
+        if (m_currentState) {
+            m_currentState->render(m_renderer);
+        }
         return;
     }
     
     // SDL Renderer path
     SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
     SDL_RenderClear(m_renderer);
-    m_stateManager->render(m_renderer);
+    if (m_currentState) {
+        m_currentState->render(m_renderer);
+    }
     SDL_RenderPresent(m_renderer);
 }
 
 void Game::pushState(std::unique_ptr<IState> state) {
+    // Simplified: Just set current state (no stack)
     state->setGame(this);
-    m_stateManager->pushState(std::move(state));
+    if (m_currentState) {
+        m_currentState->exit();
+    }
+    m_currentState = std::move(state);
+    m_currentState->enter();
 }
 
 void Game::popState() {
-    m_stateManager->popState();
+    // Simplified: Clear current state
+    if (m_currentState) {
+        m_currentState->exit();
+        m_currentState.reset();
+    }
 }
 
 void Game::changeState(std::unique_ptr<IState> state) {
     state->setGame(this);
-    m_stateManager->changeState(std::move(state));
+    if (m_currentState) {
+        m_currentState->exit();
+    }
+    m_currentState = std::move(state);
+    m_currentState->enter();
 }
 
 void Game::calculateViewport() {
@@ -251,7 +266,10 @@ int Game::getScreenHeight() const {
 
 void Game::quit() {
     LOG_INFO("=== Game Shutting Down ===");
-    m_stateManager.reset();
+    if (m_currentState) {
+        m_currentState->exit();
+        m_currentState.reset();
+    }
     AudioManager::instance().shutdown();
     FontManager::instance().shutdown();
     TextureManager::instance().shutdown();

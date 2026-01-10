@@ -1,14 +1,5 @@
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\main.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\main.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\Game.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\Game.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\StateManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\StateManager.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\MenuState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\MenuState.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\PlayState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\PlayState.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\OptionsState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\OptionsState.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\PauseState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\PauseState.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\DialogState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\DialogState.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\InventoryState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\InventoryState.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\QuestLogState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\QuestLogState.obj
-C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\states\SaveLoadState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\SaveLoadState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\EditorState.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorState.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\EditorContext.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorContext.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\core\EditorPlayMode.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorPlayMode.obj

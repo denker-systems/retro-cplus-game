@@ -13,7 +13,8 @@ find_package(SDL2_image CONFIG REQUIRED)
 find_package(SDL2_mixer CONFIG REQUIRED)
 find_package(SDL2_ttf CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-find_package(box2d CONFIG REQUIRED)
+# Box2D REMOVED - Using PhysX for all physics
+# find_package(box2d CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -68,11 +69,13 @@ set(CORE_SOURCES
     src/engine/components/PerceptionComponent.cpp
     src/engine/components/CameraComponent.cpp
     src/engine/components/PhysicsComponent.cpp
-    src/engine/components/RigidBody2DComponent.cpp
-    src/engine/components/Collider2DComponent.cpp
-    src/engine/components/CharacterController2D.cpp
+    # 2D Components REMOVED - Using 3D components only
+    # src/engine/components/RigidBody2DComponent.cpp
+    # src/engine/components/Collider2DComponent.cpp
+    # src/engine/components/CharacterController2D.cpp
     src/engine/components/TriggerComponent.cpp
-    src/engine/physics/box2d/PhysicsLoader.cpp
+    # Box2D REMOVED - Using PhysX only
+    # src/engine/physics/box2d/PhysicsLoader.cpp
     src/engine/physics/physx/PhysicsWorld3D_2DMode.cpp
     src/engine/actors/Pawn.cpp
     src/engine/actors/Controller.cpp
@@ -105,7 +108,8 @@ set(CORE_SOURCES
     src/engine/physics/PhysicsBody.cpp
     src/engine/physics/KinematicBody.cpp
     src/engine/physics/SpatialGrid.cpp
-    src/engine/physics/box2d/PhysicsWorld2D.cpp
+    # Box2D REMOVED
+    # src/engine/physics/box2d/PhysicsWorld2D.cpp
     src/engine/physics/physx/PhysicsWorld3D.cpp
     src/engine/components/RigidBody3DComponent.cpp
     src/engine/components/MeshComponent.cpp
@@ -169,7 +173,8 @@ target_link_libraries(RetroCore PUBLIC
     $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>
     $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
     nlohmann_json::nlohmann_json
-    box2d::box2d
+    # Box2D REMOVED
+    # box2d::box2d
     glm::glm
     GLEW::GLEW
     OpenGL::GL
@@ -218,16 +223,7 @@ set(IMGUI_BACKEND_SOURCES
 
 set(EDITOR_SOURCES
     src/game/Game.cpp
-    # Legacy states - Still needed by Game.cpp (TODO: Refactor Game.cpp to not need these)
-    src/game/states/StateManager.cpp
-    src/game/states/MenuState.cpp
-    src/game/states/PlayState.cpp
-    src/game/states/OptionsState.cpp
-    src/game/states/PauseState.cpp
-    src/game/states/DialogState.cpp
-    src/game/states/InventoryState.cpp
-    src/game/states/QuestLogState.cpp
-    src/game/states/SaveLoadState.cpp
+    # Legacy states REMOVED - Game.cpp refactored to not need StateManager
     # Core
     src/editor/core/EditorState.cpp
     src/editor/core/EditorContext.cpp

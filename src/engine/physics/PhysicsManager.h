@@ -1,14 +1,13 @@
 /**
  * @file PhysicsManager.h
- * @brief Unified physics manager for 2D and 3D physics
+ * @brief Physics manager for 3D physics (PhysX only)
  * 
- * Manages both Box2D (2D) and PhysX (3D) physics worlds.
- * Provides easy access to the appropriate physics system.
+ * Manages PhysX 3D physics world.
+ * Box2D removed - using unified 3D architecture.
  */
 #pragma once
 
 #include "IPhysicsWorld.h"
-#include "box2d/PhysicsWorld2D.h"
 #include "physx/PhysicsWorld3D.h"
 #include <memory>
 
@@ -32,30 +31,18 @@ public:
     // INITIALIZATION
     // ========================================================================
     
-    void initialize(PhysicsDimension dimension = PhysicsDimension::Physics3D) {
-        m_dimension = dimension;
-        
-        if (dimension == PhysicsDimension::Physics2D) {
-            m_world2D = std::make_unique<PhysicsWorld2D>();
-            m_world2D->initialize();
-        } else {
-            m_world3D = std::make_unique<PhysicsWorld3D>();
-            m_world3D->initialize();
-        }
-    }
-    
-    void initializeBoth() {
-        m_world2D = std::make_unique<PhysicsWorld2D>();
-        m_world2D->initialize();
-        
+    void initialize3D() {
         m_world3D = std::make_unique<PhysicsWorld3D>();
         m_world3D->initialize();
-        
         m_dimension = PhysicsDimension::Physics3D;
     }
     
+    // Legacy compatibility (calls initialize3D)
+    void initializeBoth() {
+        initialize3D();
+    }
+    
     void shutdown() {
-        if (m_world2D) m_world2D->shutdown();
         if (m_world3D) m_world3D->shutdown();
     }
     
@@ -64,17 +51,8 @@ public:
     // ========================================================================
     
     void step(float deltaTime) {
-        if (m_world2D && m_world2D->isInitialized()) {
-            m_world2D->step(deltaTime);
-        }
         if (m_world3D && m_world3D->isInitialized()) {
             m_world3D->step(deltaTime);
-        }
-    }
-    
-    void step2D(float deltaTime) {
-        if (m_world2D && m_world2D->isInitialized()) {
-            m_world2D->step(deltaTime);
         }
     }
     
@@ -88,7 +66,6 @@ public:
     // ACCESS
     // ========================================================================
     
-    PhysicsWorld2D* getWorld2D() const { return m_world2D.get(); }
     PhysicsWorld3D* getWorld3D() const { return m_world3D.get(); }
     
     PhysicsDimension getActiveDimension() const { return m_dimension; }
@@ -98,7 +75,6 @@ public:
     // STATE
     // ========================================================================
     
-    bool is2DInitialized() const { return m_world2D && m_world2D->isInitialized(); }
     bool is3DInitialized() const { return m_world3D && m_world3D->isInitialized(); }
     bool isGPUAccelerationAvailable() const { 
         return m_world3D && m_world3D->isGPUAccelerationAvailable(); 
@@ -109,12 +85,10 @@ public:
     // ========================================================================
     
     void setDebugDraw(bool enabled) {
-        if (m_world2D) m_world2D->setDebugDraw(enabled);
         if (m_world3D) m_world3D->setDebugDraw(enabled);
     }
     
 private:
-    std::unique_ptr<PhysicsWorld2D> m_world2D;
     std::unique_ptr<PhysicsWorld3D> m_world3D;
     PhysicsDimension m_dimension = PhysicsDimension::Physics3D;
 };

@@ -215,7 +215,7 @@ bool RuntimeApp::initPhysics() {
     LOG_INFO("[RuntimeApp] Initializing Physics...");
     
     m_physics = std::make_unique<engine::physics::PhysicsManager>();
-    m_physics->initializeBoth();
+    m_physics->initialize3D();  // Only 3D physics (PhysX)
     
     if (m_physics->isGPUAccelerationAvailable()) {
         LOG_INFO("[RuntimeApp] PhysX GPU acceleration available");

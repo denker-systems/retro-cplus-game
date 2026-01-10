@@ -10,7 +10,6 @@
 #include "engine/actors/StaticMeshActor.h"
 #include "engine/actors/NPC3DActor.h"
 #include "engine/physics/PhysicsManager.h"
-#include "engine/physics/box2d/PhysicsWorld2D.h"
 #include "engine/physics/physx/PhysicsWorld3D.h"
 #include "engine/data/DataLoader.h"
 #include "engine/utils/Logger.h"
