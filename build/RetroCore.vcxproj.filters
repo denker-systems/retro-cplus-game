@@ -73,6 +73,9 @@
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\box2d\PhysicsLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\physics\physx\PhysicsWorld3D_2DMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\actors\Pawn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

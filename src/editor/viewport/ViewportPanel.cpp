@@ -73,8 +73,14 @@ void ViewportPanel::render() {
         
         // Toolbar
         if (m_toolbar) {
+            // Get camera from 3D renderer for projection mode toggle
+            editor::EditorCamera3D* camera = nullptr;
+            if (m_3dRenderer && m_3dRenderer->getViewport3D()) {
+                camera = m_3dRenderer->getViewport3D()->getCamera();
+            }
+            
             m_toolbar->render(m_renderContext.renderMode, m_renderContext.zoom, 
-                            m_renderContext.panX, m_renderContext.panY, m_playMode);
+                            m_renderContext.panX, m_renderContext.panY, m_playMode, camera);
             
             // Update render context from toolbar
             m_renderContext.showGrid = m_toolbar->showGrid();

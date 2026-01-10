@@ -52,6 +52,21 @@ public:
     void shutdown() override;
     void step(float deltaTime) override;
     
+    /**
+     * @brief Enable 2D mode (lock Z-axis, disable Z-rotation)
+     */
+    void enable2DMode();
+    
+    /**
+     * @brief Disable 2D mode (full 3D physics)
+     */
+    void disable2DMode();
+    
+    /**
+     * @brief Check if 2D mode is enabled
+     */
+    bool is2DMode() const { return m_is2DMode; }
+    
     PhysicsDimension getDimension() const override { return PhysicsDimension::Physics3D; }
     bool isInitialized() const override { return m_initialized; }
     
@@ -161,6 +176,9 @@ private:
     physx::PxPvd* m_pvd = nullptr;
     physx::PxCudaContextManager* m_cudaContext = nullptr;
     physx::PxControllerManager* m_controllerManager = nullptr;
+    
+    // 2D mode
+    bool m_is2DMode = false;
     
     // State
     bool m_initialized = false;

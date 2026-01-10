@@ -11,6 +11,7 @@ class ToolManager;
 
 namespace editor {
     class EditorPlayMode;
+    class EditorCamera3D;
 }
 class ToolManager;
 
@@ -32,7 +33,7 @@ public:
      * @param zoom Current zoom level
      * @param playMode Play mode controller (can be null)
      */
-    void render(RenderMode& renderMode, float& zoom, float& panX, float& panY, editor::EditorPlayMode* playMode);
+    void render(RenderMode& renderMode, float& zoom, float& panX, float& panY, editor::EditorPlayMode* playMode, editor::EditorCamera3D* camera = nullptr);
     
     /**
      * @brief Get view toggle states
@@ -43,7 +44,7 @@ public:
     bool showPhysicsDebug() const { return m_showPhysicsDebug; }
 
 private:
-    void renderModeToggle(RenderMode& renderMode);
+    void renderModeToggle(RenderMode& renderMode, editor::EditorCamera3D* camera);
     void renderZoomControls(float& zoom, float& panX, float& panY);
     void renderViewToggles();
     void renderPlayControls(editor::EditorPlayMode* playMode);

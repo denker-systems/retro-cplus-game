@@ -4,6 +4,7 @@
  */
 #include "ViewportToolbar.h"
 #include "editor/core/EditorPlayMode.h"
+#include "editor/viewport/3d/EditorCamera3D.h"
 #include "editor/tools/ToolManager.h"
 
 #ifdef HAS_IMGUI
@@ -15,8 +16,8 @@ namespace viewport {
 
 ViewportToolbar::ViewportToolbar() = default;
 
-void ViewportToolbar::render(RenderMode& renderMode, float& zoom, float& panX, float& panY, editor::EditorPlayMode* playMode) {
-    renderModeToggle(renderMode);
+void ViewportToolbar::render(RenderMode& renderMode, float& zoom, float& panX, float& panY, editor::EditorPlayMode* playMode, editor::EditorCamera3D* camera) {
+    renderModeToggle(renderMode, camera);
     
     ImGui::SameLine();
     ImGui::Separator();
@@ -37,11 +38,15 @@ void ViewportToolbar::render(RenderMode& renderMode, float& zoom, float& panX, f
     ImGui::Separator();
 }
 
-void ViewportToolbar::renderModeToggle(RenderMode& renderMode) {
+void ViewportToolbar::renderModeToggle(RenderMode& renderMode, editor::EditorCamera3D* camera) {
     ImGui::PushStyleColor(ImGuiCol_Button, renderMode == RenderMode::Mode2D ? 
         ImVec4(0.2f, 0.5f, 0.8f, 1.0f) : ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
     if (ImGui::Button("2D")) {
         renderMode = RenderMode::Mode2D;
+        if (camera) {
+            camera->setProjectionMode(ProjectionMode::Orthographic);
+            camera->setOrthoSize(20.0f);  // Good default for 2D view
+        }
     }
     ImGui::PopStyleColor();
     
@@ -51,6 +56,9 @@ void ViewportToolbar::renderModeToggle(RenderMode& renderMode) {
         ImVec4(0.2f, 0.5f, 0.8f, 1.0f) : ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
     if (ImGui::Button("3D")) {
         renderMode = RenderMode::Mode3D;
+        if (camera) {
+            camera->setProjectionMode(ProjectionMode::Perspective);
+        }
     }
     ImGui::PopStyleColor();
 }

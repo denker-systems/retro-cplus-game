@@ -140,11 +140,13 @@
 - [ ] Testa editor Play mode - verifiera NPCs syns
 - [ ] Testa tester.exe - verifiera NPCs laddas från scenes.json
 
-### Fas 3: 2D Projection Mode (3-4 timmar)
-- [ ] Implementera Camera3D::setProjectionMode(Orthographic)
+### Fas 3: 2D Projection Mode ⏳ PÅGÅENDE (~25% klar)
+- [x] Implementera Camera3D::setProjectionMode(Orthographic) (commit nästa)
+- [x] Orthographic projection matrix implementation
+- [ ] Lägg till UI toggle för 2D/3D mode i viewport
 - [ ] Implementera PhysicsWorld3D::enable2DMode() (lock Z-axis)
-- [ ] Skapa 2DProjectionManager för enkel toggle
-- [ ] Testa 2D-läge i 3D engine
+- [ ] Testa 2D-läge i editor viewport
+- [ ] Testa 2D-läge i runtime
 
 ### Fas 4: Migrera Legacy Actors (4-6 timmar)
 - [ ] CharacterActor → Character3DActor

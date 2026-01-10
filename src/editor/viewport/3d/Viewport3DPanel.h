@@ -99,6 +99,9 @@ public:
     engine::Level* getSelectedLevel() const;   // Returns selected level in World view
     engine::Scene* getSelectedScene() const;   // Returns selected scene in Level view
     
+    // Camera access
+    EditorCamera3D* getCamera() { return m_camera.get(); }
+    
     // Actor creation
     void handleActorDrop(const std::string& templateName);
 
