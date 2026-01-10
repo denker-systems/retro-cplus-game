@@ -1,9 +1,13 @@
 /**
  * @file CharacterController2D.h
- * @brief Platformer character controller with walk, run, jump
+ * @brief DEPRECATED: Legacy 2D platformer character controller
  * 
- * Provides high-level character movement for 2D platformers.
- * Works with RigidBody2DComponent for physics-based movement.
+ * USE INSTEAD: CharacterController3DComponent (PhysX-based 3D controller)
+ * 
+ * This component uses Box2D for 2D platformer physics.
+ * All new code should use CharacterController3DComponent with PhysX.
+ * 
+ * @deprecated Use CharacterController3DComponent for all new code
  */
 #pragma once
 

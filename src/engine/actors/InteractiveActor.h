@@ -1,6 +1,9 @@
 /**
  * @file InteractiveActor.h
  * @brief Base class for interactive actors
+ * 
+ * NOTE: This actor is 3D-compatible (uses ActorObjectExtended base)
+ * Works with both 2D and 3D coordinates.
  */
 #pragma once
 

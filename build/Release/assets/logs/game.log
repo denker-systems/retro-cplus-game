@@ -1,101 +1,196 @@
 ========================================
-  Game Log - 2026-01-07 21:55:17.241
+  Game Log - 2026-01-10 16:43:28.608
 ========================================
 
-[2026-01-07 21:55:17.241] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-07 21:55:17.410] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-07 21:55:17.424] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-07 21:55:17.442] [INFO ] [Game.cpp:82] Window created
-[2026-01-07 21:55:17.554] [INFO ] [Game.cpp:92] Renderer created
-[2026-01-07 21:55:17.554] [INFO ] [Game.cpp:212] Viewport: 1440x900 at (80,0)
-[2026-01-07 21:55:17.556] [INFO ] [Game.cpp:118] Scale: 2.250000 (fonts scaled for sharp rendering)
-[2026-01-07 21:55:17.556] [INFO ] [Game.cpp:129] Game initialized successfully!
-[2026-01-07 21:55:17.556] [INFO ] [EditorState.cpp:42] EditorState created
-[2026-01-07 21:55:17.557] [INFO ] [EditorState.cpp:46] EditorState::enter()
-[2026-01-07 21:55:17.560] [INFO ] [EditorWorldManager.cpp:59] Loaded world.json: Retro Adventure with 1 levels
-[2026-01-07 21:55:17.560] [DEBUG] [EditorWorldManager.cpp:115] Creating Level 'Main Game' at grid (0,0)
-[2026-01-07 21:55:17.586] [DEBUG] [EditorWorldManager.cpp:162]   Scene 'Tavern' at grid (0,0)
-[2026-01-07 21:55:17.588] [DEBUG] [EditorWorldManager.cpp:162]   Scene 'Street' at grid (1,0)
-[2026-01-07 21:55:17.588] [WARN ] [EditorWorldManager.cpp:174] Scene ID 'shop' not found in rooms data
-[2026-01-07 21:55:17.588] [WARN ] [EditorWorldManager.cpp:174] Scene ID 'library' not found in rooms data
-[2026-01-07 21:55:17.588] [WARN ] [EditorWorldManager.cpp:174] Scene ID 'cellar' not found in rooms data
-[2026-01-07 21:55:17.588] [WARN ] [EditorWorldManager.cpp:174] Scene ID 'forest' not found in rooms data
-[2026-01-07 21:55:17.588] [WARN ] [EditorWorldManager.cpp:174] Scene ID 'cave' not found in rooms data
-[2026-01-07 21:55:17.588] [INFO ] [EditorWorldManager.cpp:49] EditorWorldManager: World 'Retro Adventure' created with 1 levels, 2 scenes
-[2026-01-07 21:55:17.588] [DEBUG] [EditorSettingsPanel.cpp:268] [Settings] Loading editor settings
-[2026-01-07 21:55:17.588] [DEBUG] [EditorSettingsPanel.cpp:301] [Settings] No config file found, using defaults
-[2026-01-07 21:55:17.589] [INFO ] [AISystemInit.cpp:96] [AI] ========== AI System Initialization ==========
-[2026-01-07 21:55:17.589] [INFO ] [AISystemInit.cpp:25] [AI] Registering built-in tools...
-[2026-01-07 21:55:17.589] [DEBUG] [AISystemInit.cpp:29] [AI] Registering Scene tools
-[2026-01-07 21:55:17.589] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_scenes (scenes)
-[2026-01-07 21:55:17.589] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_scene (scenes)
-[2026-01-07 21:55:17.589] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_scene (scenes)
-[2026-01-07 21:55:17.589] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_scene (scenes)
-[2026-01-07 21:55:17.589] [DEBUG] [AISystemInit.cpp:36] [AI] Registering Actor tools
-[2026-01-07 21:55:17.589] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_actors (actors)
-[2026-01-07 21:55:17.589] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_actor (actors)
-[2026-01-07 21:55:17.589] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_actor (actors)
-[2026-01-07 21:55:17.589] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_actor (actors)
-[2026-01-07 21:55:17.590] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: delete_actor (actors)
-[2026-01-07 21:55:17.590] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_component (actors)
-[2026-01-07 21:55:17.590] [DEBUG] [AISystemInit.cpp:45] [AI] Registering Hotspot tools
-[2026-01-07 21:55:17.590] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_hotspots (hotspots)
-[2026-01-07 21:55:17.590] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_hotspot (hotspots)
-[2026-01-07 21:55:17.590] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_hotspot (hotspots)
-[2026-01-07 21:55:17.590] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: delete_hotspot (hotspots)
-[2026-01-07 21:55:17.590] [DEBUG] [AISystemInit.cpp:52] [AI] Registering Dialog tools
-[2026-01-07 21:55:17.590] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_dialogs (dialogs)
-[2026-01-07 21:55:17.590] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_dialog (dialogs)
-[2026-01-07 21:55:17.590] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_dialog (dialogs)
-[2026-01-07 21:55:17.590] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_dialog_node (dialogs)
-[2026-01-07 21:55:17.591] [DEBUG] [AISystemInit.cpp:59] [AI] Registering Item tools
-[2026-01-07 21:55:17.591] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_items (items)
-[2026-01-07 21:55:17.591] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_item (items)
-[2026-01-07 21:55:17.591] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_item (items)
-[2026-01-07 21:55:17.591] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_item (items)
-[2026-01-07 21:55:17.591] [DEBUG] [AISystemInit.cpp:66] [AI] Registering Command tools
-[2026-01-07 21:55:17.591] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: execute_command (system)
-[2026-01-07 21:55:17.591] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_commands (system)
-[2026-01-07 21:55:17.591] [DEBUG] [AISystemInit.cpp:71] [AI] Registering Context tools
-[2026-01-07 21:55:17.591] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_editor_context (context)
-[2026-01-07 21:55:17.591] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: select_scene (context)
-[2026-01-07 21:55:17.591] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: select_actor (context)
-[2026-01-07 21:55:17.591] [DEBUG] [AISystemInit.cpp:77] [AI] Registering Level/World tools
-[2026-01-07 21:55:17.591] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_levels (world)
-[2026-01-07 21:55:17.592] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_level (world)
-[2026-01-07 21:55:17.592] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_scene_to_level (world)
-[2026-01-07 21:55:17.592] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: set_start_scene (world)
-[2026-01-07 21:55:17.592] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_world_info (world)
-[2026-01-07 21:55:17.592] [DEBUG] [AISystemInit.cpp:85] [AI] Registering Quest tools
-[2026-01-07 21:55:17.592] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_quests (quests)
-[2026-01-07 21:55:17.592] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_quest (quests)
-[2026-01-07 21:55:17.592] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_quest (quests)
-[2026-01-07 21:55:17.592] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_quest_objective (quests)
-[2026-01-07 21:55:17.592] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: link_quest_to_npc (quests)
-[2026-01-07 21:55:17.592] [INFO ] [AISystemInit.cpp:92] [AI] Registered 37 tools
-[2026-01-07 21:55:17.592] [INFO ] [AISystemInit.cpp:102] [AI] Initializing AIAgentSystem...
-[2026-01-07 21:55:17.592] [DEBUG] [AIAgentSystem.cpp:78] [AI] Setting default agent config
-[2026-01-07 21:55:17.592] [DEBUG] [AIAgentSystem.cpp:87] [AI] AIAgentSystem state: initialized=true, provider=null
-[2026-01-07 21:55:17.592] [INFO ] [AISystemInit.cpp:107] [AI] AIAgentSystem initialized successfully
-[2026-01-07 21:55:17.593] [INFO ] [AISystemInit.cpp:110] [AI] Initializing AIChatPanel...
-[2026-01-07 21:55:17.593] [INFO ] [AISystemInit.cpp:112] [AI] AIChatPanel initialized
-[2026-01-07 21:55:17.593] [INFO ] [AISystemInit.cpp:114] [AI] ========== AI System Ready ==========
-[2026-01-07 21:55:17.593] [INFO ] [EditorState.cpp:131] EditorState::enter() - ImGui initialized: YES
-[2026-01-07 21:55:17.593] [INFO ] [EditorState.cpp:132] EditorState::enter() - PanelManager created: YES
-[2026-01-07 21:55:17.593] [INFO ] [EditorState.cpp:133] EditorState::enter() - WorldManager created: YES
-[2026-01-07 21:55:17.593] [INFO ] [EditorContext.cpp:95] EditorContext loaded 2 rooms, 8 dialogs
-[2026-01-07 21:55:17.593] [INFO ] [EditorState.cpp:138] EditorContext loaded with 8 dialogs
-[2026-01-07 21:55:17.593] [INFO ] [EditorState.cpp:199] EditorState::render() - First render call
-[2026-01-07 21:55:17.593] [INFO ] [EditorState.cpp:234] EditorState::renderImGui() - First ImGui render
-[2026-01-07 21:57:42.817] [DEBUG] [ViewportPanel_Scene.cpp:361] ViewportPanel: Tool toggled to Scale (Space)
-[2026-01-07 21:57:42.915] [DEBUG] [ScaleTool.cpp:52] ScaleTool::onMouseDown - No selected actor
-[2026-01-07 21:57:43.096] [DEBUG] [ViewportPanel_Scene.cpp:364] ViewportPanel: Tool toggled to Select (Space)
-[2026-01-07 21:57:43.145] [DEBUG] [ViewportPanel_Scene.cpp:361] ViewportPanel: Tool toggled to Scale (Space)
-[2026-01-07 21:57:43.193] [DEBUG] [ViewportPanel_Scene.cpp:364] ViewportPanel: Tool toggled to Select (Space)
-[2026-01-07 21:58:12.224] [DEBUG] [ScaleTool.cpp:60] ScaleTool::onMouseDown - Started scaling, handle=0
-[2026-01-07 21:58:12.224] [DEBUG] [ScaleTool.cpp:77] ScaleTool - Original size: 32x48, pos: (320, 288)
-[2026-01-07 21:58:20.194] [DEBUG] [ScaleTool.cpp:85] ScaleTool::onMouseUp - Finished scaling
-[2026-01-07 21:58:27.861] [DEBUG] [ScaleTool.cpp:52] ScaleTool::onMouseDown - No selected actor
-[2026-01-07 21:58:28.291] [DEBUG] [ScaleTool.cpp:52] ScaleTool::onMouseDown - No selected actor
-[2026-01-07 21:58:34.707] [INFO ] [main.cpp:20] === RetroAdventure Editor Shutdown ===
-[2026-01-07 21:58:34.708] [INFO ] [Game.cpp:233] === Game Shutting Down ===
+[2026-01-10 16:43:28.608] [INFO ] [Game.cpp:27] === Game Starting ===
+[2026-01-10 16:43:28.780] [INFO ] [Game.cpp:40] SDL_image initialized
+[2026-01-10 16:43:28.794] [INFO ] [Game.cpp:47] SDL_mixer initialized
+[2026-01-10 16:43:28.920] [INFO ] [Game.cpp:97] Window created
+[2026-01-10 16:43:29.020] [INFO ] [Game.cpp:107] Renderer created
+[2026-01-10 16:43:29.020] [INFO ] [Game.cpp:232] Viewport: 1440x900 at (80,0)
+[2026-01-10 16:43:29.026] [INFO ] [Game.cpp:133] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-10 16:43:29.030] [INFO ] [Game.cpp:144] Game initialized successfully!
+[2026-01-10 16:43:29.030] [INFO ] [EditorState.cpp:48] EditorState created
+[2026-01-10 16:43:29.031] [INFO ] [EditorState.cpp:52] EditorState::enter()
+[2026-01-10 16:43:29.039] [INFO ] [EditorWorldManager.cpp:61] Loaded world.json: Retro Adventure with 1 levels
+[2026-01-10 16:43:29.040] [DEBUG] [EditorWorldManager.cpp:117] Creating Level 'Main Game' at grid (0,0)
+[2026-01-10 16:43:29.071] [DEBUG] [EditorWorldManager.cpp:164]   Scene 'Tavern' at grid (0,0)
+[2026-01-10 16:43:29.072] [INFO ] [EditorWorldManager.cpp:191] [EditorWorldManager] Using default PlayerStart position (0, 10, 0)
+[2026-01-10 16:43:29.072] [INFO ] [EditorWorldManager.cpp:195] [EditorWorldManager] Added PlayerStart to Tavern scene
+[2026-01-10 16:43:29.072] [INFO ] [PlayerConfigActor.cpp:23] [PlayerConfigActor] Created: PlayerConfig
+[2026-01-10 16:43:29.072] [INFO ] [EditorWorldManager.cpp:202] [EditorWorldManager] Added PlayerConfigActor to Tavern scene
+[2026-01-10 16:43:29.073] [DEBUG] [EditorWorldManager.cpp:164]   Scene 'Street' at grid (1,0)
+[2026-01-10 16:43:29.074] [WARN ] [EditorWorldManager.cpp:207] Scene ID 'shop' not found in rooms data
+[2026-01-10 16:43:29.074] [WARN ] [EditorWorldManager.cpp:207] Scene ID 'library' not found in rooms data
+[2026-01-10 16:43:29.074] [WARN ] [EditorWorldManager.cpp:207] Scene ID 'cellar' not found in rooms data
+[2026-01-10 16:43:29.074] [WARN ] [EditorWorldManager.cpp:207] Scene ID 'forest' not found in rooms data
+[2026-01-10 16:43:29.074] [WARN ] [EditorWorldManager.cpp:207] Scene ID 'cave' not found in rooms data
+[2026-01-10 16:43:29.074] [INFO ] [EditorWorldManager.cpp:51] EditorWorldManager: World 'Retro Adventure' created with 1 levels, 2 scenes
+[2026-01-10 16:43:29.074] [DEBUG] [EditorSettingsPanel.cpp:268] [Settings] Loading editor settings
+[2026-01-10 16:43:29.074] [INFO ] [EditorSettingsPanel.cpp:338] [Settings] Loaded settings from assets/data/editor_config.json
+[2026-01-10 16:43:29.074] [DEBUG] [AnthropicProvider.cpp:14] [Anthropic] Provider created
+[2026-01-10 16:43:29.074] [INFO ] [AnthropicProvider.cpp:29] [Anthropic] API key set (length: 108)
+[2026-01-10 16:43:29.075] [INFO ] [EditorSettingsPanel.cpp:290] [Settings] Restored model: claude-sonnet-4-5
+[2026-01-10 16:43:29.075] [INFO ] [AIAgentSystem.cpp:107] [AI] LLM Provider set: Anthropic
+[2026-01-10 16:43:29.075] [INFO ] [EditorSettingsPanel.cpp:294] [Settings] Restored Anthropic provider from config
+[2026-01-10 16:43:29.075] [INFO ] [EditorPlayMode.cpp:28] [EditorPlayMode] Initializing...
+[2026-01-10 16:43:29.082] [INFO ] [EditorPlayMode.cpp:35] [EditorPlayMode] PhysX running on CPU
+[2026-01-10 16:43:29.082] [INFO ] [EditorPlayMode.cpp:38] [EditorPlayMode] Initialized successfully
+[2026-01-10 16:43:29.083] [INFO ] [AISystemInit.cpp:96] [AI] ========== AI System Initialization ==========
+[2026-01-10 16:43:29.083] [INFO ] [AISystemInit.cpp:25] [AI] Registering built-in tools...
+[2026-01-10 16:43:29.083] [DEBUG] [AISystemInit.cpp:29] [AI] Registering Scene tools
+[2026-01-10 16:43:29.083] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_scenes (scenes)
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_scene (scenes)
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_scene (scenes)
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_scene (scenes)
+[2026-01-10 16:43:29.084] [DEBUG] [AISystemInit.cpp:36] [AI] Registering Actor tools
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_actors (actors)
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_actor (actors)
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_actor (actors)
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_actor (actors)
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: delete_actor (actors)
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_component (actors)
+[2026-01-10 16:43:29.084] [DEBUG] [AISystemInit.cpp:45] [AI] Registering Hotspot tools
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_hotspots (hotspots)
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_hotspot (hotspots)
+[2026-01-10 16:43:29.084] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_hotspot (hotspots)
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: delete_hotspot (hotspots)
+[2026-01-10 16:43:29.085] [DEBUG] [AISystemInit.cpp:52] [AI] Registering Dialog tools
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_dialogs (dialogs)
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_dialog (dialogs)
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_dialog (dialogs)
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_dialog_node (dialogs)
+[2026-01-10 16:43:29.085] [DEBUG] [AISystemInit.cpp:59] [AI] Registering Item tools
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_items (items)
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_item (items)
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_item (items)
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_item (items)
+[2026-01-10 16:43:29.085] [DEBUG] [AISystemInit.cpp:66] [AI] Registering Command tools
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: execute_command (system)
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_commands (system)
+[2026-01-10 16:43:29.085] [DEBUG] [AISystemInit.cpp:71] [AI] Registering Context tools
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_editor_context (context)
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: select_scene (context)
+[2026-01-10 16:43:29.085] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: select_actor (context)
+[2026-01-10 16:43:29.086] [DEBUG] [AISystemInit.cpp:77] [AI] Registering Level/World tools
+[2026-01-10 16:43:29.086] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_levels (world)
+[2026-01-10 16:43:29.086] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_level (world)
+[2026-01-10 16:43:29.086] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_scene_to_level (world)
+[2026-01-10 16:43:29.086] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: set_start_scene (world)
+[2026-01-10 16:43:29.086] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_world_info (world)
+[2026-01-10 16:43:29.086] [DEBUG] [AISystemInit.cpp:85] [AI] Registering Quest tools
+[2026-01-10 16:43:29.086] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_quests (quests)
+[2026-01-10 16:43:29.086] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_quest (quests)
+[2026-01-10 16:43:29.086] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_quest (quests)
+[2026-01-10 16:43:29.086] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_quest_objective (quests)
+[2026-01-10 16:43:29.086] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: link_quest_to_npc (quests)
+[2026-01-10 16:43:29.086] [INFO ] [AISystemInit.cpp:92] [AI] Registered 37 tools
+[2026-01-10 16:43:29.086] [INFO ] [AISystemInit.cpp:102] [AI] Initializing AIAgentSystem...
+[2026-01-10 16:43:29.086] [DEBUG] [AIAgentSystem.cpp:78] [AI] Setting default agent config
+[2026-01-10 16:43:29.086] [DEBUG] [AIAgentSystem.cpp:87] [AI] AIAgentSystem state: initialized=true, provider=set
+[2026-01-10 16:43:29.087] [INFO ] [AISystemInit.cpp:107] [AI] AIAgentSystem initialized successfully
+[2026-01-10 16:43:29.087] [INFO ] [AISystemInit.cpp:110] [AI] Initializing AIChatPanel...
+[2026-01-10 16:43:29.087] [INFO ] [AISystemInit.cpp:112] [AI] AIChatPanel initialized
+[2026-01-10 16:43:29.087] [INFO ] [AISystemInit.cpp:114] [AI] ========== AI System Ready ==========
+[2026-01-10 16:43:29.087] [INFO ] [EditorState.cpp:188] EditorState::enter() - ImGui initialized: YES
+[2026-01-10 16:43:29.087] [INFO ] [EditorState.cpp:189] EditorState::enter() - PanelManager created: YES
+[2026-01-10 16:43:29.087] [INFO ] [EditorState.cpp:190] EditorState::enter() - WorldManager created: YES
+[2026-01-10 16:43:29.087] [INFO ] [EditorContext.cpp:110] EditorContext loaded 2 rooms, 8 dialogs
+[2026-01-10 16:43:29.087] [INFO ] [EditorState.cpp:195] EditorContext loaded with 8 dialogs
+[2026-01-10 16:43:29.087] [INFO ] [EditorState.cpp:261] EditorState::render() - First render call
+[2026-01-10 16:43:29.087] [INFO ] [EditorState.cpp:296] EditorState::renderImGui() - First ImGui render
+[2026-01-10 16:43:54.009] [INFO ] [EditorPlayMode.cpp:52] [EditorPlayMode] ========================================
+[2026-01-10 16:43:54.009] [INFO ] [EditorPlayMode.cpp:53] [EditorPlayMode] STARTING PLAY MODE
+[2026-01-10 16:43:54.009] [INFO ] [EditorPlayMode.cpp:54] [EditorPlayMode] ========================================
+[2026-01-10 16:43:54.009] [INFO ] [EditorPlayMode.cpp:55] [EditorPlayMode] World: Retro Adventure
+[2026-01-10 16:43:54.009] [INFO ] [EditorPlayMode.cpp:56] [EditorPlayMode] Scene: tavern
+[2026-01-10 16:43:54.009] [INFO ] [EditorPlayMode.cpp:57] [EditorPlayMode] Physics 2D: YES
+[2026-01-10 16:43:54.009] [INFO ] [EditorPlayMode.cpp:58] [EditorPlayMode] Physics 3D: YES
+[2026-01-10 16:43:54.010] [INFO ] [EditorPlayMode.cpp:59] [EditorPlayMode] GPU Acceleration: NO
+[2026-01-10 16:43:54.010] [DEBUG] [EditorPlayMode.cpp:200] [EditorPlayMode] Scene state saved
+[2026-01-10 16:43:54.010] [INFO ] [EditorPlayMode.cpp:242] [EditorPlayMode] Created ground plane (top surface at Y=0)
+[2026-01-10 16:43:54.010] [INFO ] [EditorPlayMode.cpp:249] [EditorPlayMode] Scanning 7 actors for physics components...
+[2026-01-10 16:43:54.010] [DEBUG] [EditorPlayMode.cpp:252] [EditorPlayMode] Checking actor: Background
+[2026-01-10 16:43:54.010] [DEBUG] [EditorPlayMode.cpp:252] [EditorPlayMode] Checking actor: Tavern Door
+[2026-01-10 16:43:54.010] [DEBUG] [EditorPlayMode.cpp:252] [EditorPlayMode] Checking actor: PlayerSpawn
+[2026-01-10 16:43:54.010] [DEBUG] [EditorPlayMode.cpp:252] [EditorPlayMode] Checking actor: Bartender
+[2026-01-10 16:43:54.010] [DEBUG] [EditorPlayMode.cpp:252] [EditorPlayMode] Checking actor: Drunk Patron
+[2026-01-10 16:43:54.010] [DEBUG] [EditorPlayMode.cpp:252] [EditorPlayMode] Checking actor: PlayerStart
+[2026-01-10 16:43:54.010] [DEBUG] [EditorPlayMode.cpp:252] [EditorPlayMode] Checking actor: PlayerConfig
+[2026-01-10 16:43:54.011] [INFO ] [EditorPlayMode.cpp:284] [EditorPlayMode] Physics bodies initialized: 3D=0, 2D=0
+[2026-01-10 16:43:54.011] [INFO ] [EditorPlayMode.cpp:288] [EditorPlayMode] No physics bodies found - creating test actor
+[2026-01-10 16:43:54.011] [INFO ] [EditorPlayMode.cpp:310] [EditorPlayMode] ----------------------------------------
+[2026-01-10 16:43:54.011] [INFO ] [EditorPlayMode.cpp:311] [EditorPlayMode] CREATING TEST PHYSICS ACTOR
+[2026-01-10 16:43:54.011] [INFO ] [EditorPlayMode.cpp:312] [EditorPlayMode] ----------------------------------------
+[2026-01-10 16:43:54.011] [INFO ] [EditorPlayMode.cpp:325] [EditorPlayMode] Test box created at (0, 10, 0) - will fall due to gravity
+[2026-01-10 16:43:54.011] [INFO ] [EditorPlayMode.cpp:417] [EditorPlayMode] Found PlayerStart at (0.000000, 10.000000, 4.246031)
+[2026-01-10 16:43:54.011] [INFO ] [CharacterController3DComponent.cpp:64] [CharacterController3D] Initialized at (0.000000, 10.000000, 4.246031)
+[2026-01-10 16:43:54.011] [INFO ] [EditorPlayMode.cpp:428] [EditorPlayMode] Player spawned and controller initialized
+[2026-01-10 16:43:54.011] [INFO ] [EditorPlayMode.cpp:429] [EditorPlayMode] Controls: WASD to move, SPACE to jump
+[2026-01-10 16:43:54.030] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (0.000000, 9.982000, 4.246031) grounded: NO
+[2026-01-10 16:43:54.030] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=9.996076 (falling from 10.0)
+[2026-01-10 16:43:54.030] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Bartender' at (0.900000, 1.000000, 2.800000)
+[2026-01-10 16:43:54.030] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Drunk Patron' at (2.100000, 1.000000, 2.900000)
+[2026-01-10 16:43:54.629] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=8.053696 (falling from 10.0)
+[2026-01-10 16:43:55.229] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (0.000000, 1.000000, 4.246031) grounded: YES
+[2026-01-10 16:43:55.230] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=2.579716 (falling from 10.0)
+[2026-01-10 16:43:55.829] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=1.418980 (falling from 10.0)
+[2026-01-10 16:43:56.430] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (0.000000, 1.000000, 4.246031) grounded: YES
+[2026-01-10 16:43:56.430] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.631970 (falling from 10.0)
+[2026-01-10 16:43:56.430] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Bartender' at (0.900000, 1.000000, 2.800000)
+[2026-01-10 16:43:56.430] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Drunk Patron' at (2.100000, 1.000000, 2.900000)
+[2026-01-10 16:43:57.030] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.537351 (falling from 10.0)
+[2026-01-10 16:43:57.630] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (2.591784, 1.000000, 7.796247) grounded: YES
+[2026-01-10 16:43:57.630] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.510535 (falling from 10.0)
+[2026-01-10 16:43:58.230] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:43:58.870] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (7.684390, 1.000000, 6.914770) grounded: YES
+[2026-01-10 16:43:58.871] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:43:58.871] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Bartender' at (0.900000, 1.000000, 2.800000)
+[2026-01-10 16:43:58.871] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Drunk Patron' at (2.100000, 1.000000, 2.900000)
+[2026-01-10 16:43:59.470] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:00.051] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (1.149543, 1.000000, 8.486627) grounded: YES
+[2026-01-10 16:44:00.051] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:00.651] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:01.251] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (-1.116233, 1.000000, 10.425649) grounded: YES
+[2026-01-10 16:44:01.251] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:01.251] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Bartender' at (0.900000, 1.000000, 2.800000)
+[2026-01-10 16:44:01.251] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Drunk Patron' at (2.100000, 1.000000, 2.900000)
+[2026-01-10 16:44:01.851] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:02.451] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (-5.523348, 1.000000, 5.589192) grounded: YES
+[2026-01-10 16:44:02.452] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:03.052] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:03.652] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (-4.364190, 1.000000, 2.603670) grounded: YES
+[2026-01-10 16:44:03.652] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:03.652] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Bartender' at (0.900000, 1.000000, 2.800000)
+[2026-01-10 16:44:03.652] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Drunk Patron' at (2.100000, 1.000000, 2.900000)
+[2026-01-10 16:44:04.252] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:04.852] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (2.104724, 1.000000, 2.075613) grounded: YES
+[2026-01-10 16:44:04.852] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:05.453] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:06.052] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (0.888815, 1.000000, 0.706628) grounded: YES
+[2026-01-10 16:44:06.053] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:06.053] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Bartender' at (0.900000, 1.000000, 2.800000)
+[2026-01-10 16:44:06.053] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Drunk Patron' at (2.100000, 1.000000, 2.900000)
+[2026-01-10 16:44:06.652] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:07.253] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (-3.593076, 1.000000, 0.689048) grounded: YES
+[2026-01-10 16:44:07.253] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:07.854] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:08.453] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (2.772012, 1.000000, -1.944013) grounded: YES
+[2026-01-10 16:44:08.453] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:08.454] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Bartender' at (0.900000, 1.000000, 2.800000)
+[2026-01-10 16:44:08.454] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Drunk Patron' at (2.100000, 1.000000, 2.900000)
+[2026-01-10 16:44:09.053] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:09.654] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (5.289215, 1.000000, -1.825308) grounded: YES
+[2026-01-10 16:44:09.654] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:10.254] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:10.854] [DEBUG] [EditorPlayMode.cpp:450] [EditorPlayMode] Player pos: (5.289215, 1.000000, -1.825308) grounded: YES
+[2026-01-10 16:44:10.854] [INFO ] [EditorPlayMode.cpp:134] [EditorPlayMode] Test body Y=0.500003 (falling from 10.0)
+[2026-01-10 16:44:10.854] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Bartender' at (0.900000, 1.000000, 2.800000)
+[2026-01-10 16:44:10.854] [DEBUG] [EditorPlayMode.cpp:149] [EditorPlayMode] NPC 'Drunk Patron' at (2.100000, 1.000000, 2.900000)
+[2026-01-10 16:44:11.017] [INFO ] [main.cpp:23] === RetroAdventure Editor Shutdown ===
+[2026-01-10 16:44:11.017] [INFO ] [Game.cpp:253] === Game Shutting Down ===
+[2026-01-10 16:44:11.017] [INFO ] [EditorPlayMode.cpp:88] [EditorPlayMode] Stopping play mode...
+[2026-01-10 16:44:11.017] [INFO ] [EditorPlayMode.cpp:94] [EditorPlayMode] Player destroyed
+[2026-01-10 16:44:11.017] [DEBUG] [EditorPlayMode.cpp:350] [EditorPlayMode] Physics bodies cleaned up
+[2026-01-10 16:44:11.017] [DEBUG] [EditorPlayMode.cpp:221] [EditorPlayMode] Scene state restored
+[2026-01-10 16:44:11.017] [INFO ] [EditorPlayMode.cpp:106] [EditorPlayMode] Play session: 848 frames, 16.936520s

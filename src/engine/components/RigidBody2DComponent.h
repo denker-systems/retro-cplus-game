@@ -1,9 +1,13 @@
 /**
  * @file RigidBody2DComponent.h
- * @brief Box2D rigid body component for actors
+ * @brief DEPRECATED: Legacy 2D physics body component
  * 
- * Follows ActorComponent pattern (same as SpriteComponent, MovementComponent).
- * Provides physics simulation for any ActorObjectExtended.
+ * USE INSTEAD: RigidBody3DComponent (PhysX-based 3D physics)
+ * 
+ * This component uses Box2D for 2D physics.
+ * All new code should use RigidBody3DComponent with PhysX.
+ * 
+ * @deprecated Use RigidBody3DComponent for all new code
  */
 #pragma once
 

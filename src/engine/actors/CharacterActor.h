@@ -1,6 +1,15 @@
 /**
  * @file CharacterActor.h
- * @brief Base class for all character actors (Player, NPCs)
+ * @brief DEPRECATED: Legacy 2D character actors
+ * 
+ * USE INSTEAD: Character3DActor (3D base class)
+ * 
+ * This file is kept for backward compatibility with legacy game states.
+ * All new code should use Character3DActor and its subclasses:
+ * - Player3DActor (replaces PlayerActor)
+ * - NPC3DActor (replaces NPCActor)
+ * 
+ * Migration plan: See docs/architecture/2D-TO-3D-MIGRATION.md
  */
 #pragma once
 
@@ -9,7 +18,9 @@
 namespace engine {
 
 /**
- * @brief Base class for characters (Player, NPCs)
+ * @brief DEPRECATED: Legacy 2D character base class
+ * 
+ * USE INSTEAD: Character3DActor (3D base class)
  * 
  * Features:
  * - Movement speed
@@ -17,7 +28,7 @@ namespace engine {
  * - Movement (via MovementComponent)
  * - Dialog (via DialogComponent)
  * 
- * Similar to ACharacter in Unreal Engine.
+ * @deprecated Use Character3DActor for all new code
  */
 class CharacterActor : public ActorObjectExtended {
 public:
@@ -61,7 +72,11 @@ protected:
 };
 
 /**
- * @brief Player character actor
+ * @brief DEPRECATED: Legacy 2D player actor
+ * 
+ * USE INSTEAD: Player3DActor (3D player)
+ * 
+ * @deprecated Use Player3DActor for all new code
  */
 class PlayerActor : public CharacterActor {
 public:
@@ -87,7 +102,11 @@ private:
 };
 
 /**
- * @brief NPC character actor
+ * @brief DEPRECATED: Legacy 2D NPC actor
+ * 
+ * USE INSTEAD: NPC3DActor (3D NPC)
+ * 
+ * @deprecated Use NPC3DActor for all new code
  */
 class NPCActor : public CharacterActor {
 public:

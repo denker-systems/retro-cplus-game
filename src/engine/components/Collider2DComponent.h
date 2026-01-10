@@ -1,9 +1,13 @@
 /**
  * @file Collider2DComponent.h
- * @brief Box2D collider component for actors
+ * @brief DEPRECATED: Legacy 2D collider component
  * 
- * Works together with RigidBody2DComponent.
- * Adds collision shapes to the rigid body.
+ * USE INSTEAD: PhysX shapes directly via RigidBody3DComponent
+ * 
+ * This component uses Box2D for 2D collision shapes.
+ * PhysX handles collision shapes directly, no separate collider component needed.
+ * 
+ * @deprecated Use RigidBody3DComponent with PhysX shapes for all new code
  */
 #pragma once
 

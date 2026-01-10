@@ -1,6 +1,9 @@
 /**
  * @file VisualActor.h
  * @brief Base class for actors with visual representation
+ * 
+ * NOTE: This actor is 3D-compatible (uses ActorObjectExtended base)
+ * Works with both 2D and 3D coordinates.
  */
 #pragma once
 

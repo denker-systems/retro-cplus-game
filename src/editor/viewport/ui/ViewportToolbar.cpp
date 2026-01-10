@@ -39,7 +39,12 @@ void ViewportToolbar::render(RenderMode& renderMode, float& zoom, float& panX, f
 }
 
 void ViewportToolbar::renderModeToggle(RenderMode& renderMode, editor::EditorCamera3D* camera) {
-    ImGui::PushStyleColor(ImGuiCol_Button, renderMode == RenderMode::Mode2D ? 
+    // Determine active mode from camera projection (if available)
+    bool is2DMode = (camera && camera->getProjectionMode() == ProjectionMode::Orthographic);
+    bool is3DMode = !is2DMode;
+    
+    // 2D Button
+    ImGui::PushStyleColor(ImGuiCol_Button, is2DMode ? 
         ImVec4(0.2f, 0.5f, 0.8f, 1.0f) : ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
     if (ImGui::Button("2D")) {
         renderMode = RenderMode::Mode2D;
@@ -52,7 +57,8 @@ void ViewportToolbar::renderModeToggle(RenderMode& renderMode, editor::EditorCam
     
     ImGui::SameLine();
     
-    ImGui::PushStyleColor(ImGuiCol_Button, renderMode == RenderMode::Mode3D ? 
+    // 3D Button
+    ImGui::PushStyleColor(ImGuiCol_Button, is3DMode ? 
         ImVec4(0.2f, 0.5f, 0.8f, 1.0f) : ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
     if (ImGui::Button("3D")) {
         renderMode = RenderMode::Mode3D;

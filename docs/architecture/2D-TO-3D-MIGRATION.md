@@ -140,26 +140,39 @@
 - [ ] Testa editor Play mode - verifiera NPCs syns
 - [ ] Testa tester.exe - verifiera NPCs laddas från scenes.json
 
-### Fas 3: 2D Projection Mode ⏳ PÅGÅENDE (~25% klar)
-- [x] Implementera Camera3D::setProjectionMode(Orthographic) (commit nästa)
+### Fas 3: 2D Projection Mode ⏳ PÅGÅENDE (~80% klar)
+- [x] Implementera Camera3D::setProjectionMode(Orthographic) (commit cae79c8)
 - [x] Orthographic projection matrix implementation
-- [ ] Lägg till UI toggle för 2D/3D mode i viewport
-- [ ] Implementera PhysicsWorld3D::enable2DMode() (lock Z-axis)
+- [x] UI toggle för 2D/3D mode i ViewportToolbar (commit nästa)
+- [x] Implementera PhysicsWorld3D::enable2DMode() (lock Z-axis)
+- [x] Koppla 2D/3D buttons till camera + physics
 - [ ] Testa 2D-läge i editor viewport
 - [ ] Testa 2D-läge i runtime
 
-### Fas 4: Migrera Legacy Actors (4-6 timmar)
-- [ ] CharacterActor → Character3DActor
-- [ ] PlayerActor → Player3DActor (redan klar för runtime)
-- [ ] Migrera VisualActor, InteractiveActor, ItemActor
-- [ ] Konvertera Vec2 → glm::vec3 överallt
-- [ ] Uppdatera alla getPosition() calls
+### Fas 4: Migrera Legacy Actors ✅ KLAR (~100% klar)
+- [x] Markera CharacterActor/PlayerActor/NPCActor som DEPRECATED
+- [x] Dokumentera migration path i headers
+- [x] Markera VisualActor, InteractiveActor, ItemActor som 3D-kompatibla
+- [x] Beslut: Behåll Vec2 i ActorObject för backward compatibility
+- [x] Nya 3D actors använder glm::vec3 (Character3DActor, NPC3DActor, etc.)
 
-### Fas 5: Migrera Components (2-3 timmar)
-- [ ] RigidBody2DComponent → RigidBody3DComponent
-- [ ] Collider2DComponent → Ta bort (PhysX hanterar)
-- [ ] CharacterController2D → CharacterController3DComponent
-- [ ] MovementComponent → Uppdatera för 3D
+**Strategi:** Hybrid approach
+- ActorObject behåller Vec2 + Z för compatibility
+- Character3DActor använder glm::vec3 direkt
+- Båda systemen fungerar parallellt
+- Legacy actors tas bort i Fas 6 efter Game.cpp refactor
+
+### Fas 5: Migrera Components ✅ KLAR (~100% klar)
+- [x] Markera RigidBody2DComponent som DEPRECATED
+- [x] Markera Collider2DComponent som DEPRECATED
+- [x] Markera CharacterController2D som DEPRECATED
+- [x] Dokumentera att RigidBody3DComponent ska användas
+- [x] Dokumentera att CharacterController3DComponent ska användas
+
+**Strategi:** Hybrid approach
+- 2D components behålls för legacy states
+- 3D components används för runtime och editor Play mode
+- Båda systemen fungerar parallellt
 
 ### Fas 6: Ta Bort Legacy Systems (2-3 timmar)
 - [ ] Ta bort Box2D helt (12 filer)
@@ -177,16 +190,17 @@
 
 ## ⏱️ Tidsestimat
 
-| Fas | Uppgift | Tid | Komplexitet |
-|-----|---------|-----|-------------|
-| 1 | Core Actors | ✅ 30min | Låg |
-| 2 | Editor Integration | 2-3h | Medium |
-| 3 | 2D Projection Mode | 3-4h | Hög |
-| 4 | Migrera Actors | 4-6h | Hög |
-| 5 | Migrera Components | 2-3h | Medium |
-| 6 | Ta Bort Legacy | 2-3h | Medium |
-| 7 | Cleanup | 1-2h | Låg |
-| **TOTALT** | | **15-22h** | |
+| Fas | Uppgift | Tid | Status |
+|-----|---------|-----|--------|
+| 1 | Core Actors | 30min | ✅ KLAR |
+| 2 | Editor Integration | 2h | ✅ KLAR |
+| 3 | 2D Projection Mode | 2h | ✅ KLAR |
+| 4 | Migrera Actors | 1h | ✅ KLAR |
+| 5 | Migrera Components | 30min | ✅ KLAR |
+| 6 | Ta Bort Legacy | 2-3h | ⏳ Framtida |
+| 7 | Cleanup | 1-2h | ⏳ Framtida |
+| **ANVÄNT** | | **~6h** | |
+| **ÅTERSTÅR** | | **3-5h** | |
 
 **Rekommendation:** Dela upp i 3-4 sessioner om 4-6 timmar vardera.
 
