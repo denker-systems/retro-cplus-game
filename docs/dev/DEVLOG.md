@@ -6,6 +6,55 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ---
 
+## 2026-01-10
+
+### Kväll (16:20-17:11) - 2D till 3D Migration Fas 6-7
+
+- `91eb4b8` fix(runtime): load scenes.json directly when world.json missing
+  - **Ändrade filer:** RuntimeWorld.cpp
+  - **Fix:** Fallback till scenes.json när world.json saknas
+  - **Verifierat:** NPCs laddas korrekt i runtime
+
+- `fef007c` feat(editor): add NPC3DActor support to EditorPlayMode
+  - **Ändrade filer:** EditorPlayMode.cpp
+  - **Feature:** NPC3DActor uppdateras i play mode
+  - **Verifierat:** NPCs rör sig och loggar positioner
+
+- `cae79c8` feat(editor): implement 2D projection mode in EditorCamera3D
+  - **Ändrade filer:** EditorCamera3D.h/cpp
+  - **Feature:** Ortografisk projektion för 2D-läge
+  - **API:** setProjectionMode(), setOrthoSize()
+
+- `ad55d94` feat(editor,physics): complete 2D projection mode implementation
+  - **Ändrade filer:** ViewportToolbar.cpp/h, ViewportPanel.cpp
+  - **Feature:** 2D/3D toggle-knappar i toolbar
+  - **Verifierat:** Knappar byter kameraprojektion
+
+- `b208f60` feat(actors,components): complete Fas 4-5 - mark legacy 2D as DEPRECATED
+  - **Ändrade filer:** CMakeLists.txt, Game.cpp/h
+  - **Breaking:** StateManager borttagen från Game.cpp
+  - **Förberedelse:** Legacy 2D-kod markerad för borttagning
+
+- `fe99bfd` refactor(physics)!: remove Box2D and 2D physics - unified 3D architecture
+  - **BREAKING CHANGE:** Box2D och alla 2D physics-komponenter borttagna
+  - **Borttagna filer:**
+    - `src/engine/physics/box2d/` (5 filer)
+    - `RigidBody2DComponent.h/.cpp`
+    - `Collider2DComponent.h/.cpp`
+    - `CharacterController2D.h/.cpp`
+  - **Ändrade filer:** PhysicsManager.h, EditorPlayMode.h/cpp, ViewportActorRenderer.cpp, WorldContainer.h
+  - **Statistik:** 271 filer, +546/-2449 rader
+  - **Arkitektur:** Motorn använder nu endast PhysX för all physics
+  - **2D-stöd:** Implementerat via ortografisk projektion i 3D-rymden
+
+### Session Sammanfattning
+- **Commits:** 6 st
+- **Huvudsakligt arbete:** Slutförde 2D till 3D migration (Fas 6-7)
+- **Resultat:** Box2D helt borttagen, endast PhysX används nu
+- **Status:** Alla builds fungerar (RetroCore, RetroEditor, RetroGame, RetroLauncher)
+
+---
+
 ## 2026-01-09
 
 ### Natt (00:50-03:05)
