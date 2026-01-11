@@ -20,6 +20,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\ConsoleP
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\GameSettingsPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\GameSettingsPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\EditorSettingsPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\EditorSettingsPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\core\BuildPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\BuildPanel.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\panels\gameplay\QuestLogPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\QuestLogPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\ViewportPanel.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\ViewportPanel.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\core\BaseViewRenderer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\BaseViewRenderer.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\core\Base3DRenderer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroEditor.dir\Release\Base3DRenderer.obj

@@ -60,6 +60,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\InventorySys
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\RoomManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\RoomManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\SceneManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\SceneManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\QuestSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\QuestSystem.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\WaypointSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\WaypointSystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\AISystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\AISystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\SaveSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\SaveSystem.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\systems\CutsceneSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\CutsceneSystem.obj
@@ -86,6 +87,7 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\graphics\GLTextureMa
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\audio\AudioManager.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\AudioManager.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\entities\Entity.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Entity.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\ui\Widget.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Widget.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\ui\GameDialogWidget.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\GameDialogWidget.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\Logger.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\Logger.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\FileWatcher.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\FileWatcher.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine\utils\IconLoader.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroCore.dir\Release\IconLoader.obj

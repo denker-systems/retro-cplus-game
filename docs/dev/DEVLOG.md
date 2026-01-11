@@ -6,6 +6,41 @@ Kronologisk logg av alla ändringar sedan projektets start.
 
 ---
 
+## 2026-01-11
+
+### Natt (02:00-03:44) - Quest System & Runtime Features
+
+- `96c8208` feat(runtime): Quest system, waypoints, dialog, inventory and fullscreen support
+  - **Nya filer (14 st):**
+    - `src/runtime/RuntimeQuestSystem.h/.cpp` - Quest tracking med objectives
+    - `src/runtime/RuntimeDialogSystem.h/.cpp` - NPC dialog med val
+    - `src/runtime/RuntimeInventory.h/.cpp` - Item management
+    - `src/engine/systems/WaypointSystem.h/.cpp` - Waypoint tracking för quests
+    - `src/engine/ui/GameDialogWidget.h/.cpp` - In-game dialog UI
+    - `src/editor/panels/gameplay/QuestLogPanel.h/.cpp` - Editor quest browser
+  - **Ändrade filer (24 st):**
+    - `RuntimeApp.h/.cpp` - Fullscreen, quest log toggle (J-tangent)
+    - `RuntimeRenderer.h/.cpp` - Compass rendering, quest log UI
+    - `GameData.h` - ObjectiveData med waypoint-fält
+    - `QuestPropertyEditor.cpp` - Waypoint UI för objectives
+    - `EditorPanelManager.h/.cpp` - QuestLogPanel integration
+  - **Statistik:** 38 filer, +3574/-55 rader
+  - **Features:**
+    - Quest system med objectives och waypoint navigation
+    - In-game Quest Log (J-tangent)
+    - Compass/riktningsindikator för aktiva objectives
+    - Fullscreen desktop mode med dynamisk upplösning
+    - Dialog system med NPC-samtal och val
+    - Inventory system med item definitions
+  - **Verifierat:** Build OK, quest log visas in-game
+
+### Session Sammanfattning
+- **Duration:** ~1.5 timmar
+- **Commits:** 1
+- **Focus:** Quest/waypoint system, in-game UI, fullscreen
+
+---
+
 ## 2026-01-10
 
 ### Kväll (16:20-17:11) - 2D till 3D Migration Fas 6-7

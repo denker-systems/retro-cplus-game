@@ -87,7 +87,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include" /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/SDL2" /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/physx"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -109,16 +109,16 @@
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_DEBUG;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;HAS_IMGUI=1;_DEBUG;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;HAS_IMGUI=1;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -147,7 +147,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>Debug\RetroCore.lib;vcpkg_installed\x64-windows\debug\lib\manual-link\SDL2maind.lib;opengl32.lib;vcpkg_installed\x64-windows\debug\lib\glew32d.lib;vcpkg_installed\x64-windows\debug\lib\PhysX_64.lib;opengl32.lib;vcpkg_installed\x64-windows\debug\lib\PhysXExtensions_static_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXPvdSDK_static_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXCharacterKinematic_static_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXCooking_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXCommon_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXFoundation_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXVehicle_static_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXVehicle2_static_64.lib;vcpkg_installed\x64-windows\debug\lib\SDL2_imaged.lib;vcpkg_installed\x64-windows\debug\lib\SDL2_mixerd.lib;vcpkg_installed\x64-windows\debug\lib\SDL2_ttfd.lib;vcpkg_installed\x64-windows\debug\lib\SDL2d.lib;vcpkg_installed\x64-windows\debug\lib\glm.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>Debug\RetroCore.lib;vcpkg_installed\x64-windows\debug\lib\manual-link\SDL2maind.lib;vcpkg_installed\x64-windows\debug\lib\imguid.lib;opengl32.lib;vcpkg_installed\x64-windows\debug\lib\glew32d.lib;vcpkg_installed\x64-windows\debug\lib\PhysX_64.lib;opengl32.lib;vcpkg_installed\x64-windows\debug\lib\PhysXExtensions_static_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXPvdSDK_static_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXCharacterKinematic_static_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXCooking_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXCommon_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXFoundation_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXVehicle_static_64.lib;vcpkg_installed\x64-windows\debug\lib\PhysXVehicle2_static_64.lib;vcpkg_installed\x64-windows\debug\lib\SDL2_imaged.lib;vcpkg_installed\x64-windows\debug\lib\SDL2_mixerd.lib;vcpkg_installed\x64-windows\debug\lib\SDL2_ttfd.lib;vcpkg_installed\x64-windows\debug\lib\SDL2d.lib;vcpkg_installed\x64-windows\debug\lib\glm.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -166,7 +166,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include" /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/SDL2" /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/physx"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -187,18 +187,18 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HAS_IMGUI=1;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HAS_IMGUI=1;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -227,7 +227,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>Release\RetroCore.lib;vcpkg_installed\x64-windows\lib\manual-link\SDL2main.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\glew32.lib;vcpkg_installed\x64-windows\lib\PhysX_64.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\PhysXExtensions_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXPvdSDK_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCharacterKinematic_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCooking_64.lib;vcpkg_installed\x64-windows\lib\PhysXCommon_64.lib;vcpkg_installed\x64-windows\lib\PhysXFoundation_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle2_static_64.lib;vcpkg_installed\x64-windows\lib\SDL2_image.lib;vcpkg_installed\x64-windows\lib\SDL2_mixer.lib;vcpkg_installed\x64-windows\lib\SDL2_ttf.lib;vcpkg_installed\x64-windows\lib\SDL2.lib;vcpkg_installed\x64-windows\lib\glm.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>Release\RetroCore.lib;vcpkg_installed\x64-windows\lib\manual-link\SDL2main.lib;vcpkg_installed\x64-windows\lib\imgui.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\glew32.lib;vcpkg_installed\x64-windows\lib\PhysX_64.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\PhysXExtensions_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXPvdSDK_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCharacterKinematic_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCooking_64.lib;vcpkg_installed\x64-windows\lib\PhysXCommon_64.lib;vcpkg_installed\x64-windows\lib\PhysXFoundation_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle2_static_64.lib;vcpkg_installed\x64-windows\lib\SDL2_image.lib;vcpkg_installed\x64-windows\lib\SDL2_mixer.lib;vcpkg_installed\x64-windows\lib\SDL2_ttf.lib;vcpkg_installed\x64-windows\lib\SDL2.lib;vcpkg_installed\x64-windows\lib\glm.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -246,7 +246,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include" /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/SDL2" /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/physx"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -267,18 +267,18 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HAS_IMGUI=1;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HAS_IMGUI=1;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -307,7 +307,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>MinSizeRel\RetroCore.lib;vcpkg_installed\x64-windows\lib\manual-link\SDL2main.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\glew32.lib;vcpkg_installed\x64-windows\lib\PhysX_64.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\PhysXExtensions_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXPvdSDK_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCharacterKinematic_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCooking_64.lib;vcpkg_installed\x64-windows\lib\PhysXCommon_64.lib;vcpkg_installed\x64-windows\lib\PhysXFoundation_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle2_static_64.lib;vcpkg_installed\x64-windows\lib\SDL2_image.lib;vcpkg_installed\x64-windows\lib\SDL2_mixer.lib;vcpkg_installed\x64-windows\lib\SDL2_ttf.lib;vcpkg_installed\x64-windows\lib\SDL2.lib;vcpkg_installed\x64-windows\lib\glm.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>MinSizeRel\RetroCore.lib;vcpkg_installed\x64-windows\lib\manual-link\SDL2main.lib;vcpkg_installed\x64-windows\lib\imgui.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\glew32.lib;vcpkg_installed\x64-windows\lib\PhysX_64.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\PhysXExtensions_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXPvdSDK_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCharacterKinematic_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCooking_64.lib;vcpkg_installed\x64-windows\lib\PhysXCommon_64.lib;vcpkg_installed\x64-windows\lib\PhysXFoundation_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle2_static_64.lib;vcpkg_installed\x64-windows\lib\SDL2_image.lib;vcpkg_installed\x64-windows\lib\SDL2_mixer.lib;vcpkg_installed\x64-windows\lib\SDL2_ttf.lib;vcpkg_installed\x64-windows\lib\SDL2.lib;vcpkg_installed\x64-windows\lib\glm.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -326,7 +326,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include" /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/SDL2" /external:I "C:/Users/Calle/Documents/GitHub/retro-cplus-game/build/vcpkg_installed/x64-windows/include/physx"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -348,16 +348,16 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HAS_IMGUI=1;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HAS_IMGUI=1;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src;C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\engine;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\SDL2;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\include\physx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -386,7 +386,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>RelWithDebInfo\RetroCore.lib;vcpkg_installed\x64-windows\lib\manual-link\SDL2main.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\glew32.lib;vcpkg_installed\x64-windows\lib\PhysX_64.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\PhysXExtensions_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXPvdSDK_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCharacterKinematic_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCooking_64.lib;vcpkg_installed\x64-windows\lib\PhysXCommon_64.lib;vcpkg_installed\x64-windows\lib\PhysXFoundation_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle2_static_64.lib;vcpkg_installed\x64-windows\lib\SDL2_image.lib;vcpkg_installed\x64-windows\lib\SDL2_mixer.lib;vcpkg_installed\x64-windows\lib\SDL2_ttf.lib;vcpkg_installed\x64-windows\lib\SDL2.lib;vcpkg_installed\x64-windows\lib\glm.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>RelWithDebInfo\RetroCore.lib;vcpkg_installed\x64-windows\lib\manual-link\SDL2main.lib;vcpkg_installed\x64-windows\lib\imgui.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\glew32.lib;vcpkg_installed\x64-windows\lib\PhysX_64.lib;opengl32.lib;vcpkg_installed\x64-windows\lib\PhysXExtensions_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXPvdSDK_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCharacterKinematic_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXCooking_64.lib;vcpkg_installed\x64-windows\lib\PhysXCommon_64.lib;vcpkg_installed\x64-windows\lib\PhysXFoundation_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle_static_64.lib;vcpkg_installed\x64-windows\lib\PhysXVehicle2_static_64.lib;vcpkg_installed\x64-windows\lib\SDL2_image.lib;vcpkg_installed\x64-windows\lib\SDL2_mixer.lib;vcpkg_installed\x64-windows\lib\SDL2_ttf.lib;vcpkg_installed\x64-windows\lib\SDL2.lib;vcpkg_installed\x64-windows\lib\glm.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -465,8 +465,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeApp.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeWorld.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeRenderer.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeDialogSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeQuestSystem.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeInventory.cpp" />
     <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\3d\EditorCamera3D.cpp" />
     <ResourceCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\game\RetroGame.rc" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_opengl3.cpp" />
     <Natvis Include="C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_json.natvis">
     </Natvis>
   </ItemGroup>

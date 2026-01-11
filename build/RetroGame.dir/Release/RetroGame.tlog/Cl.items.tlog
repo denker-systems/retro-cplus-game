@@ -2,4 +2,9 @@ C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\main.cpp;C:\Users\C
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeApp.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroGame.dir\Release\RuntimeApp.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeWorld.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroGame.dir\Release\RuntimeWorld.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeRenderer.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroGame.dir\Release\RuntimeRenderer.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeDialogSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroGame.dir\Release\RuntimeDialogSystem.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeQuestSystem.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroGame.dir\Release\RuntimeQuestSystem.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\runtime\RuntimeInventory.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroGame.dir\Release\RuntimeInventory.obj
 C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\editor\viewport\3d\EditorCamera3D.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroGame.dir\Release\EditorCamera3D.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_sdl2.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroGame.dir\Release\imgui_impl_sdl2.obj
+C:\Users\Calle\Documents\GitHub\retro-cplus-game\src\vendor\imgui\imgui_impl_opengl3.cpp;C:\Users\Calle\Documents\GitHub\retro-cplus-game\build\RetroGame.dir\Release\imgui_impl_opengl3.obj
