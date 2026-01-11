@@ -55,8 +55,10 @@ public:
 private:
     bool loadScenes();
     bool createGroundPlane(engine::physics::PhysicsManager* physicsManager);
+    void createNPCColliders(engine::physics::PhysicsManager* physicsManager);
     engine::Scene* createSceneFromJSON(const void* sceneData);
     
     std::unique_ptr<engine::World> m_world;
+    engine::physics::PhysicsManager* m_physicsManager = nullptr;
     engine::Scene* m_activeScene = nullptr;
 };

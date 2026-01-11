@@ -6,6 +6,8 @@
 #include "engine/utils/Logger.h"
 #include "engine/core/ActorObjectExtended.h"
 #include "engine/actors/PlayerStartActor.h"
+#include "engine/actors/NPC3DActor.h"
+#include "engine/actors/Character3DActor.h"
 #include <fstream>
 #include <algorithm>
 
@@ -84,44 +86,60 @@ void SceneSerializer::syncFromEngine(engine::Scene* scene) {
     // Sync camera config
     sceneData->camera = scene->getCameraConfig();
     
-    // Sync actor positions
+    // Clear and rebuild actors array with ALL actors from engine
+    sceneData->actors.clear();
+    
     for (const auto& actor : scene->getActors()) {
         std::string actorName = actor->getName();
         
-        // Save PlayerStart position (3D position)
-        if (actorName == "PlayerStart") {
-            // Cast to PlayerStartActor to get spawn position
-            if (auto* playerStart = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
-                glm::vec3 spawnPos = playerStart->getSpawnPosition();
-                sceneData->playerSpawnX = spawnPos.x;
-                sceneData->playerSpawnY = spawnPos.z;  // Store Z as Y for 3D
-                LOG_DEBUG("Synced PlayerStart spawn position: (" + 
-                         std::to_string(spawnPos.x) + ", " + 
-                         std::to_string(spawnPos.y) + ", " + 
-                         std::to_string(spawnPos.z) + ")");
-            }
-            continue;
-        }
+        // Skip Background actor (handled separately)
+        if (actorName == "Background") continue;
         
-        // Save PlayerConfig position
-        if (actorName == "PlayerConfig") {
+        // Create SceneActorData for this actor
+        SceneActorData actorData;
+        actorData.id = actorName;
+        actorData.name = actorName;
+        
+        // Determine actor type and extract 3D position
+        if (auto* playerStart = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
+            actorData.type = "PlayerStart";
+            glm::vec3 pos = playerStart->getSpawnPosition();
+            actorData.x = pos.x;
+            actorData.y = pos.y;
+            actorData.z = pos.z;
+            
+            // Also update legacy spawn position
+            sceneData->playerSpawnX = pos.x * 100.0f;  // Convert back to pixels
+            sceneData->playerSpawnY = pos.z * 100.0f;
+        } else if (auto* npc = dynamic_cast<engine::NPC3DActor*>(actor.get())) {
+            actorData.type = "NPC3D";
+            glm::vec3 pos = npc->getPosition3D();
+            actorData.x = pos.x;
+            actorData.y = pos.y;
+            actorData.z = pos.z;
+            actorData.sprite = npc->getSpriteName();
+            actorData.dialogId = npc->getDialogId();
+        } else if (auto* char3d = dynamic_cast<engine::Character3DActor*>(actor.get())) {
+            actorData.type = "Character3D";
+            glm::vec3 pos = char3d->getPosition3D();
+            actorData.x = pos.x;
+            actorData.y = pos.y;
+            actorData.z = pos.z;
+            actorData.rotationY = char3d->getYaw();
+        } else {
+            // Generic actor - use 2D position converted
+            actorData.type = "Generic";
             engine::Vec2 pos = actor->getPosition();
-            LOG_DEBUG("Synced PlayerConfig position: (" + std::to_string(pos.x) + ", " + std::to_string(pos.y) + ")");
-            continue;
+            actorData.x = pos.x / 100.0f;
+            actorData.y = 0.0f;
+            actorData.z = pos.y / 100.0f;
         }
         
-        // Find matching hotspot for other actors
-        engine::Vec2 pos = actor->getPosition();
-        for (auto& hs : sceneData->hotspots) {
-            if (hs.name == actorName || hs.id == actorName) {
-                hs.x = static_cast<int>(pos.x);
-                hs.y = static_cast<int>(pos.y);
-                LOG_DEBUG("Synced hotspot '" + actorName + "' position: (" + std::to_string(hs.x) + ", " + std::to_string(hs.y) + ")");
-                break;
-            }
-        }
+        sceneData->actors.push_back(actorData);
+        LOG_DEBUG("Synced actor '" + actorName + "' type=" + actorData.type);
     }
     
+    LOG_INFO("Synced " + std::to_string(sceneData->actors.size()) + " actors to scene '" + scene->getName() + "'");
     m_dirty = true;
 }
 

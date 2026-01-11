@@ -6,6 +6,9 @@
 #include "editor/viewport/3d/EditorCamera3D.h"
 #include "engine/actors/Character3DActor.h"
 #include "engine/actors/NPC3DActor.h"
+#include "engine/actors/PlayerStartActor.h"
+#include "engine/actors/PlayerConfigActor.h"
+#include "engine/actors/StaticMeshActor.h"
 #include "engine/world/Scene.h"
 #include "engine/utils/Logger.h"
 #include <glm/gtc/matrix_transform.hpp>
@@ -39,6 +42,10 @@ bool RuntimeRenderer::initialize() {
 void RuntimeRenderer::render(editor::EditorCamera3D* camera, engine::Player3DActor* player, engine::Scene* scene) {
     if (!camera || !player) return;
     
+    // Enable depth test and disable face culling (render all faces)
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);  // Show all faces of cubes
+    
     glUseProgram(m_shaderProgram);
     
     // Set camera matrices
@@ -59,24 +66,33 @@ void RuntimeRenderer::render(editor::EditorCamera3D* camera, engine::Player3DAct
     glUniform3fv(lightColorLoc, 1, glm::value_ptr(m_lightColor));
     glUniform3fv(viewPosLoc, 1, glm::value_ptr(camera->getPosition()));
     
-    // Render ground
+    // Use vertex colors for ground/player
+    GLint useUniformColorLoc = glGetUniformLocation(m_shaderProgram, "uUseUniformColor");
+    glUniform1i(useUniformColorLoc, 0);
+    
+    // Render grid (same as editor)
     {
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
+        // Grid at Y=0 (same as editor)
         
         GLint modelLoc = glGetUniformLocation(m_shaderProgram, "uModel");
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         
         glBindVertexArray(m_groundVAO);
-        glDrawElements(GL_TRIANGLES, m_groundIndexCount, GL_UNSIGNED_INT, 0);
+        if (m_useGridLines) {
+            glDrawElements(GL_LINES, m_groundIndexCount, GL_UNSIGNED_INT, 0);
+        } else {
+            glDrawElements(GL_TRIANGLES, m_groundIndexCount, GL_UNSIGNED_INT, 0);
+        }
     }
     
-    // Render player
+    // Render player (same as editor: position + rotation + scale)
     {
         glm::vec3 playerPos = player->getPosition3D();
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, playerPos);
-        model = glm::scale(model, glm::vec3(0.5f, 1.0f, 0.5f)); // 0.5x1x0.5m capsule-ish
+        model = glm::rotate(model, glm::radians(player->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate around Y-axis
+        model = glm::scale(model, glm::vec3(0.4f, 0.9f, 0.4f));  // Capsule-ish (same as editor)
         
         GLint modelLoc = glGetUniformLocation(m_shaderProgram, "uModel");
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -85,41 +101,89 @@ void RuntimeRenderer::render(editor::EditorCamera3D* camera, engine::Player3DAct
         glDrawElements(GL_TRIANGLES, m_playerIndexCount, GL_UNSIGNED_INT, 0);
     }
     
-    // Render all other actors (NPCs, etc.)
+    // Render ALL actors (same as editor viewport)
     if (scene) {
         static bool logged = false;
-        int npcCount = 0;
+        int actorCount = 0;
+        int totalActors = static_cast<int>(scene->getActors().size());
+        
+        if (!logged) {
+            LOG_INFO("[RuntimeRenderer] Scene has " + std::to_string(totalActors) + " actors");
+        }
+        
+        GLint modelLoc = glGetUniformLocation(m_shaderProgram, "uModel");
+        GLint colorLoc = glGetUniformLocation(m_shaderProgram, "uColor");
         
         for (const auto& actor : scene->getActors()) {
+            if (!actor) continue;
             // Skip player (already rendered)
             if (actor.get() == player) continue;
             
-            // Render NPCs and other actors
-            if (auto* npc = dynamic_cast<engine::NPC3DActor*>(actor.get())) {
-                npcCount++;
-                
-                // Get 3D position directly
-                glm::vec3 pos3d = npc->getPosition3D();
-                
-                if (!logged) {
-                    LOG_INFO("[RuntimeRenderer] Rendering NPC '" + npc->getName() + "' at (" +
-                             std::to_string(pos3d.x) + ", " + std::to_string(pos3d.y) + ", " + std::to_string(pos3d.z) + ")");
-                }
-                
-                glm::mat4 model = glm::mat4(1.0f);
-                model = glm::translate(model, pos3d);
-                model = glm::scale(model, glm::vec3(0.4f, 0.8f, 0.4f)); // Smaller than player
-                
-                GLint modelLoc = glGetUniformLocation(m_shaderProgram, "uModel");
-                glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-                
-                glBindVertexArray(m_npcVAO);  // Use NPC mesh (pink/brown)
-                glDrawElements(GL_TRIANGLES, m_npcIndexCount, GL_UNSIGNED_INT, 0);
+            // Get position based on actor type - MATCH EDITOR EXACTLY
+            glm::vec3 pos;
+            float scale = 0.5f;  // Same as editor
+            glm::vec3 color(0.6f, 0.6f, 0.6f);  // Default gray
+            
+            // MATCH EDITOR EXACTLY - render ALL actors with appropriate colors
+            if (actor->getName() == "Background") {
+                continue;  // Skip background actor (rendered separately)
             }
+            
+            // Get position based on actor type
+            if (auto* char3d = dynamic_cast<engine::Character3DActor*>(actor.get())) {
+                pos = char3d->getPosition3D();
+                color = glm::vec3(0.8f, 0.5f, 0.5f);  // Pink for NPCs
+            } else if (auto* npc = dynamic_cast<engine::NPC3DActor*>(actor.get())) {
+                pos = npc->getPosition3D();
+                color = glm::vec3(0.8f, 0.5f, 0.5f);  // Pink for NPCs
+            } else if (auto* meshActor = dynamic_cast<engine::StaticMeshActor*>(actor.get())) {
+                pos = meshActor->getPosition3D();
+                color = meshActor->getMeshColor();
+            } else if (auto* playerStart = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
+                pos = playerStart->getSpawnPosition();
+                color = glm::vec3(0.2f, 0.8f, 0.2f);  // Green for spawn
+            } else if (auto* playerConfig = dynamic_cast<engine::PlayerConfigActor*>(actor.get())) {
+                // Position at PlayerStart location, slightly below
+                pos = glm::vec3(0.0f, 0.5f, 0.0f);
+                for (const auto& a : scene->getActors()) {
+                    if (auto* ps = dynamic_cast<engine::PlayerStartActor*>(a.get())) {
+                        pos = ps->getSpawnPosition();
+                        pos.y = 0.5f;
+                        break;
+                    }
+                }
+                color = glm::vec3(0.2f, 0.9f, 0.9f);  // Cyan for camera config
+            } else {
+                // Legacy 2D actor - convert to 3D (same as editor)
+                auto pos2D = actor->getPosition();
+                float posZ = actor->getZ();
+                pos = glm::vec3(pos2D.x / 100.0f, posZ / 100.0f + scale / 2.0f, pos2D.y / 100.0f);
+                // Vary color by index (same as editor)
+                int index = actorCount;
+                float hue = (float)index / std::max(1, (int)scene->getActors().size());
+                color = glm::vec3(0.8f - hue * 0.3f, 0.4f + hue * 0.2f, 0.3f + hue * 0.4f);
+            }
+            
+            if (!logged) {
+                LOG_INFO("[RuntimeRenderer] Rendering '" + actor->getName() + "' at (" +
+                         std::to_string(pos.x) + ", " + std::to_string(pos.y) + ", " + std::to_string(pos.z) + ")");
+            }
+            
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, pos);
+            model = glm::scale(model, glm::vec3(scale));
+            
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glUniform3fv(colorLoc, 1, glm::value_ptr(color));
+            glUniform1i(glGetUniformLocation(m_shaderProgram, "uUseUniformColor"), 1);
+            
+            glBindVertexArray(m_npcVAO);
+            glDrawElements(GL_TRIANGLES, m_npcIndexCount, GL_UNSIGNED_INT, 0);
+            actorCount++;
         }
         
-        if (!logged && npcCount > 0) {
-            LOG_INFO("[RuntimeRenderer] Rendered " + std::to_string(npcCount) + " NPCs");
+        if (!logged && actorCount > 0) {
+            LOG_INFO("[RuntimeRenderer] Rendered " + std::to_string(actorCount) + " actors");
             logged = true;
         }
     }
@@ -181,6 +245,8 @@ bool RuntimeRenderer::loadShaders() {
         uniform vec3 uLightPos;
         uniform vec3 uViewPos;
         uniform vec3 uLightColor;
+        uniform vec3 uColor;  // Override color (if set, use this instead of vertex color)
+        uniform int uUseUniformColor;  // 1 = use uColor, 0 = use vertex Color
         
         void main() {
             float ambientStrength = 0.3;
@@ -197,7 +263,8 @@ bool RuntimeRenderer::loadShaders() {
             float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
             vec3 specular = specularStrength * spec * uLightColor;
             
-            vec3 result = (ambient + diffuse + specular) * Color;
+            vec3 baseColor = (uUseUniformColor == 1) ? uColor : Color;
+            vec3 result = (ambient + diffuse + specular) * baseColor;
             FragColor = vec4(result, 1.0);
         }
     )";
@@ -218,61 +285,80 @@ bool RuntimeRenderer::loadShaders() {
 }
 
 void RuntimeRenderer::createGroundMesh() {
-    LOG_INFO("[RuntimeRenderer] Creating ground mesh...");
+    LOG_INFO("[RuntimeRenderer] Creating grid mesh (same as editor)...");
     
-    // Create a large grid plane (20x20 meters)
+    // Create grid lines (same as editor: Mesh::createGrid)
     std::vector<float> vertices;
     std::vector<unsigned int> indices;
     
-    const int gridSize = 20;
-    const float cellSize = 1.0f;
-    const float halfSize = gridSize * cellSize * 0.5f;
+    const int lines = 20;
+    const float spacing = 1.0f;
+    const float halfSize = (lines * spacing) * 0.5f;
+    unsigned int index = 0;
     
-    // Generate vertices (position, normal, color)
-    for (int z = 0; z <= gridSize; ++z) {
-        for (int x = 0; x <= gridSize; ++x) {
-            float xPos = x * cellSize - halfSize;
-            float zPos = z * cellSize - halfSize;
-            
-            // Position
-            vertices.push_back(xPos);
-            vertices.push_back(0.0f);
-            vertices.push_back(zPos);
-            
-            // Normal (up)
-            vertices.push_back(0.0f);
-            vertices.push_back(1.0f);
-            vertices.push_back(0.0f);
-            
-            // Color (gray with grid pattern)
-            float color = ((x + z) % 2 == 0) ? 0.3f : 0.4f;
-            vertices.push_back(color);
-            vertices.push_back(color);
-            vertices.push_back(color);
-        }
+    // Grid line color (same as editor: 0.5f gray)
+    const float gridColor = 0.5f;
+    
+    // Lines along X axis
+    for (int i = 0; i <= lines; ++i) {
+        float z = -halfSize + i * spacing;
+        
+        // Start point
+        vertices.push_back(-halfSize);  // x
+        vertices.push_back(0.0f);       // y
+        vertices.push_back(z);          // z
+        vertices.push_back(0.0f);       // normal x
+        vertices.push_back(1.0f);       // normal y
+        vertices.push_back(0.0f);       // normal z
+        vertices.push_back(gridColor);  // color r
+        vertices.push_back(gridColor);  // color g
+        vertices.push_back(gridColor);  // color b
+        indices.push_back(index++);
+        
+        // End point
+        vertices.push_back(halfSize);   // x
+        vertices.push_back(0.0f);       // y
+        vertices.push_back(z);          // z
+        vertices.push_back(0.0f);       // normal x
+        vertices.push_back(1.0f);       // normal y
+        vertices.push_back(0.0f);       // normal z
+        vertices.push_back(gridColor);  // color r
+        vertices.push_back(gridColor);  // color g
+        vertices.push_back(gridColor);  // color b
+        indices.push_back(index++);
     }
     
-    // Generate indices
-    for (int z = 0; z < gridSize; ++z) {
-        for (int x = 0; x < gridSize; ++x) {
-            int topLeft = z * (gridSize + 1) + x;
-            int topRight = topLeft + 1;
-            int bottomLeft = (z + 1) * (gridSize + 1) + x;
-            int bottomRight = bottomLeft + 1;
-            
-            // Triangle 1
-            indices.push_back(topLeft);
-            indices.push_back(bottomLeft);
-            indices.push_back(topRight);
-            
-            // Triangle 2
-            indices.push_back(topRight);
-            indices.push_back(bottomLeft);
-            indices.push_back(bottomRight);
-        }
+    // Lines along Z axis
+    for (int i = 0; i <= lines; ++i) {
+        float x = -halfSize + i * spacing;
+        
+        // Start point
+        vertices.push_back(x);          // x
+        vertices.push_back(0.0f);       // y
+        vertices.push_back(-halfSize);  // z
+        vertices.push_back(0.0f);       // normal x
+        vertices.push_back(1.0f);       // normal y
+        vertices.push_back(0.0f);       // normal z
+        vertices.push_back(gridColor);  // color r
+        vertices.push_back(gridColor);  // color g
+        vertices.push_back(gridColor);  // color b
+        indices.push_back(index++);
+        
+        // End point
+        vertices.push_back(x);          // x
+        vertices.push_back(0.0f);       // y
+        vertices.push_back(halfSize);   // z
+        vertices.push_back(0.0f);       // normal x
+        vertices.push_back(1.0f);       // normal y
+        vertices.push_back(0.0f);       // normal z
+        vertices.push_back(gridColor);  // color r
+        vertices.push_back(gridColor);  // color g
+        vertices.push_back(gridColor);  // color b
+        indices.push_back(index++);
     }
     
     m_groundIndexCount = indices.size();
+    m_useGridLines = true;  // Flag to render as GL_LINES
     
     // Create VAO, VBO, EBO
     glGenVertexArrays(1, &m_groundVAO);
@@ -301,7 +387,7 @@ void RuntimeRenderer::createGroundMesh() {
     
     glBindVertexArray(0);
     
-    LOG_INFO("[RuntimeRenderer] Ground mesh created (" + std::to_string(m_groundIndexCount) + " indices)");
+    LOG_INFO("[RuntimeRenderer] Grid mesh created (" + std::to_string(m_groundIndexCount / 2) + " lines)");
 }
 
 void RuntimeRenderer::createPlayerMesh() {

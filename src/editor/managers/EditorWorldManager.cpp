@@ -7,6 +7,7 @@
 #include "editor/core/EditorContext.h"
 #include "editor/data/EditorDataTypes.h"
 #include "editor/data/EditorDataManager.h"
+#include "editor/data/SceneSerializer.h"
 #include "engine/world/World.h"
 #include "engine/world/Level.h"
 #include "engine/world/Scene.h"
@@ -17,6 +18,8 @@
 #include "engine/components/SpriteComponent.h"
 #include "engine/actors/PlayerStartActor.h"
 #include "engine/actors/PlayerConfigActor.h"
+#include "engine/actors/NPC3DActor.h"
+#include "engine/actors/Character3DActor.h"
 #include "engine/utils/Logger.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -231,57 +234,84 @@ void EditorWorldManager::syncScenesToRoomData() {
     auto& rooms = m_context.rooms;
     LOG_INFO("EditorContext has " + std::to_string(rooms.size()) + " rooms");
     
-    // Sync each scene's grid position back to RoomData
+    // Sync each scene's data back to RoomData
     int syncedCount = 0;
+    int actorCount = 0;
     for (const auto& level : m_world->getLevels()) {
         LOG_INFO("Level '" + level->getName() + "' has " + std::to_string(level->getScenes().size()) + " scenes");
         
         for (const auto& scene : level->getScenes()) {
             const auto& gridPos = scene->getGridPosition();
             
-            LOG_DEBUG("Scene '" + scene->getName() + "' (ID) gridPos: (" + 
-                     std::to_string(gridPos.gridX) + "," + std::to_string(gridPos.gridY) + 
-                     ") size: " + std::to_string(gridPos.pixelWidth) + "x" + std::to_string(gridPos.pixelHeight));
-            
-            // Find corresponding room by ID (not name)
+            // Find corresponding room by ID
             auto roomIt = std::find_if(rooms.begin(), rooms.end(),
                 [&scene](const RoomData& room) {
                     return room.id == scene->getName();
                 });
             
             if (roomIt != rooms.end()) {
-                // Log old position
-                if (roomIt->gridPosition) {
-                    LOG_DEBUG("  Old RoomData gridPosition: (" + 
-                             std::to_string(roomIt->gridPosition->gridX) + "," + 
-                             std::to_string(roomIt->gridPosition->gridY) + ")");
-                } else {
-                    LOG_DEBUG("  Old RoomData gridPosition: null");
-                }
-                
                 // Update grid position
                 roomIt->gridPosition = engine::GridPosition{
                     gridPos.gridX, gridPos.gridY, gridPos.pixelWidth, gridPos.pixelHeight
                 };
                 
-                LOG_DEBUG("  Updated RoomData gridPosition: (" + 
-                         std::to_string(roomIt->gridPosition->gridX) + "," + 
-                         std::to_string(roomIt->gridPosition->gridY) + ")");
+                // SYNC ACTORS from engine scene to RoomData
+                roomIt->actors.clear();
+                for (const auto& actor : scene->getActors()) {
+                    std::string actorName = actor->getName();
+                    if (actorName == "Background") continue;  // Skip background
+                    
+                    SceneActorData actorData;
+                    actorData.id = actorName;
+                    actorData.name = actorName;
+                    
+                    // Determine actor type
+                    if (auto* playerStart = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
+                        actorData.type = "PlayerStart";
+                        glm::vec3 pos = playerStart->getSpawnPosition();
+                        actorData.x = pos.x;
+                        actorData.y = pos.y;
+                        actorData.z = pos.z;
+                        roomIt->playerSpawnX = pos.x * 100.0f;
+                        roomIt->playerSpawnY = pos.z * 100.0f;
+                    } else if (auto* npc = dynamic_cast<engine::NPC3DActor*>(actor.get())) {
+                        actorData.type = "NPC3D";
+                        glm::vec3 pos = npc->getPosition3D();
+                        actorData.x = pos.x;
+                        actorData.y = pos.y;
+                        actorData.z = pos.z;
+                        actorData.dialogId = npc->getDialogId();
+                    } else if (auto* character = dynamic_cast<engine::Character3DActor*>(actor.get())) {
+                        actorData.type = "Character3D";
+                        glm::vec3 pos = character->getPosition3D();
+                        actorData.x = pos.x;
+                        actorData.y = pos.y;
+                        actorData.z = pos.z;
+                    } else if (auto* playerConfig = dynamic_cast<engine::PlayerConfigActor*>(actor.get())) {
+                        actorData.type = "PlayerConfig";
+                        actorData.x = 0; actorData.y = 0; actorData.z = 0;
+                    } else {
+                        actorData.type = "Generic";
+                        actorData.x = actor->getX() / 100.0f;
+                        actorData.y = 1.0f;
+                        actorData.z = actor->getY() / 100.0f;
+                    }
+                    
+                    roomIt->actors.push_back(actorData);
+                    actorCount++;
+                }
                 
+                LOG_INFO("Synced scene '" + scene->getName() + "' with " + 
+                         std::to_string(roomIt->actors.size()) + " actors");
                 syncedCount++;
             } else {
                 LOG_WARNING("No matching RoomData found for scene ID '" + scene->getName() + "'");
-                
-                // Debug: Show available room IDs
-                LOG_DEBUG("Available room IDs:");
-                for (const auto& room : rooms) {
-                    LOG_DEBUG("  Room ID: '" + room.id + "' Name: '" + room.name + "'");
-                }
             }
         }
     }
     
-    LOG_INFO("EditorWorldManager: Synced " + std::to_string(syncedCount) + " scenes to RoomData");
+    LOG_INFO("EditorWorldManager: Synced " + std::to_string(syncedCount) + " scenes, " + 
+             std::to_string(actorCount) + " actors to RoomData");
     LOG_INFO("=== syncScenesToRoomData() END ===");
 }
 
@@ -530,4 +560,17 @@ void EditorWorldManager::refreshViewport() {
     // Mark context as dirty to trigger viewport refresh
     m_context.isDirty = true;
     LOG_INFO("[EditorWorldManager] Viewport refresh requested");
+}
+
+engine::Scene* EditorWorldManager::findSceneById(const std::string& sceneId) {
+    if (!m_world) return nullptr;
+    
+    for (const auto& level : m_world->getLevels()) {
+        for (const auto& scene : level->getScenes()) {
+            if (scene->getName() == sceneId) {
+                return scene.get();
+            }
+        }
+    }
+    return nullptr;
 }

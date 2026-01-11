@@ -171,6 +171,12 @@ void BuildPanel::startBuild() {
     m_buildLog.clear();
     m_buildLog.push_back("[BuildPanel] Build started...");
     
+    // SYNC AND SAVE all editor data before build
+    m_buildLog.push_back("[BuildPanel] Syncing editor data to files...");
+    m_context.syncScenesToRoomData();
+    m_context.saveToFiles();
+    m_buildLog.push_back("[BuildPanel] ✓ Editor data saved");
+    
     // Try to get project path from EditorContext first
     std::string projectPath = m_context.currentProjectPath;
     std::string projectName = m_context.currentProjectName;

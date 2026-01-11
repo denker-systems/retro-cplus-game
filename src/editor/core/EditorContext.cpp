@@ -9,6 +9,9 @@
 #include "game/Game.h"
 #include "engine/data/DataLoader.h"
 #include "engine/utils/Logger.h"
+#include "engine/actors/PlayerStartActor.h"
+#include "engine/actors/PlayerConfigActor.h"
+#include "engine/actors/NPC3DActor.h"
 #include <nlohmann/json.hpp>
 #include <SDL_image.h>
 #include <fstream>
@@ -125,13 +128,38 @@ void EditorContext::saveToFiles() {
     // STEP 2: Sync Scene grid positions to RoomData
     syncScenesToRoomData();
     
-    // STEP 3: Sync back to DataLoader since we read from there
+    // STEP 3: Sync back to DataLoader since we read from there (by ID, not index)
     LOG_INFO("=== SAVE: Syncing to DataLoader ===");
-    auto& dataLoader = DataLoader::instance();
-    for (size_t i = 0; i < rooms.size() && i < dataLoader.getRooms().size(); ++i) {
-        dataLoader.getRooms()[i].gridPosition = rooms[i].gridPosition;
+    LOG_INFO("EditorContext.rooms has " + std::to_string(rooms.size()) + " rooms");
+    for (auto& editorRoom : rooms) {
+        LOG_INFO("  EditorContext room: '" + editorRoom.id + "' with " + std::to_string(editorRoom.actors.size()) + " actors");
     }
-    LOG_INFO("=== SAVE: Full hierarchy sync completed ===");
+    
+    auto& dataLoader = DataLoader::instance();
+    LOG_INFO("DataLoader.rooms has " + std::to_string(dataLoader.getRooms().size()) + " rooms");
+    for (auto& dlRoom : dataLoader.getRooms()) {
+        LOG_INFO("  DataLoader room: '" + dlRoom.id + "' with " + std::to_string(dlRoom.actors.size()) + " actors");
+    }
+    
+    int syncCount = 0;
+    for (auto& editorRoom : rooms) {
+        // Find matching room in DataLoader by ID
+        bool found = false;
+        for (auto& dlRoom : dataLoader.getRooms()) {
+            if (dlRoom.id == editorRoom.id) {
+                dlRoom.gridPosition = editorRoom.gridPosition;
+                dlRoom.actors = editorRoom.actors;
+                LOG_INFO("MATCHED: Synced " + std::to_string(editorRoom.actors.size()) + " actors to DataLoader for room: " + editorRoom.id);
+                syncCount++;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            LOG_WARNING("NO MATCH for EditorContext room: '" + editorRoom.id + "'");
+        }
+    }
+    LOG_INFO("=== SAVE: Synced " + std::to_string(syncCount) + " rooms to DataLoader ===");
     
     // Save rooms - use DataLoader's rooms since ViewportPanel modifies those directly
     {
@@ -207,6 +235,54 @@ void EditorContext::saveToFiles() {
             // Camera config (NEW)
             if (room.camera) {
                 roomJson["camera"] = *room.camera;
+            }
+            
+            // Actors - get DIRECTLY from engine::Scene via WorldManager
+            if (m_editorState) {
+                auto* worldMgr = m_editorState->getWorldManager();
+                if (worldMgr) {
+                    auto* engineScene = worldMgr->findSceneById(room.id);
+                    if (engineScene && !engineScene->getActors().empty()) {
+                        roomJson["actors"] = json::array();
+                        for (const auto& actor : engineScene->getActors()) {
+                            std::string actorName = actor->getName();
+                            if (actorName == "Background") continue;
+                            
+                            json actorJson;
+                            actorJson["id"] = actorName;
+                            actorJson["name"] = actorName;
+                            
+                            // Determine type and position
+                            if (auto* ps = dynamic_cast<engine::PlayerStartActor*>(actor.get())) {
+                                actorJson["type"] = "PlayerStart";
+                                glm::vec3 pos = ps->getSpawnPosition();
+                                actorJson["x"] = pos.x;
+                                actorJson["y"] = pos.y;
+                                actorJson["z"] = pos.z;
+                            } else if (auto* npc = dynamic_cast<engine::NPC3DActor*>(actor.get())) {
+                                actorJson["type"] = "NPC3D";
+                                glm::vec3 pos = npc->getPosition3D();
+                                actorJson["x"] = pos.x;
+                                actorJson["y"] = pos.y;
+                                actorJson["z"] = pos.z;
+                                if (!npc->getDialogId().empty()) actorJson["dialogId"] = npc->getDialogId();
+                            } else if (auto* pc = dynamic_cast<engine::PlayerConfigActor*>(actor.get())) {
+                                actorJson["type"] = "PlayerConfig";
+                                actorJson["x"] = 0.0f;
+                                actorJson["y"] = 0.0f;
+                                actorJson["z"] = 0.0f;
+                            } else {
+                                actorJson["type"] = "Generic";
+                                actorJson["x"] = actor->getX() / 100.0f;
+                                actorJson["y"] = 1.0f;
+                                actorJson["z"] = actor->getY() / 100.0f;
+                            }
+                            
+                            roomJson["actors"].push_back(actorJson);
+                        }
+                        LOG_INFO("  Saved " + std::to_string(roomJson["actors"].size()) + " actors for scene '" + room.id + "'");
+                    }
+                }
             }
             
             data["scenes"].push_back(roomJson);

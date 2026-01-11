@@ -8,6 +8,23 @@
       "id": "bartender",
       "moveSpeed": 50.0,
       "name": "Bartender",
+      "physics": {
+        "bodyType": "static",
+        "collider": {
+          "density": 1.0,
+          "friction": 0.30000001192092896,
+          "height": 32.0,
+          "isTrigger": false,
+          "offsetX": 0.0,
+          "offsetY": 0.0,
+          "restitution": 0.0,
+          "shape": "box",
+          "width": 32.0
+        },
+        "enabled": false,
+        "fixedRotation": true,
+        "gravityScale": 1.0
+      },
       "room": "tavern",
       "sprite": "bartender",
       "x": 90,
@@ -21,6 +38,23 @@
       "id": "drunk_patron",
       "moveSpeed": 15.0,
       "name": "Drunk Patron",
+      "physics": {
+        "bodyType": "static",
+        "collider": {
+          "density": 1.0,
+          "friction": 0.30000001192092896,
+          "height": 32.0,
+          "isTrigger": false,
+          "offsetX": 0.0,
+          "offsetY": 0.0,
+          "restitution": 0.0,
+          "shape": "box",
+          "width": 32.0
+        },
+        "enabled": false,
+        "fixedRotation": true,
+        "gravityScale": 1.0
+      },
       "room": "tavern",
       "sprite": "drunk",
       "x": 210,
@@ -34,6 +68,23 @@
       "id": "shopkeeper",
       "moveSpeed": 50.0,
       "name": "Shopkeeper",
+      "physics": {
+        "bodyType": "static",
+        "collider": {
+          "density": 1.0,
+          "friction": 0.30000001192092896,
+          "height": 32.0,
+          "isTrigger": false,
+          "offsetX": 0.0,
+          "offsetY": 0.0,
+          "restitution": 0.0,
+          "shape": "box",
+          "width": 32.0
+        },
+        "enabled": false,
+        "fixedRotation": true,
+        "gravityScale": 1.0
+      },
       "room": "shop",
       "sprite": "shopkeeper",
       "x": 410,
@@ -47,6 +98,23 @@
       "id": "mysterious_stranger",
       "moveSpeed": 25.0,
       "name": "Mysterious Stranger",
+      "physics": {
+        "bodyType": "static",
+        "collider": {
+          "density": 1.0,
+          "friction": 0.30000001192092896,
+          "height": 32.0,
+          "isTrigger": false,
+          "offsetX": 0.0,
+          "offsetY": 0.0,
+          "restitution": 0.0,
+          "shape": "box",
+          "width": 32.0
+        },
+        "enabled": false,
+        "fixedRotation": true,
+        "gravityScale": 1.0
+      },
       "room": "street",
       "sprite": "stranger",
       "x": 200,
@@ -60,6 +128,23 @@
       "id": "town_guard",
       "moveSpeed": 40.0,
       "name": "Town Guard",
+      "physics": {
+        "bodyType": "static",
+        "collider": {
+          "density": 1.0,
+          "friction": 0.30000001192092896,
+          "height": 32.0,
+          "isTrigger": false,
+          "offsetX": 0.0,
+          "offsetY": 0.0,
+          "restitution": 0.0,
+          "shape": "box",
+          "width": 32.0
+        },
+        "enabled": false,
+        "fixedRotation": true,
+        "gravityScale": 1.0
+      },
       "room": "street",
       "sprite": "guard",
       "x": 550,
@@ -73,6 +158,23 @@
       "id": "librarian",
       "moveSpeed": 50.0,
       "name": "Old Librarian",
+      "physics": {
+        "bodyType": "static",
+        "collider": {
+          "density": 1.0,
+          "friction": 0.30000001192092896,
+          "height": 32.0,
+          "isTrigger": false,
+          "offsetX": 0.0,
+          "offsetY": 0.0,
+          "restitution": 0.0,
+          "shape": "box",
+          "width": 32.0
+        },
+        "enabled": false,
+        "fixedRotation": true,
+        "gravityScale": 1.0
+      },
       "room": "library",
       "sprite": "librarian",
       "x": 310,
@@ -86,6 +188,23 @@
       "id": "hermit",
       "moveSpeed": 20.0,
       "name": "Forest Hermit",
+      "physics": {
+        "bodyType": "static",
+        "collider": {
+          "density": 1.0,
+          "friction": 0.30000001192092896,
+          "height": 32.0,
+          "isTrigger": false,
+          "offsetX": 0.0,
+          "offsetY": 0.0,
+          "restitution": 0.0,
+          "shape": "box",
+          "width": 32.0
+        },
+        "enabled": false,
+        "fixedRotation": true,
+        "gravityScale": 1.0
+      },
       "room": "forest",
       "sprite": "hermit",
       "x": 410,
@@ -99,6 +218,23 @@
       "id": "cat",
       "moveSpeed": 60.0,
       "name": "Mysterious Cat",
+      "physics": {
+        "bodyType": "static",
+        "collider": {
+          "density": 1.0,
+          "friction": 0.30000001192092896,
+          "height": 32.0,
+          "isTrigger": false,
+          "offsetX": 0.0,
+          "offsetY": 0.0,
+          "restitution": 0.0,
+          "shape": "box",
+          "width": 32.0
+        },
+        "enabled": false,
+        "fixedRotation": true,
+        "gravityScale": 1.0
+      },
       "room": "street",
       "sprite": "cat",
       "x": 350,

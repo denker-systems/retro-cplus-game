@@ -1,87 +1,93 @@
 ========================================
-  Game Log - 2026-01-09 17:48:08.530
+  Game Log - 2026-01-10 18:21:06.229
 ========================================
 
-[2026-01-09 17:48:08.530] [INFO ] [Game.cpp:27] === Game Starting ===
-[2026-01-09 17:48:08.699] [INFO ] [Game.cpp:40] SDL_image initialized
-[2026-01-09 17:48:08.721] [INFO ] [Game.cpp:47] SDL_mixer initialized
-[2026-01-09 17:48:08.861] [INFO ] [Game.cpp:97] Window created
-[2026-01-09 17:48:08.944] [INFO ] [Game.cpp:107] Renderer created
-[2026-01-09 17:48:08.944] [INFO ] [Game.cpp:232] Viewport: 1440x900 at (80,0)
-[2026-01-09 17:48:08.944] [INFO ] [Game.cpp:133] Scale: 2.250000 (fonts scaled for sharp rendering)
-[2026-01-09 17:48:08.945] [INFO ] [Game.cpp:144] Game initialized successfully!
-[2026-01-09 17:48:08.945] [INFO ] [EditorState.cpp:48] EditorState created
-[2026-01-09 17:48:08.945] [INFO ] [EditorState.cpp:52] EditorState::enter()
-[2026-01-09 17:48:08.954] [WARN ] [EditorWorldManager.cpp:67] world.json not found, creating default
-[2026-01-09 17:48:08.954] [DEBUG] [EditorWorldManager.cpp:117] Creating Level 'Main Game' at grid (0,0)
-[2026-01-09 17:48:08.954] [INFO ] [EditorWorldManager.cpp:51] EditorWorldManager: World 'Retro Adventure' created with 1 levels, 0 scenes
-[2026-01-09 17:48:08.954] [DEBUG] [EditorSettingsPanel.cpp:268] [Settings] Loading editor settings
-[2026-01-09 17:48:08.954] [DEBUG] [EditorSettingsPanel.cpp:301] [Settings] No config file found, using defaults
-[2026-01-09 17:48:08.954] [INFO ] [EditorPlayMode.cpp:27] [EditorPlayMode] Initializing...
-[2026-01-09 17:48:08.961] [INFO ] [EditorPlayMode.cpp:34] [EditorPlayMode] PhysX running on CPU
-[2026-01-09 17:48:08.962] [INFO ] [EditorPlayMode.cpp:37] [EditorPlayMode] Initialized successfully
-[2026-01-09 17:48:08.962] [INFO ] [AISystemInit.cpp:96] [AI] ========== AI System Initialization ==========
-[2026-01-09 17:48:08.962] [INFO ] [AISystemInit.cpp:25] [AI] Registering built-in tools...
-[2026-01-09 17:48:08.963] [DEBUG] [AISystemInit.cpp:29] [AI] Registering Scene tools
-[2026-01-09 17:48:08.963] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_scenes (scenes)
-[2026-01-09 17:48:08.963] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_scene (scenes)
-[2026-01-09 17:48:08.963] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_scene (scenes)
-[2026-01-09 17:48:08.963] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_scene (scenes)
-[2026-01-09 17:48:08.963] [DEBUG] [AISystemInit.cpp:36] [AI] Registering Actor tools
-[2026-01-09 17:48:08.963] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_actors (actors)
-[2026-01-09 17:48:08.963] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_actor (actors)
-[2026-01-09 17:48:08.963] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_actor (actors)
-[2026-01-09 17:48:08.963] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_actor (actors)
-[2026-01-09 17:48:08.963] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: delete_actor (actors)
-[2026-01-09 17:48:08.963] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_component (actors)
-[2026-01-09 17:48:08.963] [DEBUG] [AISystemInit.cpp:45] [AI] Registering Hotspot tools
-[2026-01-09 17:48:08.963] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_hotspots (hotspots)
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_hotspot (hotspots)
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_hotspot (hotspots)
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: delete_hotspot (hotspots)
-[2026-01-09 17:48:08.964] [DEBUG] [AISystemInit.cpp:52] [AI] Registering Dialog tools
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_dialogs (dialogs)
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_dialog (dialogs)
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_dialog (dialogs)
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_dialog_node (dialogs)
-[2026-01-09 17:48:08.964] [DEBUG] [AISystemInit.cpp:59] [AI] Registering Item tools
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_items (items)
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_item (items)
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_item (items)
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_item (items)
-[2026-01-09 17:48:08.964] [DEBUG] [AISystemInit.cpp:66] [AI] Registering Command tools
-[2026-01-09 17:48:08.964] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: execute_command (system)
-[2026-01-09 17:48:08.965] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_commands (system)
-[2026-01-09 17:48:08.965] [DEBUG] [AISystemInit.cpp:71] [AI] Registering Context tools
-[2026-01-09 17:48:08.965] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_editor_context (context)
-[2026-01-09 17:48:08.965] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: select_scene (context)
-[2026-01-09 17:48:08.965] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: select_actor (context)
-[2026-01-09 17:48:08.965] [DEBUG] [AISystemInit.cpp:77] [AI] Registering Level/World tools
-[2026-01-09 17:48:08.965] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_levels (world)
-[2026-01-09 17:48:08.965] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_level (world)
-[2026-01-09 17:48:08.965] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_scene_to_level (world)
-[2026-01-09 17:48:08.965] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: set_start_scene (world)
-[2026-01-09 17:48:08.965] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_world_info (world)
-[2026-01-09 17:48:08.965] [DEBUG] [AISystemInit.cpp:85] [AI] Registering Quest tools
-[2026-01-09 17:48:08.965] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_quests (quests)
-[2026-01-09 17:48:08.965] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_quest (quests)
-[2026-01-09 17:48:08.966] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_quest (quests)
-[2026-01-09 17:48:08.966] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_quest_objective (quests)
-[2026-01-09 17:48:08.966] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: link_quest_to_npc (quests)
-[2026-01-09 17:48:08.966] [INFO ] [AISystemInit.cpp:92] [AI] Registered 37 tools
-[2026-01-09 17:48:08.966] [INFO ] [AISystemInit.cpp:102] [AI] Initializing AIAgentSystem...
-[2026-01-09 17:48:08.966] [DEBUG] [AIAgentSystem.cpp:78] [AI] Setting default agent config
-[2026-01-09 17:48:08.966] [DEBUG] [AIAgentSystem.cpp:87] [AI] AIAgentSystem state: initialized=true, provider=null
-[2026-01-09 17:48:08.966] [INFO ] [AISystemInit.cpp:107] [AI] AIAgentSystem initialized successfully
-[2026-01-09 17:48:08.966] [INFO ] [AISystemInit.cpp:110] [AI] Initializing AIChatPanel...
-[2026-01-09 17:48:08.966] [INFO ] [AISystemInit.cpp:112] [AI] AIChatPanel initialized
-[2026-01-09 17:48:08.967] [INFO ] [AISystemInit.cpp:114] [AI] ========== AI System Ready ==========
-[2026-01-09 17:48:08.967] [INFO ] [EditorState.cpp:188] EditorState::enter() - ImGui initialized: YES
-[2026-01-09 17:48:08.967] [INFO ] [EditorState.cpp:189] EditorState::enter() - PanelManager created: YES
-[2026-01-09 17:48:08.967] [INFO ] [EditorState.cpp:190] EditorState::enter() - WorldManager created: YES
-[2026-01-09 17:48:08.967] [INFO ] [EditorContext.cpp:110] EditorContext loaded 0 rooms, 0 dialogs
-[2026-01-09 17:48:08.967] [INFO ] [EditorState.cpp:195] EditorContext loaded with 0 dialogs
-[2026-01-09 17:48:08.967] [INFO ] [EditorState.cpp:261] EditorState::render() - First render call
-[2026-01-09 17:48:08.967] [INFO ] [EditorState.cpp:296] EditorState::renderImGui() - First ImGui render
-[2026-01-09 17:48:20.130] [INFO ] [main.cpp:23] === RetroAdventure Editor Shutdown ===
-[2026-01-09 17:48:20.130] [INFO ] [Game.cpp:253] === Game Shutting Down ===
+[2026-01-10 18:21:06.229] [INFO ] [Game.cpp:25] === Game Starting ===
+[2026-01-10 18:21:06.401] [INFO ] [Game.cpp:38] SDL_image initialized
+[2026-01-10 18:21:06.414] [INFO ] [Game.cpp:45] SDL_mixer initialized
+[2026-01-10 18:21:06.540] [INFO ] [Game.cpp:95] Window created
+[2026-01-10 18:21:06.631] [INFO ] [Game.cpp:105] Renderer created
+[2026-01-10 18:21:06.632] [INFO ] [Game.cpp:247] Viewport: 1440x900 at (80,0)
+[2026-01-10 18:21:06.632] [INFO ] [Game.cpp:131] Scale: 2.250000 (fonts scaled for sharp rendering)
+[2026-01-10 18:21:06.632] [INFO ] [Game.cpp:139] Game initialized successfully!
+[2026-01-10 18:21:06.632] [INFO ] [EditorState.cpp:48] EditorState created
+[2026-01-10 18:21:06.632] [INFO ] [EditorState.cpp:52] EditorState::enter()
+[2026-01-10 18:21:06.639] [WARN ] [EditorWorldManager.cpp:70] world.json not found, creating default
+[2026-01-10 18:21:06.639] [DEBUG] [EditorWorldManager.cpp:120] Creating Level 'Main Game' at grid (0,0)
+[2026-01-10 18:21:06.639] [INFO ] [EditorWorldManager.cpp:54] EditorWorldManager: World 'Retro Adventure' created with 1 levels, 0 scenes
+[2026-01-10 18:21:06.639] [DEBUG] [EditorSettingsPanel.cpp:268] [Settings] Loading editor settings
+[2026-01-10 18:21:06.639] [DEBUG] [EditorSettingsPanel.cpp:301] [Settings] No config file found, using defaults
+[2026-01-10 18:21:06.639] [INFO ] [EditorPlayMode.cpp:27] [EditorPlayMode] Initializing...
+[2026-01-10 18:21:06.647] [INFO ] [EditorPlayMode.cpp:34] [EditorPlayMode] PhysX running on CPU
+[2026-01-10 18:21:06.647] [INFO ] [EditorPlayMode.cpp:37] [EditorPlayMode] Initialized successfully
+[2026-01-10 18:21:06.648] [INFO ] [AISystemInit.cpp:96] [AI] ========== AI System Initialization ==========
+[2026-01-10 18:21:06.648] [INFO ] [AISystemInit.cpp:25] [AI] Registering built-in tools...
+[2026-01-10 18:21:06.648] [DEBUG] [AISystemInit.cpp:29] [AI] Registering Scene tools
+[2026-01-10 18:21:06.648] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_scenes (scenes)
+[2026-01-10 18:21:06.648] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_scene (scenes)
+[2026-01-10 18:21:06.648] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_scene (scenes)
+[2026-01-10 18:21:06.648] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_scene (scenes)
+[2026-01-10 18:21:06.648] [DEBUG] [AISystemInit.cpp:36] [AI] Registering Actor tools
+[2026-01-10 18:21:06.648] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_actors (actors)
+[2026-01-10 18:21:06.648] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_actor (actors)
+[2026-01-10 18:21:06.648] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_actor (actors)
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_actor (actors)
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: delete_actor (actors)
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_component (actors)
+[2026-01-10 18:21:06.649] [DEBUG] [AISystemInit.cpp:45] [AI] Registering Hotspot tools
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_hotspots (hotspots)
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_hotspot (hotspots)
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_hotspot (hotspots)
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: delete_hotspot (hotspots)
+[2026-01-10 18:21:06.649] [DEBUG] [AISystemInit.cpp:52] [AI] Registering Dialog tools
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_dialogs (dialogs)
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_dialog (dialogs)
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_dialog (dialogs)
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_dialog_node (dialogs)
+[2026-01-10 18:21:06.649] [DEBUG] [AISystemInit.cpp:59] [AI] Registering Item tools
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_items (items)
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_item (items)
+[2026-01-10 18:21:06.649] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_item (items)
+[2026-01-10 18:21:06.650] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: modify_item (items)
+[2026-01-10 18:21:06.650] [DEBUG] [AISystemInit.cpp:66] [AI] Registering Command tools
+[2026-01-10 18:21:06.650] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: execute_command (system)
+[2026-01-10 18:21:06.650] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_commands (system)
+[2026-01-10 18:21:06.650] [DEBUG] [AISystemInit.cpp:71] [AI] Registering Context tools
+[2026-01-10 18:21:06.650] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_editor_context (context)
+[2026-01-10 18:21:06.650] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: select_scene (context)
+[2026-01-10 18:21:06.650] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: select_actor (context)
+[2026-01-10 18:21:06.650] [DEBUG] [AISystemInit.cpp:77] [AI] Registering Level/World tools
+[2026-01-10 18:21:06.650] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_levels (world)
+[2026-01-10 18:21:06.650] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_level (world)
+[2026-01-10 18:21:06.651] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_scene_to_level (world)
+[2026-01-10 18:21:06.651] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: set_start_scene (world)
+[2026-01-10 18:21:06.651] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_world_info (world)
+[2026-01-10 18:21:06.651] [DEBUG] [AISystemInit.cpp:85] [AI] Registering Quest tools
+[2026-01-10 18:21:06.651] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: list_quests (quests)
+[2026-01-10 18:21:06.651] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: get_quest (quests)
+[2026-01-10 18:21:06.651] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: create_quest (quests)
+[2026-01-10 18:21:06.651] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: add_quest_objective (quests)
+[2026-01-10 18:21:06.651] [DEBUG] [EditorToolRegistry.cpp:27] [AI] Registered tool: link_quest_to_npc (quests)
+[2026-01-10 18:21:06.651] [INFO ] [AISystemInit.cpp:92] [AI] Registered 37 tools
+[2026-01-10 18:21:06.651] [INFO ] [AISystemInit.cpp:102] [AI] Initializing AIAgentSystem...
+[2026-01-10 18:21:06.651] [DEBUG] [AIAgentSystem.cpp:78] [AI] Setting default agent config
+[2026-01-10 18:21:06.651] [DEBUG] [AIAgentSystem.cpp:87] [AI] AIAgentSystem state: initialized=true, provider=null
+[2026-01-10 18:21:06.651] [INFO ] [AISystemInit.cpp:107] [AI] AIAgentSystem initialized successfully
+[2026-01-10 18:21:06.652] [INFO ] [AISystemInit.cpp:110] [AI] Initializing AIChatPanel...
+[2026-01-10 18:21:06.652] [INFO ] [AISystemInit.cpp:112] [AI] AIChatPanel initialized
+[2026-01-10 18:21:06.652] [INFO ] [AISystemInit.cpp:114] [AI] ========== AI System Ready ==========
+[2026-01-10 18:21:06.652] [INFO ] [EditorState.cpp:188] EditorState::enter() - ImGui initialized: YES
+[2026-01-10 18:21:06.652] [INFO ] [EditorState.cpp:189] EditorState::enter() - PanelManager created: YES
+[2026-01-10 18:21:06.652] [INFO ] [EditorState.cpp:190] EditorState::enter() - WorldManager created: YES
+[2026-01-10 18:21:06.652] [INFO ] [EditorContext.cpp:110] EditorContext loaded 0 rooms, 0 dialogs
+[2026-01-10 18:21:06.652] [INFO ] [EditorState.cpp:195] EditorContext loaded with 0 dialogs
+[2026-01-10 18:21:06.653] [INFO ] [EditorState.cpp:261] EditorState::render() - First render call
+[2026-01-10 18:21:06.653] [INFO ] [EditorState.cpp:296] EditorState::renderImGui() - First ImGui render
+[2026-01-10 18:21:12.246] [INFO ] [main.cpp:23] === RetroAdventure Editor Shutdown ===
+[2026-01-10 18:21:12.246] [INFO ] [Game.cpp:268] === Game Shutting Down ===
+[2026-01-10 18:21:12.247] [INFO ] [EditorState.cpp:222] EditorState::exit()
+[2026-01-10 18:21:12.247] [INFO ] [AISystemInit.cpp:119] [AI] Shutting down AI system...
+[2026-01-10 18:21:12.247] [DEBUG] [AIAgentSystem.cpp:97] [AI] Shutting down AIAgentSystem...
+[2026-01-10 18:21:12.247] [DEBUG] [AIAgentSystem.cpp:102] [AI] AIAgentSystem shutdown complete
+[2026-01-10 18:21:12.247] [DEBUG] [EditorToolRegistry.cpp:76] [AI] Clearing tool registry (37 tools)
+[2026-01-10 18:21:12.248] [INFO ] [AISystemInit.cpp:123] [AI] AI system shutdown complete

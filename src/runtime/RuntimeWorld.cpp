@@ -9,6 +9,9 @@
 #include "engine/actors/PlayerStartActor.h"
 #include "engine/actors/StaticMeshActor.h"
 #include "engine/actors/NPC3DActor.h"
+#include "engine/actors/Character3DActor.h"
+#include "engine/actors/PlayerConfigActor.h"
+#include "engine/core/ActorObjectExtended.h"
 #include "engine/physics/PhysicsManager.h"
 #include "engine/physics/physx/PhysicsWorld3D.h"
 #include "engine/data/DataLoader.h"
@@ -23,6 +26,8 @@ RuntimeWorld::~RuntimeWorld() = default;
 
 bool RuntimeWorld::loadFromJSON(engine::physics::PhysicsManager* physicsManager) {
     LOG_INFO("[RuntimeWorld] Loading world from JSON...");
+    
+    m_physicsManager = physicsManager;
     
     // Create world
     m_world = std::make_unique<engine::World>();
@@ -42,6 +47,9 @@ bool RuntimeWorld::loadFromJSON(engine::physics::PhysicsManager* physicsManager)
         return false;
     }
     LOG_INFO("[RuntimeWorld] Ground plane created successfully");
+    
+    // Create collision bodies for NPCs
+    createNPCColliders(physicsManager);
     
     LOG_INFO("[RuntimeWorld] World loaded successfully");
     return true;
@@ -206,74 +214,149 @@ engine::Scene* RuntimeWorld::createSceneFromJSON(const void* data) {
         scene->setName(sceneData["name"]);
     }
     
-    // Add PlayerStart from playerSpawnX/Y (convert 2D to 3D)
-    if (sceneData.contains("playerSpawnX") && sceneData.contains("playerSpawnY")) {
-        auto playerStart = std::make_unique<engine::PlayerStartActor>();
-        
-        float spawnX = sceneData["playerSpawnX"];
-        float spawnY = sceneData["playerSpawnY"];
-        
-        // Convert 2D spawn (X,Y) to 3D (X, height, Z)
-        glm::vec3 spawnPos(spawnX / 100.0f, 2.0f, spawnY / 100.0f);  // Scale down from pixels
-        
-        playerStart->setSpawnPosition(spawnPos);
-        scene->addActor(std::move(playerStart));
-        
-        LOG_INFO("[RuntimeWorld] Added PlayerStart at (" + 
-                 std::to_string(spawnPos.x) + ", " + 
-                 std::to_string(spawnPos.y) + ", " + 
-                 std::to_string(spawnPos.z) + ")");
-    }
+    std::string sceneId = sceneData.contains("id") ? sceneData["id"].get<std::string>() : "";
     
-    // Load NPCs from npcs.json
-    std::ifstream npcFile("assets/data/npcs.json");
-    if (npcFile.is_open()) {
-        nlohmann::json npcJson;
-        try {
-            npcFile >> npcJson;
+    // PRIORITY 1: Load actors from scenes.json "actors" array (editor-saved data)
+    bool hasActorsArray = sceneData.contains("actors") && sceneData["actors"].is_array() && !sceneData["actors"].empty();
+    
+    if (hasActorsArray) {
+        LOG_INFO("[RuntimeWorld] Loading actors from scenes.json actors array");
+        
+        for (const auto& actorData : sceneData["actors"]) {
+            std::string type = actorData.value("type", "Generic");
+            std::string name = actorData.value("name", "Unknown");
+            float x = actorData.value("x", 0.0f);
+            float y = actorData.value("y", 0.0f);
+            float z = actorData.value("z", 0.0f);
             
-            if (npcJson.contains("npcs")) {
-                std::string sceneId = sceneData.contains("id") ? sceneData["id"].get<std::string>() : "";
-                
-                for (const auto& npcData : npcJson["npcs"]) {
-                    // Check if NPC belongs to this scene
-                    if (npcData.contains("room") && npcData["room"] == sceneId) {
-                        auto npc = std::make_unique<engine::NPC3DActor>();
-                        
-                        if (npcData.contains("name")) {
-                            npc->setName(npcData["name"]);
-                        }
-                        
-                        // Convert 2D position to 3D
-                        if (npcData.contains("x") && npcData.contains("y")) {
-                            float x = npcData["x"];
-                            float y = npcData["y"];
-                            glm::vec3 pos3d(x / 100.0f, 1.0f, y / 100.0f);  // Scale down, Y=1 for standing
-                            npc->setPosition3D(pos3d);
-                        }
-                        
-                        // Set dialog ID
-                        if (npcData.contains("dialogId")) {
-                            npc->setDialogId(npcData["dialogId"]);
-                        }
-                        
-                        // Set sprite name
-                        if (npcData.contains("sprite")) {
-                            npc->setSpriteName(npcData["sprite"]);
-                        }
-                        
-                        scene->addActor(std::move(npc));
-                        LOG_INFO("[RuntimeWorld] Added NPC: " + npcData["name"].get<std::string>());
-                    }
-                }
+            if (type == "PlayerStart") {
+                auto playerStart = std::make_unique<engine::PlayerStartActor>();
+                playerStart->setSpawnPosition(glm::vec3(x, y, z));
+                scene->addActor(std::move(playerStart));
+                LOG_INFO("[RuntimeWorld] Added PlayerStart at (" + 
+                         std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")");
             }
-        } catch (const std::exception& e) {
-            LOG_WARNING("[RuntimeWorld] Failed to load NPCs: " + std::string(e.what()));
+            else if (type == "NPC3D") {
+                auto npc = std::make_unique<engine::NPC3DActor>();
+                npc->setName(name);
+                npc->setPosition3D(glm::vec3(x, y, z));
+                npc->setSpriteName(actorData.value("sprite", ""));
+                npc->setDialogId(actorData.value("dialogId", ""));
+                scene->addActor(std::move(npc));
+                LOG_INFO("[RuntimeWorld] Added NPC3D: " + name + " at (" + 
+                         std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")");
+            }
+            else if (type == "Character3D") {
+                auto character = std::make_unique<engine::Character3DActor>();
+                character->setName(name);
+                character->setPosition3D(glm::vec3(x, y, z));
+                character->setYaw(actorData.value("rotationY", 0.0f));
+                scene->addActor(std::move(character));
+                LOG_INFO("[RuntimeWorld] Added Character3D: " + name);
+            }
+            else if (type == "PlayerConfig") {
+                // Load PlayerConfig for camera visualization
+                auto playerConfig = std::make_unique<engine::PlayerConfigActor>();
+                playerConfig->setName(name);
+                scene->addActor(std::move(playerConfig));
+                LOG_INFO("[RuntimeWorld] Added PlayerConfig");
+            }
+            else if (type == "Generic" || type == "Background") {
+                // Create generic actor with position
+                auto actor = std::make_unique<engine::ActorObjectExtended>(name);
+                actor->setPosition(x * 100.0f, z * 100.0f);  // Convert 3D to 2D position
+                actor->setZ(y * 100.0f);  // Y becomes Z height
+                scene->addActor(std::move(actor));
+                LOG_INFO("[RuntimeWorld] Added Generic: " + name + " at (" + 
+                         std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")");
+            }
+            else {
+                LOG_DEBUG("[RuntimeWorld] Skipping unknown actor type: " + type);
+            }
         }
     }
-    
-    // TODO: Load hotspots as InteractiveActors
-    // TODO: Load static meshes from scene data
+    else {
+        // FALLBACK: Legacy loading from playerSpawnX/Y and npcs.json
+        LOG_INFO("[RuntimeWorld] No actors array - using legacy loading");
+        
+        // Add PlayerStart from playerSpawnX/Y (convert 2D to 3D)
+        if (sceneData.contains("playerSpawnX") && sceneData.contains("playerSpawnY")) {
+            auto playerStart = std::make_unique<engine::PlayerStartActor>();
+            
+            float spawnX = sceneData["playerSpawnX"];
+            float spawnY = sceneData["playerSpawnY"];
+            
+            glm::vec3 spawnPos(spawnX / 100.0f, 2.0f, spawnY / 100.0f);
+            playerStart->setSpawnPosition(spawnPos);
+            scene->addActor(std::move(playerStart));
+            
+            LOG_INFO("[RuntimeWorld] Added PlayerStart at (" + 
+                     std::to_string(spawnPos.x) + ", " + std::to_string(spawnPos.y) + ", " + std::to_string(spawnPos.z) + ")");
+        }
+        
+        // Load NPCs from npcs.json
+        std::ifstream npcFile("assets/data/npcs.json");
+        if (npcFile.is_open()) {
+            nlohmann::json npcJson;
+            try {
+                npcFile >> npcJson;
+                
+                if (npcJson.contains("npcs")) {
+                    for (const auto& npcData : npcJson["npcs"]) {
+                        if (npcData.contains("room") && npcData["room"] == sceneId) {
+                            auto npc = std::make_unique<engine::NPC3DActor>();
+                            
+                            if (npcData.contains("name")) {
+                                npc->setName(npcData["name"]);
+                            }
+                            
+                            if (npcData.contains("x") && npcData.contains("y")) {
+                                float nx = npcData["x"];
+                                float ny = npcData["y"];
+                                glm::vec3 pos3d(nx / 100.0f, 1.0f, ny / 100.0f);
+                                npc->setPosition3D(pos3d);
+                            }
+                            
+                            if (npcData.contains("dialogId")) {
+                                npc->setDialogId(npcData["dialogId"]);
+                            }
+                            if (npcData.contains("sprite")) {
+                                npc->setSpriteName(npcData["sprite"]);
+                            }
+                            
+                            scene->addActor(std::move(npc));
+                            LOG_INFO("[RuntimeWorld] Added NPC: " + npcData["name"].get<std::string>());
+                        }
+                    }
+                }
+            } catch (const std::exception& e) {
+                LOG_WARNING("[RuntimeWorld] Failed to load NPCs: " + std::string(e.what()));
+            }
+        }
+        
+        // Load hotspots from scenes.json as actors
+        if (sceneData.contains("hotspots")) {
+            for (const auto& hotspot : sceneData["hotspots"]) {
+                std::string hsType = hotspot.value("type", "");
+                std::string hsName = hotspot.value("name", "Unknown");
+                
+                // Skip NPC hotspots - they're loaded from npcs.json
+                if (hsType == "npc" || hsType == "NPC") continue;
+                
+                // Create actor for hotspot (exit, item, examine, etc.)
+                auto actor = std::make_unique<engine::ActorObjectExtended>(hsName);
+                
+                // Convert 2D position to 3D
+                float x = hotspot.value("x", 0);
+                float y = hotspot.value("y", 0);
+                glm::vec3 pos3d(x / 100.0f, 1.0f, y / 100.0f);
+                actor->setPosition(pos3d.x * 100.0f, pos3d.z * 100.0f);  // Store as 2D for now
+                
+                scene->addActor(std::move(actor));
+                LOG_INFO("[RuntimeWorld] Added hotspot: " + hsName + " (" + hsType + ")");
+            }
+        }
+    }
     
     return scene;
 }
@@ -300,4 +383,34 @@ bool RuntimeWorld::createGroundPlane(engine::physics::PhysicsManager* physicsMan
     
     LOG_INFO("[RuntimeWorld] Ground plane created (top surface at Y=0, 100x1x100 units)");
     return true;
+}
+
+void RuntimeWorld::createNPCColliders(engine::physics::PhysicsManager* physicsManager) {
+    if (!physicsManager || !m_activeScene) return;
+    
+    auto* world3D = physicsManager->getWorld3D();
+    if (!world3D || !world3D->isInitialized()) {
+        LOG_WARNING("[RuntimeWorld] Cannot create NPC colliders - physics not ready");
+        return;
+    }
+    
+    int colliderCount = 0;
+    for (const auto& actor : m_activeScene->getActors()) {
+        if (!actor) continue;
+        
+        // Create collision for NPC3DActor
+        if (auto* npc = dynamic_cast<engine::NPC3DActor*>(actor.get())) {
+            glm::vec3 pos = npc->getPosition3D();
+            
+            // Create static body at NPC position (box collider)
+            auto* body = world3D->createStaticBody(pos);
+            if (body) {
+                // NPC collision box: 0.5x1x0.5 (same as visual)
+                world3D->addBoxShape(body, glm::vec3(0.25f, 0.5f, 0.25f));
+                colliderCount++;
+            }
+        }
+    }
+    
+    LOG_INFO("[RuntimeWorld] Created " + std::to_string(colliderCount) + " NPC colliders");
 }

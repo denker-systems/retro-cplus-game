@@ -59,11 +59,12 @@ private:
     // Shader program
     GLuint m_shaderProgram = 0;
     
-    // Ground mesh
+    // Ground mesh (grid lines)
     GLuint m_groundVAO = 0;
     GLuint m_groundVBO = 0;
     GLuint m_groundEBO = 0;
     int m_groundIndexCount = 0;
+    bool m_useGridLines = false;
     
     // Player mesh
     GLuint m_playerVAO = 0;

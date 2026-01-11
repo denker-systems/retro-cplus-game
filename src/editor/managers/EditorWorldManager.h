@@ -67,6 +67,9 @@ public:
     // Access to EditorContext for AI tools
     EditorContext& getContext() { return m_context; }
     
+    // Find scene by ID for direct actor access
+    engine::Scene* findSceneById(const std::string& sceneId);
+    
 private:
     void loadWorldData();
     void createDefaultWorldData();

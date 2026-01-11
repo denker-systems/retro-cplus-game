@@ -11,6 +11,7 @@
 #include "engine/physics/PhysicsManager.h"
 #include "editor/viewport/3d/EditorCamera3D.h"
 #include "engine/input/Input.h"
+#include "engine/data/DataLoader.h"
 #include "engine/utils/Logger.h"
 #include <GL/glew.h>
 #include <iostream>
@@ -38,6 +39,17 @@ bool RuntimeApp::init() {
         LOG_ERROR("Failed to initialize Physics");
         return false;
     }
+    
+    // Load ALL game data (scenes, dialogs, quests, items, npcs)
+    LOG_INFO("[RuntimeApp] Loading game data...");
+    auto& dataLoader = DataLoader::instance();
+    dataLoader.loadAll("assets/data/");
+    LOG_INFO("[RuntimeApp] Loaded: " + 
+             std::to_string(dataLoader.getRooms().size()) + " scenes, " +
+             std::to_string(dataLoader.getDialogs().size()) + " dialogs, " +
+             std::to_string(dataLoader.getQuests().size()) + " quests, " +
+             std::to_string(dataLoader.getItems().size()) + " items, " +
+             std::to_string(dataLoader.getNPCs().size()) + " npcs");
     
     if (!loadWorld()) {
         LOG_ERROR("Failed to load world");
@@ -372,18 +384,13 @@ void RuntimeApp::update(float dt) {
         m_player->update(dt);
     }
     
-    // Update camera to follow player
+    // Update camera - editor-style isometric view
     if (m_camera && m_player) {
         glm::vec3 playerPos = m_player->getPosition3D();
-        float playerYaw = m_player->getYaw();
         
-        // Calculate camera offset based on player rotation
-        float yawRad = glm::radians(playerYaw);
-        glm::vec3 cameraOffset(
-            sin(yawRad) * 5.0f,   // X offset based on yaw
-            3.0f,                  // Y offset (height above player)
-            cos(yawRad) * 5.0f    // Z offset based on yaw
-        );
+        // Editor-style camera: elevated, looking down at scene
+        // Position camera above and behind, looking down at an angle
+        glm::vec3 cameraOffset(0.0f, 8.0f, 8.0f);  // High and back
         
         glm::vec3 targetPos = playerPos + cameraOffset;
         

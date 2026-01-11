@@ -128,16 +128,37 @@ bool BuildManager::copyAssets(const BuildConfig& config, ProgressCallback callba
             std::cerr << "[BuildManager] WARNING: Executable not found at: " << srcExe << std::endl;
         }
         
-        // Copy assets
-        fs::path srcAssets = fs::path(config.projectPath) / "assets";
+        // Copy assets from editor's WORKING DIRECTORY (build/Release/assets)
+        // Editor saves data relative to its working directory, not engine root
+        fs::path editorWorkingDir = fs::path(config.enginePath) / "build" / "Release" / "assets";
+        fs::path engineAssets = fs::path(config.enginePath) / "assets";
         fs::path dstAssets = fs::path(config.outputPath) / "assets";
         
-        if (fs::exists(srcAssets)) {
-            fs::copy(srcAssets, dstAssets, 
+        // Remove old assets first to ensure clean copy
+        if (fs::exists(dstAssets)) {
+            fs::remove_all(dstAssets);
+        }
+        
+        // Priority 1: Copy from editor's working directory (has latest saved data)
+        if (fs::exists(editorWorkingDir)) {
+            fs::copy(editorWorkingDir, dstAssets, 
                     fs::copy_options::recursive | fs::copy_options::overwrite_existing);
-            std::cout << "[BuildManager] ✓ Assets copied" << std::endl;
+            std::cout << "[BuildManager] ✓ Assets copied from editor working dir: " << editorWorkingDir << std::endl;
+        } else if (fs::exists(engineAssets)) {
+            // Fallback to engine assets
+            fs::copy(engineAssets, dstAssets, 
+                    fs::copy_options::recursive | fs::copy_options::overwrite_existing);
+            std::cout << "[BuildManager] ✓ Assets copied from engine: " << engineAssets << std::endl;
         } else {
-            std::cout << "[BuildManager] WARNING: No assets folder found" << std::endl;
+            // Fallback to project assets
+            fs::path srcAssets = fs::path(config.projectPath) / "assets";
+            if (fs::exists(srcAssets)) {
+                fs::copy(srcAssets, dstAssets, 
+                        fs::copy_options::recursive | fs::copy_options::overwrite_existing);
+                std::cout << "[BuildManager] ✓ Assets copied from project" << std::endl;
+            } else {
+                std::cout << "[BuildManager] WARNING: No assets folder found" << std::endl;
+            }
         }
         
         // Copy DLLs from project/build/Release/ to output path

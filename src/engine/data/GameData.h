@@ -220,6 +220,21 @@ struct LayerData {
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(LayerData,
     image, zIndex, parallaxX, parallaxY, opacity)
 
+// Actor data for scene-level actors (3D)
+struct SceneActorData {
+    std::string id;
+    std::string name;
+    std::string type;           // "PlayerStart", "PlayerConfig", "NPC3D", "StaticMesh", etc.
+    float x = 0.0f, y = 0.0f, z = 0.0f;  // 3D position
+    float rotationY = 0.0f;     // Yaw rotation
+    std::string sprite;         // Sprite name (for NPCs)
+    std::string dialogId;       // Dialog ID (for NPCs)
+    std::map<std::string, std::string> properties;  // Additional properties
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(SceneActorData,
+    id, name, type, x, y, z, rotationY, sprite, dialogId, properties)
+
 struct SceneData {
     std::string id;
     std::string name;
@@ -228,6 +243,7 @@ struct SceneData {
     WalkAreaData walkArea;
     std::vector<HotspotData> hotspots;
     std::vector<CollisionBoxData> collisionBoxes;  // Static level geometry
+    std::vector<SceneActorData> actors;  // NEW: All 3D actors in scene
     float playerSpawnX = 320.0f;  // Player spawn X
     float playerSpawnY = 300.0f;  // Player spawn Y
     
@@ -237,7 +253,7 @@ struct SceneData {
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(SceneData,
-    id, name, background, layers, walkArea, hotspots, collisionBoxes, playerSpawnX, playerSpawnY,
+    id, name, background, layers, walkArea, hotspots, collisionBoxes, actors, playerSpawnX, playerSpawnY,
     gridPosition, camera)
 
 // Legacy alias for backward compatibility
