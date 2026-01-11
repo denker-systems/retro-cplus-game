@@ -53,10 +53,20 @@ struct ObjectiveData {
     std::string targetId;
     int requiredCount = 1;
     bool optional = false;
+    
+    // Map waypoint for navigation
+    std::string targetScene;    // Scene where objective target is located
+    float targetX = 0.0f;       // 3D world position X
+    float targetY = 0.0f;       // 3D world position Y (height)
+    float targetZ = 0.0f;       // 3D world position Z
+    bool showOnCompass = true;  // Show direction indicator in HUD
+    std::string waypointIcon;   // Custom icon (empty = default based on type)
+    float waypointRadius = 2.0f; // Distance to consider "arrived"
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(ObjectiveData,
-    id, description, type, targetId, requiredCount, optional)
+    id, description, type, targetId, requiredCount, optional,
+    targetScene, targetX, targetY, targetZ, showOnCompass, waypointIcon, waypointRadius)
 
 struct QuestData {
     std::string id;
@@ -170,12 +180,17 @@ struct NPCData {
     bool canMove = false;
     float moveSpeed = 50.0f;
     
+    // Interaction volume (3D bounding box for interaction detection)
+    float interactVolumeX = 3.0f;  // Width (X-axis)
+    float interactVolumeY = 2.0f;  // Height (Y-axis)
+    float interactVolumeZ = 3.0f;  // Depth (Z-axis)
+    
     // Physics
     PhysicsData physics;
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(NPCData,
-    id, name, description, sprite, dialogId, room, x, y, canTalk, canMove, moveSpeed, physics)
+    id, name, description, sprite, dialogId, room, x, y, canTalk, canMove, moveSpeed, interactVolumeX, interactVolumeY, interactVolumeZ, physics)
 
 // ============================================================================
 // SCENE DATA (formerly RoomData)
@@ -193,12 +208,17 @@ struct HotspotData {
     std::string examineText;    // "Titta på" beskrivning
     std::vector<std::string> funnyFails;  // Roliga svar på dumma försök
     
+    // Interaction volume (3D bounding box for interaction detection)
+    float interactVolumeX = 2.0f;  // Width (X-axis)
+    float interactVolumeY = 1.5f;  // Height (Y-axis)
+    float interactVolumeZ = 2.0f;  // Depth (Z-axis)
+    
     // Physics (triggers, collision)
     PhysicsData physics;
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(HotspotData,
-    id, name, type, x, y, w, h, targetScene, targetLevel, targetWorld, dialogId, examineText, funnyFails, physics)
+    id, name, type, x, y, w, h, targetScene, targetLevel, targetWorld, dialogId, examineText, funnyFails, interactVolumeX, interactVolumeY, interactVolumeZ, physics)
 
 struct WalkAreaData {
     int minX, maxX, minY, maxY;

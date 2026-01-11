@@ -143,6 +143,19 @@ void HotspotPropertyEditor::renderPositionProperties() {
     }
     
     PropertyEditorUtils::HelpMarker("You can also drag hotspots in the Viewport panel");
+    
+    // Interaction Volume (3D)
+    PropertyEditorUtils::SectionHeader("Interaction Volume (3D)");
+    
+    float volume[3] = { m_hotspot->interactVolumeX, m_hotspot->interactVolumeY, m_hotspot->interactVolumeZ };
+    if (ImGui::DragFloat3("Volume (X, Y, Z)", volume, 0.1f, 0.1f, 20.0f, "%.1f")) {
+        m_hotspot->interactVolumeX = volume[0];
+        m_hotspot->interactVolumeY = volume[1];
+        m_hotspot->interactVolumeZ = volume[2];
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    PropertyEditorUtils::HelpMarker("3D bounding box size for interaction detection in runtime");
 #endif
 }
 

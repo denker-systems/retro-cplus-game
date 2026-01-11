@@ -1,20 +1,32 @@
 {
   "name": "Retro Adventure",
   "version": "1.0",
-  "startLevelId": "main_game",
+  "startLevelId": "act1_town",
   "startSceneId": "tavern",
   "levels": [
     {
-      "id": "main_game",
-      "name": "Main Game",
-      "description": "The main game world containing all scenes",
+      "id": "act1_town",
+      "name": "Act 1: Town District",
+      "description": "The town area with tavern and streets",
       "gridPosition": {
         "gridX": 0,
         "gridY": 0,
         "pixelWidth": 800,
         "pixelHeight": 600
       },
-      "sceneIds": ["tavern", "street", "shop", "library", "cellar", "forest", "cave"]
+      "sceneIds": ["tavern", "street"]
+    },
+    {
+      "id": "act2_wilderness",
+      "name": "Act 2: The Wilderness",
+      "description": "Forest and caves outside town",
+      "gridPosition": {
+        "gridX": 1,
+        "gridY": 0,
+        "pixelWidth": 800,
+        "pixelHeight": 600
+      },
+      "sceneIds": ["forest", "cave"]
     }
   ]
 }

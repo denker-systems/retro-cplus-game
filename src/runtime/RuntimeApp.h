@@ -26,6 +26,14 @@ namespace editor {
 class Input;
 class RuntimeWorld;
 class RuntimeRenderer;
+class RuntimeDialogSystem;
+class RuntimeQuestSystem;
+class RuntimeInventory;
+
+#ifdef HAS_IMGUI
+// Full include needed for unique_ptr destructor
+#include "engine/ui/GameDialogWidget.h"
+#endif
 
 /**
  * @brief Runtime application för RetroGame.exe
@@ -73,6 +81,12 @@ private:
     void update(float dt);
     void render();
     
+    // Scene/Level management
+    void changeScene(const std::string& sceneId);
+    void changeLevel(const std::string& levelId, const std::string& sceneId);
+    void handleInteraction();
+    std::string getSceneBackground() const;
+    
     // Core systems
     SDL_Window* m_window = nullptr;
     SDL_GLContext m_glContext = nullptr;
@@ -82,6 +96,14 @@ private:
     // Game world
     std::unique_ptr<RuntimeWorld> m_world;
     engine::Scene* m_activeScene = nullptr;
+    std::string m_activeSceneBackground;
+    
+    // Dialog state
+    bool m_inDialog = false;
+    std::string m_currentDialogId;
+    
+    // UI state
+    bool m_showQuestLog = false;
     
     // Physics
     std::unique_ptr<engine::physics::PhysicsManager> m_physics;
@@ -96,7 +118,17 @@ private:
     // Renderer
     std::unique_ptr<RuntimeRenderer> m_renderer;
     
-    // Window settings
-    static constexpr int WINDOW_WIDTH = 1920;
-    static constexpr int WINDOW_HEIGHT = 1080;
+    // Game systems
+    std::unique_ptr<RuntimeDialogSystem> m_dialogSystem;
+    std::unique_ptr<RuntimeQuestSystem> m_questSystem;
+    std::unique_ptr<RuntimeInventory> m_inventory;
+    
+    // UI widgets
+#ifdef HAS_IMGUI
+    std::unique_ptr<GameDialogWidget> m_dialogWidget;
+#endif
+    
+    // Window settings (dynamic, set at runtime)
+    int m_windowWidth = 1920;
+    int m_windowHeight = 1080;
 };

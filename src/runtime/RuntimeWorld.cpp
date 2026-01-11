@@ -145,9 +145,14 @@ bool RuntimeWorld::loadScenes() {
     }
     
     // Create levels from world.json
+    std::string startLevelId = worldJson.value("startLevelId", "");
+    std::string startSceneId = worldJson.value("startSceneId", "");
+    
     if (worldJson.contains("levels")) {
         for (const auto& levelData : worldJson["levels"]) {
-            auto level = std::make_unique<engine::Level>();
+            std::string levelId = levelData.value("id", "default_level");
+            
+            auto level = std::make_unique<engine::Level>(levelId);
             
             if (levelData.contains("name")) {
                 level->setName(levelData["name"]);
@@ -163,15 +168,19 @@ bool RuntimeWorld::loadScenes() {
                         if (sceneData.contains("id") && sceneData["id"] == id) {
                             auto scene = createSceneFromJSON(&sceneData);
                             if (scene) {
-                                // Set first scene as active (or start scene from world.json)
-                                if (!m_activeScene) {
+                                // Parse exits with levelId context
+                                parseExitsForScene(&sceneData, levelId, id);
+                                
+                                // Set start level and scene
+                                if (levelId == startLevelId || (!m_activeLevel && !m_activeScene)) {
+                                    m_activeLevel = level.get();
+                                }
+                                if (id == startSceneId || !m_activeScene) {
                                     m_activeScene = scene;
                                 }
-                                if (worldJson.contains("startSceneId") && worldJson["startSceneId"] == id) {
-                                    m_activeScene = scene;
-                                }
+                                
                                 level->addScene(std::unique_ptr<engine::Scene>(scene));
-                                LOG_INFO("[RuntimeWorld] Loaded scene: " + id);
+                                LOG_INFO("[RuntimeWorld] Loaded scene: " + id + " in level: " + levelId);
                             }
                             break;
                         }
@@ -210,11 +219,15 @@ engine::Scene* RuntimeWorld::createSceneFromJSON(const void* data) {
     auto& sceneData = *const_cast<nlohmann::json*>(static_cast<const nlohmann::json*>(data));
     auto scene = new engine::Scene();
     
+    // Set scene ID first (used for lookups)
+    std::string sceneId = sceneData.contains("id") ? sceneData["id"].get<std::string>() : "";
+    if (!sceneId.empty()) {
+        scene->setId(sceneId);
+    }
+    
     if (sceneData.contains("name")) {
         scene->setName(sceneData["name"]);
     }
-    
-    std::string sceneId = sceneData.contains("id") ? sceneData["id"].get<std::string>() : "";
     
     // PRIORITY 1: Load actors from scenes.json "actors" array (editor-saved data)
     bool hasActorsArray = sceneData.contains("actors") && sceneData["actors"].is_array() && !sceneData["actors"].empty();
@@ -242,6 +255,16 @@ engine::Scene* RuntimeWorld::createSceneFromJSON(const void* data) {
                 npc->setPosition3D(glm::vec3(x, y, z));
                 npc->setSpriteName(actorData.value("sprite", ""));
                 npc->setDialogId(actorData.value("dialogId", ""));
+                
+                // Load interaction volume from properties
+                if (actorData.contains("properties")) {
+                    auto& props = actorData["properties"];
+                    float volX = props.contains("interactVolumeX") ? std::stof(props["interactVolumeX"].get<std::string>()) : 6.0f;
+                    float volY = props.contains("interactVolumeY") ? std::stof(props["interactVolumeY"].get<std::string>()) : 2.0f;
+                    float volZ = props.contains("interactVolumeZ") ? std::stof(props["interactVolumeZ"].get<std::string>()) : 6.0f;
+                    npc->setInteractionVolume(glm::vec3(volX, volY, volZ));
+                }
+                
                 scene->addActor(std::move(npc));
                 LOG_INFO("[RuntimeWorld] Added NPC3D: " + name + " at (" + 
                          std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")");
@@ -318,7 +341,11 @@ engine::Scene* RuntimeWorld::createSceneFromJSON(const void* data) {
                             }
                             
                             if (npcData.contains("dialogId")) {
-                                npc->setDialogId(npcData["dialogId"]);
+                                std::string dialogId = npcData["dialogId"];
+                                npc->setDialogId(dialogId);
+                                LOG_INFO("[RuntimeWorld] NPC '" + npcData["name"].get<std::string>() + "' dialogId = '" + dialogId + "'");
+                            } else {
+                                LOG_WARNING("[RuntimeWorld] NPC '" + npcData["name"].get<std::string>() + "' has NO dialogId!");
                             }
                             if (npcData.contains("sprite")) {
                                 npc->setSpriteName(npcData["sprite"]);
@@ -334,7 +361,7 @@ engine::Scene* RuntimeWorld::createSceneFromJSON(const void* data) {
             }
         }
         
-        // Load hotspots from scenes.json as actors
+        // Load hotspots from scenes.json as actors (exits parsed separately)
         if (sceneData.contains("hotspots")) {
             for (const auto& hotspot : sceneData["hotspots"]) {
                 std::string hsType = hotspot.value("type", "");
@@ -343,14 +370,14 @@ engine::Scene* RuntimeWorld::createSceneFromJSON(const void* data) {
                 // Skip NPC hotspots - they're loaded from npcs.json
                 if (hsType == "npc" || hsType == "NPC") continue;
                 
-                // Create actor for hotspot (exit, item, examine, etc.)
-                auto actor = std::make_unique<engine::ActorObjectExtended>(hsName);
-                
                 // Convert 2D position to 3D
                 float x = hotspot.value("x", 0);
                 float y = hotspot.value("y", 0);
-                glm::vec3 pos3d(x / 100.0f, 1.0f, y / 100.0f);
-                actor->setPosition(pos3d.x * 100.0f, pos3d.z * 100.0f);  // Store as 2D for now
+                glm::vec3 pos3d(x / 100.0f, 0.25f, y / 100.0f);
+                
+                // Create actor for hotspot (exit, item, examine, etc.)
+                auto actor = std::make_unique<engine::ActorObjectExtended>(hsName);
+                actor->setPosition(pos3d.x * 100.0f, pos3d.z * 100.0f);
                 
                 scene->addActor(std::move(actor));
                 LOG_INFO("[RuntimeWorld] Added hotspot: " + hsName + " (" + hsType + ")");
@@ -413,4 +440,64 @@ void RuntimeWorld::createNPCColliders(engine::physics::PhysicsManager* physicsMa
     }
     
     LOG_INFO("[RuntimeWorld] Created " + std::to_string(colliderCount) + " NPC colliders");
+}
+
+std::vector<ExitData> RuntimeWorld::getExitsForScene(const std::string& sceneId) const {
+    std::vector<ExitData> result;
+    for (const auto& exit : m_exits) {
+        if (exit.sceneId == sceneId) {
+            result.push_back(exit);
+        }
+    }
+    return result;
+}
+
+engine::Level* RuntimeWorld::getLevel(const std::string& levelId) const {
+    if (!m_world) return nullptr;
+    
+    for (const auto& level : m_world->getLevels()) {
+        if (level->getId() == levelId) {
+            return level.get();
+        }
+    }
+    return nullptr;
+}
+
+void RuntimeWorld::parseExitsForScene(const void* data, const std::string& levelId, const std::string& sceneId) {
+    auto& sceneData = *const_cast<nlohmann::json*>(static_cast<const nlohmann::json*>(data));
+    
+    if (!sceneData.contains("hotspots")) return;
+    
+    for (const auto& hotspot : sceneData["hotspots"]) {
+        std::string hsType = hotspot.value("type", "");
+        
+        if (hsType != "exit") continue;
+        
+        std::string hsName = hotspot.value("name", "Unknown");
+        std::string hsId = hotspot.value("id", hsName);
+        
+        // Convert 2D position to 3D
+        float x = hotspot.value("x", 0);
+        float y = hotspot.value("y", 0);
+        glm::vec3 pos3d(x / 100.0f, 0.25f, y / 100.0f);
+        
+        ExitData exit;
+        exit.id = hsId;
+        exit.name = hsName;
+        exit.levelId = levelId;
+        exit.sceneId = sceneId;
+        exit.targetLevel = hotspot.value("targetLevel", "");  // Empty = same level
+        exit.targetScene = hotspot.value("targetScene", "");
+        exit.targetSpawn = hotspot.value("targetSpawn", "");
+        exit.position = pos3d;
+        exit.interactRadius = 2.0f;
+        
+        m_exits.push_back(exit);
+        
+        if (exit.isLevelTransition()) {
+            LOG_INFO("[RuntimeWorld] Added level exit: " + hsName + " -> " + exit.targetLevel + "/" + exit.targetScene);
+        } else {
+            LOG_INFO("[RuntimeWorld] Added scene exit: " + hsName + " -> " + exit.targetScene);
+        }
+    }
 }

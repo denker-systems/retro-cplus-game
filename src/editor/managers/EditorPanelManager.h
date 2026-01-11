@@ -31,6 +31,7 @@ class TileMapEditorPanel;
 class WorldViewPanel;
 class LevelViewPanel;
 class ActorDetailsPanel;
+class QuestLogPanel;
 class EditorInputHandler;
 class EditorMenuBar;
 class EditorDockspace;
@@ -68,6 +69,7 @@ public:
     WorldViewPanel* getWorldViewPanel() const { return m_worldViewPanel.get(); }
     LevelViewPanel* getLevelViewPanel() const { return m_levelViewPanel.get(); }
     ActorDetailsPanel* getActorDetailsPanel() const { return m_actorDetailsPanel.get(); }
+    QuestLogPanel* getQuestLogPanel() const { return m_questLogPanel.get(); }
     EditorInputHandler* getInputHandler() const { return m_inputHandler.get(); }
     EditorMenuBar* getMenuBar() const { return m_menuBar.get(); }
     EditorDockspace* getDockspace() const { return m_dockspace.get(); }
@@ -93,6 +95,7 @@ private:
     std::unique_ptr<WorldViewPanel> m_worldViewPanel;
     std::unique_ptr<LevelViewPanel> m_levelViewPanel;
     std::unique_ptr<ActorDetailsPanel> m_actorDetailsPanel;
+    std::unique_ptr<QuestLogPanel> m_questLogPanel;
     
     // Input handler
     std::unique_ptr<EditorInputHandler> m_inputHandler;

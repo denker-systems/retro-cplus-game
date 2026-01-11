@@ -119,6 +119,12 @@ void SceneSerializer::syncFromEngine(engine::Scene* scene) {
             actorData.z = pos.z;
             actorData.sprite = npc->getSpriteName();
             actorData.dialogId = npc->getDialogId();
+            
+            // Save interaction volume
+            glm::vec3 vol = npc->getInteractionVolume();
+            actorData.properties["interactVolumeX"] = std::to_string(vol.x);
+            actorData.properties["interactVolumeY"] = std::to_string(vol.y);
+            actorData.properties["interactVolumeZ"] = std::to_string(vol.z);
         } else if (auto* char3d = dynamic_cast<engine::Character3DActor*>(actor.get())) {
             actorData.type = "Character3D";
             glm::vec3 pos = char3d->getPosition3D();

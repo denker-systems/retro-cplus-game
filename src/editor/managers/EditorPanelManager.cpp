@@ -22,6 +22,7 @@
 #include "editor/panels/graphs/dialog/DialogGraphPanel.h"
 #include "editor/panels/graphs/quest/QuestGraphPanel.h"
 #include "editor/panels/graphs/npc/BehaviorGraphPanel.h"
+#include "editor/panels/gameplay/QuestLogPanel.h"
 #include "editor/input/EditorInputHandler.h"
 #include "editor/ui/EditorMenuBar.h"
 #include "editor/ui/EditorDockspace.h"
@@ -51,6 +52,7 @@ void EditorPanelManager::initialize(Game* game) {
     m_worldViewPanel = std::make_unique<WorldViewPanel>(m_context);
     m_levelViewPanel = std::make_unique<LevelViewPanel>(m_context);
     m_actorDetailsPanel = std::make_unique<ActorDetailsPanel>(m_context);
+    m_questLogPanel = std::make_unique<QuestLogPanel>(m_context);
     
     // Create input handler
     m_inputHandler = std::make_unique<EditorInputHandler>(m_context);

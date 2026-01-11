@@ -129,6 +129,7 @@ set(CORE_SOURCES
     src/engine/systems/RoomManager.cpp
     src/engine/systems/SceneManager.cpp
     src/engine/systems/QuestSystem.cpp
+    src/engine/systems/WaypointSystem.cpp
     src/engine/systems/AISystem.cpp
     src/engine/systems/SaveSystem.cpp
     src/engine/systems/CutsceneSystem.cpp
@@ -158,6 +159,7 @@ set(CORE_SOURCES
     # src/engine/entities/PlayerCharacter.cpp  # DEPRECATED: Use PlayerActor
     # src/engine/entities/NPC.cpp  # Migrated to src/engine/actors/NPC.cpp
     src/engine/ui/Widget.cpp
+    src/engine/ui/GameDialogWidget.cpp
     src/engine/utils/Logger.cpp
     src/engine/utils/FileWatcher.cpp
     src/engine/utils/IconLoader.cpp
@@ -181,6 +183,12 @@ target_link_libraries(RetroCore PUBLIC
     unofficial::omniverse-physx-sdk::sdk
 )
 
+# Enable ImGui in RetroCore if available (for shared UI widgets)
+if(imgui_FOUND)
+    target_link_libraries(RetroCore PUBLIC $<TARGET_NAME_IF_EXISTS:imgui::imgui>)
+    target_compile_definitions(RetroCore PUBLIC HAS_IMGUI=1)
+endif()
+
 # Hot Reload alltid tillgängligt (polling-baserat, ingen extern dependency)
 message(STATUS "Hot Reload enabled (polling-based FileWatcher)")
 
@@ -193,6 +201,9 @@ set(RUNTIME_SOURCES
     src/runtime/RuntimeApp.cpp
     src/runtime/RuntimeWorld.cpp
     src/runtime/RuntimeRenderer.cpp
+    src/runtime/RuntimeDialogSystem.cpp
+    src/runtime/RuntimeQuestSystem.cpp
+    src/runtime/RuntimeInventory.cpp
     src/editor/viewport/3d/EditorCamera3D.cpp
 )
 
@@ -201,15 +212,28 @@ if(WIN32)
     list(APPEND RUNTIME_SOURCES src/game/RetroGame.rc)
 endif()
 
-add_executable(RetroGame ${RUNTIME_SOURCES})
+# ImGui backends for runtime (shared with editor)
+set(RUNTIME_IMGUI_SOURCES
+    src/vendor/imgui/imgui_impl_sdl2.cpp
+    src/vendor/imgui/imgui_impl_opengl3.cpp
+)
+
+add_executable(RetroGame ${RUNTIME_SOURCES} ${RUNTIME_IMGUI_SOURCES})
+target_include_directories(RetroGame PRIVATE src/vendor)
 target_link_libraries(RetroGame PRIVATE
     RetroCore
     SDL2::SDL2
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+    $<TARGET_NAME_IF_EXISTS:imgui::imgui>
     OpenGL::GL
     GLEW::GLEW
     unofficial::omniverse-physx-sdk::sdk
 )
+
+# Enable ImGui in runtime if available
+if(imgui_FOUND)
+    target_compile_definitions(RetroGame PRIVATE HAS_IMGUI=1)
+endif()
 
 # ============================================================================
 # RETRO EDITOR - Standalone editor executable
@@ -251,6 +275,9 @@ set(EDITOR_SOURCES
     src/editor/panels/core/GameSettingsPanel.cpp
     src/editor/panels/core/EditorSettingsPanel.cpp
     src/editor/panels/core/BuildPanel.cpp
+    
+    # Panels - Gameplay
+    src/editor/panels/gameplay/QuestLogPanel.cpp
     
     # Viewport - Main Panel
     src/editor/viewport/ViewportPanel.cpp

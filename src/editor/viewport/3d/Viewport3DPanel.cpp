@@ -123,6 +123,7 @@ bool Viewport3DPanel::initialize() {
     // Create meshes
     m_gridMesh = engine::Mesh::createGrid(20, 1.0f);
     m_cubeMesh = engine::Mesh::createCube();
+    m_wireframeCubeMesh = engine::Mesh::createWireframeCube();
     
     m_initialized = true;
     std::cout << "Viewport3DPanel: Initialized successfully" << std::endl;
@@ -259,6 +260,30 @@ void Viewport3DPanel::render() {
     
     // Render transform gizmo for selected actor (all view levels)
     if (m_selectedActor && m_camera) {
+        // Handle gizmo shortcuts (W/E/R/Space) when viewport is focused
+        if (m_viewportFocused && !ImGui::GetIO().WantTextInput) {
+            // W - Translate
+            if (ImGui::IsKeyPressed(ImGuiKey_W) && !ImGui::GetIO().KeyCtrl) {
+                m_gizmo.setOperation(GizmoOperation::Translate);
+            }
+            // E - Rotate
+            if (ImGui::IsKeyPressed(ImGuiKey_E) && !ImGui::GetIO().KeyCtrl) {
+                m_gizmo.setOperation(GizmoOperation::Rotate);
+            }
+            // R - Scale
+            if (ImGui::IsKeyPressed(ImGuiKey_R) && !ImGui::GetIO().KeyCtrl) {
+                m_gizmo.setOperation(GizmoOperation::Scale);
+            }
+            // Space - Toggle Local/World space
+            if (ImGui::IsKeyPressed(ImGuiKey_Space) && !ImGui::GetIO().KeyCtrl) {
+                m_gizmo.setSpace(m_gizmo.getSpace() == GizmoSpace::Local 
+                    ? GizmoSpace::World : GizmoSpace::Local);
+            }
+        }
+        
+        // Ctrl held = snapping enabled
+        m_gizmo.setSnapEnabled(ImGui::GetIO().KeyCtrl);
+        
         ImGuizmo::BeginFrame();
         bool gizmoUsed = m_gizmo.render(m_camera.get(), m_selectedActor, m_viewportPos, m_viewportSize);
         if (gizmoUsed) {
@@ -575,6 +600,20 @@ void Viewport3DPanel::renderSceneView() {
             index++;
         }
         
+        m_shader->unbind();
+        
+        // Render interaction volumes for NPCs (wireframe cubes)
+        for (const auto& actor : actors) {
+            if (auto* npc = dynamic_cast<engine::NPC3DActor*>(actor.get())) {
+                glm::vec3 pos = npc->getPosition3D();
+                glm::vec3 volumeSize = npc->getInteractionVolume();
+                glm::vec3 volumeColor(1.0f, 0.8f, 0.3f);  // Yellow/orange
+                renderInteractionVolume(pos, volumeSize, volumeColor, view, projection);
+            }
+        }
+        
+        m_shader->bind();
+        
         // If no actors, show placeholder
         if (actors.empty()) {
             glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.25f, 0.0f));
@@ -848,6 +887,11 @@ void Viewport3DPanel::handleInput() {
 void Viewport3DPanel::handlePicking() {
     if (!m_viewportHovered || !m_camera) return;
     if (m_objectBounds.empty()) return;
+    
+    // Don't start picking/dragging if gizmo is being used or hovered
+    if (ImGuizmo::IsOver() || ImGuizmo::IsUsing()) {
+        return;
+    }
     
     ImGuiIO& io = ImGui::GetIO();
     
@@ -1263,6 +1307,27 @@ void Viewport3DPanel::setPlayMode(EditorPlayMode* playMode) {
     std::cout << "[Viewport3DPanel] setPlayMode called - playMode=" 
               << (playMode ? "SET" : "NULL") << std::endl;
     m_playMode = playMode;
+}
+
+void Viewport3DPanel::renderInteractionVolume(const glm::vec3& position, const glm::vec3& size, 
+                                               const glm::vec3& color, const glm::mat4& view, 
+                                               const glm::mat4& projection) {
+    if (!m_wireframeCubeMesh || !m_gridShader) return;
+    
+    // Use grid shader for wireframe (simple color, no lighting)
+    m_gridShader->bind();
+    
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, position);
+    model = glm::scale(model, size);
+    
+    glm::mat4 mvp = projection * view * model;
+    m_gridShader->setMat4("u_MVP", mvp);
+    m_gridShader->setVec3("u_Color", color);
+    
+    m_wireframeCubeMesh->render();
+    
+    m_gridShader->unbind();
 }
 
 } // namespace editor

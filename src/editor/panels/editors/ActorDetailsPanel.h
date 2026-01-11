@@ -56,6 +56,7 @@ private:
     void renderSpriteComponent(engine::SpriteComponent* comp);
     void renderRigidBody3D(engine::RigidBody3DComponent* comp);
     void renderCameraComponent(engine::CameraComponent* comp);
+    void renderInteractionVolume();  // For NPC3DActor
     
     // Component management
     void addComponent(const std::string& componentType);

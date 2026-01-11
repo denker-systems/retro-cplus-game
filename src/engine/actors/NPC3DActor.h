@@ -41,6 +41,9 @@ public:
     void setInteractionRange(float range) { m_interactionRange = range; }
     float getInteractionRange() const { return m_interactionRange; }
     
+    void setInteractionVolume(const glm::vec3& volume) { m_interactionVolume = volume; }
+    glm::vec3 getInteractionVolume() const { return m_interactionVolume; }
+    
     void interact();
     
     // ========================================================================
@@ -70,6 +73,7 @@ private:
     std::string m_dialogId;
     std::string m_interactionText;
     float m_interactionRange = 2.0f;
+    glm::vec3 m_interactionVolume{6.0f, 2.0f, 6.0f};  // Default interaction volume (X, Y, Z)
     bool m_canMove = false;
     std::string m_spriteName;
     std::vector<glm::vec3> m_patrolPath;

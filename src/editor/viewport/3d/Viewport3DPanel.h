@@ -117,6 +117,7 @@ private:
     std::unique_ptr<engine::Mesh> m_cubeMesh;
     std::unique_ptr<engine::Mesh> m_boxMesh;    // For levels
     std::unique_ptr<engine::Mesh> m_planeMesh;  // For scenes
+    std::unique_ptr<engine::Mesh> m_wireframeCubeMesh;  // For interaction volumes
     
     // Viewport state
     glm::vec2 m_viewportSize{0.0f, 0.0f};
@@ -203,6 +204,13 @@ private:
      * @brief Create shaders
      */
     bool createShaders();
+    
+    /**
+     * @brief Render interaction volume wireframe
+     */
+    void renderInteractionVolume(const glm::vec3& position, const glm::vec3& size, 
+                                  const glm::vec3& color, const glm::mat4& view, 
+                                  const glm::mat4& projection);
 };
 
 } // namespace editor

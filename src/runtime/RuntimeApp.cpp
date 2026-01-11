@@ -5,9 +5,15 @@
 #include "RuntimeApp.h"
 #include "RuntimeWorld.h"
 #include "RuntimeRenderer.h"
+#include "RuntimeDialogSystem.h"
+#include "RuntimeQuestSystem.h"
+#include "RuntimeInventory.h"
 #include "engine/world/Scene.h"
+#include "engine/world/World.h"
+#include "engine/world/Level.h"
 #include "engine/actors/Character3DActor.h"
 #include "engine/actors/PlayerStartActor.h"
+#include "engine/actors/NPC3DActor.h"
 #include "engine/physics/PhysicsManager.h"
 #include "editor/viewport/3d/EditorCamera3D.h"
 #include "engine/input/Input.h"
@@ -15,6 +21,13 @@
 #include "engine/utils/Logger.h"
 #include <GL/glew.h>
 #include <iostream>
+#include <algorithm>
+
+#ifdef HAS_IMGUI
+#include <imgui.h>
+#include "imgui/imgui_impl_sdl2.h"
+#include "imgui/imgui_impl_opengl3.h"
+#endif
 
 RuntimeApp::RuntimeApp() = default;
 
@@ -64,6 +77,49 @@ bool RuntimeApp::init() {
         LOG_ERROR("Failed to initialize renderer");
         return false;
     }
+    
+    // Initialize game systems
+    m_dialogSystem = std::make_unique<RuntimeDialogSystem>();
+    m_dialogSystem->loadDialogs();
+    
+    m_questSystem = std::make_unique<RuntimeQuestSystem>();
+    m_questSystem->loadQuests();
+    
+    m_inventory = std::make_unique<RuntimeInventory>();
+    m_inventory->loadItemDefinitions();
+    
+#ifdef HAS_IMGUI
+    // Initialize ImGui
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    
+    ImGui::StyleColorsDark();
+    ImGui_ImplSDL2_InitForOpenGL(m_window, m_glContext);
+    ImGui_ImplOpenGL3_Init("#version 330");
+    
+    // Create dialog widget
+    m_dialogWidget = std::make_unique<GameDialogWidget>();
+    LOG_INFO("[RuntimeApp] ImGui initialized for dialog UI");
+#endif
+    
+    // Set up callbacks
+    m_dialogSystem->setActionCallback([this](const std::string& action) {
+        LOG_INFO("[RuntimeApp] Dialog action: " + action);
+        // Handle quest triggers, item rewards etc
+    });
+    
+    m_questSystem->setQuestCompleteCallback([this](const Quest& quest) {
+        LOG_INFO("[RuntimeApp] Quest complete: " + quest.title);
+        if (!quest.rewardItem.empty()) {
+            m_inventory->addItem(quest.rewardItem);
+        }
+    });
+    
+    m_inventory->setOnItemAdded([this](const Item& item) {
+        m_questSystem->onCollect(item.id);
+    });
     
     m_running = true;
     m_lastFrameTime = SDL_GetTicks();
@@ -123,6 +179,14 @@ void RuntimeApp::run() {
 void RuntimeApp::shutdown() {
     LOG_INFO("=== RetroGame Runtime Shutting Down ===");
     
+#ifdef HAS_IMGUI
+    // Shutdown ImGui
+    m_dialogWidget.reset();
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
+#endif
+    
     // Cleanup in reverse order of initialization
     m_renderer.reset();
     m_player.reset();
@@ -154,6 +218,18 @@ bool RuntimeApp::initSDL() {
         return false;
     }
     
+    // Get display resolution for fullscreen
+    SDL_DisplayMode displayMode;
+    if (SDL_GetCurrentDisplayMode(0, &displayMode) == 0) {
+        m_windowWidth = displayMode.w;
+        m_windowHeight = displayMode.h;
+        LOG_INFO("[RuntimeApp] Display resolution: " + std::to_string(m_windowWidth) + "x" + std::to_string(m_windowHeight));
+    } else {
+        LOG_WARNING("[RuntimeApp] Could not get display mode, using default 1920x1080");
+        m_windowWidth = 1920;
+        m_windowHeight = 1080;
+    }
+    
     // Set OpenGL attributes BEFORE window creation
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -162,20 +238,24 @@ bool RuntimeApp::initSDL() {
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     
-    // Create window
+    // Create fullscreen desktop window
     m_window = SDL_CreateWindow(
         "Retro Game",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        WINDOW_WIDTH,
-        WINDOW_HEIGHT,
-        SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        m_windowWidth,
+        m_windowHeight,
+        SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP
     );
     
     if (!m_window) {
         LOG_ERROR("SDL_CreateWindow failed: " + std::string(SDL_GetError()));
         return false;
     }
+    
+    // Get actual window size (may differ on high-DPI displays)
+    SDL_GL_GetDrawableSize(m_window, &m_windowWidth, &m_windowHeight);
+    LOG_INFO("[RuntimeApp] Actual drawable size: " + std::to_string(m_windowWidth) + "x" + std::to_string(m_windowHeight));
     
     // Create OpenGL context
     m_glContext = SDL_GL_CreateContext(m_window);
@@ -187,7 +267,7 @@ bool RuntimeApp::initSDL() {
     // Enable VSync
     SDL_GL_SetSwapInterval(1);
     
-    LOG_INFO("[RuntimeApp] SDL initialized successfully");
+    LOG_INFO("[RuntimeApp] SDL initialized successfully (fullscreen)");
     return true;
 }
 
@@ -257,6 +337,17 @@ bool RuntimeApp::loadWorld() {
     }
     
     LOG_INFO("[RuntimeApp] World loaded successfully - Active scene: " + m_activeScene->getName());
+    
+    // Get initial background
+    auto& dataLoader = DataLoader::instance();
+    for (const auto& room : dataLoader.getRooms()) {
+        if (room.id == m_activeScene->getName() || room.name == m_activeScene->getName()) {
+            m_activeSceneBackground = room.background;
+            LOG_INFO("[RuntimeApp] Scene background: " + m_activeSceneBackground);
+            break;
+        }
+    }
+    
     return true;
 }
 
@@ -310,8 +401,23 @@ void RuntimeApp::handleInput() {
     static bool mouseGrabbed = false;
     static int lastMouseX = 0, lastMouseY = 0;
     
+    // Update input state FIRST (copy current to previous)
+    if (m_input) {
+        m_input->update();
+    }
+    
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+#ifdef HAS_IMGUI
+        // Forward to ImGui
+        ImGui_ImplSDL2_ProcessEvent(&event);
+#endif
+        
+        // Forward to input system for key state tracking
+        if (m_input) {
+            m_input->handleEvent(event);
+        }
+        
         if (event.type == SDL_QUIT) {
             m_running = false;
         }
@@ -347,11 +453,6 @@ void RuntimeApp::handleInput() {
         }
     }
     
-    // Update input state
-    if (m_input) {
-        m_input->update();
-    }
-    
     // Handle WASD movement
     if (m_player && m_input) {
         float forward = 0.0f;
@@ -365,6 +466,17 @@ void RuntimeApp::handleInput() {
         // Jump
         if (m_input->isKeyPressed(SDL_SCANCODE_SPACE)) {
             m_player->jump();
+        }
+        
+        // Interact (E key)
+        if (m_input->isKeyPressed(SDL_SCANCODE_E)) {
+            handleInteraction();
+        }
+        
+        // Toggle Quest Log (J key)
+        if (m_input->isKeyPressed(SDL_SCANCODE_J)) {
+            m_showQuestLog = !m_showQuestLog;
+            LOG_INFO("[RuntimeApp] Quest Log: " + std::string(m_showQuestLog ? "OPEN" : "CLOSED"));
         }
         
         // Set movement direction (convert to 3D vector)
@@ -411,6 +523,9 @@ void RuntimeApp::update(float dt) {
 }
 
 void RuntimeApp::render() {
+    // Set viewport to current window size
+    glViewport(0, 0, m_windowWidth, m_windowHeight);
+    
     // Clear screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
@@ -419,9 +534,244 @@ void RuntimeApp::render() {
         return;
     }
     
-    // Render 3D scene
-    m_renderer->render(m_camera.get(), m_player.get(), m_activeScene);
+    // Get exits for current scene
+    std::vector<ExitData> currentExits;
+    if (m_world && m_activeScene) {
+        std::string sceneId = m_activeScene->getName();
+        std::transform(sceneId.begin(), sceneId.end(), sceneId.begin(), ::tolower);
+        currentExits = m_world->getExitsForScene(sceneId);
+    }
+    
+    // Render 3D scene with background and exits
+    m_renderer->render(m_camera.get(), m_player.get(), m_activeScene, m_activeSceneBackground, true, &currentExits);
+    
+#ifdef HAS_IMGUI
+    // Start ImGui frame
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+    
+    // Render dialog UI if dialog is active
+    if (m_dialogSystem && m_dialogSystem->isActive() && m_dialogWidget) {
+        // Convert choices to widget format
+        std::vector<std::pair<int, std::string>> choices;
+        for (const auto& choice : m_dialogSystem->getCurrentChoices()) {
+            choices.push_back({choice.nextNodeId, choice.text});
+        }
+        
+        m_dialogWidget->setDialog(
+            m_dialogSystem->getCurrentSpeaker(),
+            m_dialogSystem->getCurrentText(),
+            choices
+        );
+        
+        int selectedChoice = m_dialogWidget->render(m_windowWidth, m_windowHeight);
+        if (selectedChoice >= 0) {
+            m_dialogSystem->selectChoice(selectedChoice);
+        }
+    } else if (m_dialogWidget) {
+        m_dialogWidget->clear();
+    }
+    
+    // Render Quest Log if open
+    if (m_showQuestLog && m_questSystem) {
+        m_renderer->renderQuestLog(m_questSystem.get(), m_windowWidth, m_windowHeight);
+    }
+    
+    // Render ImGui
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+#endif
     
     // Swap buffers
     SDL_GL_SwapWindow(m_window);
+}
+
+void RuntimeApp::changeScene(const std::string& sceneId) {
+    if (!m_world || !m_world->getWorld()) return;
+    
+    // First check active level
+    auto* activeLevel = m_world->getActiveLevel();
+    if (activeLevel) {
+        for (const auto& scene : activeLevel->getScenes()) {
+            if (scene->getName() == sceneId || scene->getId() == sceneId) {
+                m_activeScene = scene.get();
+                m_world->setActiveScene(m_activeScene);
+                
+                // Get background from DataLoader
+                auto& dataLoader = DataLoader::instance();
+                for (const auto& room : dataLoader.getRooms()) {
+                    if (room.id == sceneId) {
+                        m_activeSceneBackground = room.background;
+                        break;
+                    }
+                }
+                
+                LOG_INFO("[RuntimeApp] Changed to scene: " + sceneId + " (same level)");
+                return;
+            }
+        }
+    }
+    
+    // Fallback: search all levels
+    for (const auto& level : m_world->getWorld()->getLevels()) {
+        for (const auto& scene : level->getScenes()) {
+            if (scene->getName() == sceneId || scene->getId() == sceneId) {
+                m_activeScene = scene.get();
+                m_world->setActiveScene(m_activeScene);
+                m_world->setActiveLevel(level.get());
+                
+                auto& dataLoader = DataLoader::instance();
+                for (const auto& room : dataLoader.getRooms()) {
+                    if (room.id == sceneId) {
+                        m_activeSceneBackground = room.background;
+                        break;
+                    }
+                }
+                
+                LOG_INFO("[RuntimeApp] Changed to scene: " + sceneId);
+                return;
+            }
+        }
+    }
+    
+    LOG_WARNING("[RuntimeApp] Scene not found: " + sceneId);
+}
+
+void RuntimeApp::changeLevel(const std::string& levelId, const std::string& sceneId) {
+    if (!m_world) return;
+    
+    LOG_INFO("[RuntimeApp] Changing level: " + levelId + " -> scene: " + sceneId);
+    
+    // Get target level
+    auto* targetLevel = m_world->getLevel(levelId);
+    if (!targetLevel) {
+        LOG_WARNING("[RuntimeApp] Level not found: " + levelId);
+        return;
+    }
+    
+    // Call lifecycle hooks on old level
+    auto* oldLevel = m_world->getActiveLevel();
+    if (oldLevel) {
+        oldLevel->onLevelExit();
+        LOG_INFO("[RuntimeApp] Exited level: " + oldLevel->getId());
+    }
+    
+    // Switch to new level
+    m_world->setActiveLevel(targetLevel);
+    targetLevel->onLevelEnter();
+    LOG_INFO("[RuntimeApp] Entered level: " + levelId);
+    
+    // Find and switch to target scene
+    for (const auto& scene : targetLevel->getScenes()) {
+        if (scene->getName() == sceneId || scene->getId() == sceneId) {
+            m_activeScene = scene.get();
+            m_world->setActiveScene(m_activeScene);
+            
+            // Get background
+            auto& dataLoader = DataLoader::instance();
+            for (const auto& room : dataLoader.getRooms()) {
+                if (room.id == sceneId) {
+                    m_activeSceneBackground = room.background;
+                    break;
+                }
+            }
+            
+            LOG_INFO("[RuntimeApp] Changed to scene: " + sceneId + " in level: " + levelId);
+            return;
+        }
+    }
+    
+    // Fallback to first scene in level
+    if (!targetLevel->getScenes().empty()) {
+        auto& firstScene = targetLevel->getScenes()[0];
+        m_activeScene = firstScene.get();
+        m_world->setActiveScene(m_activeScene);
+        LOG_INFO("[RuntimeApp] Scene not found, using first scene: " + firstScene->getName());
+    }
+}
+
+void RuntimeApp::handleInteraction() {
+    if (!m_player || !m_activeScene) return;
+    
+    LOG_INFO("[RuntimeApp] E pressed - checking interaction...");
+    
+    // If in dialog, advance or close
+    if (m_dialogSystem && m_dialogSystem->isActive()) {
+        LOG_INFO("[RuntimeApp] Dialog active, advancing...");
+        if (m_dialogSystem->getCurrentChoices().empty()) {
+            m_dialogSystem->advance();
+        }
+        return;
+    }
+    
+    glm::vec3 playerPos = m_player->getPosition3D();
+    LOG_INFO("[RuntimeApp] Player pos: (" + std::to_string(playerPos.x) + ", " + 
+             std::to_string(playerPos.y) + ", " + std::to_string(playerPos.z) + ")");
+    
+    // Check for nearby NPCs
+    int npcCount = 0;
+    for (const auto& actor : m_activeScene->getActors()) {
+        if (auto* npc = dynamic_cast<engine::NPC3DActor*>(actor.get())) {
+            npcCount++;
+            glm::vec3 npcPos = npc->getPosition3D();
+            float distance = glm::length(playerPos - npcPos);
+            
+            LOG_INFO("[RuntimeApp] NPC '" + npc->getName() + "' at (" + 
+                     std::to_string(npcPos.x) + ", " + std::to_string(npcPos.y) + ", " + 
+                     std::to_string(npcPos.z) + ") distance: " + std::to_string(distance) +
+                     " dialogId: " + npc->getDialogId());
+            
+            // Within interaction range (3 units - increased)
+            if (distance < 3.0f) {
+                std::string dialogId = npc->getDialogId();
+                if (!dialogId.empty() && m_dialogSystem) {
+                    LOG_INFO("[RuntimeApp] Starting dialog: " + dialogId);
+                    m_dialogSystem->startDialog(dialogId);
+                    
+                    // Track quest progress
+                    if (m_questSystem) {
+                        m_questSystem->onTalk(npc->getName());
+                    }
+                } else {
+                    LOG_INFO("[RuntimeApp] No dialogId or dialogSystem for " + npc->getName());
+                }
+                return;
+            }
+        }
+    }
+    
+    LOG_INFO("[RuntimeApp] Found " + std::to_string(npcCount) + " NPCs, none in range");
+    
+    // Check for nearby exits/doors
+    if (m_world && m_activeScene) {
+        std::string currentSceneId = m_activeScene->getName();
+        // Convert to lowercase for matching
+        std::transform(currentSceneId.begin(), currentSceneId.end(), currentSceneId.begin(), ::tolower);
+        
+        auto exits = m_world->getExitsForScene(currentSceneId);
+        for (const auto& exit : exits) {
+            float distance = glm::length(playerPos - exit.position);
+            LOG_INFO("[RuntimeApp] Exit '" + exit.name + "' at (" + 
+                     std::to_string(exit.position.x) + ", " + std::to_string(exit.position.y) + ", " + 
+                     std::to_string(exit.position.z) + ") distance: " + std::to_string(distance) +
+                     " -> " + (exit.isLevelTransition() ? exit.targetLevel + "/" : "") + exit.targetScene);
+            
+            if (distance < exit.interactRadius) {
+                if (exit.isLevelTransition()) {
+                    LOG_INFO("[RuntimeApp] Level transition: " + exit.name + " -> " + exit.targetLevel + "/" + exit.targetScene);
+                    changeLevel(exit.targetLevel, exit.targetScene);
+                } else {
+                    LOG_INFO("[RuntimeApp] Scene transition: " + exit.name + " -> " + exit.targetScene);
+                    changeScene(exit.targetScene);
+                }
+                return;
+            }
+        }
+        LOG_INFO("[RuntimeApp] No exits in range");
+    }
+}
+
+std::string RuntimeApp::getSceneBackground() const {
+    return m_activeSceneBackground;
 }

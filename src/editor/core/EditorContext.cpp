@@ -218,7 +218,7 @@ void EditorContext::saveToFiles() {
                 
                 if (!hs.dialogId.empty()) hsJson["dialogId"] = hs.dialogId;
                 if (!hs.examineText.empty()) hsJson["examineText"] = hs.examineText;
-                if (!hs.targetScene.empty()) hsJson["targetRoom"] = hs.targetScene;
+                if (!hs.targetScene.empty()) hsJson["targetScene"] = hs.targetScene;
                 
                 if (!hs.funnyFails.empty()) {
                     hsJson["funnyFails"] = hs.funnyFails;

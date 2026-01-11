@@ -192,4 +192,32 @@ std::unique_ptr<Mesh> Mesh::createGrid(int lines, float spacing) {
     return mesh;
 }
 
+std::unique_ptr<Mesh> Mesh::createWireframeCube() {
+    // Unit cube vertices (8 corners)
+    std::vector<Vertex3D> vertices = {
+        {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},  // 0: back-bottom-left
+        {{ 0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},  // 1: back-bottom-right
+        {{ 0.5f,  0.5f, -0.5f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},  // 2: back-top-right
+        {{-0.5f,  0.5f, -0.5f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},  // 3: back-top-left
+        {{-0.5f, -0.5f,  0.5f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},  // 4: front-bottom-left
+        {{ 0.5f, -0.5f,  0.5f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},  // 5: front-bottom-right
+        {{ 0.5f,  0.5f,  0.5f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},  // 6: front-top-right
+        {{-0.5f,  0.5f,  0.5f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},  // 7: front-top-left
+    };
+    
+    // Line indices (12 edges of a cube)
+    std::vector<uint32_t> indices = {
+        // Back face
+        0, 1,  1, 2,  2, 3,  3, 0,
+        // Front face
+        4, 5,  5, 6,  6, 7,  7, 4,
+        // Connecting edges
+        0, 4,  1, 5,  2, 6,  3, 7
+    };
+    
+    auto mesh = std::make_unique<Mesh>(vertices, indices);
+    mesh->m_primitiveType = GL_LINES;
+    return mesh;
+}
+
 } // namespace engine

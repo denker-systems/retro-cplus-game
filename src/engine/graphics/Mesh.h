@@ -84,6 +84,11 @@ public:
      * @param spacing Spacing between lines
      */
     static std::unique_ptr<Mesh> createGrid(int lines = 20, float spacing = 1.0f);
+    
+    /**
+     * @brief Create a wireframe cube (lines only)
+     */
+    static std::unique_ptr<Mesh> createWireframeCube();
 
 private:
     GLuint m_vao = 0;

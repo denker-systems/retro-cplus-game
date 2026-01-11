@@ -96,6 +96,19 @@ void NPCPropertyEditor::renderAIProperties() {
         m_context.markDirty();
     }
     PropertyEditorUtils::HelpMarker("Can player talk to this NPC?");
+    
+    // Interaction Volume (3D)
+    PropertyEditorUtils::SectionHeader("Interaction Volume (3D)");
+    
+    float volume[3] = { m_npc->interactVolumeX, m_npc->interactVolumeY, m_npc->interactVolumeZ };
+    if (ImGui::DragFloat3("Volume (X, Y, Z)", volume, 0.1f, 0.1f, 20.0f, "%.1f")) {
+        m_npc->interactVolumeX = volume[0];
+        m_npc->interactVolumeY = volume[1];
+        m_npc->interactVolumeZ = volume[2];
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    PropertyEditorUtils::HelpMarker("3D bounding box size for interaction detection in runtime");
 #endif
 }
 

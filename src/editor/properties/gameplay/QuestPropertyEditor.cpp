@@ -248,6 +248,55 @@ void QuestPropertyEditor::renderSelectedObjective() {
     }
     PropertyEditorUtils::HelpMarker("Is this objective optional?");
     
+    // ========================================================================
+    // WAYPOINT SETTINGS
+    // ========================================================================
+    PropertyEditorUtils::SectionHeader("Waypoint / Navigation");
+    
+    // Show on compass
+    if (ImGui::Checkbox("Show on Compass", &obj.showOnCompass)) {
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    PropertyEditorUtils::HelpMarker("Show direction indicator in HUD");
+    
+    // Target scene dropdown
+    std::vector<std::pair<std::string, std::string>> sceneItems;
+    sceneItems.push_back({"", "(Auto-detect)"});
+    for (const auto& room : m_context.rooms) {
+        sceneItems.push_back({room.id, room.name});
+    }
+    if (PropertyEditorUtils::IdCombo("Target Scene", obj.targetScene, sceneItems)) {
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    PropertyEditorUtils::HelpMarker("Scene where waypoint is located (auto-detect from target if empty)");
+    
+    // Target position
+    float pos[3] = { obj.targetX, obj.targetY, obj.targetZ };
+    if (ImGui::DragFloat3("Position (3D)", pos, 0.1f, -100.0f, 100.0f, "%.1f")) {
+        obj.targetX = pos[0];
+        obj.targetY = pos[1];
+        obj.targetZ = pos[2];
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    PropertyEditorUtils::HelpMarker("3D world position (0,0,0 = auto-detect from target)");
+    
+    // Waypoint radius
+    if (ImGui::DragFloat("Arrival Radius", &obj.waypointRadius, 0.1f, 0.5f, 20.0f, "%.1f m")) {
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    PropertyEditorUtils::HelpMarker("Distance to consider player 'arrived' at waypoint");
+    
+    // Custom icon (optional)
+    if (PropertyEditorUtils::InputText("Custom Icon", obj.waypointIcon)) {
+        m_isDirty = true;
+        m_context.markDirty();
+    }
+    PropertyEditorUtils::HelpMarker("Custom icon name (leave empty for default based on type)");
+    
     // Delete button
     ImGui::Spacing();
     if (ImGui::Button("Delete Objective", ImVec2(-1, 0))) {

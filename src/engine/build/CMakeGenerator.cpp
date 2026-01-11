@@ -134,6 +134,9 @@ set(RUNTIME_SOURCES
     ${ENGINE_PATH}/src/runtime/RuntimeApp.cpp
     ${ENGINE_PATH}/src/runtime/RuntimeWorld.cpp
     ${ENGINE_PATH}/src/runtime/RuntimeRenderer.cpp
+    ${ENGINE_PATH}/src/runtime/RuntimeDialogSystem.cpp
+    ${ENGINE_PATH}/src/runtime/RuntimeQuestSystem.cpp
+    ${ENGINE_PATH}/src/runtime/RuntimeInventory.cpp
     ${ENGINE_PATH}/src/editor/viewport/3d/EditorCamera3D.cpp
 )
 

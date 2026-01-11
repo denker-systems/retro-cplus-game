@@ -27,6 +27,7 @@
 #include "editor/panels/graphs/dialog/DialogGraphPanel.h"
 #include "editor/panels/graphs/quest/QuestGraphPanel.h"
 #include "editor/panels/graphs/npc/BehaviorGraphPanel.h"
+#include "editor/panels/gameplay/QuestLogPanel.h"
 #include "editor/ui/EditorMenuBar.h"
 #include "editor/ui/EditorDockspace.h"
 #include "editor/legacy/TiledIntegration.h"

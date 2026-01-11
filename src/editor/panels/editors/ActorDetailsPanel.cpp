@@ -7,6 +7,7 @@
 #include "editor/core/SelectionManager.h"
 #include "engine/actors/Character3DActor.h"
 #include "engine/actors/PlayerConfigActor.h"
+#include "engine/actors/NPC3DActor.h"
 #include "engine/components/CharacterController3DComponent.h"
 #include "engine/components/SpriteComponent.h"
 #include "engine/components/RigidBody3DComponent.h"
@@ -150,6 +151,11 @@ void ActorDetailsPanel::renderComponents() {
         // CameraComponent
         if (auto* camera = m_actor->getComponent<engine::CameraComponent>()) {
             renderCameraComponent(camera);
+        }
+        
+        // InteractionVolume for NPC3DActor
+        if (dynamic_cast<engine::NPC3DActor*>(m_actor)) {
+            renderInteractionVolume();
         }
         
         ImGui::Spacing();
@@ -347,6 +353,26 @@ void ActorDetailsPanel::removeComponent(const std::string& componentType) {
     
     // TODO: Implement removeComponent in ActorObjectExtended
     LOG_WARNING("[ActorDetailsPanel] removeComponent not yet implemented");
+}
+
+void ActorDetailsPanel::renderInteractionVolume() {
+#ifdef HAS_IMGUI
+    if (auto* npc = dynamic_cast<engine::NPC3DActor*>(m_actor)) {
+        if (ImGui::TreeNode("InteractionVolume")) {
+            glm::vec3 volume = npc->getInteractionVolume();
+            float volumeArray[3] = { volume.x, volume.y, volume.z };
+            
+            if (ImGui::DragFloat3("Size (X, Y, Z)", volumeArray, 0.1f, 0.1f, 20.0f, "%.1f")) {
+                npc->setInteractionVolume(glm::vec3(volumeArray[0], volumeArray[1], volumeArray[2]));
+                m_context.markDirty();
+            }
+            
+            ImGui::TextColored(ImVec4(0.6f, 0.6f, 0.6f, 1.0f), "3D bounding box for interaction");
+            
+            ImGui::TreePop();
+        }
+    }
+#endif
 }
 
 void ActorDetailsPanel::renderCameraComponent(engine::CameraComponent* comp) {
